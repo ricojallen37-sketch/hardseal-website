@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hardseal RPO Design Partner Pilot Playbook</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; font-size: 15px; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; padding-bottom: 20px; border-bottom: 1px solid #222; }
+        header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        header a { color: #00ff88; text-decoration: none; font-size: 13px; font-weight: 500; }
+        header a:hover { color: #fff; }
+        .section { margin-bottom: 50px; }
+        .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #00ff88; margin-bottom: 16px; }
+        .section p { margin-bottom: 12px; color: #ddd; }
+        .section ul { list-style: none; margin-bottom: 12px; }
+        .section li { margin-bottom: 10px; padding-left: 20px; position: relative; color: #ddd; }
+        .section li:before { content: "\u2192"; position: absolute; left: 0; color: #00ff88; font-weight: 600; }
+        .section strong { color: #fff; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 12px; }
+        .two-column-item h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; margin-bottom: 12px; }
+        .two-column-item ul { list-style: none; }
+        .two-column-item li { margin-bottom: 8px; padding-left: 16px; position: relative; font-size: 14px; color: #bbb; }
+        .two-column-item li:before { content: "\u25C6"; position: absolute; left: 0; color: #00ff88; font-size: 6px; top: 6px; }
+        .timeline { border-left: 2px solid #00ff88; padding-left: 24px; }
+        .timeline-item { margin-bottom: 20px; position: relative; }
+        .timeline-item:before { content: ""; width: 10px; height: 10px; background: #00ff88; border-radius: 50%; position: absolute; left: -17px; top: 4px; }
+        .timeline-week { font-weight: 600; color: #fff; font-size: 14px; margin-bottom: 4px; }
+        .timeline-desc { font-size: 14px; color: #aaa; }
+        .callout { background: #0a2818; border: 1px solid #00ff88; border-radius: 3px; padding: 16px; margin: 24px 0; font-size: 14px; color: #ddd; }
+        .callout strong { color: #00ff88; }
+        code { background: #0a0a0a; padding: 2px 6px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00ff88; }
+        .disclaimer { margin-top: 40px; padding: 16px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 3px; font-size: 12px; color: #777; line-height: 1.5; }
+        footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid #222; text-align: center; font-size: 12px; color: #666; }
+        footer a { color: #00ff88; text-decoration: none; }
+        footer a:hover { color: #fff; }
+        @media (max-width: 768px) { .two-column { grid-template-columns: 1fr; gap: 24px; } body { padding: 24px 16px; font-size: 14px; } header { flex-direction: column; align-items: flex-start; gap: 12px; } }
+        @media print { body { background: #fff; color: #000; padding: 40px; } .section-title { color: #333; } .section p, .section li, .two-column-item li, .timeline-desc, .callout { color: #222; } .section li:before, .two-column-item li:before, .timeline-item:before, .callout strong { color: #0066cc; } .timeline { border-left: 2px solid #0066cc; } code { background: #f0f0f0; color: #000; } .disclaimer { background: #f9f9f9; color: #555; } footer { color: #666; } footer a { color: #0066cc; } h1, h3 { color: #000; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Hardseal RPO Pilot</h1>
+            <a href="https://hardseal.ai">\u2190 Back to hardseal.ai</a>
+        </header>
+        <div class="section">
+            <div class="section-title">Overview</div>
+            <p>The <strong>Hardseal Design Partner Engagement</strong> is a focused 2\u20134 week pilot designed to integrate the Hardseal compliance evidence engine into an RPO's existing CMMC assessment workflow.</p>
+            <p>The engagement validates Hardseal's offline-first, OSCAL-native evidence collection against a single real (or representative) CMMC Level 2 enclave. <strong>Goal:</strong> prove the tool saves time and produces assessor-ready artifacts before broader rollout.</p>
+        </div>
+        <div class="section">
+            <div class="section-title">Scope</div>
+            <ul>
+                <li>One defined client environment (1 enclave)</li>
+                <li>Full NIST 800-171 Rev 2 evidence collection across all 14 control families (110 controls)</li>
+                <li><code>OSCAL v1.1.2</code> output with Ed25519 cryptographic signing</li>
+                <li>Baseline \u2192 Current \u2192 Diff \u2192 OSCAL export \u2192 HTML report pipeline</li>
+                <li>Air-gapped or connected \u2014 works in both</li>
+            </ul>
+        </div>
+        <div class="section">
+            <div class="section-title">What We Each Bring</div>
+            <div class="two-column">
+                <div class="two-column-item">
+                    <h3>RPO Provides</h3>
+                    <ul>
+                        <li>Access to one client enclave (or representative test environment)</li>
+                        <li>Subject matter expertise on current assessment workflow</li>
+                        <li>Feedback on evidence quality and assessor readiness</li>
+                        <li>2\u20133 hours per week for check-ins</li>
+                    </ul>
+                </div>
+                <div class="two-column-item">
+                    <h3>Hardseal Provides</h3>
+                    <ul>
+                        <li>Full Hardseal deployment (zero dependencies, pure Python stdlib)</li>
+                        <li>Onboarding and configuration support</li>
+                        <li>Custom control family mapping if needed</li>
+                        <li>Ongoing iteration based on your feedback</li>
+                        <li>All OSCAL output files and HTML reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Timeline</div>
+            <div class="timeline">
+                <div class="timeline-item"><div class="timeline-week">Week 1: Onboarding</div><div class="timeline-desc">Deploy Hardseal, configure for enclave, run baseline snapshot</div></div>
+                <div class="timeline-item"><div class="timeline-week">Week 2: Evidence Collection</div><div class="timeline-desc">Full 110-control evidence run, OSCAL export, initial review</div></div>
+                <div class="timeline-item"><div class="timeline-week">Week 3: Refinement</div><div class="timeline-desc">RPO feedback integration, evidence quality tuning, assessor readiness check</div></div>
+                <div class="timeline-item"><div class="timeline-week">Week 4: Deliverables</div><div class="timeline-desc">Final OSCAL package, HTML report, pilot summary, go/no-go decision</div></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">Deliverables</div>
+            <ul>
+                <li>Validated <code>OSCAL v1.1.2</code> component definition (machine-readable, FedRAMP-format compatible)</li>
+                <li>Ed25519-signed evidence chain (tamper-evident, reproducible)</li>
+                <li>HTML assessment report (human-readable, shareable with clients)</li>
+                <li>Snapshot diff analysis (baseline vs current state)</li>
+                <li>Pilot summary with time-saved metrics vs manual collection</li>
+            </ul>
+        </div>
+        <div class="section">
+            <div class="section-title">Founding Partner Pricing</div>
+            <div class="callout">
+                <strong>Pilot engagement:</strong> Complimentary for first 3 design partners<br>
+                <strong>Post-pilot per-enclave licensing:</strong> Founding partner rate (locked for 12 months)<br>
+                <strong>No SaaS subscription. No cloud dependency. No per-seat fees.</strong>
+            </div>
+            <p style="color: #aaa; font-style: italic;">We're selecting 3 RPOs for founding partnerships. Priority goes to firms with active CMMC assessment pipelines.</p>
+        </div>
+        <div class="disclaimer"><strong>Hardseal Assessment Notice:</strong> Hardseal is assessment support software provided by Bulwark Systems. Hardseal is not a C3PAO, does not certify organizations, and does not replace professional assessment judgment. All compliance decisions remain the responsibility of the RPO and their clients.</div>
+        <footer>Hardseal \u00B7 Bulwark Systems \u00B7 April 2026 \u00B7 <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a></footer>
+    </div>
+</body>
+</html>
