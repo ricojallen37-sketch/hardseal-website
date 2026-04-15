@@ -3,1275 +3,755 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardseal - Compliance Evidence Engine for Disconnected Environments</title>
-    <meta name="description" content="Hardseal helps CMMC readiness teams turn scattered evidence into signed, reproducible, assessor-ready packages — offline-first, self-hosted, and built for environments where cloud-first GRC tools are a bad fit.">
-    <meta name="keywords" content="CMMC, compliance, evidence, offline-first, OSCAL, FedRAMP, disconnected, self-hosted, GRC">
-    <meta name="author" content="Hardseal">
+    <title>Hardseal â Compliance Evidence Engine</title>
+    <meta name="description" content="99.9% AI-built compliance evidence engine for CMMC readiness teams. Collect, sign, and export assessor-ready OSCAL packages â offline-first, zero dependencies.">
+    <meta name="keywords" content="CMMC, compliance, evidence, offline-first, OSCAL, FedRAMP, disconnected, self-hosted, AI-built">
+    <meta name="author" content="Rico Allen">
 
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="Hardseal - Compliance Evidence Engine">
-    <meta property="og:description" content="Hardseal helps CMMC readiness teams turn scattered evidence into signed, reproducible, assessor-ready packages — offline-first and self-hosted.">
+    <meta property="og:title" content="Hardseal â Built by AI. Directed by a founder.">
+    <meta property="og:description" content="CMMC compliance evidence engine. 99.9% AI-built. Offline-first. Assessor-ready OSCAL output in under 60 seconds.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hardseal.ai">
-    <meta property="og:image" content="https://hardseal.ai/og-image.png">
-
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Hardseal - Compliance Evidence Engine">
-    <meta name="twitter:description" content="Turn messy CMMC evidence into signed, assessor-ready packages. Offline-first, self-hosted.">
+    <meta name="twitter:title" content="Hardseal â Built by AI. Directed by a founder.">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *{margin:0;padding:0;box-sizing:border-box}
+
+        :root{
+            --bg:#000;
+            --bg2:#060606;
+            --bg3:#0C0C0C;
+            --bg4:#111;
+            --border:#1A1A1A;
+            --border2:#222;
+            --white:#FFF;
+            --gray1:#CCC;
+            --gray2:#888;
+            --gray3:#555;
+            --gray4:#333;
+            --green:#00FF88;
+            --green-dim:rgba(0,255,136,0.08);
+            --green-med:rgba(0,255,136,0.15);
+            --mono:'JetBrains Mono',monospace;
+        }
+
+        html{scroll-behavior:smooth}
+
+        body{
+            font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+            color:var(--white);
+            background:var(--bg);
+            line-height:1.6;
+            -webkit-font-smoothing:antialiased;
+            overflow-x:hidden;
+        }
+
+        /* âââ NAV âââ */
+        nav{
+            position:fixed;top:0;width:100%;z-index:1000;
+            padding:0 48px;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+            background:rgba(0,0,0,0.85);
+            backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+            border-bottom:1px solid var(--border);
+        }
+        .logo{
+            font-size:13px;font-weight:700;letter-spacing:5px;
+            text-transform:uppercase;color:var(--white);text-decoration:none;
+        }
+        .nav-r{display:flex;gap:28px;align-items:center}
+        .nav-r a{
+            font-size:12px;color:var(--gray2);text-decoration:none;
+            letter-spacing:0.8px;text-transform:uppercase;transition:color .3s;
+        }
+        .nav-r a:hover{color:var(--white)}
+        .nav-cta{
+            color:var(--white)!important;
+            border:1px solid var(--border2);padding:7px 18px;
+            transition:all .3s;
+        }
+        .nav-cta:hover{background:var(--white);color:var(--bg)!important}
+
+        /* âââ HERO âââ */
+        .hero{
+            min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+            padding:100px 48px 80px;max-width:1100px;margin:0 auto;
+        }
+        .hero-tag{
+            font-family:var(--mono);font-size:12px;letter-spacing:3px;
+            text-transform:uppercase;color:var(--green);margin-bottom:40px;
+            display:flex;align-items:center;gap:12px;
+            opacity:0;animation:fadeUp .8s ease .2s forwards;
+        }
+        .hero-tag .dot{
+            width:6px;height:6px;border-radius:50%;background:var(--green);
+            animation:pulse 2s infinite;
+        }
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+        .hero h1{
+            font-size:clamp(44px,6.5vw,84px);font-weight:800;
+            line-height:1.02;letter-spacing:-3px;margin-bottom:32px;
+            opacity:0;animation:fadeUp .8s ease .4s forwards;
+        }
+        .hero h1 .thin{font-weight:300;color:var(--gray2)}
+
+        .hero-sub{
+            font-size:17px;line-height:1.8;color:var(--gray2);
+            max-width:540px;margin-bottom:48px;
+            opacity:0;animation:fadeUp .8s ease .6s forwards;
+        }
+        .hero-sub strong{color:var(--white);font-weight:600}
+
+        .hero-actions{
+            display:flex;gap:12px;flex-wrap:wrap;
+            opacity:0;animation:fadeUp .8s ease .8s forwards;
+        }
+
+        .btn-p{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:14px 32px;background:var(--white);color:#000;
+            font-size:13px;font-weight:600;letter-spacing:.5px;
+            text-decoration:none;border:none;cursor:pointer;transition:all .3s;
+        }
+        .btn-p:hover{background:var(--green)}
+
+        .btn-s{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:14px 32px;background:transparent;color:var(--gray2);
+            font-size:13px;font-weight:500;letter-spacing:.5px;
+            text-decoration:none;border:1px solid var(--border2);transition:all .3s;
+        }
+        .btn-s:hover{color:var(--white);border-color:var(--gray3)}
+
+        /* âââ STATS âââ */
+        .stats{
+            border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+            padding:48px;
+        }
+        .stats-in{
+            max-width:1100px;margin:0 auto;
+            display:grid;grid-template-columns:repeat(6,1fr);gap:24px;
+        }
+        .stat{text-align:center}
+        .stat-v{
+            font-family:var(--mono);font-size:26px;font-weight:600;
+            color:var(--white);margin-bottom:4px;
+        }
+        .stat-v.g{color:var(--green)}
+        .stat-l{
+            font-size:10px;color:var(--gray3);letter-spacing:2px;text-transform:uppercase;
+        }
+
+        /* âââ SECTIONS âââ */
+        section{padding:120px 48px;max-width:1100px;margin:0 auto}
+        .s-label{
+            font-family:var(--mono);font-size:11px;letter-spacing:3px;
+            text-transform:uppercase;color:var(--gray3);margin-bottom:16px;
+        }
+        .s-title{
+            font-size:clamp(28px,4vw,52px);font-weight:700;
+            letter-spacing:-1.5px;margin-bottom:20px;line-height:1.1;
+        }
+        .s-desc{
+            font-size:15px;color:var(--gray2);max-width:500px;
+            line-height:1.8;margin-bottom:64px;
+        }
+
+        /* âââ VALUE GRID âââ */
+        .vgrid{
+            display:grid;grid-template-columns:repeat(3,1fr);
+            gap:1px;background:var(--border);border:1px solid var(--border);
         }
-
-        :root {
-            --navy: #1B2A4A;
-            --steel: #2E75B6;
-            --white: #FFFFFF;
-            --accent: #D4380D;
-            --light-gray: #F5F7FA;
-            --dark-gray: #4A5568;
-            --border-gray: #E2E8F0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            color: var(--navy);
-            background-color: var(--white);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(27, 42, 74, 0.98);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(46, 117, 182, 0.2);
-        }
-
-        nav .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 20px;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--white);
-            text-decoration: none;
-            letter-spacing: -0.5px;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 32px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            opacity: 0.8;
-        }
-
-        .nav-links a:hover {
-            color: var(--steel);
-            opacity: 1;
-        }
-
-        .nav-cta {
-            background: var(--accent);
-            color: var(--white);
-            padding: 10px 24px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .nav-cta:hover {
-            background: #B8300A;
-            transform: translateY(-2px);
-        }
-
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--navy) 0%, #253A56 100%);
-            color: var(--white);
-            padding: 160px 20px 100px;
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 24px;
-            line-height: 1.2;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero .tagline {
-            font-size: 22px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 40px;
-            font-weight: 500;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        .hero .cta-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-
-        .btn {
-            padding: 14px 36px;
-            border-radius: 6px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: var(--white);
-        }
-
-        .btn-primary:hover {
-            background: #B8300A;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(212, 56, 13, 0.3);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            color: var(--white);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            transform: translateY(-3px);
-        }
-
-        /* Sections */
-        section {
-            padding: 80px 20px;
-        }
-
-        .section-title {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: var(--navy);
-        }
-
-        .section-subtitle {
-            font-size: 18px;
-            color: var(--dark-gray);
-            margin-bottom: 48px;
-            line-height: 1.6;
-        }
-
-        /* Problem Section */
-        .problem {
-            background: var(--light-gray);
-        }
-
-        .problem-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .problem .section-subtitle {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--navy);
-            line-height: 1.8;
-        }
-
-        /* Solution Section */
-        .solution-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            margin-top: 48px;
-        }
-
-        .solution-card {
-            padding: 40px;
-            background: var(--light-gray);
-            border-radius: 8px;
-            border-left: 4px solid var(--steel);
-            animation: fadeIn 0.8s ease;
-        }
-
-        .solution-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--navy);
-        }
-
-        .solution-card p {
-            color: var(--dark-gray);
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-        /* RPO Section */
-        .rpo {
-            background: linear-gradient(135deg, #2E3A5F 0%, #1B2A4A 100%);
-            color: var(--white);
-        }
-
-        .rpo .section-title,
-        .rpo .section-subtitle {
-            color: var(--white);
-        }
-
-        .rpo-benefit {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 30px;
-            align-items: flex-start;
-        }
-
-        .rpo-benefit-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .rpo-benefit p {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        /* How It Works */
-        .how-it-works {
-            background: var(--light-gray);
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 48px;
-        }
-
-        .step {
-            text-align: center;
-            padding: 40px;
-            background: var(--white);
-            border-radius: 8px;
-            border-top: 4px solid var(--steel);
-            position: relative;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .step-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: var(--steel);
-            color: var(--white);
-            border-radius: 50%;
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .step h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--navy);
-        }
-
-        .step p {
-            color: var(--dark-gray);
-            font-size: 15px;
-            line-height: 1.7;
-        }
-
-        /* Features Section */
-        .features {
-            background: var(--white);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 48px;
-        }
-
-        .feature-item {
-            padding: 30px;
-            background: var(--light-gray);
-            border-radius: 8px;
-            border: 1px solid var(--border-gray);
-            transition: all 0.3s ease;
-            animation: fadeIn 0.8s ease;
-        }
-
-        .feature-item:hover {
-            border-color: var(--steel);
-            box-shadow: 0 8px 20px rgba(46, 117, 182, 0.1);
-            transform: translateY(-4px);
-        }
-
-        .feature-item h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--navy);
-        }
-
-        .feature-item p {
-            color: var(--dark-gray);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Technical Proof Section */
-        .tech-proof {
-            background: var(--navy);
-            color: var(--white);
-            padding: 60px 20px;
-        }
-
-        .tech-proof .section-title {
-            color: var(--white);
-            text-align: center;
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
-
-        .tech-proof .section-subtitle {
-            color: rgba(255, 255, 255, 0.8);
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .proof-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 24px;
-            margin-bottom: 40px;
-        }
-
-        .proof-stat {
-            text-align: center;
-            padding: 24px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            border: 1px solid rgba(46, 117, 182, 0.3);
-        }
-
-        .proof-stat .number {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--steel);
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .proof-stat .label {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
-            font-weight: 500;
-        }
-
-        .proof-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
-        }
-
-        .proof-detail {
-            padding: 24px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            border-left: 3px solid var(--steel);
-        }
-
-        .proof-detail h4 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--white);
-        }
-
-        .proof-detail p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
-        .proof-download {
-            text-align: center;
-            margin-top: 36px;
-        }
-
-        .proof-download a {
-            display: inline-block;
-            padding: 12px 28px;
-            background: rgba(46, 117, 182, 0.2);
-            color: var(--steel);
-            border: 1px solid var(--steel);
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .proof-download a:hover {
-            background: var(--steel);
-            color: var(--white);
-        }
-
-        /* Timing Section */
-        .timing {
-            background: linear-gradient(135deg, #D4380D 0%, #B8300A 100%);
-            color: var(--white);
-        }
-
-        .timing-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .timing .section-title,
-        .timing .section-subtitle {
-            color: var(--white);
-        }
-
-        .timeline {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .timeline-item {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .timeline-item h4 {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
-
-        .timeline-item .date {
-            font-size: 24px;
-            font-weight: 800;
-        }
-
-        /* Pricing Section */
-        .pricing {
-            background: var(--light-gray);
-        }
-
-        .pricing-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 48px;
-        }
-
-        .pricing-card {
-            background: var(--white);
-            padding: 40px;
-            border-radius: 8px;
-            border: 2px solid var(--border-gray);
-            text-align: center;
-            animation: fadeIn 0.8s ease;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            border-color: var(--accent);
-            box-shadow: 0 15px 35px rgba(212, 56, 13, 0.15);
-            transform: scale(1.05);
-        }
-
-        .pricing-card h3 {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--navy);
-        }
-
-        .pricing-card .price {
-            font-size: 48px;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 8px;
-        }
-
-        .pricing-card .period {
-            color: var(--dark-gray);
-            font-size: 16px;
-            margin-bottom: 24px;
-        }
-
-        .pricing-card .description {
-            color: var(--dark-gray);
-            font-size: 14px;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .pricing-card .spots {
-            background: rgba(212, 56, 13, 0.1);
-            color: var(--accent);
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 30px;
-        }
-
-        /* Demo Section */
-        .demo {
-            background: var(--white);
-        }
-
-        .demo-container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .demo-placeholder {
-            background: #1a1a2e;
-            border: 1px solid rgba(46, 117, 182, 0.3);
-            border-radius: 8px;
-            padding: 24px;
-            margin-top: 40px;
-            min-height: 400px;
-            overflow-x: auto;
-        }
-
-        .demo-placeholder pre {
-            color: #e0e0e0;
-            font-family: 'Courier New', Consolas, monospace;
-            font-size: 13px;
-            line-height: 1.6;
-            white-space: pre;
-            margin: 0;
-        }
-
-        .demo-placeholder .prompt {
-            color: #4ade80;
-        }
-
-        .demo-placeholder .info {
-            color: #60a5fa;
-        }
-
-        .demo-placeholder .success {
-            color: #4ade80;
-        }
-
-        .demo-placeholder .warn {
-            color: #fbbf24;
-        }
-
-        .demo-placeholder .bold {
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .demo-terminal-bar {
-            display: flex;
-            gap: 6px;
-            padding: 8px 12px;
-            background: #12121f;
-            border-radius: 8px 8px 0 0;
-            margin-top: 40px;
-        }
-
-        .demo-terminal-bar span {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-        }
-
-        .demo-terminal-bar .red { background: #ff5f56; }
-        .demo-terminal-bar .yellow { background: #ffbd2e; }
-        .demo-terminal-bar .green { background: #27c93f; }
-
-        .demo-terminal-bar .title {
-            color: rgba(255,255,255,0.5);
-            font-size: 12px;
-            margin-left: 12px;
-        }
-
-        /* Contact Section */
-        .contact {
-            background: linear-gradient(135deg, var(--navy) 0%, #253A56 100%);
-            color: var(--white);
-        }
-
-        .contact .container {
-            max-width: 600px;
-        }
-
-        .contact .section-title,
-        .contact .section-subtitle {
-            color: var(--white);
-        }
-
-        .form-group {
-            margin-bottom: 24px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            font-size: 14px;
-        }
-
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--white);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--steel);
-            box-shadow: 0 0 0 3px rgba(46, 117, 182, 0.2);
-        }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-submit {
-            background: var(--accent);
-            color: var(--white);
-            padding: 14px 36px;
-            border-radius: 6px;
-            border: none;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .form-submit:hover {
-            background: #B8300A;
-            transform: translateY(-2px);
-        }
-
-        /* Footer */
-        footer {
-            background: #0F1820;
-            color: rgba(255, 255, 255, 0.7);
-            padding: 40px 20px;
-            text-align: center;
-            border-top: 1px solid rgba(46, 117, 182, 0.2);
-        }
-
-        footer p {
-            margin: 8px 0;
-            font-size: 14px;
-        }
-
-        footer a {
-            color: var(--steel);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: var(--white);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-in-scroll {
-            opacity: 0;
-            animation: fadeIn 0.8s ease forwards;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links {
-                gap: 16px;
-            }
-
-            .hero {
-                padding: 120px 20px 80px;
-            }
-
-            .hero h1 {
-                font-size: 36px;
-            }
-
-            .hero .tagline {
-                font-size: 18px;
-            }
-
-            .hero .cta-buttons {
-                flex-direction: column;
-                gap: 12px;
-            }
-
-            .btn {
-                width: 100%;
-            }
-
-            section {
-                padding: 60px 20px;
-            }
-
-            .section-title {
-                font-size: 32px;
-            }
-
-            .solution-grid,
-            .steps-grid,
-            .features-grid,
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.featured {
-                transform: scale(1);
-            }
-
-            .step {
-                padding: 30px;
-            }
-
-            .rpo-benefit {
-                gap: 16px;
-            }
-
-            .demo-placeholder {
-                min-height: 300px;
-            }
-        }
-
-        @media (max-width: 640px) {
-            nav .container {
-                flex-wrap: wrap;
-                gap: 16px;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero h1 {
-                font-size: 28px;
-            }
-
-            .hero .tagline {
-                font-size: 16px;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-
-            .section-subtitle {
-                font-size: 16px;
-            }
-
-            .solution-card,
-            .step {
-                padding: 24px;
-            }
+        .vcard{
+            background:var(--bg);padding:44px 36px;transition:background .3s;
+        }
+        .vcard:hover{background:var(--bg3)}
+        .vcard .n{
+            font-family:var(--mono);font-size:11px;color:var(--gray3);margin-bottom:18px;
+        }
+        .vcard h3{font-size:16px;font-weight:600;margin-bottom:10px;letter-spacing:-.3px}
+        .vcard p{font-size:13px;color:var(--gray2);line-height:1.7}
+
+        /* âââ PROCESS âââ */
+        .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px}
+        .pstep .num{
+            font-family:var(--mono);font-size:72px;font-weight:700;
+            color:var(--border2);line-height:1;margin-bottom:20px;
+        }
+        .pstep h3{font-size:18px;font-weight:600;margin-bottom:10px}
+        .pstep p{font-size:13px;color:var(--gray2);line-height:1.7}
+
+        /* âââ PROOF âââ */
+        .proof{
+            background:var(--bg2);
+            border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+            padding:120px 48px;max-width:100%;
+        }
+        .proof-in{max-width:1100px;margin:0 auto}
+        .proof-g{
+            display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;
+        }
+        .checks{display:flex;flex-direction:column;gap:14px}
+        .chk{
+            display:flex;align-items:center;gap:10px;
+            font-size:13px;color:var(--gray2);
+        }
+        .chk .c{font-family:var(--mono);color:var(--green);font-size:13px;flex-shrink:0}
+
+        .term{
+            background:var(--bg4);border:1px solid var(--border);
+            border-radius:6px;overflow:hidden;
+        }
+        .term-h{
+            display:flex;align-items:center;gap:6px;
+            padding:10px 14px;background:rgba(255,255,255,.03);
+            border-bottom:1px solid var(--border);
+        }
+        .term-d{width:10px;height:10px;border-radius:50%}
+        .term-d.r{background:#FF5F56}.term-d.y{background:#FFBD2E}.term-d.gr{background:#27C93F}
+        .term-b{
+            padding:20px;font-family:var(--mono);font-size:11.5px;
+            line-height:2;color:var(--gray2);overflow-x:auto;
+        }
+        .term-b .p{color:var(--green)}
+        .term-b .h{color:var(--white)}
+        .term-b .s{color:var(--green)}
+        .term-b .o{color:var(--gray3)}
+
+        /* âââ SAMPLE OUTPUT âââ */
+        .sample-bar{
+            max-width:1100px;margin:0 auto;
+            border:1px solid var(--border);background:var(--bg3);
+            display:flex;align-items:center;justify-content:space-between;
+            padding:28px 36px;gap:24px;
+        }
+        .sample-bar p{font-size:14px;color:var(--gray2)}
+        .sample-bar p strong{color:var(--white);font-weight:600}
+
+        /* âââ FOUNDER âââ */
+        .founder-section{
+            border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+            background:var(--bg2);padding:100px 48px;max-width:100%;
+        }
+        .founder-in{
+            max-width:1100px;margin:0 auto;
+            display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;
+        }
+        .founder-text .s-desc{margin-bottom:32px}
+        .founder-links{display:flex;gap:16px;flex-wrap:wrap}
+        .founder-links a{
+            font-family:var(--mono);font-size:12px;color:var(--gray2);
+            text-decoration:none;padding:8px 16px;
+            border:1px solid var(--border2);transition:all .3s;
+        }
+        .founder-links a:hover{color:var(--white);border-color:var(--gray3)}
+
+        .founder-card{
+            background:var(--bg4);border:1px solid var(--border);padding:48px;
+        }
+        .founder-card .fc-label{
+            font-family:var(--mono);font-size:10px;letter-spacing:2px;
+            text-transform:uppercase;color:var(--gray3);margin-bottom:24px;
+        }
+        .founder-card .fc-stat{margin-bottom:20px}
+        .founder-card .fc-stat .fc-v{
+            font-size:14px;color:var(--white);font-weight:500;margin-bottom:2px;
+        }
+        .founder-card .fc-stat .fc-l{
+            font-size:12px;color:var(--gray3);
+        }
+
+        /* âââ URGENCY âââ */
+        .urgency{
+            max-width:1100px;margin:0 auto 0;
+            border:1px solid var(--border);background:var(--bg3);
+            padding:36px 40px;display:flex;align-items:center;
+            justify-content:space-between;gap:24px;
+        }
+        .urgency p{font-size:14px;color:var(--gray2)}
+        .urgency p strong{color:var(--white);font-weight:600}
+        .urgency-tag{
+            font-family:var(--mono);font-size:11px;color:var(--green);
+            padding:6px 14px;border:1px solid var(--green-dim);
+            background:var(--green-dim);white-space:nowrap;
+        }
+
+        /* âââ ACCESS âââ */
+        .access-grid{
+            display:grid;grid-template-columns:repeat(3,1fr);
+            gap:1px;background:var(--border);border:1px solid var(--border);
+            margin-bottom:40px;
+        }
+        .acard{background:var(--bg);padding:44px 36px;transition:background .3s}
+        .acard:hover{background:var(--bg3)}
+        .acard.feat{background:var(--bg3);position:relative}
+        .acard.feat::after{
+            content:'';position:absolute;top:0;left:0;bottom:0;
+            width:2px;background:var(--green);
+        }
+        .acard .ai{
+            font-family:var(--mono);font-size:12px;color:var(--gray3);margin-bottom:18px;
+        }
+        .acard h3{font-size:18px;font-weight:600;margin-bottom:10px}
+        .acard p{font-size:13px;color:var(--gray2);line-height:1.7;margin-bottom:24px}
+
+        .comp-note{
+            border:1px solid var(--border);background:var(--bg3);
+            padding:20px 28px;font-size:13px;color:var(--gray2);line-height:1.7;
+            display:flex;align-items:center;gap:16px;
+        }
+        .comp-tag{
+            font-family:var(--mono);font-size:10px;letter-spacing:2px;
+            text-transform:uppercase;color:var(--green);
+            padding:4px 10px;border:1px solid var(--green-dim);
+            background:var(--green-dim);white-space:nowrap;flex-shrink:0;
+        }
+
+        /* âââ CTA âââ */
+        .cta{text-align:center;padding:160px 48px;max-width:700px;margin:0 auto}
+        .cta h2{
+            font-size:clamp(32px,4vw,56px);font-weight:800;
+            letter-spacing:-1.5px;margin-bottom:20px;
+        }
+        .cta p{font-size:15px;color:var(--gray2);margin-bottom:40px;line-height:1.8}
+
+        /* âââ LIVE DEMO âââ */
+        .demo-section{
+            max-width:1100px;margin:0 auto;padding:0 48px 120px;
+        }
+        .demo-terminal{
+            background:var(--bg4);border:1px solid var(--border);
+            border-radius:6px;overflow:hidden;max-width:900px;
+        }
+        .demo-controls{
+            display:flex;align-items:center;gap:16px;
+            padding:12px 20px;border-top:1px solid var(--border);
+            background:rgba(255,255,255,.02);
+        }
+        .demo-controls button{
+            display:flex;align-items:center;gap:8px;
+            padding:8px 20px;background:var(--green);color:#000;
+            font-family:var(--mono);font-size:12px;font-weight:600;
+            border:none;cursor:pointer;transition:all .3s;letter-spacing:.5px;
+        }
+        .demo-controls button:hover{background:#00cc6a}
+        .demo-controls button:disabled{opacity:.4;cursor:not-allowed}
+        .cursor{color:var(--green);animation:blink 1s step-end infinite}
+        @keyframes blink{50%{opacity:0}}
+
+        /* âââ FOOTER âââ */
+        footer{
+            border-top:1px solid var(--border);padding:28px 48px;
+            display:flex;justify-content:space-between;align-items:center;
+        }
+        .f-l{font-size:11px;color:var(--gray3);letter-spacing:.5px}
+        .f-r{display:flex;gap:20px}
+        .f-r a{
+            font-size:11px;color:var(--gray3);text-decoration:none;
+            letter-spacing:.5px;transition:color .3s;
+        }
+        .f-r a:hover{color:var(--gray2)}
+
+        /* âââ ANIMATIONS âââ */
+        @keyframes fadeUp{
+            from{opacity:0;transform:translateY(20px)}
+            to{opacity:1;transform:translateY(0)}
+        }
+        .reveal{opacity:0;transform:translateY(16px);transition:all .6s ease}
+        .reveal.vis{opacity:1;transform:translateY(0)}
+
+        /* âââ RESPONSIVE âââ */
+        @media(max-width:900px){
+            nav{padding:0 24px}
+            .nav-r{display:none}
+            .hero{padding:100px 24px 60px}
+            .stats-in{grid-template-columns:repeat(3,1fr)}
+            section{padding:80px 24px}
+            .vgrid,.access-grid{grid-template-columns:1fr}
+            .proof{padding:80px 24px}
+            .proof-g{grid-template-columns:1fr;gap:48px}
+            .pgrid{grid-template-columns:1fr;gap:28px}
+            .founder-section{padding:80px 24px}
+            .founder-in{grid-template-columns:1fr;gap:40px}
+            .urgency{flex-direction:column;text-align:center;margin:0 24px}
+            .sample-bar{flex-direction:column;text-align:center;margin:0 24px}
+            .comp-note{flex-direction:column;text-align:center}
+            .stats{padding:32px 24px}
+            footer{flex-direction:column;gap:12px;text-align:center;padding:24px}
+            .hero-actions{flex-direction:column}
+            .demo-section{padding:0 24px 80px}
+        }
+        @media(max-width:600px){
+            .stats-in{grid-template-columns:repeat(2,1fr)}
+            .stat-v{font-size:20px}
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <a href="#" class="logo">HARDSEAL</a>
-            <ul class="nav-links">
-                <li><a href="#problem">Problem</a></li>
-                <li><a href="#solution">Solution</a></li>
-                <li><a href="#how">How It Works</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#proof">Proof</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-            </ul>
-            <a href="#contact" class="nav-cta">Talk to Founder</a>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>Turn Messy CMMC Evidence Into Signed, Assessor-Ready Packages</h1>
-            <p class="tagline">Hardseal is an offline-first evidence packaging engine for CMMC readiness teams. Collect evidence locally, generate SSP and POA&M drafts, and export machine-readable packages without relying on a cloud-first GRC stack.</p>
-            <div class="cta-buttons">
-                <a href="#contact" class="btn btn-primary">Book a Demo</a>
-                <a href="#contact" class="btn btn-secondary">Talk to Founder</a>
-            </div>
-        </div>
-    </section>
+<!-- NAV -->
+<nav>
+    <a href="#" class="logo">Hardseal</a>
+    <div class="nav-r">
+        <a href="#how">Process</a>
+        <a href="#proof">Proof</a>
+        <a href="#founder">Founder</a>
+        <a href="#access">Get Access</a>
+        <a href="mailto:rico@hardseal.ai" class="nav-cta">Contact</a>
+    </div>
+</nav>
 
-    <!-- Problem Section -->
-    <section id="problem" class="problem">
-        <div class="container problem-content">
-            <h2 class="section-title">The Evidence Packaging Problem</h2>
-            <p class="section-subtitle">CMMC readiness teams lose weeks turning scattered screenshots, exports, and policy artifacts into evidence that is reusable, reviewable, and ready for assessor handoff. In disconnected or tightly controlled environments, cloud-first GRC workflows add friction instead of removing it.</p>
-        </div>
-    </section>
+<!-- âââ HERO âââ -->
+<section class="hero">
+    <div class="hero-tag">
+        <span class="dot"></span>
+        99.9% built by A.I. &mdash; directed by one founder
+    </div>
+    <h1>
+        One founder.<br>One engine.<br>
+        <span class="thin">Zero compromises.</span>
+    </h1>
+    <p class="hero-sub">
+        Hardseal is a CMMC compliance evidence engine <strong>built almost entirely by AI</strong> and directed by one founder. It collects, signs, and packages assessor-ready OSCAL bundles &mdash; offline, self-hosted, in under 60 seconds. What used to take teams of consultants weeks now takes minutes.
+    </p>
+    <div class="hero-actions">
+        <a href="#access" class="btn-p">Request Early Access â</a>
+        <a href="#proof" class="btn-s">See the proof</a>
+    </div>
+</section>
 
-    <!-- Solution Section -->
-    <section id="solution" class="solution">
-        <div class="container">
-            <h2 class="section-title">What Hardseal Does</h2>
-            <p class="section-subtitle">Hardseal collects evidence locally, packages it consistently, and generates assessor-ready outputs — without depending on cloud connectivity.</p>
-            <div class="solution-grid">
-                <div class="solution-card">
-                    <h3>Offline Evidence Capture</h3>
-                    <p>Collect compliance evidence directly from disconnected and offline systems without requiring cloud connectivity. Evidence stays on your infrastructure.</p>
-                </div>
-                <div class="solution-card">
-                    <h3>Ed25519 Signing</h3>
-                    <p>Cryptographically sign all evidence with deterministic algorithms. Exactly what FedRAMP's machine-readable mandate demands—no AI-generated narratives.</p>
-                </div>
-                <div class="solution-card">
-                    <h3>OSCAL v1.1.2 Export</h3>
-                    <p>Generate machine-readable compliance profiles in OSCAL format, ready for FedRAMP and automated assessment workflows.</p>
-                </div>
-                <div class="solution-card">
-                    <h3>SSP & POA&M Auto-Generation</h3>
-                    <p>Automatically generate System Security Plans and Plans of Action & Milestones from collected evidence and control mappings.</p>
-                </div>
-                <div class="solution-card">
-                    <h3>Self-Hosted & Reproducible</h3>
-                    <p>Deploy Hardseal on your own infrastructure. Every assessment result is reproducible, auditable, and assessor-ready.</p>
-                </div>
-                <div class="solution-card">
-                    <h3>Cross-Platform Support</h3>
-                    <p>Works on Windows, Linux, and macOS. Collect evidence from legacy systems, containerized environments, and everything in between.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- âââ STATS BAR âââ -->
+<div class="stats">
+    <div class="stats-in">
+        <div class="stat"><div class="stat-v g">60/60</div><div class="stat-l">Tests Passing</div></div>
+        <div class="stat"><div class="stat-v g">22/22</div><div class="stat-l">OSCAL Checks</div></div>
+        <div class="stat"><div class="stat-v">110</div><div class="stat-l">Controls Mapped</div></div>
+        <div class="stat"><div class="stat-v">14</div><div class="stat-l">Control Families</div></div>
+        <div class="stat"><div class="stat-v">0</div><div class="stat-l">Dependencies</div></div>
+        <div class="stat"><div class="stat-v">&lt;60s</div><div class="stat-l">Per Enclave</div></div>
+    </div>
+</div>
 
-    <!-- RPO Section -->
-    <section class="rpo">
-        <div class="container">
-            <h2 class="section-title">Built for RPOs</h2>
-            <p class="section-subtitle">Your team does the prep work. Hardseal helps you collect evidence locally, organize it into repeatable packages, and generate SSP and POA&M drafts from the artifacts you already gather.</p>
+<!-- âââ WHAT IT DOES âââ -->
+<section id="what" class="reveal">
+    <div class="s-label">What we solve</div>
+    <h2 class="s-title">CMMC evidence prep<br>is broken.</h2>
+    <p class="s-desc">
+        RPO teams burn 40&ndash;80 hours per client organizing scattered artifacts. Hardseal eliminates that entire workflow.
+    </p>
+    <div class="vgrid">
+        <div class="vcard"><div class="n">01</div><h3>Offline Evidence Capture</h3><p>Collect compliance evidence from disconnected systems. No cloud. Evidence stays on your infrastructure.</p></div>
+        <div class="vcard"><div class="n">02</div><h3>Ed25519 Cryptographic Signing</h3><p>Every artifact is tamper-evident and independently verifiable. Deterministic, reproducible, assessor-ready.</p></div>
+        <div class="vcard"><div class="n">03</div><h3>OSCAL v1.1.2 Export</h3><p>Machine-readable output validated against NIST schema. What FedRAMP's mandate requires. No AI-generated narratives.</p></div>
+        <div class="vcard"><div class="n">04</div><h3>SSP &amp; POA&amp;M Auto-Generation</h3><p>Draft documentation from collected evidence. Start from real artifacts instead of blank templates.</p></div>
+        <div class="vcard"><div class="n">05</div><h3>Self-Hosted &amp; Reproducible</h3><p>Deploy on your infrastructure. No SaaS, no vendor lock-in. Every result is auditable and repeatable.</p></div>
+        <div class="vcard"><div class="n">06</div><h3>Cross-Platform</h3><p>Windows, Linux, macOS. Legacy systems, containers, everything in between. Pure Python stdlib.</p></div>
+    </div>
+</section>
+
+<!-- âââ HOW IT WORKS âââ -->
+<section id="how" class="reveal">
+    <div class="s-label">How it works</div>
+    <h2 class="s-title">Three steps.<br>No complexity.</h2>
+    <p class="s-desc">From scattered evidence to assessor-ready packages.</p>
+    <div class="pgrid">
+        <div class="pstep"><div class="num">01</div><h3>Collect</h3><p>Deploy on isolated systems. Evidence is gathered automatically from logs, configs, policies, and audit trails. No cloud required.</p></div>
+        <div class="pstep"><div class="num">02</div><h3>Sign</h3><p>Every artifact is cryptographically signed with Ed25519. Deterministic packages prove integrity and reproducibility to assessors.</p></div>
+        <div class="pstep"><div class="num">03</div><h3>Export</h3><p>Generate OSCAL-compliant exports, SSPs, POA&Ms, and assessor-ready packages in seconds. Deploy to any environment.</p></div>
+    </div>
+</section>
+
+<!-- âââ LIVE DEMO âââ -->
+<div class="demo-section reveal">
+    <div class="s-label" style="max-width:1100px;margin:0 auto 16px;padding:0">Live demo</div>
+    <h2 class="s-title" style="max-width:1100px;margin:0 auto 20px;padding:0">Watch it run.</h2>
+    <p class="s-desc" style="max-width:1100px;margin:0 auto 40px;padding:0">Real output from the real tool. Click play to see Hardseal collect evidence, run tests, and export a signed OSCAL bundle.</p>
+
+    <div class="demo-terminal" id="demoTerminal">
+        <div class="term-h">
+            <span class="term-d r"></span><span class="term-d y"></span><span class="term-d gr"></span>
+            <span style="margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--gray3)">hardseal-demo</span>
+        </div>
+        <div class="term-b" id="demoOutput" style="min-height:400px;line-height:1.9;position:relative">
+            <div id="demoContent"></div>
+            <span id="cursor" class="cursor">&#9608;</span>
+        </div>
+        <div class="demo-controls">
+            <button id="playBtn" onclick="startDemo()">
+                <svg viewBox="0 0 24 24" width="14" height="14"><polygon points="5,3 19,12 5,21" fill="currentColor"/></svg>
+                Play Demo
+            </button>
+            <span id="demoStatus" style="font-family:var(--mono);font-size:11px;color:var(--gray3)">Ready</span>
+        </div>
+    </div>
+</div>
+
+<!-- âââ PROOF âââ -->
+<div class="proof" id="proof">
+    <div class="proof-in reveal">
+        <div class="proof-g">
             <div>
-                <div class="rpo-benefit">
-                    <div class="rpo-benefit-icon">1</div>
-                    <p><strong>Repeatable Evidence Workflows:</strong> Replace ad-hoc spreadsheets with structured, reproducible collection runs. Same process every engagement, consistent output every time.</p>
+                <div class="s-label">Proof</div>
+                <h2 class="s-title">Verified. Tested.<br>Schema-validated.</h2>
+                <p class="s-desc" style="margin-bottom:40px">Every claim is backed by automated tests. No marketing fluff. This is an accelerator, not a replacement &mdash; 53 controls fully automated, 29 partial, 28 require manual input.</p>
+                <div class="checks">
+                    <div class="chk"><span class="c">&#10003;</span> 60/60 pytest tests passing in 0.16s</div>
+                    <div class="chk"><span class="c">&#10003;</span> 22/22 OSCAL v1.1.2 structural validation checks</div>
+                    <div class="chk"><span class="c">&#10003;</span> All 110 CMMC Level 2 controls mapped across 14 families</div>
+                    <div class="chk"><span class="c">&#10003;</span> Ed25519 deterministic signing with key rotation</div>
+                    <div class="chk"><span class="c">&#10003;</span> Zero external dependencies &mdash; pure Python stdlib</div>
+                    <div class="chk"><span class="c">&#10003;</span> SHA-256 package integrity verification</div>
                 </div>
-                <div class="rpo-benefit">
-                    <div class="rpo-benefit-icon">2</div>
-                    <p><strong>Signed Evidence Packages:</strong> Deliver cryptographically signed bundles that demonstrate chain of custody and integrity to assessors. Mathematically verifiable, not narrative-based.</p>
-                </div>
-                <div class="rpo-benefit">
-                    <div class="rpo-benefit-icon">3</div>
-                    <p><strong>Draft Documentation from Evidence:</strong> Generate SSP and POA&M drafts from collected artifacts. Start from real evidence instead of blank templates.</p>
+            </div>
+            <div>
+                <div class="term">
+                    <div class="term-h">
+                        <span class="term-d r"></span><span class="term-d y"></span><span class="term-d gr"></span>
+                    </div>
+                    <div class="term-b">
+<span class="p">$</span> <span class="h">python -m pytest tests/ -v --tb=short</span>
+<span class="o">=================== test session starts ====================</span>
+<span class="s">60 passed in 0.16s</span>
+
+<span class="p">$</span> <span class="h">hardseal validate --oscal</span>
+<span class="o">OSCAL Validation:</span> <span class="s">22/22 checks passing</span>
+<span class="o">Schema:</span> <span class="h">NIST OSCAL v1.1.2 component-definition</span>
+<span class="o">Controls:</span> <span class="h">110 across 14 CMMC L2 families</span>
+
+<span class="p">$</span> <span class="h">hardseal export --format oscal --sign</span>
+<span class="o">Collecting evidence...</span> <span class="s">done</span>
+<span class="o">Signing with Ed25519...</span> <span class="s">done</span>
+<span class="o">Exporting OSCAL bundle...</span> <span class="s">done</span>
+<span class="o">Output:</span> <span class="h">evidence/oscal_component_definition.json</span>
+<span class="o">Size:</span> <span class="h">186KB</span> <span class="o">| Integrity:</span> <span class="s">Verified</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- How It Works Section -->
-    <section id="how" class="how-it-works">
-        <div class="container">
-            <h2 class="section-title">How It Works</h2>
-            <p class="section-subtitle">Three steps from scattered evidence to assessor-ready compliance packages.</p>
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Collect</h3>
-                    <p>Deploy Hardseal on isolated systems. Automatically gather evidence from logs, policies, configurations, and audit trails. No cloud required.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Sign</h3>
-                    <p>Evidence is cryptographically signed with Ed25519. Create deterministic packages that prove integrity and reproducibility to assessors.</p>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Export</h3>
-                    <p>Generate OSCAL-compliant exports, SSPs, POA&Ms, and assessor-ready compliance packages in seconds. Deploy to any environment.</p>
-                </div>
+<!-- âââ SAMPLE OUTPUT âââ -->
+<div style="padding:0 48px">
+    <div class="sample-bar reveal">
+        <p><strong>Download a real OSCAL sample.</strong> See exactly what Hardseal produces &mdash; validated, signed, assessor-ready.</p>
+        <a href="https://hardseal.ai/sample-oscal-output.json" class="btn-s" style="flex-shrink:0">Download Sample (186KB) â</a>
+    </div>
+</div>
+
+<!-- âââ FOUNDER âââ -->
+<div class="founder-section" id="founder">
+    <div class="founder-in reveal">
+        <div class="founder-text">
+            <div class="s-label">The founder</div>
+            <h2 class="s-title">Built by AI.<br>Directed by Rico Allen.</h2>
+            <p class="s-desc">Hardseal was built using AI-first development &mdash; 99.9% of the code, the architecture, and the compliance logic was generated by AI systems under the direction of one founder. This isn't a weakness. It's the thesis. If one person with AI can build an evidence engine this rigorous, imagine what it does for your compliance workflow.</p>
+            <div class="founder-links">
+                <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a>
+                <a href="https://linkedin.com/in/ricoallen" target="_blank" rel="noopener">LinkedIn â</a>
             </div>
         </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Key Features</h2>
-            <p class="section-subtitle">Built for compliance rigor in disconnected environments.</p>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <h4>Offline-First Architecture</h4>
-                    <p>Operates in completely disconnected environments. No cloud dependency, no vendor lock-in.</p>
-                </div>
-                <div class="feature-item">
-                    <h4>Ed25519 Cryptographic Signing</h4>
-                    <p>Deterministic evidence signing that meets FedRAMP machine-readable mandate requirements.</p>
-                </div>
-                <div class="feature-item">
-                    <h4>OSCAL v1.1.2 Native</h4>
-                    <p>Generate compliant OSCAL profiles, components, and assessment results automatically.</p>
-                </div>
-                <div class="feature-item">
-                    <h4>SSP/POA&M Auto-Generation</h4>
-                    <p>Automatically generate control narratives, mitigation plans, and compliance documentation.</p>
-                </div>
-                <div class="feature-item">
-                    <h4>Self-Hosted Deployment</h4>
-                    <p>Run entirely on your infrastructure. No SaaS, no subscriptions, full control and auditability.</p>
-                </div>
-                <div class="feature-item">
-                    <h4>Cross-Platform</h4>
-                    <p>Windows, Linux, macOS, and containerized environments. Works with legacy and modern systems alike.</p>
-                </div>
-            </div>
+        <div class="founder-card">
+            <div class="fc-label">By the numbers</div>
+            <div class="fc-stat"><div class="fc-v">14 Python modules, 0 external dependencies</div><div class="fc-l">Pure stdlib. Verifiable in air-gapped environments.</div></div>
+            <div class="fc-stat"><div class="fc-v">60 tests, 22 OSCAL validations, 110 controls</div><div class="fc-l">Every claim backed by automated proof.</div></div>
+            <div class="fc-stat"><div class="fc-v">Ed25519 cryptographic signing</div><div class="fc-l">Deterministic. Reproducible. Tamper-evident.</div></div>
+            <div class="fc-stat"><div class="fc-v">Built in days, not quarters</div><div class="fc-l">AI-first development. Human-directed quality.</div></div>
         </div>
-    </section>
+    </div>
+</div>
 
-    <!-- Technical Proof Section -->
-    <section id="proof" class="tech-proof">
-        <div class="container">
-            <h2 class="section-title">Verified. Tested. Schema-Validated.</h2>
-            <p class="section-subtitle">Hardseal is built with the same rigor it demands from evidence. Every claim below is backed by automated tests.</p>
-            <div class="proof-stats">
-                <div class="proof-stat">
-                    <span class="number">60/60</span>
-                    <span class="label">Tests Passing</span>
-                </div>
-                <div class="proof-stat">
-                    <span class="number">22/22</span>
-                    <span class="label">OSCAL Validation Checks</span>
-                </div>
-                <div class="proof-stat">
-                    <span class="number">110</span>
-                    <span class="label">CMMC L2 Controls Mapped</span>
-                </div>
-                <div class="proof-stat">
-                    <span class="number">14</span>
-                    <span class="label">Control Families Covered</span>
-                </div>
-                <div class="proof-stat">
-                    <span class="number">14</span>
-                    <span class="label">Python Modules</span>
-                </div>
-                <div class="proof-stat">
-                    <span class="number">0</span>
-                    <span class="label">External Dependencies</span>
-                </div>
-            </div>
-            <div class="proof-details">
-                <div class="proof-detail">
-                    <h4>Cryptographic Integrity</h4>
-                    <p>Ed25519 signing with deterministic key generation. Sign, verify, tamper-reject, and key rotation all tested. Private keys stay under your control.</p>
-                </div>
-                <div class="proof-detail">
-                    <h4>OSCAL v1.1.2 Schema Validated</h4>
-                    <p>Component-definition output validated against NIST OSCAL schema. UUIDs, metadata, roles, parties, and back-matter resources all conformant.</p>
-                </div>
-                <div class="proof-detail">
-                    <h4>Full Control Coverage</h4>
-                    <p>All 14 CMMC Level 2 families (AC, AU, AT, CM, IA, IR, MA, MP, PS, PE, RA, CA, SC, SI) with all 110 controls defined and evidence-mapped.</p>
-                </div>
-                <div class="proof-detail">
-                    <h4>Honest Scope</h4>
-                    <p>53 controls fully automated. 29 partially automated. 28 require manual input (policy and process decisions). This is an accelerator, not a replacement.</p>
-                </div>
-            </div>
-            <div class="proof-detail" style="grid-column: 1 / -1; background: #1B2A4A; color: #fff;">
-                <h4 style="color: #7BB3E0;">OSCAL Validation Scope</h4>
-                <p style="color: #CBD5E0;">Our OSCAL component-definition output passes 22/22 structural validation checks: valid UUIDs (RFC 4122), required metadata fields, roles/parties linkage, control-implementation structure, back-matter resource integrity, and namespace conformance to NIST OSCAL v1.1.2 schema. This covers CMMC Level 2 (NIST 800-171 Rev 2) controls — not FedRAMP-specific extensions.</p>
-            </div>
-            <div class="proof-detail" style="grid-column: 1 / -1; background: #F0FFF4; border: 1px solid #C6F6D5;">
-                <h4 style="color: #276749;">Package Integrity</h4>
-                <p style="color: #2D3748;">SHA-256 (all 14 modules): <code style="background: #EDF2F7; padding: 2px 6px; border-radius: 3px; font-size: 0.85em;">a85ee941...a71595</code> — Zero external dependencies. Pure Python stdlib. Verify before deployment in air-gapped environments.</p>
-            </div>
-            <div class="proof-download">
-                <a href="sample-oscal-output.json" download>Download Sample OSCAL Output (186KB)</a>
-            </div>
+<!-- âââ URGENCY âââ -->
+<div style="padding:48px 48px 0">
+    <div class="urgency reveal">
+        <p><strong>The window is closing.</strong> FedRAMP machine-readable submissions are now prioritized. CMMC Phase 2 begins November 10, 2026.</p>
+        <div class="urgency-tag">DEADLINE â NOV 2026</div>
+    </div>
+</div>
+
+<!-- âââ ACCESS âââ -->
+<section id="access" class="reveal">
+    <div class="s-label">Get started</div>
+    <h2 class="s-title">Request early access.</h2>
+    <p class="s-desc">Priced significantly below legacy GRC platforms and traditional consulting. Flexible options &mdash; single engagements, multi-environment bundles, and founding partner deals with lifetime benefits.</p>
+
+    <div class="access-grid">
+        <div class="acard">
+            <div class="ai">01</div>
+            <h3>RPO Teams</h3>
+            <p>Standardize evidence collection across your client portfolio. Cut prep time by 90%. Deliver assessor-ready packages every engagement.</p>
+            <a href="mailto:rico@hardseal.ai?subject=RPO%20Partnership%20Inquiry&body=Hi%20Rico%2C%0A%0AInterested%20in%20Hardseal%20for%20our%20RPO%20practice.%0A%0ACompany%3A%20%0AClients%3A%20%0ACurrent%20workflow%3A%20%0A" class="btn-s">Request RPO Pricing â</a>
         </div>
-    </section>
-
-    <!-- Timing Section -->
-    <section class="timing">
-        <div class="container timing-content">
-            <h2 class="section-title">The Window Is Closing</h2>
-            <p class="section-subtitle">FedRAMP machine-readable submissions are now prioritized. New Rev 5 packages must be OSCAL-native by September 30, 2026. CMMC Phase 2 begins November 10, 2026.</p>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <h4>FedRAMP OSCAL</h4>
-                    <div class="date">Active Now</div>
-                </div>
-                <div class="timeline-item">
-                    <h4>CMMC Phase 2</h4>
-                    <div class="date">Nov 2026</div>
-                </div>
-                <div class="timeline-item">
-                    <h4>Assessment Deadline</h4>
-                    <div class="date">Sept 30</div>
-                </div>
-            </div>
+        <div class="acard">
+            <div class="ai">02</div>
+            <h3>DIB Contractors</h3>
+            <p>Deploy on your enclave. Collect evidence, generate SSP and POA&M, and hand your C3PAO a signed OSCAL bundle &mdash; no consultants needed.</p>
+            <a href="mailto:rico@hardseal.ai?subject=DIB%20Contractor%20Inquiry&body=Hi%20Rico%2C%0A%0AInterested%20in%20Hardseal%20for%20CMMC%20readiness.%0A%0ACompany%3A%20%0ACMMC%20level%3A%20%0ATimeline%3A%20%0A" class="btn-s">Request Pricing â</a>
         </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
-        <div class="container pricing-content">
-            <h2 class="section-title">Founding Partner Program</h2>
-            <p class="section-subtitle">Limited availability. Lock in lifetime benefits and shape the product roadmap.</p>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Standard Readiness Sprint</h3>
-                    <div class="price">$15K</div>
-                    <div class="period">per engagement</div>
-                    <div class="description">1 environment. Evidence collection and normalization. Signed evidence bundle. SSP and POA&M drafts. Machine-readable OSCAL export. Expanded scope and handoff support.</div>
-                </div>
-                <div class="pricing-card featured">
-                    <h3>Founding Readiness Sprint</h3>
-                    <div class="price">$8K</div>
-                    <div class="period">per engagement</div>
-                    <div class="description">1 environment. Evidence collection and normalization. Signed evidence bundle. SSP and POA&M drafts. Machine-readable OSCAL export. 2 feedback rounds. Direct founder access.</div>
-                    <div class="spots">3 founding partner slots remaining</div>
-                    <a href="#contact" class="btn btn-primary">Apply for Founding Slot</a>
-                </div>
-            </div>
+        <div class="acard feat">
+            <div class="ai" style="color:var(--green)">&#9733;</div>
+            <h3>Founding Partners</h3>
+            <p>Limited slots. Deepest discount we'll ever offer. Direct founder access, feedback rounds, lifetime benefits. Help shape the roadmap.</p>
+            <a href="mailto:rico@hardseal.ai?subject=Founding%20Partner%20Application&body=Hi%20Rico%2C%0A%0AApplying%20for%20a%20founding%20partner%20slot.%0A%0ACompany%3A%20%0ARole%3A%20%0AWhy%20Hardseal%3A%20%0A" class="btn-p">Apply for Founding Slot â</a>
         </div>
-    </section>
+    </div>
 
-    <!-- Demo Section -->
-    <section class="demo">
-        <div class="container demo-container">
-            <h2 class="section-title">See Hardseal in Action</h2>
-            <p class="section-subtitle">Watch how Hardseal captures, signs, and exports compliance evidence in real time.</p>
-            <div class="demo-terminal-bar">
-                <span class="red"></span>
-                <span class="yellow"></span>
-                <span class="green"></span>
-                <span class="title">hardseal --demo --output evidence/</span>
-            </div>
-            <div class="demo-placeholder">
-                <pre>
-<span class="bold">  ___                  ______            _
- / __| ___ _ _ _ _   |  ____|          | |
-| |  // -_) '_| ' \  | |__ _ __   ___  | | __ _  ___ _
- \__|\___|_| |_||_| |  __|_|\ \/ __|| |/ _` |/ _ (_)
-                    | |      >  < (__|  | (_| | (_) |
-                    |_|     /_/\_\___| _|\__,_|\___/|
-                                    |_|           |_|
-        Hardseal Enclave - Offline-First Evidence Collector
-             Zero Dependencies | No Outbound Network</span>
+    <div class="comp-note">
+        <span class="comp-tag">vs. competitors</span>
+        Hardseal costs a fraction of legacy GRC platforms &mdash; and delivers in days, not quarters. No per-seat licensing. No vendor lock-in. Bundle pricing available for multi-environment engagements.
+    </div>
+</section>
 
-<span class="warn">============================================================
-  *** DEMO MODE — SYNTHETIC DATA ONLY ***
-  This data is NOT real evidence. Do NOT submit to a C3PAO.
-============================================================</span>
+<!-- âââ CTA âââ -->
+<section class="cta reveal">
+    <h2>Ready to ship<br>real evidence?</h2>
+    <p>Talk directly to the founder. No sales team, no demo queue. See the tool running live on your environment.</p>
+    <a href="mailto:rico@hardseal.ai?subject=Hardseal%20Demo%20Request" class="btn-p">Talk to Founder â</a>
+</section>
 
-<span class="info">Generating realistic demo evidence...</span>
+<!-- âââ FOOTER âââ -->
+<footer>
+    <div class="f-l">Hardseal &middot; Founded by Rico Allen &middot; v1.0 &middot; April 2026</div>
+    <div class="f-r">
+        <a href="https://hardseal.ai/sample-oscal-output.json">Sample Output</a>
+        <a href="mailto:rico@hardseal.ai">Contact</a>
+        <a href="#" onclick="return false">Terms</a>
+        <a href="#" onclick="return false">Privacy</a>
+    </div>
+</footer>
 
-<span class="info">[1/6] Creating baseline snapshot...</span>
-<span class="success">Baseline snapshot created:</span> evidence/DEMO_baseline_snapshot.json
-<span class="info">[2/6] Creating current snapshot...</span>
-<span class="success">Current snapshot created:</span> evidence/current_snapshot.json
-<span class="info">[3/6] Computing snapshot diff...</span>
-<span class="success">Diff computed:</span> evidence/snapshot_diff.json
-<span class="info">[4/6] Exporting OSCAL format...</span>
-<span class="success">OSCAL export created:</span> evidence/oscal_component_definition.json  <span class="warn">(377KB)</span>
-<span class="info">[5/6] Generating HTML report...</span>
-<span class="success">Report generated:</span> evidence/evidence_report.html
-<span class="info">[6/6] Generating HTML diff report...</span>
-<span class="success">Diff report generated:</span> evidence/diff_report.html
+<script>
+// Scroll reveals
+var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('vis')})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
 
-<span class="success">Demo generation complete!</span>
-<span class="info">Output directory:</span> evidence/
+// âââ DEMO ANIMATION ENGINE âââ
+var demoRunning=false;
+var demoLines=[
+  {type:'cmd',text:'python -m cerno --demo --output ./evidence/',delay:40},
+  {type:'banner',text:[
+    '',
+    '  <span class="h">Cerno Enclave - Offline-First Evidence Collector</span>',
+    '  <span class="o">Zero Dependencies | No Outbound Network</span>',
+    ''
+  ],delay:10},
+  {type:'line',text:'<span class="o">============================================================</span>',delay:0},
+  {type:'line',text:'<span style="color:#FFBD2E">  *** DEMO MODE â SYNTHETIC DATA ONLY ***</span>',delay:0},
+  {type:'line',text:'<span class="o">============================================================</span>',delay:0},
+  {type:'pause',ms:400},
+  {type:'line',text:'<span class="o">[1/6] Creating baseline snapshot...</span>',delay:0},
+  {type:'pause',ms:300},
+  {type:'line',text:'<span class="s">Baseline snapshot created:</span> <span class="h">evidence/DEMO_baseline_snapshot.json</span>',delay:0},
+  {type:'line',text:'<span class="o">[2/6] Creating current snapshot...</span>',delay:0},
+  {type:'pause',ms:250},
+  {type:'line',text:'<span class="s">Current snapshot created:</span> <span class="h">evidence/current_snapshot.json</span>',delay:0},
+  {type:'line',text:'<span class="o">[3/6] Computing snapshot diff...</span>',delay:0},
+  {type:'pause',ms:200},
+  {type:'line',text:'<span class="s">Diff computed:</span> <span class="h">evidence/snapshot_diff.json</span>',delay:0},
+  {type:'line',text:'<span class="o">[4/6] Exporting OSCAL format...</span>',delay:0},
+  {type:'pause',ms:350},
+  {type:'line',text:'<span class="s">OSCAL export created:</span> <span class="h">evidence/oscal_component_definition.json (378KB)</span>',delay:0},
+  {type:'line',text:'<span class="o">[5/6] Generating HTML report...</span>',delay:0},
+  {type:'pause',ms:200},
+  {type:'line',text:'<span class="s">Report generated:</span> <span class="h">evidence/evidence_report.html</span>',delay:0},
+  {type:'line',text:'<span class="o">[6/6] Generating HTML diff report...</span>',delay:0},
+  {type:'pause',ms:200},
+  {type:'line',text:'<span class="s">Diff report generated:</span> <span class="h">evidence/diff_report.html</span>',delay:0},
+  {type:'line',text:'',delay:0},
+  {type:'line',text:'<span class="s">Demo generation complete!</span>',delay:0},
+  {type:'pause',ms:600},
 
-<span class="prompt">$ python -m pytest tests/ -v --tb=short</span>
-<span class="success">60 passed</span> in 0.16s
+  {type:'cmd',text:'python -m pytest tests/ -v --tb=short',delay:40},
+  {type:'line',text:'<span class="o">========================= test session starts ==========================</span>',delay:0},
+  {type:'pause',ms:200},
+  {type:'line',text:'<span class="o">tests/test_crypto.py</span> <span class="s">10 passed</span>',delay:0},
+  {type:'line',text:'<span class="o">tests/test_models.py</span> <span class="s">14 passed</span>',delay:0},
+  {type:'line',text:'<span class="o">tests/test_oscal.py</span>  <span class="s">18 passed</span>',delay:0},
+  {type:'line',text:'<span class="o">tests/test_ssp_poam.py</span> <span class="s">7 passed</span>',delay:0},
+  {type:'line',text:'<span class="o">tests/test_utils.py</span>  <span class="s">11 passed</span>',delay:0},
+  {type:'pause',ms:300},
+  {type:'line',text:'<span class="s">============================== 60 passed in 0.15s ==============================</span>',delay:0},
+  {type:'pause',ms:600},
 
-<span class="prompt">$ python -c "from hardseal.oscal import OSCALExporter; print(OSCALExporter.validate(...))"</span>
-<span class="success">OSCAL Validation: 22/22 checks passing</span>
-<span class="info">Schema: NIST OSCAL v1.1.2 component-definition</span>
-<span class="info">Controls mapped: 110 across 14 CMMC Level 2 families</span>
-<span class="info">Evidence types: 10 (system_info, network_config, user_accounts, ...)</span>
-</pre>
-            </div>
-        </div>
-    </section>
+  {type:'cmd',text:'hardseal validate --oscal evidence/oscal_component_definition.json',delay:35},
+  {type:'pause',ms:300},
+  {type:'line',text:'<span class="o">OSCAL Validation:</span>  <span class="s">22/22 checks passing</span>',delay:0},
+  {type:'line',text:'<span class="o">Schema:</span>           <span class="h">NIST OSCAL v1.1.2 component-definition</span>',delay:0},
+  {type:'line',text:'<span class="o">Controls mapped:</span>  <span class="h">110 across 14 CMMC Level 2 families</span>',delay:0},
+  {type:'line',text:'<span class="o">Evidence types:</span>   <span class="h">10 (system_info, network_config, user_accounts, ...)</span>',delay:0},
+  {type:'line',text:'<span class="o">File size:</span>        <span class="h">378KB</span>',delay:0},
+  {type:'line',text:'<span class="o">Integrity:</span>        <span class="s">Verified (SHA-256)</span>',delay:0},
+  {type:'line',text:'',delay:0},
+  {type:'line',text:'<span class="s">All checks passed. Bundle is assessor-ready.</span>',delay:0},
+];
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Talk to the Founder</h2>
-            <p class="section-subtitle">Questions about implementation, pricing, or the founding partner program? Get a direct line to Rico Allen.</p>
-            <form action="https://formspree.io/f/xwpegyvd" method="POST">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" placeholder="Your name" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="company">Company</label>
-                    <input type="text" id="company" name="company" placeholder="Your company">
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea id="message" name="message" placeholder="Tell us about your compliance needs..." required></textarea>
-                </div>
-                <button type="submit" class="form-submit">Send Message</button>
-            </form>
-        </div>
-    </section>
+function startDemo(){
+  if(demoRunning)return;
+  demoRunning=true;
+  var btn=document.getElementById('playBtn');
+  var status=document.getElementById('demoStatus');
+  var content=document.getElementById('demoContent');
+  var cursor=document.getElementById('cursor');
+  btn.disabled=true;
+  content.innerHTML='';
+  status.textContent='Running...';
+  status.style.color='var(--green)';
 
-    <!-- Footer -->
-    <footer>
-        <p>Hardseal d/b/a Hardseal</p>
-        <p>Founded by Rico Allen</p>
-        <p><a href="mailto:ricardojallen37@gmail.com">ricardojallen37@gmail.com</a></p>
-    </footer>
+  var i=0;
+  function next(){
+    if(i>=demoLines.length){
+      status.textContent='Complete';
+      cursor.style.display='none';
+      btn.disabled=false;
+      demoRunning=false;
+      return;
+    }
+    var line=demoLines[i];i++;
+    if(line.type==='pause'){
+      setTimeout(next,line.ms);
+    } else if(line.type==='cmd'){
+      var cmdEl=document.createElement('div');
+      cmdEl.innerHTML='<span class="p">$</span> ';
+      content.appendChild(cmdEl);
+      typeText(cmdEl,line.text,line.delay||30,function(){
+        scrollDemo();
+        setTimeout(next,200);
+      });
+    } else if(line.type==='banner'){
+      line.text.forEach(function(l){
+        var d=document.createElement('div');d.innerHTML=l||'&nbsp;';content.appendChild(d);
+      });
+      scrollDemo();
+      setTimeout(next,100);
+    } else {
+      var d=document.createElement('div');d.innerHTML=line.text||'&nbsp;';content.appendChild(d);
+      scrollDemo();
+      setTimeout(next,60);
+    }
+  }
+  next();
+}
 
-    <script>
-        // Intersection Observer for fade-in animations on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+function typeText(el,text,delay,cb){
+  var chars=text.split('');var ci=0;
+  function t(){
+    if(ci>=chars.length){if(cb)cb();return}
+    el.innerHTML='<span class="p">$</span> <span class="h">'+text.substring(0,ci+1)+'</span>';
+    ci++;scrollDemo();setTimeout(t,delay);
+  }
+  t();
+}
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.animation = 'fadeIn 0.8s ease';
-                }
-            });
-        }, observerOptions);
+function scrollDemo(){
+  var el=document.getElementById('demoOutput');
+  el.scrollTop=el.scrollHeight;
+}
+</script>
 
-        // Observe all cards and steps
-        document.querySelectorAll(
-            '.solution-card, .step, .feature-item, .pricing-card'
-        ).forEach(element => {
-            element.style.opacity = '0';
-            observer.observe(element);
-        });
-
-        // Smooth scroll behavior for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
