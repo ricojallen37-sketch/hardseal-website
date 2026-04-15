@@ -1,0 +1,233 @@
+{
+  "component-definition": {
+    "uuid": "65139246-ce30-464b-9f22-5233c5e67558",
+    "metadata": {
+      "title": "Hardseal CMMC Evidence Collection \u2014 Demo Enclave",
+      "last-modified": "2026-04-15T09:23:43Z",
+      "version": "1.0.0",
+      "oscal-version": "1.1.2",
+      "revisions": [
+        {
+          "published": "2026-04-15T09:23:43Z",
+          "version": "1.0.0",
+          "title": "Automated evidence collection from Demo Enclave",
+          "props": [
+            { "name": "collection-method", "value": "automated-offline" },
+            { "name": "hardseal-version", "value": "1.1.0" },
+            { "name": "signature-algorithm", "value": "Ed25519" }
+          ]
+        }
+      ],
+      "roles": [
+        { "id": "evidence-collector", "title": "Automated Evidence Collector", "description": "Hardseal Enclave automated evidence collection system" },
+        { "id": "system-owner", "title": "System Owner", "description": "Organization responsible for the system under assessment" },
+        { "id": "assessor", "title": "C3PAO Assessor", "description": "Third-party assessor reviewing evidence" }
+      ],
+      "parties": [
+        {
+          "uuid": "d5038333-acd3-4dde-b738-b2f03c658c71",
+          "type": "organization",
+          "name": "Hardseal Compliance Engine",
+          "short-name": "Hardseal",
+          "props": [
+            { "name": "version", "value": "1.1.0" },
+            { "name": "collection-method", "value": "offline-first automated" }
+          ]
+        },
+        {
+          "uuid": "195958cc-07e4-49a9-ab2f-4e4bcd792cce",
+          "type": "organization",
+          "name": "Sample RPO Corp"
+        }
+      ],
+      "responsible-parties": [
+        { "role-id": "evidence-collector", "party-uuids": ["d5038333-acd3-4dde-b738-b2f03c658c71"] },
+        { "role-id": "system-owner", "party-uuids": ["195958cc-07e4-49a9-ab2f-4e4bcd792cce"] }
+      ]
+    },
+    "components": [
+      {
+        "uuid": "8bb412be-e73b-4fec-bb76-447339d62420",
+        "type": "software",
+        "title": "CMMC Workstation 01",
+        "description": "Workstation (Security_Protection_Assets) on cmmc-workstation-01",
+        "props": [
+          { "name": "asset-id", "value": "asset-demo-001" },
+          { "name": "cmmc-category", "value": "Security_Protection_Assets", "ns": "https://hardseal.ai/ns/cmmc" },
+          { "name": "asset-type", "value": "workstation" },
+          { "name": "hostname", "value": "cmmc-workstation-01" },
+          { "name": "ipv4-address", "value": "10.0.1.50" }
+        ],
+        "control-implementations": [
+          {
+            "uuid": "180562c5-a626-4ee2-a604-94bf7f5e5672",
+            "source": "https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final",
+            "description": "NIST SP 800-171 Rev 2 controls assessed by Hardseal \u2014 10 evidence types across 10 CMMC families",
+            "implemented-requirements": [
+              {
+                "uuid": "c6d3903e-eaf4-4d0a-9a70-88098fd54535",
+                "control-id": "3.1.1",
+                "description": "Access Control \u2014 User/group enumeration + network config proves system access controls",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "AC.L2-3.1.1", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-domain", "value": "AC", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "network_config, user_accounts", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.1.1-stmt", "uuid": "3bb1b028-e291-4271-a5b6-f466fa3ce1ca", "description": "Evidence hash: bfde2a5653fbd1d7... | 7a9c4dd44113a9de... Collection: offline-first automated scan." }]
+              },
+              {
+                "uuid": "9b437a7b-e327-425e-98b8-01b853e51898",
+                "control-id": "3.1.2",
+                "description": "Access Control \u2014 Network config shows transaction/function restrictions",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "AC.L2-3.1.2", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "network_config", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.1.2-stmt", "uuid": "e1e7b47a-9262-4e2f-b008-aecd3d5d7e06", "description": "Evidence hash: 7a9c4dd44113a9de... Collection: offline-first automated scan." }]
+              },
+              {
+                "uuid": "19ee928f-2990-416a-93b6-f385c47523fb",
+                "control-id": "3.1.13",
+                "description": "Access Control \u2014 Crypto state shows encryption modules protecting remote sessions",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "AC.L2-3.1.13", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "crypto_state", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.1.13-stmt", "uuid": "4590736c-5728-426f-ae85-2325d1f4cc00", "description": "Evidence hash: 3b312e0f4a427111... Collection: offline-first automated scan." }]
+              },
+              {
+                "uuid": "ba7c5e22-3f1a-4a8e-b5d9-1c2d3e4f5a6b",
+                "control-id": "3.3.1",
+                "description": "Audit \u2014 System event logs prove audit record creation for accountability",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "AU.L2-3.3.1", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-domain", "value": "AU", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "audit_logs", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.3.1-stmt", "uuid": "d8e9f0a1-b2c3-4d5e-6f7a-8b9c0d1e2f3a", "description": "Evidence hash: a1b2c3d4e5f67890... Collection: offline-first automated scan." }]
+              },
+              {
+                "uuid": "c3d4e5f6-a7b8-9012-3456-789abcdef012",
+                "control-id": "3.13.1",
+                "description": "System & Comms Protection \u2014 Boundary protection via firewall rules and network segmentation",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "SC.L2-3.13.1", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-domain", "value": "SC", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "network_config, firewall_rules", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.13.1-stmt", "uuid": "e5f6a7b8-c9d0-1234-5678-9abcdef01234", "description": "Evidence hash: 7a9c4dd44113a9de... | f4e3d2c1b0a98765... Collection: offline-first automated scan." }]
+              },
+              {
+                "uuid": "f4125920-d457-4c73-83a6-31666622d4ca",
+                "control-id": "3.1.4",
+                "description": "Access Control \u2014 User list shows separation exists; full SoD needs org policy",
+                "props": [
+                  { "name": "implementation-status", "value": "partial", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "AC.L2-3.1.4", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-status", "value": "partial", "ns": "https://hardseal.ai/ns/hardseal" },
+                  { "name": "evidence-types", "value": "user_accounts", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.1.4-stmt", "uuid": "efc4f17f-3496-4643-8915-7f1a8c91ab4b", "description": "Evidence hash: bfde2a5653fbd1d7... Status: partial \u2014 technical controls found, organizational policy required." }]
+              },
+              {
+                "uuid": "17f10d95-67e8-4567-a420-7ec3e3032cc8",
+                "control-id": "3.1.9",
+                "description": "Access Control \u2014 Privacy/security notices require policy documentation",
+                "props": [
+                  { "name": "implementation-status", "value": "alternative", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "AC.L2-3.1.9", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-status", "value": "not-evidenced", "ns": "https://hardseal.ai/ns/hardseal" },
+                  { "name": "evidence-types", "value": "none (manual evidence required)", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.1.9-stmt", "uuid": "11265771-eaa8-4fdc-b6dd-53504cc19b96", "description": "Status: not-evidenced. This control requires manual policy documentation \u2014 flagged for RPO action." }]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "uuid": "a1b2c3d4-e5f6-7890-abcd-ef0123456789",
+        "type": "software",
+        "title": "CMMC Server 01",
+        "description": "Server (CUI_Assets) on cmmc-server-01",
+        "props": [
+          { "name": "asset-id", "value": "asset-demo-002" },
+          { "name": "cmmc-category", "value": "CUI_Assets", "ns": "https://hardseal.ai/ns/cmmc" },
+          { "name": "asset-type", "value": "server" },
+          { "name": "hostname", "value": "cmmc-server-01" },
+          { "name": "ipv4-address", "value": "10.0.1.10" }
+        ],
+        "control-implementations": [
+          {
+            "uuid": "b2c3d4e5-f6a7-8901-bcde-f01234567890",
+            "source": "https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final",
+            "description": "Server-level NIST SP 800-171 Rev 2 controls \u2014 services, crypto, integrity checks",
+            "implemented-requirements": [
+              {
+                "uuid": "d4e5f6a7-b8c9-0123-4567-89abcdef0123",
+                "control-id": "3.13.8",
+                "description": "System & Comms Protection \u2014 TLS/crypto config proves CUI transmission confidentiality",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "SC.L2-3.13.8", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "crypto_state, tls_config", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.13.8-stmt", "uuid": "f6a7b8c9-d0e1-2345-6789-abcdef012345", "description": "Evidence hash: 3b312e0f4a427111... | c9d8e7f6a5b43210... Collection: offline-first automated scan." }]
+              },
+              {
+                "uuid": "e5f6a7b8-c9d0-1234-5678-9abcdef01234",
+                "control-id": "3.14.1",
+                "description": "System & Info Integrity \u2014 Installed packages + patch state proves flaw identification",
+                "props": [
+                  { "name": "implementation-status", "value": "implemented", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-practice-id", "value": "SI.L2-3.14.1", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "cmmc-domain", "value": "SI", "ns": "https://hardseal.ai/ns/cmmc" },
+                  { "name": "evidence-types", "value": "installed_software, patch_state", "ns": "https://hardseal.ai/ns/hardseal" }
+                ],
+                "statements": [{ "statement-id": "3.14.1-stmt", "uuid": "a7b8c9d0-e1f2-3456-7890-abcdef012345", "description": "Evidence hash: 5e6f7a8b9c0d1e2f... | 2a3b4c5d6e7f8901... Collection: offline-first automated scan." }]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "hardseal-metadata": {
+    "collection-summary": {
+      "total-controls-assessed": 110,
+      "implemented": 68,
+      "partial": 27,
+      "not-evidenced": 15,
+      "coverage-percentage": 86.4,
+      "evidence-types-collected": [
+        "user_accounts", "network_config", "firewall_rules", "installed_software",
+        "running_services", "crypto_state", "audit_logs", "group_policy",
+        "patch_state", "hardware_inventory"
+      ],
+      "collection-duration-seconds": 47,
+      "assets-scanned": 2,
+      "enclave-mode": "offline-first"
+    },
+    "cryptographic-verification": {
+      "algorithm": "Ed25519",
+      "public-key": "MCowBQYDK2VwAyEA2K7RaHDiQm0MIPBdD3YkqEvSC7tBJ7RDFM0lLPsmMuI=",
+      "evidence-bundle-hash": "sha256:9f4e3d2c1b0a987654321fedcba098765432109876543210abcdef1234567890",
+      "signature": "MEUCIQD2K7RaHDiQm0MIPBdD3YkqEvSC7tBJ7RDFM0lLPsmMuIAiEA5f3e2d1c0b9a8765432109876543210fedcba987654321abcdef0=",
+      "signed-at": "2026-04-15T09:23:43Z",
+      "verification-instruction": "Verify with: hardseal verify --bundle evidence-bundle.tar.gz --pubkey hardseal-enclave.pub"
+    },
+    "oscal-compliance": {
+      "oscal-version": "1.1.2",
+      "fedramp-oscal-ready": true,
+      "cmmc-level": 2,
+      "nist-source": "SP 800-171 Rev 2",
+      "generated-by": "Hardseal Compliance Engine v1.1.0",
+      "note": "This sample demonstrates Hardseal's native OSCAL output. Full production bundles include all 110 controls across 14 CMMC domains with per-asset evidence chains and Ed25519 signatures."
+    }
+  }
+}
