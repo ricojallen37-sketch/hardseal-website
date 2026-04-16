@@ -362,6 +362,364 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - Hardseal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #FFF;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #000;
+            border-bottom: 1px solid #222;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00FF88;
+            text-decoration: none;
+        }
+
+        nav a {
+            color: #FFF;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.2s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover {
+            color: #00FF88;
+        }
+
+        .back-link {
+            color: #00FF88;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: #FFF;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #FFF;
+        }
+
+        .last-updated {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #00FF88;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: #FFF;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #FFF;
+            line-height: 1.8;
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            color: #FFF;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            color: #00FF88;
+            font-weight: 600;
+        }
+
+        .secondary-text {
+            color: #888;
+        }
+
+        .callout {
+            background-color: #0A2F1A;
+            border-left: 4px solid #00FF88;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .callout p {
+            margin-bottom: 0;
+        }
+
+        code {
+            background-color: #111;
+            color: #00FF88;
+            padding: 0.25rem 0.5rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .contact-section {
+            background-color: #0A0A0A;
+            border: 1px solid #222;
+            padding: 2rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+        }
+
+        .contact-section h3 {
+            color: #00FF88;
+        }
+
+        .contact-section p {
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-section a {
+            color: #00FF88;
+            text-decoration: none;
+        }
+
+        .contact-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            nav a {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.4rem;
+            }
+
+            .container {
+                padding: 1.5rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="/" class="logo">Hardseal</a>
+        <div>
+            <a href="/">Home</a>
+            <a href="/privacy.html">Privacy</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <a href="https://hardseal.ai" class="back-link">â Back to hardseal.ai</a>
+
+        <h1>Privacy Policy</h1>
+        <p class="last-updated">Last updated: April 15, 2026</p>
+
+        <p>This Privacy Policy describes how <span class="highlight">Hardseal</span> (developed by A.I. Shovels LLC) handles data and privacy for both our website and our CMMC compliance evidence engine product.</p>
+
+        <div class="callout">
+            <p><strong>Privacy-First Architecture:</strong> Hardseal is designed as an offline-first, air-gapped compliance tool. The product itself collects <span class="highlight">zero user data</span>, stores nothing in the cloud, and transmits nothing to Hardseal or any third party. This is core to how the product works.</p>
+        </div>
+
+        <!-- Website Section -->
+        <h2>Website (hardseal.ai)</h2>
+
+        <h3>Information We Collect</h3>
+        <p>The Hardseal website may collect minimal, non-personal information:</p>
+        <ul>
+            <li>Standard web analytics (page views, referrer data)</li>
+            <li>Contact form submissions when you voluntarily provide your email or other information</li>
+            <li>Server logs (IP addresses, user agent strings) for security and performance</li>
+        </ul>
+
+        <h3>How We Use This Information</h3>
+        <ul>
+            <li>To understand how visitors use the site</li>
+            <li>To respond to your inquiries</li>
+            <li>To improve the website experience</li>
+            <li>To prevent abuse and maintain site security</li>
+        </ul>
+
+        <h3>Cookies</h3>
+        <p>The Hardseal website uses minimal, functional cookies only. We do not use tracking cookies, advertising cookies, or any non-essential cookies. Functional cookies may include session management and basic preference storage.</p>
+
+        <h3>Third-Party Services</h3>
+        <p>The website may use standard third-party analytics services to measure traffic and usage. These services operate under their own privacy policies. We do not share personal information with advertisers or data brokers.</p>
+
+        <!-- Product Section -->
+        <h2>Hardseal Product (Compliance Evidence Engine)</h2>
+
+        <h3>Zero Data Collection</h3>
+        <p>This is the core privacy feature of Hardseal. The product is <span class="highlight">offline-first and air-gapped</span>. It does not:</p>
+        <ul>
+            <li>Transmit system evidence, compliance data, or any information to Hardseal servers</li>
+            <li>Phone home or send telemetry</li>
+            <li>Connect to cloud services for evidence processing</li>
+            <li>Require internet connectivity to operate</li>
+            <li>Collect or track usage patterns</li>
+            <li>Store any information remotely</li>
+        </ul>
+
+        <h3>Local Evidence Collection</h3>
+        <p>Hardseal collects system evidence <span class="highlight">entirely on your local machine</span>. All evidence:</p>
+        <ul>
+            <li>Is generated locally using Python compliance evidence collectors</li>
+            <li>Remains on your systems under your full control</li>
+            <li>Is never transmitted off-site</li>
+            <li>Can be encrypted using your own tools if desired</li>
+            <li>Is available for export only to local files or systems you control</li>
+        </ul>
+
+        <h3>Cryptographic Signing</h3>
+        <p>Hardseal supports Ed25519 cryptographic signing for OSCAL evidence. All keys are:</p>
+        <ul>
+            <li>Generated locally on your system</li>
+            <li>Stored locally under your control</li>
+            <li>Never transmitted to Hardseal or any third party</li>
+            <li>Never held in escrow or stored remotely</li>
+        </ul>
+
+        <h3>Third-Party Services (Product)</h3>
+        <p>The Hardseal product uses <span class="highlight">zero third-party services</span>. The engine operates entirely with standard Python libraries and open-source dependencies that run locally on your system.</p>
+
+        <h3>OSCAL Exports</h3>
+        <p>When you export compliance evidence as OSCAL or other formats, the export is:</p>
+        <ul>
+            <li>Created as a local file on your system</li>
+            <li>Under your complete control for distribution, sharing, or storage</li>
+            <li>Not transmitted or logged by Hardseal</li>
+        </ul>
+
+        <!-- Data Retention -->
+        <h2>Data Retention</h2>
+
+        <h3>Hardseal (Company) Data</h3>
+        <p>Hardseal (A.I. Shovels LLC) does <span class="highlight">not retain any customer compliance data, system evidence, or exported OSCAL files</span>. Any data you voluntarily submit via email or contact forms will be retained only to respond to your inquiry, unless you request deletion.</p>
+
+        <h3>Your Evidence</h3>
+        <p>All compliance evidence and system data collected by the Hardseal product remains exclusively on your systems. You determine retention, deletion, and lifecycle management of this data.</p>
+
+        <!-- Data Breach Notification -->
+        <h2>Data Breach Notification</h2>
+        <p>A.I. Shovels LLC maintains procedures to detect, investigate, and respond to any unauthorized access to or disclosure of personal information in accordance with the <span class="highlight">Florida Information Protection Act (Fla. Stat. &sect; 501.171)</span> and other applicable breach notification laws.</p>
+        <p>In the event that A.I. Shovels LLC determines that a breach of security has occurred involving personal information we hold (such as contact information you have voluntarily provided via email or our website), we will:</p>
+        <ul>
+            <li>Notify affected Florida residents as expeditiously as practicable, but no later than <strong>30 days</strong> after determination of the breach or reason to believe a breach occurred</li>
+            <li>Provide written notice to the Florida Attorney General's office if the breach affects 500 or more individuals</li>
+            <li>Include in any notification: a description of the incident, the categories of information involved, and contact information for further inquiries</li>
+            <li>For non-Florida residents, comply with applicable state breach notification laws in your jurisdiction</li>
+        </ul>
+
+        <div class="callout">
+            <p><strong>Product Note:</strong> Because the Hardseal product operates offline and collects zero data, a data breach of the product itself is architecturally impossible from our side. This breach notification section applies to any personal information you voluntarily provide to A.I. Shovels LLC through email, our website, or support channels.</p>
+        </div>
+
+        <!-- Security -->
+        <h2>Security</h2>
+        <p>A.I. Shovels LLC implements security measures aligned with industry best practices:</p>
+        <ul>
+            <li>The Hardseal product is designed to operate in air-gapped, disconnected environments for maximum security</li>
+            <li>All compliance evidence processing happens locally under your control</li>
+            <li>Website communications are protected via HTTPS/TLS encryption</li>
+            <li>Email communications via Google Workspace with DKIM authentication and encryption in transit</li>
+            <li>We do not store payment credentials, access tokens, or sensitive authentication data</li>
+            <li>We recommend customers follow NIST SP 800-171 security practices for managing evidence outputs</li>
+        </ul>
+
+        <!-- CUI and Controlled Data -->
+        <h2>Controlled Unclassified Information (CUI)</h2>
+        <p>Hardseal is designed to operate in environments that process CUI. However, A.I. Shovels LLC <span class="highlight">does not receive, process, store, or transmit CUI</span> at any point. The product runs entirely on your systems, and all evidence (including any CUI-adjacent data) remains under your exclusive control.</p>
+        <p>You are solely responsible for ensuring that any CUI within your environment is handled in accordance with NIST SP 800-171, DFARS 252.204-7012, 32 CFR Part 2002, and your organization's CUI handling procedures. Hardseal does not access, extract, or transmit CUI data to any external system.</p>
+
+        <!-- International Data -->
+        <h2>International Data Transfers</h2>
+        <p>A.I. Shovels LLC is based in the United States (Florida). Since the Hardseal product is offline-first and collects no cloud data, international privacy regulations (GDPR, CCPA, etc.) are <span class="highlight">not applicable to the product itself</span>. All compliance evidence remains on your systems in your jurisdiction.</p>
+        <p>For information you voluntarily provide to us (e.g., via email or website contact): if you are located outside the United States, your information may be transferred to and processed in the United States. By providing such information, you consent to this transfer. We process all data in accordance with applicable U.S. privacy laws.</p>
+
+        <!-- Policy Changes -->
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time to reflect changes in our practices or applicable law. The date at the top of this page indicates when the policy was last updated. Continued use of Hardseal following changes constitutes your acceptance of the updated policy.</p>
+
+        <!-- Contact -->
+        <div class="contact-section">
+            <h3>Contact Us</h3>
+            <p>If you have questions about this Privacy Policy or how Hardseal handles data, please contact us:</p>
+            <p><strong>Email:</strong> <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a></p>
+            <p><strong>Company:</strong> A.I. Shovels LLC</p>
+            <p><strong>Product:</strong> Hardseal â CMMC Compliance Evidence Engine</p>
+        </div>
+
+        <h2>Summary</h2>
+        <p>Hardseal's privacy advantage is straightforward: <span class="highlight">the product is offline-first, collects no data, and transmits nothing</span>. All compliance evidence stays on your systems. You maintain complete control. The website uses minimal analytics and functional cookies. We never sell, share, or misuse customer data.</p>
+
+        <p style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #222;">
+            <span class="secondary-text">Hardseal is developed by A.I. Shovels LLC. Â© 2026. All rights reserved.</span>
+        </p>
+    </div>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Hardseal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #FFF; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; font-size: 16px; }
