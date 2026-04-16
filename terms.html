@@ -5,6 +5,339 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service - Hardseal</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #FFF;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        nav {
+            background-color: #000;
+            border-bottom: 1px solid #222;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav a {
+            color: #FFF;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        nav a:hover {
+            color: #00FF88;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav .nav-links a {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #FFF;
+        }
+
+        .meta {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #00FF88;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #FFF;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #DDD;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background-color: #111;
+            border-left: 3px solid #00FF88;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        .highlight p {
+            margin-bottom: 0.5rem;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            color: #DDD;
+        }
+
+        code {
+            background-color: #111;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00FF88;
+            font-size: 14px;
+        }
+
+        a {
+            color: #00FF88;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-size: 14px;
+        }
+
+        .contact-info {
+            background-color: #111;
+            border: 1px solid #222;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-radius: 4px;
+        }
+
+        .contact-info p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            border-top: 1px solid #222;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            color: #888;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        strong {
+            color: #FFF;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div><a href="/">Hardseal</a></div>
+        <div class="nav-links">
+            <a href="https://hardseal.ai">Back to Hardseal</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="back-link">â <a href="https://hardseal.ai">Back to Hardseal</a></div>
+
+        <h1>Terms of Service</h1>
+        <div class="meta">Effective Date: April 15, 2026</div>
+
+        <h2>1. Service Description</h2>
+        <p>Hardseal is an offline-first compliance evidence engine designed to assist Registered Practitioner Organizations (RPOs) and other authorized users in CMMC assessment support. The software collects system evidence, applies Ed25519 cryptographic signatures, and exports evidence packages in OSCAL v1.1.2 format to support the assessment process.</p>
+
+        <div class="highlight">
+            <strong>IMPORTANT:</strong>
+            <p>Hardseal is <strong>assessment support software only</strong>. It is not a C3PAO (Cybersecurity Maturity Model Certification Assessor), does not perform assessments, does not provide legal, regulatory, or audit opinions, and does not guarantee CMMC certification or compliance outcomes.</p>
+        </div>
+
+        <h2>2. Permitted Use</h2>
+        <p>You may use Hardseal solely for the purpose of collecting and organizing system evidence to support CMMC assessments conducted by authorized RPOs. Permitted use includes:</p>
+        <ul>
+            <li>Collecting system evidence in air-gapped or disconnected environments</li>
+            <li>Generating digitally signed evidence packages for assessment support</li>
+            <li>Exporting evidence in OSCAL v1.1.2 format</li>
+            <li>Using the software within your licensed enclave(s)</li>
+        </ul>
+        <p>You may not use Hardseal to:</p>
+        <ul>
+            <li>Provide assessment services or perform CMMC assessments</li>
+            <li>Provide legal, compliance, or regulatory advice</li>
+            <li>Guarantee or certify compliance with any framework or standard</li>
+            <li>Modify, reverse-engineer, or attempt to discover source code</li>
+            <li>Transfer your license to other organizations or individuals</li>
+        </ul>
+
+        <h2>3. No C3PAO Status &amp; Disclaimer</h2>
+        <p>Hardseal and A.I. Shovels LLC are not C3PAOs and do not perform CMMC assessments. Evidence packages generated by Hardseal are provided <strong>for assessment support only</strong> and do not constitute assessment deliverables, audit findings, compliance determinations, or certification guarantees.</p>
+        <p>Hardseal does not provide legal advice, regulatory interpretation, or official compliance opinions. Users are responsible for working with qualified RPOs and legal counsel regarding CMMC requirements and compliance obligations.</p>
+
+        <h2>4. No Guarantee of Certification or Assessment Acceptance</h2>
+        <p>Hardseal makes no representation that evidence packages generated by the software will:</p>
+        <ul>
+            <li>Satisfy any specific assessor's requirements or expectations</li>
+            <li>Result in CMMC certification or any particular assessment rating</li>
+            <li>Be accepted by any C3PAO or assessment body</li>
+            <li>Guarantee compliance with CMMC or any other framework</li>
+        </ul>
+        <p>Assessment outcomes depend on assessor judgment, organizational policies, system configurations, and other factors beyond the scope of this software. Hardseal is a tool to organize and present evidence; it does not control assessment results.</p>
+
+        <h2>5. License Terms</h2>
+        <p>Hardseal is licensed on a <strong>per-enclave basis</strong> to authorized Registered Practitioner Organizations and other qualified users. Your license is:</p>
+        <ul>
+            <li><strong>Non-exclusive:</strong> A.I. Shovels LLC retains all rights to the software</li>
+            <li><strong>Non-transferable:</strong> Your license is specific to your organization and designated enclave. You may not transfer, share, sell, or resell your license</li>
+            <li><strong>Revocable:</strong> We reserve the right to revoke your license for breach of these Terms</li>
+            <li><strong>Limited to Assessment Support:</strong> Use is limited to the purposes stated in Section 2</li>
+        </ul>
+        <p>License fees and renewal terms are determined by separate licensing agreements. Continued use of Hardseal constitutes acceptance of any updated Terms of Service.</p>
+
+        <h2>6. Intellectual Property</h2>
+        <p>Hardseal, including all software, documentation, algorithms, and design, is owned by A.I. Shovels LLC. Your license grants you the right to use the software as described in these Terms, but does not transfer any ownership or intellectual property rights.</p>
+        <p>You retain ownership of any data, evidence, or documentation you provide to Hardseal. By using Hardseal, you grant us a limited license to process and store such data as necessary to provide the service, in accordance with Section 7 (Data Handling).</p>
+
+        <h2>7. Data Handling &amp; Privacy</h2>
+        <p>Hardseal is <strong>designed to run locally and offline</strong>. No data, evidence, or system information is transmitted to Hardseal servers, A.I. Shovels LLC, or any third party during normal operation.</p>
+        <p>The software operates in air-gapped and disconnected environments. All evidence collection, signing, and processing occurs on your systems under your control. You are responsible for securing evidence packages and controlling access to system data.</p>
+        <p>Any logs, telemetry, or usage data generated by Hardseal remain on your systems unless you explicitly export them. We do not collect, monitor, or store evidence or system information from your deployments.</p>
+
+        <h2>8. Export Controls &amp; Compliance</h2>
+        <p>Hardseal and related technical data may be subject to U.S. export control laws, including the Export Administration Regulations (EAR, 15 CFR Parts 730-774) and potentially the International Traffic in Arms Regulations (ITAR, 22 CFR Parts 120-130). You represent and warrant that:</p>
+        <ul>
+            <li>You will not export, re-export, or transfer Hardseal or any related technical data, directly or indirectly, to any country, entity, or person prohibited under U.S. export laws without prior authorization from the appropriate U.S. government agency</li>
+            <li>You will comply with all applicable provisions of the EAR, ITAR, DFARS 252.225-7048, and any other applicable export control regulations</li>
+            <li>You are not located in, under the control of, or a national or resident of any U.S.-embargoed country or territory, and you are not on any U.S. government restricted party list (including the Denied Persons List, Entity List, or Specially Designated Nationals List)</li>
+            <li>You will not use Hardseal in connection with ITAR-controlled technical data or classified information unless you have obtained all required authorizations and have notified A.I. Shovels LLC in writing</li>
+            <li>You will not permit any non-U.S. person to access Hardseal or its outputs in a manner that would constitute a deemed export under applicable regulations</li>
+        </ul>
+        <p>You agree to indemnify A.I. Shovels LLC against any claims, penalties, or liabilities arising from your violation of export control laws.</p>
+
+        <h2>9. CUI &amp; Regulatory Obligations Disclaimer</h2>
+        <p>Hardseal is designed to operate in environments that may process Controlled Unclassified Information (CUI) and Federal Contract Information (FCI). However:</p>
+        <ul>
+            <li>Hardseal does <strong>not relieve you</strong> of your independent obligations under DFARS 252.204-7012, NIST SP 800-171, 32 CFR Part 170 (CMMC Program), or any other applicable regulation</li>
+            <li>OSCAL evidence packages generated by Hardseal do <strong>not constitute compliance</strong> with CUI safeguarding requirements. You are solely responsible for implementing and maintaining all required security controls</li>
+            <li>Use of Hardseal does <strong>not satisfy</strong> DFARS 252.204-7012, 32 CFR Part 170, NIST SP 800-171, or any other regulatory obligation by itself</li>
+            <li>Hardseal is <strong>not a system of record</strong> for CUI. You may not store or process CUI within Hardseal unless you have independently determined that doing so complies with your CUI handling obligations</li>
+            <li>A.I. Shovels LLC is <strong>not responsible</strong> for your SPRS scores, SSP accuracy, POA&amp;M status, or any assessment, certification, or contractual outcome</li>
+        </ul>
+        <p>You remain solely responsible for interpreting DoD guidance, DFARS clauses, and CMMC requirements as they apply to your organization.</p>
+
+        <h2>10. Warranty Disclaimer</h2>
+        <p>HARDSEAL IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. A.I. SHOVELS LLC DISCLAIMS ALL WARRANTIES, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+        <p>We do not warrant that:</p>
+        <ul>
+            <li>Hardseal will operate without interruption or errors</li>
+            <li>Evidence packages will satisfy assessor requirements</li>
+            <li>The software will prevent assessment findings or non-compliance determinations</li>
+            <li>Cryptographic signatures will be accepted by any particular system or assessor</li>
+            <li>OSCAL exports will conform to specific assessor expectations</li>
+        </ul>
+
+        <h2>11. Limitation of Liability</h2>
+        <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL A.I. SHOVELS LLC, ITS FOUNDERS, OFFICERS, EMPLOYEES, OR AGENTS BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOST PROFITS, LOST REVENUE, LOST DATA, BUSINESS INTERRUPTION, ASSESSMENT FAILURES, CERTIFICATION DENIALS, CONTRACT LOSSES, DEBARMENT, OR REGULATORY PENALTIES, REGARDLESS OF THE CAUSE AND EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</p>
+        <p>Our total liability for any claim arising under these Terms shall not exceed the amount paid by you for your license in the 12 months preceding the claim. This limitation applies to all claims, whether based on warranty, contract, negligence, or any other legal theory.</p>
+        <p><strong>Carve-outs:</strong> The foregoing limitations shall not apply to: (a) either party's indemnification obligations; (b) either party's breach of confidentiality obligations; (c) either party's violation of export control laws; or (d) either party's willful misconduct or fraud.</p>
+        <p>Some jurisdictions do not allow limitations on implied warranties or the exclusion of consequential damages. To the extent such limitations do not apply in your jurisdiction, liability shall be limited to the maximum extent permitted by law.</p>
+
+        <h2>12. Indemnification</h2>
+        <h3>Your Indemnification of A.I. Shovels LLC</h3>
+        <p>You agree to indemnify, defend, and hold harmless A.I. Shovels LLC and its founders, officers, employees, and agents from and against any and all claims, damages, losses, liabilities, and expenses (including reasonable attorneys' fees) arising from or related to:</p>
+        <ul>
+            <li>Your use of Hardseal in violation of these Terms</li>
+            <li>Your use of evidence packages generated by Hardseal in assessment, compliance, or regulatory proceedings</li>
+            <li>Claims that your data, system information, or evidence infringes third-party rights</li>
+            <li>Your failure to secure evidence packages or system access</li>
+            <li>Assessment outcomes, compliance determinations, or regulatory actions based on evidence from Hardseal</li>
+            <li>Your violation of export control laws, ITAR, EAR, or DFARS requirements</li>
+            <li>Your improper handling of CUI, FCI, or classified information</li>
+        </ul>
+        <h3>A.I. Shovels LLC Indemnification of You</h3>
+        <p>A.I. Shovels LLC agrees to indemnify, defend, and hold harmless you and your officers, employees, and agents from and against any third-party claims that the Hardseal software itself (excluding your data and configurations) infringes any valid U.S. patent, copyright, or trade secret, provided that you: (a) promptly notify us in writing of such claim; (b) grant us sole control of the defense and settlement; and (c) provide reasonable cooperation at our expense.</p>
+
+        <h2>13. Governing Law, Jurisdiction &amp; Dispute Resolution</h2>
+        <p>These Terms of Service are governed by and construed in accordance with the laws of the State of Florida, without regard to its conflicts of law principles.</p>
+        <p>Any legal action or proceeding relating to these Terms shall be subject to the <strong>exclusive jurisdiction of the state courts of Broward County, Florida, or the United States District Court for the Southern District of Florida</strong>. You irrevocably consent to the personal jurisdiction and venue of such courts and waive any objection based on inconvenient forum.</p>
+        <p><strong>WAIVER OF JURY TRIAL:</strong> EACH PARTY IRREVOCABLY WAIVES THE RIGHT TO A TRIAL BY JURY IN ANY ACTION ARISING UNDER OR RELATING TO THESE TERMS.</p>
+        <p>For international customers: these Terms are governed exclusively by Florida law regardless of your location. The United Nations Convention on Contracts for the International Sale of Goods (CISG) does not apply.</p>
+
+        <h2>14. U.S. Government Rights</h2>
+        <p>Hardseal is "commercial computer software" and related documentation is "commercial computer software documentation" as defined in DFARS 227.7202 and FAR 12.212. If acquired by or on behalf of any agency of the U.S. Government, the Government's rights in the software and documentation are limited to those rights set forth in these Terms, consistent with FAR 12.212 and DFARS 227.7202. Use, duplication, or disclosure by the Government is subject to restrictions as set forth in these Terms.</p>
+
+        <h2>15. Modifications to Terms</h2>
+        <p>A.I. Shovels LLC reserves the right to modify these Terms of Service at any time. We will notify users of material changes via email or through the Hardseal interface. Your continued use of Hardseal following notice of changes constitutes acceptance of the modified Terms.</p>
+
+        <h2>16. Termination</h2>
+        <p>Either party may terminate these Terms: (a) for convenience upon 30 days' written notice; or (b) immediately upon written notice if the other party materially breaches these Terms and fails to cure such breach within 15 days of written notice.</p>
+        <p>A.I. Shovels LLC may also suspend or terminate your license immediately if you violate export control laws, misuse CUI, or engage in conduct that poses a security risk.</p>
+        <p>Upon termination: (a) all rights granted under these Terms cease immediately; (b) you must cease use of Hardseal and destroy all copies; (c) you must securely delete or return any A.I. Shovels LLC confidential information; (d) Sections 3, 4, 6, 8, 9, 10, 11, 12, 13, 14, 17, 18, and 19 shall survive termination.</p>
+
+        <h2>17. Force Majeure</h2>
+        <p>Neither party shall be liable for any failure or delay in performance due to causes beyond its reasonable control, including but not limited to: acts of God, natural disasters, war, terrorism, government actions, sanctions, embargoes, pandemics, labor disputes, power failures, internet or telecommunications disruptions, or cyberattacks.</p>
+
+        <h2>18. General Provisions</h2>
+        <p><strong>Entire Agreement:</strong> These Terms, together with any separate licensing agreement, constitute the entire agreement between you and A.I. Shovels LLC regarding Hardseal, and supersede all prior agreements, understandings, and communications.</p>
+        <p><strong>Assignment:</strong> You may not assign or transfer these Terms or any rights hereunder without the prior written consent of A.I. Shovels LLC. A.I. Shovels LLC may assign these Terms in connection with a merger, acquisition, or sale of all or substantially all of its assets.</p>
+        <p><strong>Waiver:</strong> No failure or delay by either party in exercising any right under these Terms shall constitute a waiver of that right. A waiver of any provision shall not be deemed a waiver of any other provision.</p>
+        <p><strong>Notices:</strong> All notices under these Terms must be in writing and sent to the addresses set forth in Section 20, or to such other address as either party may designate in writing.</p>
+
+        <h2>19. Severability</h2>
+        <p>If any provision of these Terms is found to be invalid or unenforceable, the remaining provisions shall continue in full force and effect to the maximum extent permitted by law. The invalid or unenforceable provision shall be modified to the minimum extent necessary to make it valid and enforceable.</p>
+
+        <h2>20. Contact &amp; Support</h2>
+        <div class="contact-info">
+            <p><strong>Questions about these Terms?</strong></p>
+            <p>Contact A.I. Shovels LLC at <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a></p>
+            <p>Mailing Address:<br>
+            A.I. Shovels LLC<br>
+            Founded by Rico Allen</p>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 A.I. Shovels LLC. All rights reserved.</p>
+            <p><a href="https://hardseal.ai">Back to Hardseal</a></p>
+        </footer>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Hardseal</title>
+    <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #000; color: #FFF; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; font-size: 16px; }
         nav { background-color: #000; border-bottom: 1px solid #222; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
