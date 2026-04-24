@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State of AI-Era Defense Compliance Evidence — Hardseal</title>
+    <meta name="description" content="Pre-release executive summary. Twelve attack patterns, detection signatures, and NIST 800-171A objective mappings. Full field report drops April 27, 2026.">
+    <meta property="og:title" content="State of AI-Era Defense Compliance Evidence — Hardseal">
+    <meta property="og:description" content="Twelve attack patterns observed in AI-generated CMMC Level 2 evidence. Seven detection signatures shipping under MIT. Full report April 27.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://hardseal.ai/research/state-of-ai-era-compliance-evidence">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="State of AI-Era Defense Compliance Evidence">
+    <meta name="twitter:description" content="Field report on twelve attack patterns in AI-generated CMMC Level 2 evidence. Pre-release executive summary.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #0A1628;
+            --navy-light: #0E1B30;
+            --navy-mid: #132440;
+            --steel: #4A5568;
+            --steel-light: #718096;
+            --amber: #C8921E;
+            --amber-glow: rgba(200, 146, 30, 0.15);
+            --amber-dark: #A67816;
+            --white: #F7FAFC;
+            --gray-100: #EDF2F7;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E0;
+            --gray-800: #1A202C;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--navy);
+            color: var(--gray-100);
+            line-height: 1.7;
+            font-size: 17px;
+            min-height: 100vh;
+        }
+        a { color: var(--amber); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+        a:hover { border-bottom-color: var(--amber); }
+        code, pre { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
+        code { background: var(--navy-mid); padding: 2px 6px; border-radius: 3px; font-size: 0.88em; }
+        nav.topbar {
+            position: sticky; top: 0; z-index: 10;
+            background: rgba(10, 22, 40, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        nav .topbar-inner {
+            max-width: 1080px; margin: 0 auto;
+            padding: 18px 32px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 0.92em; letter-spacing: 0.24em;
+            color: var(--white); border-bottom: none;
+        }
+        nav .brand:hover { border-bottom: none; }
+        nav .nav-links { display: flex; gap: 28px; font-size: 0.88em; }
+        nav .nav-links a { color: var(--gray-300); border-bottom: none; }
+        nav .nav-links a:hover { color: var(--amber); border-bottom: none; }
+        .banner {
+            max-width: 1080px; margin: 32px auto 0;
+            padding: 14px 28px;
+            background: var(--amber-glow);
+            border: 1px solid rgba(200, 146, 30, 0.28);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em; letter-spacing: 0.08em; color: var(--amber);
+            text-transform: uppercase;
+        }
+        .banner strong { color: var(--white); font-weight: 600; letter-spacing: 0.04em; }
+        main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 64px 32px 120px;
+        }
+        .doc-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78em;
+            color: var(--steel-light);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        h1 {
+            font-size: 2.7em;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+        .subtitle {
+            font-size: 1.22em;
+            color: var(--gray-300);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        .authors-block {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em;
+            color: var(--steel-light);
+            margin-bottom: 56px;
+            padding: 20px 24px;
+            background: var(--navy-light);
+            border-left: 3px solid var(--amber);
+            border-radius: 0 4px 4px 0;
+        }
+        .authors-block strong { color: var(--gray-100); font-weight: 600; }
+        .authors-block div + div { margin-top: 6px; }
+        h2 {
+            font-size: 1.55em;
+            margin-top: 56px;
+            margin-bottom: 18px;
+            color: var(--white);
+            letter-spacing: -0.01em;
+            font-weight: 700;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding-top: 40px;
+        }
+        h2:first-of-type { border-top: none; padding-top: 0; margin-top: 40px; }
+        h3 {
+            font-size: 1.15em;
+            margin-top: 32px;
+            margin-bottom: 10px;
+            color: var(--gray-100);
+            font-weight: 600;
+        }
+        p { margin-bottom: 1.3em; }
+        blockquote {
+            margin: 28px 0;
+            padding: 18px 28px;
+            background: var(--navy-light);
+            border-left: 3px solid var(--amber);
+            font-style: italic;
+            color: var(--gray-100);
+            font-size: 1.05em;
+        }
+        ol, ul { padding-left: 1.6em; margin-bottom: 1.3em; }
+        li { margin-bottom: 0.6em; }
+        .pattern-list li { padding: 8px 0; }
+        .pattern-list li strong { color: var(--white); }
+        .pattern-list li em { color: var(--amber); font-style: normal; font-family: 'JetBrains Mono', monospace; font-size: 0.86em; background: var(--amber-glow); padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+        .commit-hash {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em;
+            background: var(--navy-light);
+            padding: 12px 16px;
+            border-radius: 4px;
+            word-break: break-all;
+            color: var(--amber);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .cta-row {
+            margin-top: 56px;
+            display: flex; gap: 16px; flex-wrap: wrap;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 26px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.92em;
+            letter-spacing: 0.02em;
+            border-bottom: none;
+            transition: all 0.15s ease;
+        }
+        .cta-btn:hover { border-bottom: none; }
+        .cta-primary {
+            background: var(--white);
+            color: var(--navy);
+        }
+        .cta-primary:hover {
+            background: var(--gray-200);
+            transform: translateY(-1px);
+        }
+        .cta-secondary {
+            background: transparent;
+            color: var(--gray-100);
+            border: 1px solid rgba(255,255,255,0.24);
+        }
+        .cta-secondary:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+        }
+        .closing-quote {
+            margin-top: 72px;
+            padding: 24px 0;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-style: italic;
+            color: var(--steel-light);
+            font-size: 1em;
+            text-align: center;
+        }
+        .closing-quote strong { display: block; margin-top: 10px; font-style: normal; color: var(--gray-200); font-size: 0.9em; }
+        footer {
+            max-width: 1080px; margin: 0 auto;
+            padding: 48px 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76em;
+            color: var(--steel-light);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        footer a { color: var(--steel-light); border-bottom: none; }
+        footer a:hover { color: var(--amber); }
+        @media (max-width: 640px) {
+            h1 { font-size: 2em; }
+            main { padding: 40px 20px 80px; }
+            nav .topbar-inner { padding: 14px 20px; }
+            nav .nav-links { gap: 14px; font-size: 0.8em; }
+            .cta-row { flex-direction: column; }
+            .cta-btn { width: 100%; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="topbar">
+    <div class="topbar-inner">
+        <a href="/" class="brand">HARDSEAL</a>
+        <div class="nav-links">
+            <a href="/#process">Process</a>
+            <a href="/#proof">Proof</a>
+            <a href="/#resources">Resources</a>
+            <a href="/#contact">Contact</a>
+        </div>
+    </div>
+</nav>
+
+<div class="banner">
+    <strong>Pre-release executive summary.</strong> &nbsp;Full ~40-page field report drops Sunday, April 27, 2026 at this URL.
+</div>
+
+<main>
+
+<div class="doc-meta">Field Report &middot; Version 2026.04 Pre-release</div>
+
+<h1>State of AI-Era Defense Compliance Evidence</h1>
+
+<p class="subtitle">A field report on twelve attack patterns, their detection signatures, and the NIST 800-171A objectives they intersect.</p>
+
+<div class="authors-block">
+    <div><strong>Author.</strong> Rico Allen, Founder, Hardseal</div>
+    <div><strong>Ship date.</strong> April 27, 2026</div>
+    <div><strong>Status (April 24, 2026).</strong> Pre-release executive summary. Full report drops Sunday, April 27.</div>
+    <div><strong>Companion code.</strong> <a href="https://github.com/Hardseal/ai-detection">github.com/Hardseal/ai-detection</a> &mdash; MIT, stdlib-only, 65 tests passing.</div>
+</div>
+
+<h2>Thesis</h2>
+
+<blockquote>
+    The attack surface of AI-era defense compliance is not the tooling. It is the evidence.
+</blockquote>
+
+<p>Every Defense Industrial Base contractor facing CMMC Level 2 assessment now has on-tap access to tools (ChatGPT, Claude, Gemini, Copilot) that can produce a plausible-looking System Security Plan, Plan of Action and Milestones, policy, procedure, and audit-log narrative in under an hour. Assessors (C3PAOs, Certified CMMC Assessors, Registered Practitioners) do not have a corresponding tool to detect what those AI-authored artifacts look like. The Phase 2 enforcement deadline (November 10, 2026) arrives into a market where the supply of compliance theater has decoupled from the supply of detection capability.</p>
+
+<p>This field report closes that gap. It catalogs twelve attack patterns observed across pre-assessment packets, ships detection signatures for seven of them (shipped as a stdlib-only Python engine under MIT license), and documents the remaining five with signatures-only so that practitioners can build their own detectors.</p>
+
+<p>Every pattern is mapped to the NIST 800-171A assessment objective it intersects and the CompTIA Security+ SY0-701 domain it teaches to.</p>
+
+<h2>The twelve attack patterns</h2>
+
+<h3>Detection shipping in v0.3.1 (seven)</h3>
+
+<ol class="pattern-list">
+    <li><em>H1</em><strong>Sentence structure flatness.</strong> LLM output exhibits a coefficient of variation on sentence length roughly half that of human-authored text. Weak signal alone, corroborating in aggregate.</li>
+    <li><em>H2</em><strong>Cross-control boilerplate clustering.</strong> The same generative shell reused across 50+ unrelated controls produces high k-shingle Jaccard similarity. Catches the MSP industrialization pattern.</li>
+    <li><em>H3</em><strong>Synthetic audit log timestamp regularity.</strong> Real event streams follow Poisson-ish distributions with microsecond precision. Synthetic logs are too regular or too round.</li>
+    <li><em>H4</em><strong>Citation-heavy, mechanism-light narratives.</strong> LLMs over-cite control IDs. Real implementers name the tool and its configuration.</li>
+    <li><em>H5</em><strong>Shallow citation graphs.</strong> AI-generated packets have depth 1-2 citation chains, high orphan rates, and circular citations between artifacts.</li>
+    <li><em>H6</em><strong>Prompt leakage.</strong> Residue phrases ("As an AI language model," "Certainly! Here is," "[INSERT COMPANY NAME HERE]") are near-certain proof of un-edited LLM paste.</li>
+    <li><em>H7</em><strong>Artifact specificity deficit.</strong> LLMs name mechanisms but do not ground them. Grounding tokens (versions, hashes, IPs, paths, ticket IDs, dates, filenames) are rare in synthetic artifacts.</li>
+</ol>
+
+<h3>Signature-only documentation (five, in the full report)</h3>
+
+<ol class="pattern-list" start="8">
+    <li><strong>Hallucinated control inheritance</strong> from cloud service providers the contractor does not actually use.</li>
+    <li><strong>Fabricated POA&amp;M closure evidence</strong> where the remediation narrative contradicts the original finding.</li>
+    <li><strong>Synthetic incident response timeline</strong> where the dwell time, root cause, and lessons learned read as generic textbook boilerplate.</li>
+    <li><strong>Inverted scope claims</strong> where the SSP narrows the CUI boundary below what the contract requires, to reduce the packet's apparent burden.</li>
+    <li><strong>Template-inheritance drift</strong> where a legitimate template has been re-prompted so many times it lost its anchor to the contractor's real environment.</li>
+</ol>
+
+<h2>Why this matters for the market</h2>
+
+<p>No competitor publishes a detector for this class of artifact. Vanta, Drata, Secureframe, Prevail, and Apptega are selling more AI generation (auto-drafted SSPs). The generation is the attack surface. Detection is the defense.</p>
+
+<p>The Phase 2 enforcement deadline will produce a cohort of failed first-cycle assessments. The public narrative about why they failed is not yet written. This report writes it.</p>
+
+<h2>How to read the full report</h2>
+
+<p>The full ~40-page report ships <strong>Sunday, April 27, 2026</strong> at this URL. Each of the twelve sections follows the same format:</p>
+
+<ul>
+    <li><strong>Pattern description.</strong> What the attack looks like.</li>
+    <li><strong>Example.</strong> A redacted artifact exhibiting the pattern.</li>
+    <li><strong>Detection signature.</strong> The rule, regex, or statistical test.</li>
+    <li><strong>NIST 800-171A mapping.</strong> The assessment objective it intersects.</li>
+    <li><strong>Security+ domain.</strong> The training the pattern teaches to.</li>
+    <li><strong>Recommended control.</strong> What a contractor can do to avoid producing this pattern.</li>
+</ul>
+
+<p>The report includes the full seven-heuristic engine as shipped in the companion repository, reproducible against the <code>samples/</code> fixtures, with expected outputs committed in <code>examples/</code>.</p>
+
+<h2>What to do until April 27</h2>
+
+<ol>
+    <li>Clone the companion repository. Run <code>python3 -m unittest test_mismatch_engine_ai test_template_guard test_risk_delta</code>. Confirm 65 tests pass.</li>
+    <li>Run the engine against the three sample packets. Confirm the expected outputs (CLEAN at 0.16, LIKELY_SYNTHETIC at 1.00, CLEAN at 0.00 with template guard).</li>
+    <li>Read <code>KNOWN_BYPASSES.md</code> to understand what the engine does and does not catch.</li>
+    <li>Run the engine against one of your own real packets. Read the <code>USAGE_GUIDE.md</code> section on the three workflows.</li>
+    <li>If you find a pattern not listed here, open an issue. We credit contributors in the next release.</li>
+</ol>
+
+<h2>Commitment</h2>
+
+<p>This summary is the committed pre-release. The full report on April 27 will not retract any pattern listed here, will not change any NIST mapping, and will not weaken any detection signature. It will add examples, a quantitative section on detection accuracy on an internal test corpus of 200 packets, and the five signature-only patterns in full.</p>
+
+<p>The commitment bundle hash for v0.2 of the engine is:</p>
+
+<div class="commit-hash">32f1e682b0544b1af20077cc33f0604ec76238489182190c8d77a1cb01f42bbf</div>
+
+<p style="margin-top: 16px;">Verify with <code>python3 verify_commitment.py</code>.</p>
+
+<div class="cta-row">
+    <a class="cta-btn cta-primary" href="https://github.com/Hardseal/ai-detection">Read the companion repository</a>
+    <a class="cta-btn cta-secondary" href="mailto:rico@hardseal.ai?subject=%5BDIB%5D%20readiness-pack%20integrity%20scan">Request a readiness-pack integrity scan</a>
+</div>
+
+<div class="closing-quote">
+    "The attack surface of AI-era compliance is not the tooling. It is the evidence."
+    <strong>Rico Allen &middot; Founder, Hardseal</strong>
+</div>
+
+</main>
+
+<footer>
+    <div>Hardseal LLC &middot; Florida &middot; MIT-licensed detector &middot; Proprietary readiness services</div>
+    <div><a href="/">Home</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></div>
+</footer>
+
+</body>
+</html>
