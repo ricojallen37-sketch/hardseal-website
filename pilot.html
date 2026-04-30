@@ -50,14 +50,14 @@
         <div class="section">
             <div class="section-title">Overview</div>
             <p>The <strong>Hardseal Design Partner Engagement</strong> is a focused 2&ndash;4 week pilot designed to integrate the Hardseal compliance evidence engine into an RPO's existing CMMC assessment workflow.</p>
-            <p>The engagement validates Hardseal's offline-first, OSCAL-native evidence collection against a single real (or representative) CMMC Level 2 enclave. <strong>Goal:</strong> prove the tool saves time and produces assessor-ready artifacts before broader rollout.</p>
+            <p>The engagement validates Hardseal's offline-first, OSCAL-native evidence collection against a single real (or representative) CMMC Level 2 enclave. <strong>Goal:</strong> prove the tool saves time and produces verifiable evidence artifacts before broader rollout.</p>
         </div>
         <div class="section">
             <div class="section-title">Scope</div>
             <ul>
                 <li>One defined client environment (1 enclave)</li>
                 <li>Full NIST 800-171 Rev 2 evidence collection across all 14 control families (110 controls)</li>
-                <li><code>OSCAL v1.1.2</code> output with Ed25519 cryptographic signing</li>
+                <li><code>OSCAL v1.1.2</code> output with HMAC-SHA256 keyed authentication (FIPS 198-1)</li>
                 <li>Baseline &rarr; Current &rarr; Diff &rarr; OSCAL export &rarr; HTML report pipeline</li>
                 <li>Air-gapped or connected &mdash; works in both</li>
             </ul>
@@ -99,7 +99,7 @@
             <div class="section-title">Deliverables</div>
             <ul>
                 <li>Validated <code>OSCAL v1.1.2</code> component definition (machine-readable, FedRAMP-format compatible)</li>
-                <li>Ed25519-signed evidence chain (tamper-evident, reproducible)</li>
+                <li>HMAC-SHA256 + SHA-256 hash chain evidence (tamper-evident, reproducible)</li>
                 <li>HTML assessment report (human-readable, shareable with clients)</li>
                 <li>Snapshot diff analysis (baseline vs current state)</li>
                 <li>Pilot summary with time-saved metrics vs manual collection</li>
