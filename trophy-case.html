@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trophy Case — Hardseal Edge real-run evidence packets</title>
+<meta name="description" content="Download an 8-packet bundle of real Hardseal Edge evidence from a Jetson Orin Nano Super, including 1-million-iteration soaks. Run the standalone verifier yourself. Independent reproducible chain roots.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;--border:#1A1A1A;--border2:#222;--white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.15);--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.55}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+header{border-bottom:1px solid var(--border);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px}
+nav a{color:var(--gray1);margin-left:32px;font-size:13px;letter-spacing:.05em}
+.btn{display:inline-block;padding:14px 28px;background:var(--white);color:var(--bg);font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;border:none;cursor:pointer;text-decoration:none}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border2)}
+.btn:hover{background:var(--gray1);text-decoration:none}
+.btn-ghost:hover{background:var(--bg2);color:var(--white);text-decoration:none}
+main{max-width:980px;margin:0 auto;padding:64px 40px 96px}
+.eyebrow{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin-bottom:18px}
+.eyebrow::before{content:"● ";color:var(--green)}
+h1{font-size:48px;line-height:1.05;letter-spacing:-.02em;margin-bottom:18px;font-weight:700}
+.lead{font-size:17px;color:var(--gray1);max-width:760px;margin-bottom:32px;line-height:1.6}
+.lead strong{color:var(--white)}
+.cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;margin-bottom:32px}
+.specs{background:var(--bg3);border:1px solid var(--border);padding:32px;font-family:var(--mono);font-size:13px;line-height:1.9;color:var(--gray1);margin-bottom:32px}
+.specs .k{color:var(--green)}
+h2{font-size:24px;margin:40px 0 14px;font-weight:700}
+.steps{counter-reset:step;margin-bottom:32px}
+.step{padding:24px 28px;background:var(--bg2);border:1px solid var(--border);margin-bottom:14px;position:relative;padding-left:80px}
+.step::before{counter-increment:step;content:"0" counter(step);position:absolute;left:24px;top:24px;font-family:var(--mono);color:var(--green);font-size:13px;letter-spacing:.1em}
+.step h3{font-size:17px;margin-bottom:8px;font-weight:600}
+.step p{color:var(--gray1);font-size:14px;margin:0;line-height:1.6}
+.step pre{background:var(--bg);border:1px solid var(--border2);padding:14px 16px;font-family:var(--mono);font-size:12px;color:var(--green);margin-top:12px;overflow-x:auto;line-height:1.6}
+.note{font-size:13px;color:var(--gray1);background:var(--bg3);border-left:2px solid var(--green);padding:18px 22px;margin-top:32px;line-height:1.65}
+.note strong{color:var(--white)}
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+@media(max-width:720px){header{padding:16px 20px}nav a{margin-left:18px;font-size:12px}main{padding:32px 20px 64px}h1{font-size:32px}.step{padding-left:24px}.step::before{position:static;display:block;margin-bottom:6px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav>
+    <a href="/edge.html">EDGE</a>
+    <a href="/verify.html">VERIFY</a>
+    <a href="/resources.html">RESOURCES</a>
+    <a href="/#access">GET ACCESS</a>
+  </nav>
+</header>
+
+<main>
+
+<div class="eyebrow">REAL EVIDENCE · REAL HARDWARE · DOWNLOAD AND VERIFY</div>
+<h1>Trophy case.</h1>
+<p class="lead">
+  Eight sealed Hardseal Edge evidence packets from a Jetson Orin Nano Super. Million-iteration soaks across multiple precision classes and power modes. Pinned-clocks replicate chain. Bundle SHA-256 below. Recompute the chain yourself — Python stdlib only, zero dependencies, short enough to read before you run it. Trust anchor lives on this page; the per-packet chain roots below are what you compare against.
+</p>
+
+<div class="cta-row">
+  <a class="btn" href="/downloads/hardseal_edge_trophy_case.zip">Download trophy case bundle (.zip)</a>
+  <a class="btn btn-ghost" href="/verify.html">Verify in your browser</a>
+  <a class="btn btn-ghost" href="/downloads/verify_standalone.py">Standalone verifier (.py)</a>
+</div>
+
+<div class="specs">
+  <div><span class="k">bundle:</span>            hardseal_edge_trophy_case.zip · 197 KB · 8 packets</div>
+  <div><span class="k">bundle_sha256:</span>     00f6b47e6d87da6ff6cda2b06e7976d47bffdb89ebecd5c72ac9da844b591150</div>
+  <div><span class="k">verifier_sha256:</span>   103fb99c0afc02ede89f25984b77051f4f45a7cfb446b203189169579c06320c</div>
+  <div><span class="k">device:</span>            Jetson Orin Nano Super · JetPack 6.2.1 · L4T R36.4.7</div>
+  <div><span class="k">workloads:</span>         yolov8n · yolov8m · yolov8L (INT8 · FP16)</div>
+  <div><span class="k">power_modes:</span>       25W · MAXN_SUPER (pinned clocks)</div>
+  <div><span class="k">soak_depth:</span>        1,000,000 inferences per packet (steady state)</div>
+  <div><span class="k">replicate_chain:</span>   3× independent runs, same engine, same clocks</div>
+  <div><span class="k">verifier:</span>          verify_standalone.py · /verify.html · canonical CLI</div>
+  <div><span class="k">schema:</span>            edge-inference-verification v1.0</div>
+  <div style="margin-top:18px;color:var(--white);font-weight:600">Per-packet chain roots — compare against verifier output:</div>
+  <div style="margin-top:6px"><span class="k">T1_thermal_saturation_yolov8n_int8_25W_1M_iter</span><br>&nbsp;&nbsp;4bb3343b336307a10ea0934128d6f46f098ddcd693493047c893b00ebd6cb7a1</div>
+  <div style="margin-top:8px"><span class="k">sustained_yolov8l_int8_25W_1M_rep3</span><br>&nbsp;&nbsp;3d0aee521f267b58d6d8f40a5dae56cace52f37aa06f7d4a8740878a0c1c1782</div>
+  <div style="margin-top:8px"><span class="k">yolov8l_1M_MAXN_chain_rep1_20260428T234414Z</span><br>&nbsp;&nbsp;798a580ca212648cadf2be3e147d23e37251fca7886ff3180897d2c48fe0c13b</div>
+  <div style="margin-top:8px"><span class="k">yolov8l_1M_MAXN_chain_rep2_20260429T035221Z</span><br>&nbsp;&nbsp;1597a26f43c1cd4615abffde095b2e3a439edece6eaafd094a39c1736c49f696</div>
+  <div style="margin-top:8px"><span class="k">yolov8l_1M_MAXN_chain_rep3_20260429T080047Z</span><br>&nbsp;&nbsp;9ff39c3b2d5ae2f41a3db4d537c88d68f0e2d86b23bf2c29b46a7935b696e793</div>
+  <div style="margin-top:8px"><span class="k">yolov8l_1M_MAXN_chain_rep1_20260429T125346Z</span><br>&nbsp;&nbsp;2c0723611e2ecf028dff656045b450df514d8eb129cfbdec1c463a81512022b4</div>
+  <div style="margin-top:8px"><span class="k">yolov8l_1M_MAXN_chain_rep2_20260429T163949Z</span><br>&nbsp;&nbsp;8adec610c03ece2b62844790c0a6e06535218e6cb6db54564246d9f4fc3fbd67</div>
+  <div style="margin-top:8px"><span class="k">yolov8l_1M_MAXN_chain_rep3_20260429T202550Z</span><br>&nbsp;&nbsp;1d9f06a194b5bf181e40a5efc15b06959f3b1525b7762edc46a56a5d6051473e</div>
+</div>
+
+<h2>How to verify the packet chain.</h2>
+
+<div class="steps">
+
+  <div class="step">
+    <h3>Download the bundle.</h3>
+    <p>It's 197 KB. The zip contains 8 <code>packet.json</code> files, the standalone verifier, and a manifest with all chain roots and the bundle SHA-256.</p>
+  </div>
+
+  <div class="step">
+    <h3>Verify the bundle SHA-256.</h3>
+    <p>Open a terminal in the directory you downloaded to:</p>
+    <pre>shasum -a 256 hardseal_edge_trophy_case.zip   # macOS
+sha256sum hardseal_edge_trophy_case.zip       # Linux</pre>
+    <p>Output should match the bundle_sha256 value above. If it does not, do not run anything in the bundle. Re-download or contact us.</p>
+  </div>
+
+  <div class="step">
+    <h3>Unzip and verify the verifier itself.</h3>
+    <p>The standalone verifier is intentionally readable. Hash it first against the verifier_sha256 above so you know it has not been tampered with inside the bundle, then open it and read it before you run it. The verifier is the entire trust surface for this bundle.</p>
+    <pre>unzip hardseal_edge_trophy_case.zip
+cd trophy_case_bundle
+shasum -a 256 verify_standalone.py    # compare to verifier_sha256 above
+less verify_standalone.py</pre>
+  </div>
+
+  <div class="step">
+    <h3>Run the verifier on each packet — then compare the chain root.</h3>
+    <p>Stdlib Python 3.8+. No <code>pip install</code>. No network calls.</p>
+    <pre>python3 verify_standalone.py T1_thermal_saturation_yolov8n_int8_25W_1M_iter/packet.json</pre>
+    <p>Expected output: a list of <code>PASS:</code> lines, ending with <code>result: PASS</code>. The verifier is Python stdlib only; shell examples shown are for macOS/Linux. <strong>Then compare the recomputed chain root against the published value in the specs block above.</strong> A PASS with a matching root means the packet is the one Hardseal published. A PASS with a different root means someone re-signed a modified packet — reject it. Repeat for each of the five packets.</p>
+  </div>
+
+  <div class="step">
+    <h3>Or verify in your browser.</h3>
+    <p>Open <a href="/verify.html">/verify.html</a>, paste the contents of any <code>packet.json</code>, click Verify. The browser reproduces the same chain root the Python verifier produces; both paths are exercised by the same negative-test suite. Compare the output against the published root above. If the two paths ever produce different roots for the same packet, file a bug — we want to know.</p>
+  </div>
+
+</div>
+
+<h2>What you should look for in the packets.</h2>
+<p>
+Read the <code>limitations</code> section first in any packet. The packet states explicitly what it does not certify. The benchmark numbers are real, the device fingerprint is real, the engine SHA-256 is a digest over the bytes that ran, and the chain root is independently recomputable — but the packet does not claim CMMC certification, FAA airworthiness, or any other regulatory outcome. That separation between integrity evidence and certification claim is the discipline.
+</p>
+
+<div class="note">
+  <strong>Tamper test.</strong> Mutate any signed field in any packet — change a benchmark number, edit a device field, or swap section hashes between packets — and the verifier will reject the packet unless the full chain still validates. The cross-packet section-hashes swap attack is in the <a href="/blog/learning-loop.html">Learning Loop doctrine</a> and is covered by negative tests in the canonical test suite. Try it on a copy.<br><br>
+  And the trust anchor: even if a clever adversary mutates a packet and recomputes every internal hash, the resulting chain root will not match the value published on this page. That is why the chain roots above are out-of-band — the page is the trust anchor, not the verifier alone.
+</div>
+
+<h2>Use this for technical review.</h2>
+<p>
+Independent verification is the point of the artifact. Share it with your CISO, engineering lead, compliance owner, RPO, assessor, prime contractor, or internal red team. The packet is not a certification or readiness conclusion; it is a tamper-evident artifact they can verify and interpret in context. The only thing they cannot do is alter a packet and still have it match a Hardseal-published chain root — and we encourage them to try.
+</p>
+
+<div class="cta-row">
+  <a class="btn" href="/edge.html">Hardseal Edge product page →</a>
+  <a class="btn btn-ghost" href="mailto:rico@hardseal.ai?subject=Trophy%20case%20%E2%80%94%20questions">Schedule a technical call</a>
+</div>
+
+</main>
+
+<footer>
+  Hardseal · trophy case · v1.0 · April 2026 · packet chain roots independently recomputable · written by Rico Allen
+</footer>
+
+</body>
+</html>

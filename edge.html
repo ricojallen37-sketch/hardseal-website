@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardseal Edge — Tamper-evident evidence for AI runtime systems</title>
+<meta name="description" content="Hardseal Edge produces signed, deterministic evidence packets for AI inference at the edge. Designed for defense, aerospace, and DIB suppliers who need to prove what their AI systems did — without trusting a cloud provider.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;
+  --border:#1A1A1A;--border2:#222;
+  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--gray4:#333;
+  --green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.15);
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+header{border-bottom:1px solid var(--border);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px}
+nav a{color:var(--gray1);margin-left:32px;font-size:13px;letter-spacing:.05em}
+nav a:hover{color:var(--white);text-decoration:none}
+.btn{display:inline-block;padding:14px 28px;background:var(--white);color:var(--bg);font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;border:none;cursor:pointer}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border2)}
+.btn:hover{background:var(--gray1)}
+.btn-ghost:hover{background:var(--bg2);text-decoration:none;color:var(--white)}
+main{max-width:1100px;margin:0 auto;padding:48px 40px 96px}
+.hero{padding:64px 0 48px}
+.eyebrow{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin-bottom:20px}
+.eyebrow::before{content:"● ";color:var(--green)}
+h1{font-size:56px;line-height:1.05;letter-spacing:-.02em;margin-bottom:20px;font-weight:700}
+h1 .dim{color:var(--gray3)}
+.lead{font-size:18px;color:var(--gray1);max-width:760px;margin-bottom:32px}
+.lead strong{color:var(--white)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+section{padding:56px 0;border-top:1px solid var(--border)}
+section h2{font-size:32px;font-weight:700;letter-spacing:-.01em;margin-bottom:16px}
+section .label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin-bottom:12px}
+section p{color:var(--gray1);max-width:760px;margin-bottom:14px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;margin-top:32px}
+.card{background:var(--bg2);border:1px solid var(--border);padding:28px}
+.card .num{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.1em;margin-bottom:8px}
+.card h3{font-size:17px;margin-bottom:10px;font-weight:600}
+.card p{font-size:14px;color:var(--gray1);margin:0}
+.specs{background:var(--bg3);border:1px solid var(--border);padding:32px;font-family:var(--mono);font-size:13px;line-height:1.9;color:var(--gray1)}
+.specs .k{color:var(--green)}
+.cta-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:24px}
+.disclaimer{font-size:13px;color:var(--gray2);background:var(--bg3);border-left:2px solid var(--green);padding:18px 22px;margin-top:32px;line-height:1.65}
+.disclaimer strong{color:var(--white)}
+.code{font-family:var(--mono);background:var(--bg);padding:1px 6px;font-size:12px;color:var(--green)}
+.priceline{font-family:var(--mono);font-size:13px;color:var(--gray1);margin-top:16px}
+.priceline .price{color:var(--white);font-size:22px;font-weight:700}
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+@media(max-width:720px){
+  header{padding:16px 20px}
+  nav a{margin-left:18px;font-size:12px}
+  main{padding:32px 20px 64px}
+  h1{font-size:38px}
+  section h2{font-size:26px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav>
+    <a href="/#how">PROCESS</a>
+    <a href="/#proof">PROOF</a>
+    <a href="/edge.html" style="color:var(--white)">EDGE</a>
+    <a href="/verify.html">VERIFY</a>
+    <a href="/resources.html">RESOURCES</a>
+    <a href="/#access">GET ACCESS</a>
+  </nav>
+</header>
+
+<main>
+
+<div class="hero">
+  <div class="eyebrow">HARDSEAL EDGE · AI RUNTIME EVIDENCE LAYER</div>
+  <h1>Prove the exact bytes your AI produced<br>from declared run artifacts<br><span class="dim">under declared conditions.</span></h1>
+  <p class="lead">
+    Hardseal Edge produces tamper-evident, cryptographically signed evidence packets for AI inference running at the edge — on Jetson, on enclaved servers, on any system where you cannot phone home. The packet captures device state, model identity, benchmark telemetry, sensor lineage, and explicit limitations into a single SHA-256 hash chain that anyone can independently verify with the stdlib-only Python verifier or the reference browser verifier on <a href="/verify.html">/verify.html</a>.
+  </p>
+  <p class="lead">
+    <strong>Runs offline. No phone-home. No SaaS dependency.</strong> Built for defense and aerospace suppliers, DIB primes, autonomy operators, and regulated AI deployments where <strong>"trust us" is not an answer</strong>.
+  </p>
+  <div class="row">
+    <a class="btn" href="/verify.html">Verify a packet now →</a>
+    <a class="btn btn-ghost" href="/trophy-case.html">Download a real packet</a>
+    <a class="btn btn-ghost" href="mailto:rico@hardseal.ai?subject=Hardseal%20Edge%20%E2%80%94%20Pilot%20Interest">Schedule a technical call</a>
+  </div>
+</div>
+
+<section>
+  <div class="label">// WHY EDGE</div>
+  <h2>Cloud-rooted AI evidence breaks where defense-grade systems live.</h2>
+  <p>
+    Standard AI observability stacks assume a steady connection to a SaaS endpoint. They log to centralized buckets, attest via cloud KMS, and require a phone-home for verification. That model fails the moment your inference runs on a denied network, an air-gapped enclave, a moving platform, or any environment where a defense customer asks: <em>can you prove what the AI did, without trusting your vendor's cloud?</em>
+  </p>
+  <p>
+    Hardseal Edge inverts the model. The packet is the artifact. The verifier is open and runs anywhere. The chain is reproducible byte-for-byte. There is no standing SaaS dependency, no required API call, and no vendor-controlled service needed to recompute the chain. The evidence is the same whether you read it tomorrow or in a litigation hold seven years from now.
+  </p>
+</section>
+
+<section>
+  <div class="label">// WHAT IT IS</div>
+  <h2>One packet schema. Five sections. One chain root.</h2>
+
+  <div class="grid">
+    <div class="card">
+      <div class="num">01 · DEVICE</div>
+      <h3>Hardware identity, frozen at run-time.</h3>
+      <p>Platform, model number, JetPack/L4T version, power mode, clock pinning state, thermal floor, MAC address fingerprint. Captures the silicon the AI ran on, not the silicon you wish it ran on.</p>
+    </div>
+    <div class="card">
+      <div class="num">02 · MODEL</div>
+      <h3>Engine binary, hashed.</h3>
+      <p>SHA-256 over the deployed inference engine (TensorRT, ONNX, OpenVINO). Precision class. Input shape. Build commit. The exact bytes that produced the inference, not a "model card" describing them.</p>
+    </div>
+    <div class="card">
+      <div class="num">03 · BENCHMARK</div>
+      <h3>Statistical telemetry, not a single number.</h3>
+      <p>Per-block min/mean/p50/p99/max/stdev across the full run. Million-iteration soaks. Thermal saturation traces. Throughput, not best-case marketing FPS.</p>
+    </div>
+    <div class="card">
+      <div class="num">04 · SENSORS</div>
+      <h3>Power, thermal, governance state.</h3>
+      <p>Live power-rail samples, thermal zones, DVFS state, governor mode. Captures the conditions the AI was actually operating under. Signed alongside the inference, not in a separate observability silo.</p>
+    </div>
+    <div class="card">
+      <div class="num">05 · LIMITATIONS</div>
+      <h3>Scope of assurance — declared, not implied.</h3>
+      <p>Explicit statement of what the packet does <em>not</em> certify. Not a CMMC C3PAO assessment. Not a guarantee of mission outcomes. Operator-defined truth boundary.</p>
+    </div>
+    <div class="card">
+      <div class="num">∞ · INTEGRITY</div>
+      <h3>SHA-256 hash chain over canonical JSON.</h3>
+      <p>Per-section hash + chain root. Banned-phrase scan to keep packets free of legal overclaims. Verifier reproduces the chain client-side. Mutate any byte → integrity fails.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="label">// PROOF</div>
+  <h2>The evidence is on disk. Run the verifier yourself.</h2>
+  <p>
+    Hardseal Edge has shipped real evidence packets from a Jetson Orin Nano Super, including thermal-saturation soaks at one million inferences per packet across multiple precision classes and power modes. Each packet has a SHA-256 chain root that is byte-reproducible from the data inside the packet, using a verifier you read in full before you run.
+  </p>
+
+  <div class="specs">
+    <div><span class="k">trophy_case_bundle:</span> 8 sealed packets · 197 KB</div>
+    <div><span class="k">bundle_sha256:</span> 00f6b47e6d87da6ff6cda2b06e7976d47bffdb89ebecd5c72ac9da844b591150</div>
+    <div><span class="k">workloads:</span> yolov8n / yolov8m / yolov8L INT8 + FP16</div>
+    <div><span class="k">power_modes:</span> 25W · MAXN_SUPER (pinned clocks, 3× replicate chain)</div>
+    <div><span class="k">soak_depth:</span> 1,000,000 inferences per packet (steady state)</div>
+    <div><span class="k">verifier:</span> verify_standalone.py (Python stdlib only) · /verify.html (browser)</div>
+    <div><span class="k">tamper_test:</span> cross-packet section-hashes swap caught by red-team suite</div>
+  </div>
+
+  <div class="cta-row">
+    <a class="btn" href="/trophy-case.html">Download trophy case bundle →</a>
+    <a class="btn btn-ghost" href="/verify.html">Run the browser verifier</a>
+  </div>
+</section>
+
+<section>
+  <div class="label">// DEPLOYMENT</div>
+  <h2>Deploy Edge where AI evidence has to survive offline.</h2>
+  <p>
+    Hardseal Edge is built for teams running AI inference in environments where cloud observability is unavailable, unwanted, or insufficient — Jetson devices, enclaves, test ranges, air-gapped labs, autonomy stacks, and regulated supplier environments.
+  </p>
+  <p>
+    Edge does not replace a Cyber AB Registered Provider Organization (RPO), a C3PAO, or a CMMC readiness engagement. It produces verifiable AI-runtime evidence packets. When that evidence is relevant to a broader compliance program, your RPO and assessor interpret it under their own judgment.
+  </p>
+  <p style="font-size:13px;color:var(--gray2);margin-top:8px">
+    All pricing shown below is pilot anchor pricing; engagements are subject to final MSA execution and founder approval.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="num">EDGE · MONTHLY</div>
+      <h3>$495 per environment / month</h3>
+      <p>Hardseal Edge CLI, signed sample packets, browser verifier, onboarding documentation, and standalone Python verifier for downstream technical review. Deploys offline. Generates evidence packets from your own inference runs.</p>
+      <div class="priceline"><span class="price">$495</span> / mo per environment</div>
+    </div>
+    <div class="card">
+      <div class="num">EDGE · PILOT</div>
+      <h3>First-environment validation</h3>
+      <p>Founder-led pilot for one AI runtime environment: packet generation, verifier walkthrough, trophy-case comparison, evidence-boundary review, and deployment notes for your technical or compliance team. Scope quoted after environment review.</p>
+      <div class="priceline">Pilot scope quoted after review</div>
+    </div>
+    <div class="card">
+      <div class="num">EDGE · ENTERPRISE</div>
+      <h3>Multi-environment SOW</h3>
+      <p>Portfolio deployments across devices, models, power modes, sensor pipelines, and supplier environments. Designed for primes, autonomy teams, aerospace suppliers, and regulated AI operators that need repeatable packet evidence across many runs.</p>
+      <div class="priceline">Contact for SOW</div>
+    </div>
+  </div>
+
+  <div class="disclaimer" style="margin-top:24px">
+    <strong>Adjacent product:</strong> Hardseal Core is a separate CMMC Level 2 evidence engine with 17 collectors for Windows, Active Directory, M365/Entra, network architecture, filesystem, audit logs, and system state. Core and Edge share Hardseal's evidence-integrity primitive but use distinct schemas and serve distinct scopes. Edge is not a general CMMC tool; Core is not an AI runtime tool. Pricing and SOWs for direct sales as shown; bundled and Enterprise engagements negotiated separately.
+  </div>
+
+  <div class="cta-row">
+    <a class="btn" href="mailto:rico@hardseal.ai?subject=Hardseal%20Edge%20%E2%80%94%20pilot%20inquiry">Start an Edge pilot</a>
+    <a class="btn btn-ghost" href="/verify.html">Run the verifier</a>
+    <a class="btn btn-ghost" href="/trophy-case.html">Download a real packet</a>
+  </div>
+</section>
+
+<section>
+  <div class="label">// SCOPE OF ASSURANCE</div>
+  <h2>What Hardseal Edge does not claim.</h2>
+  <div class="disclaimer">
+    Hardseal Edge produces <strong>integrity evidence</strong>, not a certification. It does not certify the underlying AI system as compliant with CMMC, NIST 800-171, ISO 27001, FAA airworthiness, NIAP, or any other regulatory regime. It does not replace a C3PAO assessment, an RPO engagement, an FAA type certification, or any human assessor judgment. It does not guarantee mission outcomes, model accuracy, or safety properties of the AI system. <br><br>
+    What it does: prove that the bytes you see in a packet are the bytes that were signed from declared run artifacts on a Hardseal-instrumented engine, on a declared device, under declared sensor and power conditions — and that any subsequent tampering with the packet will be caught by a recomputed hash chain. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet. The evidence is the artifact. The interpretation is yours. <br><br>
+    If you ever see a broader claim in any slide, document, or email — treat that as a bug in our language, not a property of the verifier. The code only enforces the narrow integrity claim described here.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Hardseal Edge · v1.0 schema · operational class edge-inference-verification · built by Rico Allen
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resources — Hardseal</title>
+<meta name="description" content="Doctrine, deep dives, and operating principles from Hardseal — deterministic evidence for CMMC compliance and edge AI runtime. Written by Rico Allen for builders, assessors, and DIB primes.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;
+  --border:#1A1A1A;--border2:#222;
+  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;
+  --green:#00FF88;--green-dim:rgba(0,255,136,0.08);
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+header{border-bottom:1px solid var(--border);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px}
+nav a{color:var(--gray1);margin-left:32px;font-size:13px;letter-spacing:.05em}
+nav a:hover{color:var(--white);text-decoration:none}
+main{max-width:980px;margin:0 auto;padding:64px 40px 96px}
+.eyebrow{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin-bottom:18px}
+.eyebrow::before{content:"● ";color:var(--green)}
+h1{font-size:48px;line-height:1.05;letter-spacing:-.02em;margin-bottom:18px;font-weight:700}
+.lead{font-size:17px;color:var(--gray1);max-width:760px;margin-bottom:48px}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin:48px 0 18px;border-top:1px solid var(--border);padding-top:32px}
+.post-list{display:grid;grid-template-columns:1fr;gap:0}
+.post{display:block;padding:28px 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--white)}
+.post:hover{text-decoration:none}
+.post:hover h3{color:var(--green)}
+.post .meta{font-family:var(--mono);font-size:11px;color:var(--gray2);letter-spacing:.08em;margin-bottom:8px}
+.post h3{font-size:24px;margin-bottom:8px;font-weight:600;transition:color .15s}
+.post p{color:var(--gray1);font-size:14px;line-height:1.6;max-width:760px}
+.tools{background:var(--bg2);border:1px solid var(--border);padding:24px 28px;margin-top:24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.tools a{display:block;padding:14px 16px;background:var(--bg);border:1px solid var(--border2);font-family:var(--mono);font-size:13px;color:var(--gray1)}
+.tools a:hover{color:var(--white);border-color:var(--green-dim);text-decoration:none;background:var(--bg3)}
+.tools a .arrow{color:var(--green);float:right}
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+@media(max-width:720px){
+  header{padding:16px 20px}
+  nav a{margin-left:18px;font-size:12px}
+  main{padding:32px 20px 64px}
+  h1{font-size:34px}
+  .post h3{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav>
+    <a href="/#how">PROCESS</a>
+    <a href="/#proof">PROOF</a>
+    <a href="/edge.html">EDGE</a>
+    <a href="/verify.html">VERIFY</a>
+    <a href="/resources.html" style="color:var(--white)">RESOURCES</a>
+    <a href="/#access">GET ACCESS</a>
+  </nav>
+</header>
+
+<main>
+  <div class="eyebrow">DOCTRINE · DEEP DIVES · TOOLS</div>
+  <h1>Resources.</h1>
+  <p class="lead">
+    Hardseal is built on a small set of operating principles that we apply ruthlessly. The posts below explain how we think about evidence integrity, why we refuse certain shortcuts, and what builders, assessors, and DIB primes can take and use directly. Tools at the bottom — verifier, sample packets, standalone CLI.
+  </p>
+
+  <div class="section-label">// TOOLS</div>
+  <div class="tools">
+    <a href="/verify.html">Verify a packet in your browser <span class="arrow">→</span></a>
+    <a href="/trophy-case.html">Download the trophy case bundle <span class="arrow">→</span></a>
+    <a href="/edge.html">Hardseal Edge product page <span class="arrow">→</span></a>
+    <a href="https://github.com/hardseal-ai" rel="noopener">GitHub <span class="arrow">→</span></a>
+  </div>
+
+  <div class="section-label">// DOCTRINE</div>
+  <div class="post-list">
+
+    <a class="post" href="/blog/learning-loop.html">
+      <div class="meta">2026-04-29 · OPERATING DOCTRINE · 8 MIN</div>
+      <h3>The Hardseal Learning Loop: if the system can fail the same way twice, the system has not learned.</h3>
+      <p>How we turn every incident into a deterministic check, every check into a product primitive, and every primitive into something that prevents an entire class of failure. Five-stage loop, 48-hour SLA on the worst severity tiers, and the discipline of stale-rule deletion.</p>
+    </a>
+
+    <a class="post" href="/blog/test-what-we-fly.html">
+      <div class="meta">2026-04-29 · MANTRA · 6 MIN</div>
+      <h3>Test what we fly. Fly what we test.</h3>
+      <p>The aerospace flight-test phrase that became Hardseal's operating doctrine. Why every artifact a customer sees must be the artifact that was exercised in test — no test-only mocks, no production-only paths, no demo scripts that bypass the guardrails. What it costs and why it pays.</p>
+    </a>
+
+    <a class="post" href="/blog/evidence-interface.html">
+      <div class="meta">2026-04-29 · POSITIONING · 9 MIN</div>
+      <h3>Hardseal as the evidence interface. Models commoditize. Hardware commoditizes. The interface where regulated teams produce, verify, and deliver tamper-evident evidence is the moat.</h3>
+      <p>Why the right way to think about Hardseal is not "a CMMC tool" or "an AI runtime tool," but the interface layer for regulated evidence — across compliance, edge AI, and (eventually) the cloud control plane. Same packet schema, one verifier, three substrates.</p>
+    </a>
+
+  </div>
+
+  <div class="section-label">// CONTACT</div>
+  <p style="color:var(--gray1);font-size:15px;max-width:760px;line-height:1.7">
+    More writing arrives weekly. If you want a doctrine doc on a specific question — FCA-flank exposure for AI evidence, scope-of-assurance language for assessors, building a verifier you would actually trust — email <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a> with the question.
+  </p>
+
+</main>
+
+<footer>
+  Hardseal · resources · v1.0 · April 2026 · written by Rico Allen
+</footer>
+
+</body>
+</html>

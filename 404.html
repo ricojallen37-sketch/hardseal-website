@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — Hardseal</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--white:#FFF;--gray1:#CCC;--gray2:#888;--green:#00FF88;--border:#1A1A1A;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+body{font-family:'Inter',-apple-system,sans-serif;color:var(--white);background:var(--bg);min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 24px;line-height:1.6}
+.code{font-family:var(--mono);font-size:13px;color:var(--green);letter-spacing:.15em;margin-bottom:24px}
+.code::before{content:"● "}
+h1{font-size:64px;letter-spacing:-.02em;margin-bottom:12px;font-weight:700}
+p{color:var(--gray1);max-width:520px;margin-bottom:32px}
+.row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+a{font-family:var(--mono);font-size:13px;letter-spacing:.05em;text-decoration:none;padding:14px 24px;display:inline-block}
+.btn{background:var(--white);color:var(--bg)}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border)}
+.btn:hover{background:var(--gray1)}
+.btn-ghost:hover{border-color:var(--green);color:var(--green)}
+footer{position:absolute;bottom:24px;color:var(--gray2);font-size:12px;font-family:var(--mono);letter-spacing:.08em}
+</style>
+</head>
+<body>
+  <div class="code">PACKET NOT FOUND · 404</div>
+  <h1>Chain integrity OK.<br>Path doesn't exist.</h1>
+  <p>The verifier didn't find what you were looking for at this URL. Try one of the canonical surfaces below — every page below has been independently exercised by the same test suite that verifies our evidence packets.</p>
+  <div class="row">
+    <a class="btn" href="/">Home</a>
+    <a class="btn-ghost" href="/edge.html">Edge</a>
+    <a class="btn-ghost" href="/verify.html">Verify a packet</a>
+    <a class="btn-ghost" href="/resources.html">Resources</a>
+  </div>
+  <footer>HARDSEAL · v1.0 · independent verification, every layer</footer>
+</body>
+</html>

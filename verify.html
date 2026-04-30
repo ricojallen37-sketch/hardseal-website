@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify a Hardseal Edge Packet — Hardseal</title>
+<meta name="description" content="Paste a Hardseal Edge evidence packet and verify its hash chain in your browser. SHA-256 chain reproduced client-side. No upload, no account, no server-side processing. Source-verifiable implementation.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;
+  --border:#1A1A1A;--border2:#222;
+  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--gray4:#333;
+  --green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.15);
+  --red:#FF5577;--red-dim:rgba(255,85,119,0.08);
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+  color:var(--white);background:var(--bg);
+  -webkit-font-smoothing:antialiased;line-height:1.5;
+}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+header{
+  border-bottom:1px solid var(--border);
+  padding:24px 40px;display:flex;justify-content:space-between;align-items:center;
+  position:sticky;top:0;background:var(--bg);z-index:10;
+}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px}
+nav a{color:var(--gray1);margin-left:32px;font-size:13px;letter-spacing:.05em}
+nav a:hover{color:var(--white);text-decoration:none}
+.btn{
+  display:inline-block;padding:12px 24px;background:var(--white);color:var(--bg);
+  font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.05em;
+  border:none;cursor:pointer;text-transform:none;
+}
+.btn-ghost{background:transparent;color:var(--white);border:1px solid var(--border2)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+main{max-width:1100px;margin:0 auto;padding:48px 40px 96px}
+.eyebrow{
+  font-family:var(--mono);font-size:11px;color:var(--green);
+  letter-spacing:.15em;margin-bottom:16px;
+}
+h1{font-size:48px;line-height:1.05;letter-spacing:-.02em;margin-bottom:16px;font-weight:700}
+.lead{font-size:17px;color:var(--gray1);max-width:760px;margin-bottom:40px}
+.lead strong{color:var(--white)}
+.panel{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:32px;margin-bottom:24px;
+}
+.panel h2{font-size:14px;font-family:var(--mono);letter-spacing:.1em;margin-bottom:16px;color:var(--gray1)}
+textarea#packet{
+  width:100%;min-height:280px;background:var(--bg);border:1px solid var(--border2);
+  color:var(--white);font-family:var(--mono);font-size:12px;
+  padding:16px;resize:vertical;line-height:1.55;
+  outline:none;
+}
+textarea#packet:focus{border-color:var(--green-med)}
+.row{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+#result{
+  font-family:var(--mono);font-size:13px;line-height:1.7;white-space:pre-wrap;
+  padding:24px;border:1px solid var(--border2);background:var(--bg);min-height:80px;
+}
+.banner{
+  display:inline-block;font-family:var(--mono);font-size:13px;font-weight:700;
+  letter-spacing:.1em;padding:6px 14px;margin-bottom:16px;
+}
+.banner.pass{background:var(--green-med);color:var(--green);border:1px solid var(--green)}
+.banner.fail{background:var(--red-dim);color:var(--red);border:1px solid var(--red)}
+.banner.idle{background:var(--bg4);color:var(--gray2);border:1px solid var(--border2)}
+.check{margin-left:0}
+.check.pass::before{content:"PASS  ";color:var(--green)}
+.check.fail::before{content:"FAIL  ";color:var(--red)}
+.muted{color:var(--gray2)}
+.note{
+  font-size:13px;color:var(--gray1);background:var(--bg3);
+  border-left:2px solid var(--green);padding:16px 20px;margin-top:32px;line-height:1.65;
+}
+.note code{font-family:var(--mono);background:var(--bg);padding:1px 6px;font-size:12px}
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+.spec{font-family:var(--mono);font-size:11px;color:var(--gray2);margin-top:8px;letter-spacing:.05em}
+@media(max-width:720px){
+  header{padding:16px 20px}
+  nav a{margin-left:18px;font-size:12px}
+  main{padding:32px 20px 64px}
+  h1{font-size:34px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav>
+    <a href="/#how">PROCESS</a>
+    <a href="/#proof">PROOF</a>
+    <a href="/edge.html">EDGE</a>
+    <a href="/resources.html">RESOURCES</a>
+    <a href="/#access">GET ACCESS</a>
+  </nav>
+</header>
+
+<main>
+  <div class="eyebrow">● INDEPENDENT VERIFICATION · CLIENT-SIDE · NO UPLOAD</div>
+  <h1>Verify a Hardseal Edge packet.</h1>
+  <p class="lead">
+    Paste a Hardseal Edge evidence packet below. Your browser recomputes the SHA-256 hash chain, validates every section hash, and confirms the chain root — <strong>without sending the packet anywhere</strong>. The verifier runs in JavaScript on this page. The packet never leaves your machine.
+    <br><br>
+    <span style="font-size:14px;color:var(--gray2);">View source on this page — or save it locally and run it offline — for trust beyond TLS delivery. The standalone <a href="/downloads/verify_standalone.py">Python verifier</a> is the air-gapped equivalent.</span>
+  </p>
+
+  <div class="panel">
+    <h2>// Packet input</h2>
+    <textarea id="packet" placeholder="Paste packet.json contents here..." spellcheck="false"></textarea>
+    <div class="row">
+      <button class="btn" id="verifyBtn">Verify packet</button>
+      <button class="btn btn-ghost" id="fileBtn">Load .json file</button>
+      <input type="file" id="fileInput" accept=".json,application/json" style="display:none">
+      <button class="btn btn-ghost" id="sampleBtn">Load sample packet</button>
+      <button class="btn btn-ghost" id="clearBtn">Clear</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>// Verification result</h2>
+    <div class="banner idle" id="banner">IDLE</div>
+    <pre id="result">Awaiting input. Paste a packet and click Verify.</pre>
+    <div class="spec" id="spec"></div>
+    <div id="provenanceWarning" style="display:none;background:rgba(255,189,46,0.08);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:16px;line-height:1.55"></div>
+  </div>
+
+  <div class="note">
+    <strong>What this verifier does:</strong> reproduces the canonical JSON serialization, recomputes the seed hash from packet headers, recomputes per-section SHA-256 hashes in the fixed order <code>device → model → benchmark → sensors → limitations</code>, validates each entry in <code>integrity.section_hashes</code> against the recomputed chain, and confirms the final <code>integrity.hash_chain_root</code> matches.
+    <br><br>
+    <strong>What it doesn't do:</strong> claim the packet is true. The verifier only proves <em>integrity</em> — that what was signed has not been altered. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet.
+    <br><br>
+    <strong>Reproducibility:</strong> this client-side verifier implements the same canonical hash-chain algorithm as <code>verify_standalone.py</code> in the Hardseal repo and <code>hardseal verify</code> in the canonical CLI. Same valid packet → same chain root across all three implementations. The Python verifier is the air-gapped equivalent of this page; both are exercised by the same negative-test suite.
+    <br><br>
+    <strong>Integrity ≠ provenance:</strong> a PASS result means the packet is internally consistent under the Hardseal Edge v1.0 hash-chain rules — every section hash and the chain root recompute correctly. It does <strong>not</strong> independently prove the packet came from Hardseal or any specific source. To prove the packet matches a previously published artifact, compare the recomputed chain root against a trusted external manifest (for example, the per-packet chain roots published on <a href="/trophy-case.html">/trophy-case.html</a> for the bundled trophy case packets).
+    <br><br>
+    <strong>Scope of assurance:</strong> Hardseal Edge produces integrity evidence, not a certification. A PASS result does <strong>not</strong> certify the underlying AI system as compliant with CMMC, NIST 800-171, ISO 27001, FAA airworthiness, or any other regulatory regime. It does not replace a C3PAO assessment, an RPO engagement, an FAA type certification, or any human assessor judgment. It does not guarantee mission outcomes, model accuracy, or safety properties.
+  </div>
+</main>
+
+<footer>
+  Hardseal · independent verifier · client-side SHA-256 · v1.0 schema
+</footer>
+
+<script>
+// ----------------------------------------------------------------------
+// Hardseal Edge — browser-native verifier (JS port of verify_standalone.py)
+// Schema v1.0 / operational class edge-inference-verification
+// ----------------------------------------------------------------------
+// Verified byte-identical to canonical Python verifier across multiple real
+// Jetson packets (n/m/L workloads, INT8/FP16, 25W/MAXN_SUPER, 250k–1M iter).
+// ----------------------------------------------------------------------
+
+// Number-preserving JSON parser. Required because Python preserves int-vs-float
+// distinction (43.0 stays "43.0" in canonical JSON) and JS loses it via JSON.parse.
+// We tokenize numbers as strings and re-emit them unchanged in canonicalJson.
+
+class NumTok { constructor(s) { this.__num = s; } }
+
+function parsePreservingNumbers(text) {
+  let i = 0;
+  const skip = () => { while (i < text.length && /\s/.test(text[i])) i++; };
+  const err = (msg) => { throw new Error(`JSON parse at ${i}: ${msg} near "${text.slice(Math.max(0,i-20), i+20)}"`); };
+  function parseValue() {
+    skip();
+    const c = text[i];
+    if (c === '{') return parseObject();
+    if (c === '[') return parseArray();
+    if (c === '"') return parseString();
+    if (c === 't' || c === 'f') return parseBool();
+    if (c === 'n') return parseNull();
+    if (c === '-' || (c >= '0' && c <= '9')) return parseNumber();
+    err("unexpected '" + c + "'");
+  }
+  function parseObject() {
+    i++; skip();
+    const obj = {};
+    if (text[i] === '}') { i++; return obj; }
+    while (true) {
+      skip(); const k = parseString(); skip();
+      if (text[i] !== ':') err("expected :");
+      i++;
+      obj[k] = parseValue();
+      skip();
+      if (text[i] === ',') { i++; continue; }
+      if (text[i] === '}') { i++; return obj; }
+      err("expected , or }");
+    }
+  }
+  function parseArray() {
+    i++; skip();
+    const arr = [];
+    if (text[i] === ']') { i++; return arr; }
+    while (true) {
+      arr.push(parseValue()); skip();
+      if (text[i] === ',') { i++; continue; }
+      if (text[i] === ']') { i++; return arr; }
+      err("expected , or ]");
+    }
+  }
+  function parseString() {
+    if (text[i] !== '"') err("expected \"");
+    i++;
+    let s = "";
+    while (i < text.length && text[i] !== '"') {
+      if (text[i] === '\\') {
+        i++; const e = text[i++];
+        if (e === '"') s += '"';
+        else if (e === '\\') s += '\\';
+        else if (e === '/') s += '/';
+        else if (e === 'b') s += '\b';
+        else if (e === 'f') s += '\f';
+        else if (e === 'n') s += '\n';
+        else if (e === 'r') s += '\r';
+        else if (e === 't') s += '\t';
+        else if (e === 'u') { s += String.fromCharCode(parseInt(text.slice(i, i+4), 16)); i += 4; }
+        else err("bad escape \\" + e);
+      } else { s += text[i++]; }
+    }
+    if (text[i] !== '"') err("unterminated string");
+    i++;
+    return s;
+  }
+  function parseBool() {
+    if (text.slice(i, i+4) === "true") { i += 4; return true; }
+    if (text.slice(i, i+5) === "false") { i += 5; return false; }
+    err("expected bool");
+  }
+  function parseNull() {
+    if (text.slice(i, i+4) === "null") { i += 4; return null; }
+    err("expected null");
+  }
+  function parseNumber() {
+    const start = i;
+    if (text[i] === '-') i++;
+    while (i < text.length && text[i] >= '0' && text[i] <= '9') i++;
+    if (text[i] === '.') { i++; while (i < text.length && text[i] >= '0' && text[i] <= '9') i++; }
+    if (text[i] === 'e' || text[i] === 'E') {
+      i++;
+      if (text[i] === '+' || text[i] === '-') i++;
+      while (i < text.length && text[i] >= '0' && text[i] <= '9') i++;
+    }
+    return new NumTok(text.slice(start, i));
+  }
+  const v = parseValue(); skip();
+  if (i !== text.length) err("trailing characters");
+  return v;
+}
+
+const GENESIS_LABEL = "HARDSEAL_EDGE_GENESIS_v1";
+const SECTION_ORDER = ["device","model","benchmark","sensors","limitations"];
+const REQUIRED_HEADER_FIELDS = ["packet_type","schema_version","operational_class","session_id","created_utc","offline_mode","doctrine_url"];
+const REQUIRED_SECTIONS = ["device","model","benchmark","sensors","limitations"];
+const REQUIRED_INTEGRITY_FIELDS = ["hash_chain_algorithm","hash_chain_root","section_hashes","tamper_status","verification_command"];
+const SUPPORTED_SCHEMA_VERSIONS = ["1.0"];
+const SUPPORTED_OPERATIONAL_CLASSES = ["edge-inference-verification"];
+
+const BANNED_PHRASES = [
+  "we certify","hardseal certifies","hardseal assesses","certified compliant",
+  "compliance-equivalent","assessor-equivalent","equivalent to a c3pao",
+  "endorsed by cyber ab","faa-approved","autonomy assurance certified",
+  "drone certified","guaranteed safe","guaranteed correct","guaranteed mission"
+];
+
+// Canonical JSON: matches Python json.dumps(sort_keys=True, ensure_ascii=True, separators=(',',':')).
+// NumTok values re-emit their original token text unchanged so 43.0 stays 43.0.
+function canonicalJson(obj) {
+  if (obj === null) return "null";
+  if (obj instanceof NumTok) return obj.__num;
+  if (typeof obj === "boolean") return obj ? "true" : "false";
+  if (typeof obj === "number") {
+    if (!isFinite(obj)) throw new Error("non-finite number in packet");
+    return JSON.stringify(obj);
+  }
+  if (typeof obj === "string") return jsonStringEscapeAscii(obj);
+  if (Array.isArray(obj)) return "[" + obj.map(canonicalJson).join(",") + "]";
+  if (typeof obj === "object") {
+    const keys = Object.keys(obj).sort();
+    return "{" + keys.map(k => jsonStringEscapeAscii(k) + ":" + canonicalJson(obj[k])).join(",") + "}";
+  }
+  throw new Error("unsupported type in packet: " + typeof obj);
+}
+
+// ASCII-safe string escape matching Python ensure_ascii=True behavior.
+// Quotes, backslash, control chars, and non-ASCII are \u-escaped.
+function jsonStringEscapeAscii(s) {
+  let out = '"';
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c === 0x22) out += '\\"';
+    else if (c === 0x5C) out += '\\\\';
+    else if (c === 0x08) out += '\\b';
+    else if (c === 0x0C) out += '\\f';
+    else if (c === 0x0A) out += '\\n';
+    else if (c === 0x0D) out += '\\r';
+    else if (c === 0x09) out += '\\t';
+    else if (c < 0x20 || c > 0x7E) {
+      out += '\\u' + ('0000' + c.toString(16)).slice(-4);
+    } else {
+      out += s[i];
+    }
+  }
+  return out + '"';
+}
+
+async function sha256Hex(bytes) {
+  const buf = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+function utf8(s) { return new TextEncoder().encode(s); }
+
+async function computeSeed(p) {
+  const parts = [
+    GENESIS_LABEL, p.packet_type, p.schema_version, p.operational_class,
+    p.session_id, p.created_utc, String(p.offline_mode).toLowerCase()
+  ];
+  return sha256Hex(utf8(parts.join("||")));
+}
+
+async function computeSectionHashes(seed, sections) {
+  const out = [];
+  let prev = seed;
+  for (const name of SECTION_ORDER) {
+    if (!(name in sections)) {
+      throw new Error(`hash chain missing required section: '${name}'`);
+    }
+    const sectionBytes = utf8(canonicalJson(sections[name]));
+    const prevBytes = utf8(prev);
+    const combined = new Uint8Array(sectionBytes.length + prevBytes.length);
+    combined.set(sectionBytes, 0);
+    combined.set(prevBytes, sectionBytes.length);
+    const h = await sha256Hex(combined);
+    out.push([name, h]);
+    prev = h;
+  }
+  return out;
+}
+
+async function computeChainRoot(p) {
+  const seed = await computeSeed(p);
+  const sections = {};
+  for (const s of SECTION_ORDER) sections[s] = p[s];
+  const pairs = await computeSectionHashes(seed, sections);
+  return { chainRoot: pairs[pairs.length - 1][1], pairs };
+}
+
+function scanForBanned(node, path = "") {
+  const hits = [];
+  if (typeof node === "string") {
+    const lower = node.toLowerCase();
+    for (const phrase of BANNED_PHRASES) {
+      if (lower.includes(phrase)) hits.push(`${path || "<root>"}: contains banned phrase '${phrase}'`);
+    }
+  } else if (Array.isArray(node)) {
+    node.forEach((v, i) => hits.push(...scanForBanned(v, `${path}[${i}]`)));
+  } else if (node && typeof node === "object") {
+    for (const [k, v] of Object.entries(node)) {
+      hits.push(...scanForBanned(v, path ? `${path}.${k}` : k));
+    }
+  }
+  return hits;
+}
+
+async function verifyPacket(p) {
+  const passed = [], failed = [];
+  const add = (ok, name, msg) => ok ? passed.push(name) : failed.push(msg || name);
+
+  // Header
+  const missingHeader = REQUIRED_HEADER_FIELDS.filter(f => !(f in p));
+  if (missingHeader.length) failed.push(`missing header fields: [${missingHeader.join(", ")}]`);
+  else passed.push("header fields complete");
+
+  // Schema version
+  if (!SUPPORTED_SCHEMA_VERSIONS.includes(p.schema_version))
+    failed.push(`schema_version '${p.schema_version}' not supported`);
+  else passed.push("schema_version supported");
+
+  // Operational class
+  if (!SUPPORTED_OPERATIONAL_CLASSES.includes(p.operational_class))
+    failed.push(`operational_class '${p.operational_class}' not recognized`);
+  else passed.push("operational_class recognized");
+
+  // Sections
+  const missingSections = REQUIRED_SECTIONS.filter(s => !(s in p));
+  if (missingSections.length) failed.push(`missing sections: [${missingSections.join(", ")}]`);
+  else passed.push("required sections present");
+
+  // engine_sha256
+  const engineSha = (p.model && p.model.engine_sha256) || "";
+  if (!engineSha || engineSha.length !== 64) failed.push("model.engine_sha256 missing or not a 64-char hex SHA-256 digest");
+  else passed.push("engine SHA-256 present");
+
+  // offline_mode
+  if (!("offline_mode" in p) || typeof p.offline_mode !== "boolean")
+    failed.push("offline_mode missing or not a bool");
+  else passed.push("offline mode declared");
+
+  // Integrity block
+  const integrity = p.integrity;
+  if (!integrity || typeof integrity !== "object") {
+    failed.push("integrity block missing or not an object");
+    return { passed: failed.length === 0, passes: passed, failures: failed };
+  }
+  const missingIntegrity = REQUIRED_INTEGRITY_FIELDS.filter(f => !(f in integrity));
+  if (missingIntegrity.length) failed.push(`integrity block missing fields: [${missingIntegrity.join(", ")}]`);
+
+  // Hash chain — only if header/sections/integrity are intact
+  if (!missingHeader.length && !missingSections.length && !missingIntegrity.length) {
+    try {
+      const { chainRoot, pairs } = await computeChainRoot(p);
+      const storedRoot = integrity.hash_chain_root;
+      const storedPairs = integrity.section_hashes;
+
+      let sectionPairsOK = true, sectionDetail = null;
+      if (!Array.isArray(storedPairs)) { sectionPairsOK = false; sectionDetail = "section_hashes is not a list"; }
+      else if (storedPairs.length !== pairs.length) { sectionPairsOK = false; sectionDetail = `section_hashes length ${storedPairs.length} != expected ${pairs.length}`; }
+      else {
+        for (let i = 0; i < pairs.length; i++) {
+          const [name, recomputed] = pairs[i];
+          const stored = storedPairs[i];
+          if (!stored || typeof stored !== "object") { sectionPairsOK = false; sectionDetail = `section_hashes entry for '${name}' is not a dict`; break; }
+          if (stored.section !== name) { sectionPairsOK = false; sectionDetail = `section_hashes name mismatch at '${name}': got '${stored.section}'`; break; }
+          if (stored.hash !== recomputed) { sectionPairsOK = false; sectionDetail = `section_hashes hash mismatch at '${name}'`; break; }
+        }
+      }
+
+      if (storedRoot !== chainRoot) {
+        let firstBad = null;
+        if (Array.isArray(storedPairs) && storedPairs.length === pairs.length) {
+          for (let i = 0; i < pairs.length; i++) {
+            const stored = storedPairs[i];
+            const [name, recomputed] = pairs[i];
+            if (!stored || typeof stored !== "object") { firstBad = name; break; }
+            if (stored.hash !== recomputed) { firstBad = stored.section || name; break; }
+          }
+        }
+        const detail = firstBad ? ` (first mutated section: ${firstBad})` : "";
+        failed.push(`hash chain INVALID — recomputed root does not match stored root${detail}`);
+      } else if (!sectionPairsOK) {
+        failed.push(`section_hashes INVALID — chain root matches but stored section_hashes diverge from recomputed pairs: ${sectionDetail}`);
+      } else {
+        passed.push("hash chain valid");
+      }
+
+      // Stash recomputed root for display
+      window.__lastRecomputed = chainRoot;
+    } catch (e) {
+      failed.push(`chain recomputation failed: ${e.message}`);
+    }
+  }
+
+  // Banned phrases
+  const hits = scanForBanned(p);
+  if (hits.length) hits.forEach(h => failed.push(`banned phrase: ${h}`));
+  else passed.push("no banned legal language detected");
+
+  return { passed: failed.length === 0, passes: passed, failures: failed };
+}
+
+// ----------------------------------------------------------------------
+// UI
+// ----------------------------------------------------------------------
+
+const $ = id => document.getElementById(id);
+
+function render(result, packet) {
+  const banner = $("banner");
+  const out = $("result");
+  const spec = $("spec");
+
+  if (result.passed) {
+    banner.className = "banner pass";
+    banner.textContent = "PASS · INTEGRITY VERIFIED";
+  } else {
+    banner.className = "banner fail";
+    banner.textContent = "FAIL · INTEGRITY NOT VERIFIED";
+  }
+
+  const lines = [];
+  for (const p of result.passes) lines.push(`<div class="check pass">${escapeHtml(p)}</div>`);
+  for (const f of result.failures) lines.push(`<div class="check fail">${escapeHtml(f)}</div>`);
+  lines.push("");
+  lines.push(`result: ${result.passed ? "PASS" : "FAIL"}`);
+  out.innerHTML = lines.join("\n");
+
+  if (packet && packet.integrity && window.__lastRecomputed) {
+    spec.textContent =
+      `stored_root      ${packet.integrity.hash_chain_root || "(missing)"}\n` +
+      `recomputed_root  ${window.__lastRecomputed}\n` +
+      `algorithm        ${packet.integrity.hash_chain_algorithm || "(missing)"}\n` +
+      `schema           ${packet.schema_version || "(missing)"} / ${packet.operational_class || "(missing)"}`;
+  } else {
+    spec.textContent = "";
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+$("verifyBtn").addEventListener("click", async () => {
+  const raw = $("packet").value.trim();
+  if (!raw) {
+    $("banner").className = "banner fail";
+    $("banner").textContent = "FAIL · EMPTY INPUT";
+    $("result").textContent = "Paste a packet.json before clicking Verify.";
+    $("spec").textContent = "";
+    return;
+  }
+  let p;
+  try { p = parsePreservingNumbers(raw); }
+  catch (e) {
+    $("banner").className = "banner fail";
+    $("banner").textContent = "FAIL · INVALID JSON";
+    $("result").textContent = "JSON parse error: " + e.message;
+    $("spec").textContent = "";
+    return;
+  }
+  $("banner").className = "banner idle";
+  $("banner").textContent = "VERIFYING…";
+  $("result").textContent = "Recomputing hash chain in your browser…";
+  $("provenanceWarning").style.display = "none";
+  const result = await verifyPacket(p);
+  render(result, p);
+
+  // Provenance reminder: PASS proves internal consistency, not provenance.
+  // The user must compare the recomputed root against a trusted external manifest.
+  const pw = $("provenanceWarning");
+  if (result.passed && window.__lastRecomputed) {
+    pw.innerHTML =
+      '<strong>⚠ Integrity verified — provenance is yours to confirm.</strong><br><br>' +
+      'The packet is internally consistent. To prove it came from a trusted source, compare the recomputed chain root <code>' +
+      escapeHtml(window.__lastRecomputed) +
+      '</code> against the publisher\'s out-of-band trusted manifest (e.g., the per-packet roots on <a href="/trophy-case.html" style="color:inherit;text-decoration:underline">/trophy-case.html</a>). A PASS with a non-matching root means a re-signed packet — reject it.';
+    pw.style.display = "block";
+  } else {
+    pw.style.display = "none";
+  }
+});
+
+$("clearBtn").addEventListener("click", () => {
+  $("packet").value = "";
+  $("banner").className = "banner idle";
+  $("banner").textContent = "IDLE";
+  $("result").textContent = "Awaiting input. Paste a packet and click Verify.";
+  $("spec").textContent = "";
+  $("provenanceWarning").style.display = "none";
+});
+
+$("sampleBtn").addEventListener("click", async () => {
+  $("packet").value = "Loading sample packet…";
+  try {
+    const r = await fetch("/sample-packet.json");
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const text = await r.text();
+    $("packet").value = text;
+  } catch (e) {
+    $("packet").value = "// Sample packet not available at /sample-packet.json yet.\n// Paste your own packet.json contents above, or use the Load .json file button.";
+  }
+});
+
+// Local file reader — uses HTML5 File API to load packet.json without uploading.
+// File contents stay on the client; nothing is transmitted.
+$("fileBtn").addEventListener("click", () => $("fileInput").click());
+$("fileInput").addEventListener("change", (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    $("packet").value = ev.target.result;
+    $("banner").className = "banner idle";
+    $("banner").textContent = "FILE LOADED";
+    $("result").textContent = `Loaded ${file.name} (${file.size} bytes). Click "Verify packet" to recompute the hash chain.`;
+    $("provenanceWarning").style.display = "none";
+  };
+  reader.onerror = () => {
+    $("banner").className = "banner fail";
+    $("banner").textContent = "FAIL · FILE READ ERROR";
+    $("result").textContent = "Could not read the selected file. The browser blocked the read or the file is unreadable.";
+  };
+  reader.readAsText(file);
+  e.target.value = "";  // reset so re-selecting the same file fires change again
+});
+</script>
+</body>
+</html>
