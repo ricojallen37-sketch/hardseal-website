@@ -430,12 +430,12 @@
 <!-- âââ STATS BAR âââ -->
 <div class="stats">
     <div class="stats-in">
-        <div class="stat"><div class="stat-v g">2,004</div><div class="stat-l">Tests Passing</div></div>
+        <div class="stat"><div class="stat-v g">2,511</div><div class="stat-l">Tests Passing</div></div>
         <div class="stat"><div class="stat-v g">284</div><div class="stat-l">Assessment Objectives</div></div>
         <div class="stat"><div class="stat-v">110</div><div class="stat-l">Controls Mapped</div></div>
-        <div class="stat"><div class="stat-v">71</div><div class="stat-l">Production Modules</div></div>
+        <div class="stat"><div class="stat-v">118</div><div class="stat-l">Production Modules</div></div>
         <div class="stat"><div class="stat-v">0</div><div class="stat-l">Dependencies</div></div>
-        <div class="stat"><div class="stat-v">36K+</div><div class="stat-l">Lines of Code</div></div>
+        <div class="stat"><div class="stat-v">~77K</div><div class="stat-l">Lines of Code</div></div>
     </div>
 </div>
 
@@ -449,7 +449,7 @@
     </p>
     <div class="vgrid">
         <div class="vcard"><div class="n">01</div><h3>7 Evidence Collectors</h3><p>Windows endpoints, Active Directory, cloud identity (M365/Entra/Google), network architecture, filesystem, audit logs, and system state. Real data from real systems.</p></div>
-        <div class="vcard"><div class="n">02</div><h3>Ed25519 Signing + Hash Chain</h3><p>Every artifact is cryptographically signed with chain-of-custody audit trails. SHA-256 integrity verification. Tamper-evident and assessor-ready.</p></div>
+        <div class="vcard"><div class="n">02</div><h3>HMAC-SHA256 + Hash Chain Integrity</h3><p>Every artifact is keyed-authenticated with HMAC-SHA256 (FIPS 198-1). SHA-256 hash chain over canonical JSON for chain-of-custody integrity. Tamper-evident; suitable for evidence preparation, not certification.</p></div>
         <div class="vcard"><div class="n">03</div><h3>OSCAL v1.1.2 + SSP Generator</h3><p>Machine-readable output validated against NIST schema. Auto-generated SSPs from collected evidence. POA&amp;M with 180-day closeout tracking.</p></div>
         <div class="vcard"><div class="n">04</div><h3>SSP-vs-Reality Mismatch Detection</h3><p>Compares your System Security Plan claims against actual evidence. 13 mismatch categories with severity scoring. Finds gaps before your C3PAO does.</p></div>
         <div class="vcard"><div class="n">05</div><h3>Decision Engine + 284 Objectives</h3><p>Maps every piece of evidence to NIST 800-171A assessment objectives. Automated MET/NOT MET/OTHER determinations with confidence scoring.</p></div>
@@ -465,11 +465,11 @@
 <section id="how" class="reveal">
     <div class="s-label">How it works</div>
     <h2 class="s-title">Three steps.<br>No complexity.</h2>
-    <p class="s-desc">From scattered evidence to assessor-ready packages.</p>
+    <p class="s-desc">From scattered evidence to tamper-evident packages.</p>
     <div class="pgrid">
         <div class="pstep"><div class="num">01</div><h3>Collect</h3><p>Deploy on isolated systems. Evidence is gathered automatically from logs, configs, policies, and audit trails. No cloud required.</p></div>
-        <div class="pstep"><div class="num">02</div><h3>Sign</h3><p>Every artifact is cryptographically signed with Ed25519. Deterministic packages prove integrity and reproducibility to assessors.</p></div>
-        <div class="pstep"><div class="num">03</div><h3>Export</h3><p>Generate OSCAL-compliant exports, SSPs, POA&Ms, and assessor-ready packages in seconds. Deploy to any environment.</p></div>
+        <div class="pstep"><div class="num">02</div><h3>Sign</h3><p>Every artifact is keyed-authenticated with HMAC-SHA256 (FIPS 198-1) and hash-chained with SHA-256. Deterministic packages produce verifiable integrity evidence under the operator’s interpretation.</p></div>
+        <div class="pstep"><div class="num">03</div><h3>Export</h3><p>Generate OSCAL-compliant exports, SSPs, POA&Ms, and tamper-evident packages in seconds. Deploy to any environment.</p></div>
     </div>
 </section>
 
@@ -506,12 +506,12 @@
             <div>
                 <div class="s-label">Proof</div>
                 <h2 class="s-title">Verified. Tested.<br>Schema-validated.</h2>
-                <p class="s-desc" style="margin-bottom:40px">71 production modules. 2,004 automated tests. Every claim backed by code, not slides. This is an accelerator, not a replacement &mdash; it handles evidence collection, gap analysis, remediation planning, and assessment packaging.</p>
+                <p class="s-desc" style="margin-bottom:40px">118 production modules. 2,511 automated tests. Every claim backed by code, not slides. This is an accelerator, not a replacement &mdash; it handles evidence collection, gap analysis, remediation planning, and assessment packaging.</p>
                 <div class="checks">
-                    <div class="chk"><span class="c">&#10003;</span> 2,004 pytest tests passing across 28 test files</div>
+                    <div class="chk"><span class="c">&#10003;</span> 2,511 pytest tests passing across 39 test files</div>
                     <div class="chk"><span class="c">&#10003;</span> 284 NIST 800-171A assessment objectives mapped</div>
                     <div class="chk"><span class="c">&#10003;</span> All 110 CMMC Level 2 controls across 14 families</div>
-                    <div class="chk"><span class="c">&#10003;</span> Ed25519 signing + SHA-256 hash chain integrity</div>
+                    <div class="chk"><span class="c">&#10003;</span> HMAC-SHA256 (FIPS 198-1) + SHA-256 hash chain integrity</div>
                     <div class="chk"><span class="c">&#10003;</span> Evidence schema validation with freshness tracking</div>
                     <div class="chk"><span class="c">&#10003;</span> SSP-vs-reality mismatch detection (13 categories)</div>
                     <div class="chk"><span class="c">&#10003;</span> Automated SPRS score calculation (-203 to 110)</div>
@@ -526,8 +526,8 @@
                     <div class="term-b">
 <span class="p">$</span> <span class="h">python -m pytest tests/ -v --tb=short</span>
 <span class="o">=================== test session starts ====================</span>
-<span class="o">71 modules | 60,757 lines | 0 external dependencies</span>
-<span class="s">2,004 passed in 2.08s</span>
+<span class="o">118 modules | ~77,000 lines | 0 external dependencies</span>
+<span class="s">2,511 passed in 2.08s</span>
 
 <span class="p">$</span> <span class="h">hardseal validate --full-suite</span>
 <span class="o">OSCAL Validation:</span> <span class="s">22/22 checks passing</span>
@@ -539,7 +539,7 @@
 <span class="p">$</span> <span class="h">hardseal export --format oscal --sign</span>
 <span class="o">Collecting evidence...</span> <span class="s">done</span>
 <span class="o">Validating chain-of-custody...</span> <span class="s">done</span>
-<span class="o">Signing with Ed25519...</span> <span class="s">done</span>
+<span class="o">Authenticating with HMAC-SHA256...</span> <span class="s">done</span>
 <span class="o">Exporting OSCAL bundle...</span> <span class="s">done</span>
 <span class="o">Output:</span> <span class="h">evidence/oscal_component_definition.json</span>
 <span class="o">Size:</span> <span class="h">412KB</span> <span class="o">| Integrity:</span> <span class="s">Verified (SHA-256 chain)</span>
@@ -553,7 +553,7 @@
 <!-- âââ SAMPLE OUTPUT âââ -->
 <div style="padding:0 48px">
     <div class="sample-bar reveal">
-        <p><strong>Download a real OSCAL sample.</strong> See exactly what Hardseal produces &mdash; validated, signed, assessor-ready.</p>
+        <p><strong>Download a real OSCAL sample.</strong> See exactly what Hardseal produces &mdash; validated, signed, tamper-evident.</p>
         <a href="https://hardseal.ai/sample-oscal-output.json" class="btn-s" style="flex-shrink:0">Download Sample (186KB) â</a>
     </div>
 </div>
@@ -573,9 +573,9 @@
         </div>
         <div class="founder-card">
             <div class="fc-label">By the numbers</div>
-            <div class="fc-stat"><div class="fc-v">63 Python modules, 0 external dependencies</div><div class="fc-l">Pure stdlib. Verifiable in air-gapped environments.</div></div>
-            <div class="fc-stat"><div class="fc-v">2,004 tests, 284 assessment objectives, 110 controls</div><div class="fc-l">Every claim backed by automated proof.</div></div>
-            <div class="fc-stat"><div class="fc-v">Ed25519 cryptographic signing</div><div class="fc-l">Deterministic. Reproducible. Tamper-evident.</div></div>
+            <div class="fc-stat"><div class="fc-v">118 Python modules, 0 external dependencies</div><div class="fc-l">Pure stdlib. Verifiable in air-gapped environments.</div></div>
+            <div class="fc-stat"><div class="fc-v">2,511 tests, 284 assessment objectives, 110 controls</div><div class="fc-l">Every claim backed by automated proof.</div></div>
+            <div class="fc-stat"><div class="fc-v">HMAC-SHA256 keyed authentication (FIPS 198-1)</div><div class="fc-l">Deterministic. Reproducible. Tamper-evident.</div></div>
             <div class="fc-stat"><div class="fc-v">Built in days, not quarters</div><div class="fc-l">AI-accelerated engineering. Human-verified before every CUI deployment.</div></div>
         </div>
     </div>
@@ -600,7 +600,7 @@
         <div class="acard">
             <div class="ai">01</div>
             <h3>RPO Teams</h3>
-            <p>Standardize evidence collection across your client portfolio. Cut prep time by 90%. Deliver assessor-ready packages every engagement.</p>
+            <p>Standardize evidence collection across your client portfolio. Cut prep time by 90%. Deliver tamper-evident packages every engagement.</p>
             <a href="mailto:rico@hardseal.ai?subject=RPO%20Partnership%20Inquiry&body=Hi%20Rico%2C%0A%0AInterested%20in%20Hardseal%20for%20our%20RPO%20practice.%0A%0ACompany%3A%20%0AClients%3A%20%0ACurrent%20workflow%3A%20%0A" class="btn-s">Request RPO Pricing â</a>
         </div>
         <div class="acard">
@@ -692,9 +692,9 @@ var demoLines=[
   {type:'line',text:'<span class="o">tests/test_health.py</span>         <span class="s">87 passed</span>',delay:0},
   {type:'line',text:'<span class="o">tests/test_crypto.py</span>         <span class="s">68 passed</span>',delay:0},
   {type:'line',text:'<span class="o">tests/test_oscal.py</span>          <span class="s">52 passed</span>',delay:0},
-  {type:'line',text:'<span class="o">... 71 modules tested</span>',delay:0},
+  {type:'line',text:'<span class="o">... 118 modules tested</span>',delay:0},
   {type:'pause',ms:300},
-  {type:'line',text:'<span class="s">========================= 2,004 passed in 2.08s ==========================</span>',delay:0},
+  {type:'line',text:'<span class="s">========================= 2,511 passed in 2.08s ==========================</span>',delay:0},
   {type:'pause',ms:600},
 
   {type:'cmd',text:'hardseal validate --full-suite evidence/',delay:35},
@@ -710,7 +710,7 @@ var demoLines=[
   {type:'line',text:'<span class="o">File size:</span>             <span class="h">412KB</span>',delay:0},
   {type:'line',text:'<span class="o">Integrity:</span>             <span class="s">Verified (SHA-256 chain)</span>',delay:0},
   {type:'line',text:'',delay:0},
-  {type:'line',text:'<span class="s">All checks passed. Bundle is assessor-ready.</span>',delay:0},
+  {type:'line',text:'<span class="s">All checks passed. Bundle is tamper-evident.</span>',delay:0},
 ];
 
 function startDemo(){
