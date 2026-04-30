@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardseal as the evidence interface — the moat for regulated AI and CMMC compliance</title>
+<meta name="description" content="Models commoditize. Hardware commoditizes. The interface where regulated teams produce, verify, and deliver tamper-evident evidence is the moat. The argument for treating evidence as the primitive across compliance, edge AI, and the cloud control plane.">
+<meta property="og:title" content="Hardseal as the evidence interface">
+<meta property="og:description" content="The interface where regulated teams produce, verify, and deliver tamper-evident evidence is the moat.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--bg2:#060606;--bg3:#0C0C0C;--border:#1A1A1A;--border2:#222;--white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--green:#00FF88;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.65;font-size:16px}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+header{border-bottom:1px solid var(--border);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px}
+nav a{color:var(--gray1);margin-left:32px;font-size:13px;letter-spacing:.05em}
+article{max-width:760px;margin:0 auto;padding:64px 40px 96px}
+.meta{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin-bottom:18px}
+h1{font-size:42px;line-height:1.1;letter-spacing:-.015em;margin-bottom:24px;font-weight:700}
+.lede{font-size:19px;color:var(--gray1);line-height:1.55;margin-bottom:40px}
+h2{font-size:24px;margin:40px 0 16px;letter-spacing:-.01em;font-weight:700}
+h3{font-size:18px;margin:28px 0 10px;font-weight:600}
+p{color:var(--gray1);margin-bottom:18px}
+p strong, li strong{color:var(--white)}
+ul,ol{margin:0 0 22px 20px;color:var(--gray1)}
+li{margin-bottom:10px}
+blockquote{border-left:2px solid var(--green);padding:8px 22px;margin:24px 0;color:var(--white);background:var(--bg3)}
+blockquote em{color:var(--green);font-style:normal;font-family:var(--mono);font-size:14px}
+code{font-family:var(--mono);background:var(--bg3);padding:2px 6px;font-size:13px;color:var(--green)}
+.callout{background:var(--bg2);border:1px solid var(--border);padding:24px 28px;margin:32px 0;font-size:15px}
+.callout strong{display:block;color:var(--green);font-family:var(--mono);font-size:11px;letter-spacing:.15em;margin-bottom:8px}
+.next{margin-top:64px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.next a{font-family:var(--mono);font-size:13px}
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+@media(max-width:720px){header{padding:16px 20px}nav a{margin-left:18px;font-size:12px}article{padding:32px 20px 64px}h1{font-size:30px}h2{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav><a href="/edge.html">EDGE</a><a href="/verify.html">VERIFY</a><a href="/resources.html">RESOURCES</a></nav>
+</header>
+
+<article>
+<div class="meta">2026-04-29 · POSITIONING · BY RICO ALLEN</div>
+<h1>Hardseal as the evidence interface.</h1>
+<p class="lede">
+Models commoditize. Hardware commoditizes. The interface where regulated teams produce, verify, and deliver tamper-evident evidence is the moat. This is the argument for treating evidence as the primitive across compliance, edge AI, and the cloud control plane — and for building one schema, one verifier, three substrates.
+</p>
+
+<h2>Where the value lives in regulated AI</h2>
+<p>
+A buyer in the defense industrial base — a CISO at a machine shop, a compliance lead at an aerospace supplier, an autonomy program manager at a prime — does not actually need an AI model. They can buy that. They do not need GPUs. They can buy those too. They need <strong>evidence</strong>: a defensible record of what their systems did, under what conditions, with what assurance, that holds up to a C3PAO assessor, a defense-prime audit, an FAA airworthiness review, or a federal court under FAR 52.204-21's six-year retention rule.
+</p>
+<p>
+The model is fungible. The hardware is fungible. The evidence is the artifact the buyer keeps when everything else is replaced. That makes the evidence layer the part of the stack that has pricing power, durability, and switching cost — properties the model layer and hardware layer have already given up.
+</p>
+
+<h2>Why the existing layers do not own this</h2>
+<p>
+Several large categories of company have tried to claim the evidence layer and missed it for structural reasons:
+</p>
+<h3>Compliance automation platforms</h3>
+<p>
+Vanta, Secureframe, Drata. These tools ship attestations — probabilistic claims that a control was implemented, generated by ingesting evidence and producing a human-readable report. The artifact they produce is a report, not a primitive. The buyer cannot independently verify the report without trusting the platform. That trust requirement is the ceiling of what the buyer can defend in front of an assessor or in court.
+</p>
+<h3>Cryptographic AI / zkML</h3>
+<p>
+Lagrange Labs, RISC Zero, Polyhedra. These ship cryptographic primitives that prove inference correctness. The math is elegant. The cost structure works for high-value, low-volume deployments — Anduril Lattice, Oracle, Lockheed Martin. It does not work for a small DIB supplier who needs to ship thousand-dollar evidence on a hundred-dollar margin. The unit economics break in the supplier tier where most of the regulatory exposure actually lives.
+</p>
+<h3>Big-4 consultancies</h3>
+<p>
+Deloitte, PwC, KPMG. These ship people-hours wrapped around a methodology. The deliverable is a binder, the verification is the consulting firm's brand, and the artifact does not survive the engagement. Buyers love it for the moment of the assessment and resent it the moment they have to repeat it next quarter.
+</p>
+<h3>CMMC tooling vendors</h3>
+<p>
+Most of this category sells workflow — checklists, evidence libraries, artifact uploaders. Useful. Not a primitive. Useful workflow on top of a missing primitive is not the moat.
+</p>
+
+<h2>What the primitive actually is</h2>
+<p>
+A primitive in this layer has to do four things at once:
+</p>
+<ol>
+<li><strong>Be an artifact</strong>, not a service. The buyer takes possession of it. They do not depend on calling our API to use it tomorrow.</li>
+<li><strong>Be independently verifiable.</strong> The buyer's auditor, their prime contractor, and their lawyer can all run the same verifier and get the same answer. Trust in us is not load-bearing.</li>
+<li><strong>Be deterministic.</strong> Same packet, same chain root, every time, on every machine, in every browser, in every Python interpreter, in every C reimplementation a customer or competitor writes. Determinism is what makes the artifact survive the company.</li>
+<li><strong>Be honest about what it does not claim.</strong> The packet has a <code>limitations</code> section that is mandatory and human-readable. The buyer knows exactly what the artifact does and does not assert. No marketing-shaped overclaim. No "this proves the AI is safe." The artifact is integrity evidence, scoped, with an explicit boundary.</li>
+</ol>
+
+<h2>The schema is the same across substrates</h2>
+<p>
+The non-obvious move is that the same primitive works across more than one substrate. Hardseal applies the schema in three places:
+</p>
+<h3>Compliance substrate (Hardseal Core)</h3>
+<p>
+CMMC Level 2 readiness. Generate the SSP, POA&M, SPRS snapshot, evidence gap matrix. Every artifact is a packet with the same hash chain. Every claim is scoped, signed, and verifiable. The C3PAO can run the same verifier the customer ran to produce the artifact. The Big-4 binder has nothing comparable.
+</p>
+<h3>Edge AI substrate (Hardseal Edge)</h3>
+<p>
+AI runtime evidence. Inference on a Jetson, on an enclaved server, on a moving platform. Same schema. Same verifier. Same hash chain. The buyer who needs to prove what their AI did at the edge gets a packet that travels through the same pipeline a CMMC artifact travels through.
+</p>
+<h3>Cloud substrate (planned)</h3>
+<p>
+The control plane. Snapshots of IAM policies, provisioning state, data-plane configurations. Same schema. Same verifier. The buyer running a hybrid stack has one source of truth across compliance evidence, AI runtime evidence, and cloud configuration evidence — without three different platforms, three different verifiers, and three different audit trails.
+</p>
+
+<h2>Why this becomes a moat</h2>
+<p>
+A primitive that works across multiple substrates with one schema and one verifier has properties no point solution has:
+</p>
+<ul>
+<li><strong>Lock-in is from durability, not contracts.</strong> The buyer keeps the artifact. They do not need us to read it tomorrow. Switching off Hardseal does not break their existing evidence — it just means new evidence comes from somewhere else. That makes the buyer comfortable buying. It also makes it impossible for a competitor to displace us by lock-in tactics, because we do not have lock-in tactics.</li>
+<li><strong>Network effects across the audit chain.</strong> When primes accept our packet from one supplier, they will accept it from the next supplier. The verifier is the same. The cost of the second integration is zero. This is how a primitive seeds a standard.</li>
+<li><strong>Cost structure that competitors cannot match.</strong> Vanta cannot price a deterministic verifier — it is not their product shape. Lagrange cannot price down to the supplier tier — their unit economics break. Deloitte cannot productize the artifact — it is not their business model. The space we occupy is structurally hostile to the people who could compete in it.</li>
+</ul>
+
+<h2>The Cursor-of-regulated-systems frame</h2>
+<p>
+A useful analogy: the way Cursor turned the editor into the interface for AI-augmented code generation, Hardseal turns the packet into the interface for AI-augmented evidence production. The four primitives map cleanly:
+</p>
+<ul>
+<li><strong>Graph</strong> — the directed acyclic graph of evidence (control → objective → artifact → packet → chain root) that mirrors the codebase graph in Cursor.</li>
+<li><strong>Retrieval</strong> — finding the right evidence at the right time during an assessment, mirroring code retrieval during a refactor.</li>
+<li><strong>Composer</strong> — building a packet by composing canonical sections, mirroring the multi-file edit flow.</li>
+<li><strong>Execution loop</strong> — verify, fix, re-verify, ship — mirroring the run-tests-fix-failures loop in code.</li>
+</ul>
+<p>
+We do not have to build the entire interface today. We have to be the primitive everyone else's interface settles on.
+</p>
+
+<div class="callout">
+<strong>// THE BET</strong>
+The next ten years of regulated AI and CMMC compliance will produce more evidence than the last fifty. Most of that evidence will be probabilistic, AI-generated, hard to defend in court, and a False Claims Act exposure waiting to happen. The companies that win this layer are the ones who ship a primitive that is deterministic, independently verifiable, and honest about scope. That is a small set of companies. We intend to be one of them.
+</div>
+
+<h2>What this means in practice</h2>
+<p>
+For DIB suppliers: Hardseal Edge ships a verifier you can run in your browser today, an evidence packet from a real Jetson run, and a path to integrate the schema into your own AI deployments. <a href="/verify.html">Verify a packet</a> in your browser. <a href="/trophy-case.html">Download the trophy case bundle</a> and run the standalone verifier yourself. <a href="/edge.html">Read the Edge product page</a> for pricing and pilot details.
+</p>
+<p>
+For RPO and 3PAO firms: the same primitive that produces an Edge packet produces a CMMC Core artifact. One verifier across both. Standardized, deterministic, defensible.
+</p>
+<p>
+For primes and program offices: we are interested in supplier-tier deployment patterns where one packet schema can travel up your supply chain without re-implementation. <a href="mailto:rico@hardseal.ai">Email the founder</a>.
+</p>
+
+<blockquote>
+<em>// THE THESIS</em><br><br>
+Models commoditize. Hardware commoditizes. The interface where regulated teams produce, verify, and deliver tamper-evident evidence is the moat. Hardseal is that interface. One schema, one verifier, three substrates — compliance, edge AI, and (eventually) the cloud control plane. The artifact is the product. The verifier is the proof.
+</blockquote>
+
+<div class="next">
+  <a href="/blog/learning-loop.html">← The Hardseal Learning Loop</a>
+  <a href="/blog/test-what-we-fly.html">Test what we fly. Fly what we test. →</a>
+</div>
+
+</article>
+
+<footer>
+  Hardseal · doctrine · 2026-04-29 · written by Rico Allen · <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a>
+</footer>
+
+</body>
+</html>

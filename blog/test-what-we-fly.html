@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test what we fly. Fly what we test. — Hardseal doctrine</title>
+<meta name="description" content="An aerospace flight-test discipline applied to software shipping cryptographic evidence. Why every artifact a customer sees must be the artifact that was exercised in test — no test-only mocks, no production-only paths, no demo scripts that bypass guardrails.">
+<meta property="og:title" content="Test what we fly. Fly what we test.">
+<meta property="og:description" content="The aerospace flight-test mantra that became Hardseal's operating doctrine. What it costs and why it pays.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#000;--bg2:#060606;--bg3:#0C0C0C;--border:#1A1A1A;--border2:#222;--white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--green:#00FF88;--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.65;font-size:16px}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+header{border-bottom:1px solid var(--border);padding:24px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);z-index:10}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px}
+nav a{color:var(--gray1);margin-left:32px;font-size:13px;letter-spacing:.05em}
+article{max-width:760px;margin:0 auto;padding:64px 40px 96px}
+.meta{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.15em;margin-bottom:18px}
+h1{font-size:42px;line-height:1.1;letter-spacing:-.015em;margin-bottom:24px;font-weight:700}
+.lede{font-size:19px;color:var(--gray1);line-height:1.55;margin-bottom:40px}
+h2{font-size:24px;margin:40px 0 16px;letter-spacing:-.01em;font-weight:700}
+h3{font-size:18px;margin:28px 0 10px;font-weight:600}
+p{color:var(--gray1);margin-bottom:18px}
+p strong, li strong{color:var(--white)}
+ul,ol{margin:0 0 22px 20px;color:var(--gray1)}
+li{margin-bottom:10px}
+blockquote{border-left:2px solid var(--green);padding:8px 22px;margin:24px 0;color:var(--white);background:var(--bg3)}
+blockquote em{color:var(--green);font-style:normal;font-family:var(--mono);font-size:14px}
+code{font-family:var(--mono);background:var(--bg3);padding:2px 6px;font-size:13px;color:var(--green)}
+.callout{background:var(--bg2);border:1px solid var(--border);padding:24px 28px;margin:32px 0;font-size:15px}
+.callout strong{display:block;color:var(--green);font-family:var(--mono);font-size:11px;letter-spacing:.15em;margin-bottom:8px}
+.next{margin-top:64px;padding-top:32px;border-top:1px solid var(--border);display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.next a{font-family:var(--mono);font-size:13px}
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+@media(max-width:720px){header{padding:16px 20px}nav a{margin-left:18px;font-size:12px}article{padding:32px 20px 64px}h1{font-size:30px}h2{font-size:21px}}
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav><a href="/edge.html">EDGE</a><a href="/verify.html">VERIFY</a><a href="/resources.html">RESOURCES</a></nav>
+</header>
+
+<article>
+<div class="meta">2026-04-29 · MANTRA · BY RICO ALLEN</div>
+<h1>Test what we fly. Fly what we test.</h1>
+<p class="lede">
+The phrase comes from aerospace flight test. It means the airplane that goes through certification is the airplane that goes into service — same configuration, same software, same instrumentation, same sensors. Anything different is a different airplane. We adopted it as Hardseal's operating mantra, and it shapes most of the decisions the company refuses to make.
+</p>
+
+<h2>The version most software teams run</h2>
+<p>
+Most teams ship a build. Then they ship a "production" build that is subtly different — different config flags, different feature toggles, different telemetry endpoints, different mock services in the test harness vs. the live system. The differences are usually small. Sometimes the differences are the entire reason the customer is buying the product.
+</p>
+<p>
+The differences are also where bugs live. A test passes against a mock database that returns rows in insertion order. Production hits a real database where row order is undefined. The test never caught it. The customer does.
+</p>
+<p>
+This pattern is so common it is invisible. Engineers do not talk about it because it is normal. We refuse to treat it as normal.
+</p>
+
+<h2>What the rule actually demands</h2>
+<p>
+"Test what we fly. Fly what we test" forces four things, and once you start enforcing them most of the convenient shortcuts in software disappear:
+</p>
+<ol>
+<li><strong>No test-only mocks for behavior the customer depends on.</strong> If the production code path hits a real database, the test hits a real database. If production hashes a binary, the test hashes the same binary. Mocks are allowed for I/O speed in unit-level tests, but never for the behavior the customer is buying.</li>
+<li><strong>No production-only paths.</strong> The code that runs in production is the code that has tests. If a "fast path" exists only in production because it is "too expensive to test," that path has no tests. We delete the fast path or we test it. We do not ship untested code paths.</li>
+<li><strong>No demo scripts that bypass guardrails.</strong> If a demo script needs <code>HARDSEAL_DISABLE_FCA_FIREWALL=1</code> to run, the demo is showing a system that does not exist. We refuse to demo systems that do not exist. The demo runs through the same guardrails the production system runs through, or we change the demo.</li>
+<li><strong>Doc examples that are exercised, not narrated.</strong> A README that shows <code>hardseal verify packet.json</code> better hit the same binary, with the same arguments, that a real customer hits. If the README diverges from the CLI, the README is shown how to run a system that does not exist. We test our own docs.</li>
+</ol>
+
+<h2>What this costs</h2>
+<p>
+A lot of convenience. Tests get slower because they hit real systems. Demos get harder to set up because they cannot bypass guardrails. Refactors take longer because every change has to roll through the full path, not just the fast path. Onboarding a new engineer is harder because there is no "magic mode" that skips the friction the production system has.
+</p>
+<p>
+Most companies do the math, decide the cost is too high, and ship the convenience version. They are not wrong about the cost. They are wrong about what they are buying with the cost.
+</p>
+
+<h2>What this pays</h2>
+<p>
+For a company shipping cryptographic evidence to defense customers, the cost is the price of credibility. When a NIAP-class assessor or a defense prime asks <em>does the verifier the customer runs match the verifier the test suite runs against</em>, the answer better be "byte-identical." If the answer is "mostly identical," the conversation is over. Mostly is not a thing in this niche.
+</p>
+<p>
+The Hardseal browser verifier on the public site is a working example of this discipline. The JavaScript implementation reproduces the canonical-JSON serialization, the seed-hash construction, the per-section chaining, and the banned-phrase scan that the Python verifier in the repo does. Same packet, same chain root, same pass/fail, three different surfaces. We did the work because we shipped the claim. The claim and the work cannot drift.
+</p>
+
+<div class="callout">
+<strong>// THE TEST</strong>
+Pick the headline claim of any product you use. Trace it back through their codebase. Is the test that exercises that claim hitting the same path the customer hits, with the same data shapes, the same guardrails, and the same dependencies? Most of the time the answer is no. That gap is where the next failure lives.
+</div>
+
+<h2>Failure modes the rule prevents</h2>
+<p>
+A non-exhaustive list of bugs we have caught (or seen other teams ship) because the test diverged from production:
+</p>
+<ul>
+<li><strong>Mocked auth</strong> that always returns "valid," masking a bug in the real auth path. Customer hits the real path the day the cert rotates and discovers the rotation handler was never tested.</li>
+<li><strong>Mocked database</strong> that returns rows in insertion order. Production hits a real query planner. Tests pass for a year. A schema change rewrites the query plan. The contract that depended on insertion order silently breaks. Customer-side data corruption.</li>
+<li><strong>Demo flag</strong> that disables rate limits. Customer reproduces the demo workflow at scale. The rate limiter was never tested under that load. System falls over.</li>
+<li><strong>Pretty-printed JSON in tests, compact JSON in production.</strong> Hash chain anchored to canonical JSON. Tests produce the wrong hash. Customer's verifier fails. Tests still pass. The bug is in the test, not the code, and the bug shipped.</li>
+<li><strong>Doc examples that drifted.</strong> Customer pastes a command from the README. The flag was renamed three releases ago. The doc was never re-run.</li>
+</ul>
+
+<h2>How we enforce it</h2>
+<p>
+Pre-commit hooks scan for banned-phrase strings, FCA-flank language, and a single-author commit-email rule. The same scanner runs in CI on every PR. The same scanner runs at packet-construction time in the live verifier. Three surfaces, one implementation. If the implementation is wrong, all three surfaces are wrong, and we find out at commit time, not at the customer site.
+</p>
+<p>
+Every customer-facing artifact — the trophy case bundle, the standalone verifier, the QUICKSTART, the sample packets — is generated by the same scripts that the team uses internally. There is no "release build" that is different from the internal build. There is no "marketing-mode" verifier. There is one verifier. It is the one we fly. It is the one we test.
+</p>
+
+<h2>The deeper bet</h2>
+<p>
+This rule is not actually about testing. It is about whether the company can be trusted by a buyer who cannot watch every line of code. The buyer's bet — and they are betting real money against real liability — is that what we showed them is what they will receive. The rule is the structural commitment that that bet pays.
+</p>
+<p>
+A team that runs tests against mocks and ships against real systems is asking the buyer to trust that the gap between mock and real is small enough not to matter. For a CMMC artifact under FAR 52.204-21 retention, or an AI runtime evidence packet that might end up in a defense-prime's audit, that gap is not a question of taste. It is a question of fraud exposure. The rule is how we keep that exposure at zero.
+</p>
+
+<h2>Adopt this even if you do not ship cryptographic evidence</h2>
+<p>
+Every team that depends on the alignment between what was tested and what was shipped benefits from this rule. The alignment is also rare, because it is expensive. Most software is shipped on the bet that the divergence is manageable. Sometimes the bet pays. Sometimes the bet is the entire reason a customer leaves.
+</p>
+<p>
+The version of this rule that any team can adopt today: <strong>delete one mock that abstracts customer-visible behavior.</strong> Replace it with a real implementation. Watch what tests break. Fix them properly. Repeat next month with a different mock. Twelve months in, the codebase is a different shape.
+</p>
+
+<blockquote>
+<em>// THE MANTRA</em><br><br>
+Test what we fly. Fly what we test. The artifact that goes through CI is the artifact that goes to the customer. The path that has tests is the path that runs in production. The verifier that is exercised is the verifier that is shipped. No exceptions, no demo flags, no fast paths, no mocks for the headline claim.
+</blockquote>
+
+<div class="next">
+  <a href="/blog/learning-loop.html">← The Hardseal Learning Loop</a>
+  <a href="/blog/evidence-interface.html">Hardseal as the evidence interface →</a>
+</div>
+
+</article>
+
+<footer>
+  Hardseal · doctrine · 2026-04-29 · written by Rico Allen · <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a>
+</footer>
+
+</body>
+</html>
