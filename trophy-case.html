@@ -57,7 +57,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
 <div class="eyebrow">REAL EVIDENCE · REAL HARDWARE · DOWNLOAD AND VERIFY</div>
 <h1>Trophy case.</h1>
 <p class="lead">
-  Eight sealed Hardseal Edge evidence packets from a Jetson Orin Nano Super. Million-iteration soaks across multiple precision classes and power modes. Pinned-clocks replicate chain. Bundle SHA-256 below. Recompute the chain yourself — Python stdlib only, zero dependencies, short enough to read before you run it. Trust anchor lives on this page; the per-packet chain roots below are what you compare against.
+  Eleven sealed Hardseal Edge evidence packets from a Jetson Orin Nano Super. Million-iteration soaks across multiple precision classes and power modes. Pinned-clocks replicate chain. Bundle SHA-256 below. Recompute the chain yourself — Python stdlib only, zero dependencies, short enough to read before you run it. Trust anchor lives on this page; the per-packet chain roots below are what you compare against.
 </p>
 
 <div class="cta-row">
@@ -94,7 +94,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
 
   <div class="step">
     <h3>Download the bundle.</h3>
-    <p>It's 197 KB. The zip contains 8 <code>packet.json</code> files, the standalone verifier, and a manifest with all chain roots and the bundle SHA-256.</p>
+    <p>It's 269 KB. The zip contains 11 <code>packet.json</code> files, the standalone verifier, and a manifest with all chain roots and the bundle SHA-256.</p>
   </div>
 
   <div class="step">
@@ -118,7 +118,7 @@ less verify_standalone.py</pre>
     <h3>Run the verifier on each packet — then compare the chain root.</h3>
     <p>Stdlib Python 3.8+. No <code>pip install</code>. No network calls.</p>
     <pre>python3 verify_standalone.py T1_thermal_saturation_yolov8n_int8_25W_1M_iter/packet.json</pre>
-    <p>Expected output: a list of <code>PASS:</code> lines, ending with <code>result: PASS</code>. The verifier is Python stdlib only; shell examples shown are for macOS/Linux. <strong>Then compare the recomputed chain root against the published value in the specs block above.</strong> A PASS with a matching root means the packet is the one Hardseal published. A PASS with a different root means someone re-signed a modified packet — reject it. Repeat for each of the five packets.</p>
+    <p>Expected output: a list of <code>PASS:</code> lines, ending with <code>result: PASS</code>. The verifier is Python stdlib only; shell examples shown are for macOS/Linux. <strong>Then compare the recomputed chain root against the published value in the specs block above.</strong> A PASS with a matching root means the packet is the one Hardseal published. A PASS with a different root means someone re-signed a modified packet — reject it. Repeat for each of the eleven packets.</p>
   </div>
 
   <div class="step">
