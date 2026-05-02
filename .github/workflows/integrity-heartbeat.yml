@@ -167,11 +167,38 @@ jobs:
               VERIFIER_SHA=$(sha256sum "${VERIFIER_PATH}" | awk '{print $1}')
               VERIFIER_DIR=$(dirname "${VERIFIER_PATH}")
 
+              # ----------------------------------------------------------
+              # 4a. Workflow-Verifier Integration Test
+              # ----------------------------------------------------------
+              # Run the verifier on the FIRST packet and explicitly confirm
+              # the grep pattern matches the verifier's PASS output. If it
+              # doesn't match here, every per-packet check below would
+              # silently FAIL — halt with a clear annotation instead.
+              # Doctrinal name: "Workflow-Verifier Integration Drift"
+              # anti-pattern (BUNDLE_RELEASE_PROCEDURE_v2.md).
+              FIRST_PACKET=$(find . -name 'packet.json' -type f | head -n1)
+              if [[ -n "${FIRST_PACKET}" ]]; then
+                INTEG_OUT=$(cd "${VERIFIER_DIR}" && python3 "$(basename "${VERIFIER_PATH}")" \
+                      "$(realpath --relative-to="${VERIFIER_DIR}" "${FIRST_PACKET}")" 2>&1 || true)
+                echo "::group::Workflow-Verifier Integration Test (first packet)"
+                echo "${INTEG_OUT}"
+                echo "::endgroup::"
+                if echo "${INTEG_OUT}" | grep -qE '^result:\s*PASS$'; then
+                  echo "INTEGRATION TEST PASS: workflow grep pattern matches verifier output"
+                else
+                  echo "::error::INTEGRATION TEST FAILED: workflow grep pattern does not match verifier output. Halt."
+                  exit 1
+                fi
+              else
+                echo "::error::INTEGRATION TEST FAILED: no packet.json found in extracted bundle. Halt."
+                exit 1
+              fi
+
               while IFS= read -r packet; do
                 PACKETS_TOTAL=$((PACKETS_TOTAL + 1))
                 if (cd "${VERIFIER_DIR}" && python3 "$(basename "${VERIFIER_PATH}")" \
                       "$(realpath --relative-to="${VERIFIER_DIR}" "${packet}")" \
-                      2>&1 | tail -n1 | grep -qE 'result:\s*PASS'); then
+                      2>&1 | grep -qE '^result:\s*PASS$'); then
                   PACKETS_PASS=$((PACKETS_PASS + 1))
                 fi
               done < <(find . -name 'packet.json' -type f)
