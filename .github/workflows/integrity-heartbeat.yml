@@ -1,0 +1,265 @@
+# Integrity Heartbeat — autonomous continuous attestation for hardseal.ai
+#
+# Runs every 6 hours on GitHub Actions infrastructure. Downloads the live
+# Hardseal Edge trophy-case bundle from hardseal.ai, verifies its SHA-256
+# against the published .sha256 sidecar, runs the standalone verifier on
+# every packet inside the bundle, and appends a self-hash-chained
+# heartbeat line to docs/integrity/INTEGRITY_LOG.md. Commits + pushes
+# the log update via the workflow's GITHUB_TOKEN.
+#
+# Doctrine:
+# - Architecture compounds today AND implementation ships today.
+# - Public claim STILL gated on 7 consecutive clean heartbeats
+#   (>= 42 hours of receipts) per the Continuous Attestation rule in
+#   docs/ops/RELEASE_COMMANDER_CHECKLIST_v2_3.md, section 5.
+# - FAIL is publishable. When (not if) a heartbeat detects a real
+#   failure, the FAIL line gets committed to INTEGRITY_LOG.md anyway,
+#   then the workflow run exits non-zero to surface the alert. We
+#   publish the failure. That is the trust signal worth paying for.
+# - Self-hash chain (guardian_sha) anchors the log itself as an
+#   integrity-attested artifact. Tampering any past entry breaks the
+#   chain forward. Same primitive Hardseal uses for evidence packets,
+#   applied recursively to the log.
+#
+# Known prerequisites for clean operation:
+# - main branch protection (if any) must allow pushes from
+#   github-actions[bot] / the configured workflow actor, OR the
+#   workflow must be exempted via "Allow specified actors to bypass
+#   required pull requests." Without that, the push step will fail
+#   with "protected branch" and the heartbeat line will be lost
+#   (the workflow exits non-zero on push failure but the line was
+#   never committed).
+#
+# Known accepted limitations:
+# - Single-attempt push. Network blip during push -> heartbeat line
+#   for that run is lost. Acceptable per current doctrine; revisit if
+#   FAIL-loss becomes observed.
+# - Workflow uses commit identity "hardseal-integrity-bot" with the
+#   github-actions noreply email convention. No PAT exposure; only
+#   the auto-issued GITHUB_TOKEN with contents:write scope.
+
+name: integrity-heartbeat
+
+on:
+  schedule:
+    # Every 6 hours, on the hour, UTC. Gives 4 heartbeats/day.
+    - cron: '0 */6 * * *'
+  push:
+    branches: [main]
+    paths:
+      # Trigger immediately when the bundle, the sidecar reference,
+      # the verifier, or the log path itself changes on main.
+      - 'downloads/hardseal_edge_trophy_case.zip'
+      - 'downloads/hardseal_edge_trophy_case.zip.sha256'
+      - 'verify_standalone.py'
+      - 'docs/integrity/INTEGRITY_LOG.md'
+      - '.github/workflows/integrity-heartbeat.yml'
+  workflow_dispatch:
+    # Manual trigger from the Actions UI for testing or forced runs.
+
+# Only one heartbeat may be running at a time. If a scheduled run
+# fires while a previous run is still going, the new run waits.
+# We do NOT cancel-in-progress: every fired heartbeat must complete
+# (it is a receipt, not a check).
+concurrency:
+  group: integrity-heartbeat
+  cancel-in-progress: false
+
+permissions:
+  # Minimum scope: commit + push the heartbeat line. No issues, no PRs,
+  # no packages. Least privilege.
+  contents: write
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      BUNDLE_URL: https://hardseal.ai/downloads/hardseal_edge_trophy_case.zip
+      SIDECAR_URL: https://hardseal.ai/downloads/hardseal_edge_trophy_case.zip.sha256
+      LOG_PATH: docs/integrity/INTEGRITY_LOG.md
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Full history so we can read the previous heartbeat line
+          # for the self-hash chain.
+          fetch-depth: 0
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run heartbeat probe
+        id: probe
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          # ----------------------------------------------------------
+          # 1. Cache-busted download of bundle + sidecar
+          # ----------------------------------------------------------
+          TS_EPOCH=$(date -u +%s)
+          TS_ISO=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          mkdir -p /tmp/heartbeat
+          cd /tmp/heartbeat
+
+          BUNDLE_FETCH_OK=true
+          SIDECAR_FETCH_OK=true
+
+          curl -fsSL --max-time 60 \
+            -o hardseal_edge_trophy_case.zip \
+            "${BUNDLE_URL}?v=${TS_EPOCH}" \
+            || BUNDLE_FETCH_OK=false
+
+          curl -fsSL --max-time 30 \
+            -o hardseal_edge_trophy_case.zip.sha256 \
+            "${SIDECAR_URL}?v=${TS_EPOCH}" \
+            || SIDECAR_FETCH_OK=false
+
+          # ----------------------------------------------------------
+          # 2. Compute observed bundle metrics
+          # ----------------------------------------------------------
+          OBSERVED_SHA="unavailable"
+          OBSERVED_BYTES=0
+          if [[ "${BUNDLE_FETCH_OK}" == "true" ]]; then
+            OBSERVED_SHA=$(sha256sum hardseal_edge_trophy_case.zip | awk '{print $1}')
+            OBSERVED_BYTES=$(wc -c < hardseal_edge_trophy_case.zip)
+          fi
+
+          EXPECTED_SHA="unavailable"
+          if [[ "${SIDECAR_FETCH_OK}" == "true" ]]; then
+            # Sidecar format: "<sha256>  hardseal_edge_trophy_case.zip"
+            EXPECTED_SHA=$(awk '{print $1}' hardseal_edge_trophy_case.zip.sha256)
+          fi
+
+          # ----------------------------------------------------------
+          # 3. Bundle SHA gate
+          # ----------------------------------------------------------
+          SHA_MATCH="false"
+          if [[ "${OBSERVED_SHA}" != "unavailable" \
+             && "${EXPECTED_SHA}" != "unavailable" \
+             && "${OBSERVED_SHA}" == "${EXPECTED_SHA}" ]]; then
+            SHA_MATCH="true"
+          fi
+
+          # ----------------------------------------------------------
+          # 4. Unzip + per-packet verifier
+          # ----------------------------------------------------------
+          PACKETS_PASS=0
+          PACKETS_TOTAL=0
+          VERIFIER_SHA="unavailable"
+
+          if [[ "${BUNDLE_FETCH_OK}" == "true" ]]; then
+            mkdir -p /tmp/heartbeat/unpack
+            cd /tmp/heartbeat/unpack
+            unzip -o /tmp/heartbeat/hardseal_edge_trophy_case.zip > /tmp/heartbeat/unzip.log 2>&1 || true
+
+            # The bundle root directory is "trophy_case_bundle/"; locate
+            # the verifier and packet.json files generically rather than
+            # hard-coding the directory name, in case it ever changes.
+            VERIFIER_PATH=$(find . -name 'verify_standalone.py' -type f | head -n1)
+
+            if [[ -n "${VERIFIER_PATH}" ]]; then
+              VERIFIER_SHA=$(sha256sum "${VERIFIER_PATH}" | awk '{print $1}')
+              VERIFIER_DIR=$(dirname "${VERIFIER_PATH}")
+
+              while IFS= read -r packet; do
+                PACKETS_TOTAL=$((PACKETS_TOTAL + 1))
+                if (cd "${VERIFIER_DIR}" && python3 "$(basename "${VERIFIER_PATH}")" \
+                      "$(realpath --relative-to="${VERIFIER_DIR}" "${packet}")" \
+                      2>&1 | tail -n1 | grep -qE 'result:\s*PASS'); then
+                  PACKETS_PASS=$((PACKETS_PASS + 1))
+                fi
+              done < <(find . -name 'packet.json' -type f)
+            fi
+          fi
+
+          # ----------------------------------------------------------
+          # 5. Overall result
+          # ----------------------------------------------------------
+          RESULT="FAIL"
+          if [[ "${BUNDLE_FETCH_OK}" == "true" \
+             && "${SIDECAR_FETCH_OK}" == "true" \
+             && "${SHA_MATCH}" == "true" \
+             && "${PACKETS_TOTAL}" -gt 0 \
+             && "${PACKETS_PASS}" -eq "${PACKETS_TOTAL}" ]]; then
+            RESULT="PASS"
+          fi
+
+          # ----------------------------------------------------------
+          # 6. Build the heartbeat line + guardian_sha chain
+          # ----------------------------------------------------------
+          cd "${GITHUB_WORKSPACE}"
+
+          # The seed log file is committed in the repo at LOG_PATH. If it is
+          # missing, FAIL LOUDLY — silent self-bootstrapping a deleted/tampered
+          # seed file would break the chain anyway (no valid prev_line for the
+          # guardian_sha continuity). Per "FAIL is publishable" doctrine.
+          if [[ ! -f "${LOG_PATH}" ]]; then
+            echo "::error title=Integrity Log Missing::${LOG_PATH} is missing from main. The seed log file is required and committed in PR #3. Refusing to silently re-seed — that would break the guardian_sha chain. Restore ${LOG_PATH} from git history and re-run."
+            exit 1
+          fi
+
+          # Read the previous heartbeat line: last line in the log that
+          # starts with an ISO date (YYYY-MM-DD). If no heartbeat lines
+          # have been appended yet, the seed CHAIN_ANCHOR line serves as
+          # the prev for the guardian_sha self-hash chain.
+          PREV_LINE=$(grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' "${LOG_PATH}" | tail -n1 || true)
+          if [[ -z "${PREV_LINE}" ]]; then
+            PREV_LINE=$(grep -E '^# CHAIN_ANCHOR' "${LOG_PATH}" | tail -n1 || true)
+          fi
+          if [[ -z "${PREV_LINE}" ]]; then
+            echo "::error title=Integrity Chain Anchor Missing::Neither a prior heartbeat line nor the # CHAIN_ANCHOR seed line was found in ${LOG_PATH}. The guardian_sha chain has no anchor. Refusing to append."
+            exit 1
+          fi
+
+          NEXT_TS=$(date -u -d '+6 hours' +"%Y-%m-%dT%H:%M:%SZ" 2>/dev/null \
+                    || python3 -c "import datetime; print((datetime.datetime.utcnow() + datetime.timedelta(hours=6)).strftime('%Y-%m-%dT%H:%M:%SZ'))")
+
+          LINE_BASE="${TS_ISO} | bundle_sha=${OBSERVED_SHA} | bundle_bytes=${OBSERVED_BYTES} | packets=${PACKETS_PASS}/${PACKETS_TOTAL} | result=${RESULT} | verifier_sha=${VERIFIER_SHA}"
+          GUARDIAN_INPUT="${PREV_LINE}${LINE_BASE}"
+          GUARDIAN_SHA=$(printf '%s' "${GUARDIAN_INPUT}" | sha256sum | awk '{print $1}')
+          FULL_LINE="${LINE_BASE} | guardian_sha=${GUARDIAN_SHA} | next=${NEXT_TS}"
+
+          # ----------------------------------------------------------
+          # 7. Append heartbeat line
+          # ----------------------------------------------------------
+          printf '%s\n' "${FULL_LINE}" >> "${LOG_PATH}"
+
+          # Surface key fields to subsequent steps via outputs.
+          {
+            echo "result=${RESULT}"
+            echo "ts_iso=${TS_ISO}"
+            echo "observed_sha=${OBSERVED_SHA}"
+            echo "packets_pass=${PACKETS_PASS}"
+            echo "packets_total=${PACKETS_TOTAL}"
+          } >> "${GITHUB_OUTPUT}"
+
+          # Surface the full line to the run summary.
+          echo "Heartbeat line:"
+          echo "${FULL_LINE}"
+
+      - name: Commit heartbeat line
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "hardseal-integrity-bot"
+          git config user.email "hardseal-integrity-bot@users.noreply.github.com"
+          git add "${{ env.LOG_PATH }}"
+          if git diff --cached --quiet; then
+            echo "No log changes to commit (unexpected — heartbeat line should have been appended)."
+            exit 1
+          fi
+          git commit -m "[bot] heartbeat ${{ steps.probe.outputs.result }}: ${{ steps.probe.outputs.ts_iso }}"
+          git push origin HEAD:main
+
+      - name: Surface FAIL as workflow error
+        if: steps.probe.outputs.result == 'FAIL'
+        shell: bash
+        run: |
+          echo "::error title=Integrity Heartbeat FAIL::Bundle/sidecar/verifier check failed at ${{ steps.probe.outputs.ts_iso }}. Observed bundle_sha=${{ steps.probe.outputs.observed_sha }}, packets=${{ steps.probe.outputs.packets_pass }}/${{ steps.probe.outputs.packets_total }}. The FAIL line was committed to the integrity log; the run exits non-zero to surface the alert."
+          exit 1
