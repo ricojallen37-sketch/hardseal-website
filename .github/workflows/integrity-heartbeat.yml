@@ -165,7 +165,7 @@ jobs:
 
             if [[ -n "${VERIFIER_PATH}" ]]; then
               VERIFIER_SHA=$(sha256sum "${VERIFIER_PATH}" | awk '{print $1}')
-              VERIFIER_DIR=$(dirname "${VERIFIER_PATH}")
+              VERIFIER_ABS=$(realpath "${VERIFIER_PATH}")
 
               # ----------------------------------------------------------
               # 4a. Workflow-Verifier Integration Test
@@ -176,10 +176,15 @@ jobs:
               # silently FAIL — halt with a clear annotation instead.
               # Doctrinal name: "Workflow-Verifier Integration Drift"
               # anti-pattern (BUNDLE_RELEASE_PROCEDURE_v2.md).
+              #
+              # Invocation uses absolute paths only — no cd, no basename,
+              # no realpath --relative-to. The brittle cwd/relative-path
+              # workaround was itself a trust hole (Water Doctrine: drop
+              # the class of bug, not just the instance).
               FIRST_PACKET=$(find . -name 'packet.json' -type f | head -n1)
               if [[ -n "${FIRST_PACKET}" ]]; then
-                INTEG_OUT=$(cd "${VERIFIER_DIR}" && python3 "$(basename "${VERIFIER_PATH}")" \
-                      "$(realpath --relative-to="${VERIFIER_DIR}" "${FIRST_PACKET}")" 2>&1 || true)
+                FIRST_PACKET_ABS=$(realpath "${FIRST_PACKET}")
+                INTEG_OUT=$(python3 "${VERIFIER_ABS}" "${FIRST_PACKET_ABS}" 2>&1 || true)
                 echo "::group::Workflow-Verifier Integration Test (first packet)"
                 echo "${INTEG_OUT}"
                 echo "::endgroup::"
@@ -196,9 +201,8 @@ jobs:
 
               while IFS= read -r packet; do
                 PACKETS_TOTAL=$((PACKETS_TOTAL + 1))
-                if (cd "${VERIFIER_DIR}" && python3 "$(basename "${VERIFIER_PATH}")" \
-                      "$(realpath --relative-to="${VERIFIER_DIR}" "${packet}")" \
-                      2>&1 | grep -qE '^result:\s*PASS$'); then
+                PACKET_ABS=$(realpath "${packet}")
+                if python3 "${VERIFIER_ABS}" "${PACKET_ABS}" 2>&1 | grep -qE '^result:\s*PASS$'; then
                   PACKETS_PASS=$((PACKETS_PASS + 1))
                 fi
               done < <(find . -name 'packet.json' -type f)
