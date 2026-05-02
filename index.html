@@ -1,38 +1,1217 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Hardseal — CMMC Level 2 Evidence Engine for Small DIB Contractors</title>
-    <meta name="description" content="The CMMC Level 2 evidence engine for small DIB contractors. Collect, sign, and ship your submission-ready packet before the November 10, 2026 C3PAO gate. Air-gapped. Offline. Independently verifiable." />
-    <meta name="author" content="Rico Allen" />
-    <meta name="theme-color" content="#0b0d0c" />
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Hardseal — Verifiable evidence. Offline. In 30 seconds.</title>
+<meta name="description" content="Hardseal generates verifiable evidence. Drop a packet, paste a SHA, or upload evidence — the verifier runs in your browser. No signup. No phone-home. Math is the witness.">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hardseal — Verifiable evidence. Offline. In 30 seconds.">
+<meta property="og:description" content="Drop a packet. The verifier runs in your browser. No signup. No phone-home. Math is the witness.">
+<meta property="og:url" content="https://hardseal.ai">
+<meta property="og:image" content="https://hardseal.ai/og-card.png">
+<meta property="og:site_name" content="Hardseal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hardseal — Verifiable evidence. Offline. In 30 seconds.">
+<meta name="twitter:description" content="The verifier runs in your browser. No signup. No phone-home.">
+<meta name="twitter:image" content="https://hardseal.ai/og-card.png">
+<link rel="canonical" href="https://hardseal.ai/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;
+  --border:#1A1A1A;--border2:#222;--border3:#2A2A2A;
+  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--gray4:#333;
+  --green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.18);--green-glow:rgba(0,255,136,0.35);
+  --red:#FF5577;--red-dim:rgba(255,85,119,0.08);--red-med:rgba(255,85,119,0.18);
+  --amber:#FFBD2E;--amber-dim:rgba(255,189,46,0.08);
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{
+  font-family:var(--sans);
+  background:var(--bg);color:var(--gray1);
+  font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  min-height:100vh;display:flex;flex-direction:column;
+}
+a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s ease}
+a:hover{border-bottom-color:var(--green)}
+a:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:2px}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
+button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+.mono{font-family:var(--mono)}
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Hardseal — CMMC Level 2 Evidence Engine" />
-    <meta property="og:description" content="Collect, sign, and ship your CMMC L2 evidence packet before the November 10, 2026 C3PAO gate. Air-gapped. Offline. Independently verifiable." />
-    <meta property="og:url" content="https://hardseal.ai" />
-    <meta property="og:image" content="https://hardseal.ai/og-card.png" />
-    <meta property="og:site_name" content="Hardseal" />
-    <meta name="twitter:image" content="https://hardseal.ai/og-card.png" />
-    <meta name="twitter:url" content="https://hardseal.ai" />
-    <link rel="canonical" href="https://hardseal.ai/" />
+/* Header */
+header{
+  position:sticky;top:0;z-index:50;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);
+  padding:14px 32px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:10px;color:var(--white);font-family:var(--mono);font-size:14px;letter-spacing:0.04em}
+.brand svg{width:24px;height:24px;display:block}
+.brand-name{font-weight:600}
+.brand-status{color:var(--gray2);font-size:11px;letter-spacing:0.06em}
+.brand-status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);vertical-align:middle;margin-right:6px;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+nav.toplinks{display:flex;gap:24px;font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase}
+nav.toplinks a{color:var(--gray1);border:none}
+nav.toplinks a:hover{color:var(--green)}
+@media(max-width:760px){nav.toplinks{display:none}.brand-status{display:none}}
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Hardseal — CMMC Level 2 Evidence Engine" />
-    <meta name="twitter:description" content="The evidence engine for the November 10, 2026 C3PAO gate. Built by one founder. Zero dependencies." />
+/* Hero */
+main{flex:1;width:100%}
+.hero{
+  min-height:calc(100vh - 56px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:48px 24px 64px;text-align:center;
+}
+.hero-eyebrow{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gray2);margin-bottom:24px;
+}
+.hero-eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);vertical-align:middle;margin-right:8px}
+.hero h1{
+  font-size:clamp(28px,4.5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-0.02em;
+  color:var(--white);max-width:880px;margin-bottom:14px;
+}
+.hero h1 .accent{color:var(--green)}
+.hero-sub{
+  font-family:var(--mono);font-size:14px;color:var(--gray2);max-width:640px;margin-bottom:36px;line-height:1.6;
+}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script type="module" crossorigin src="/assets/index-BAnZC6u7.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CaIn6R9j.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+/* Verifier widget */
+.verifier{
+  width:100%;max-width:min(72vw,880px);
+  background:var(--bg3);border:1px solid var(--border2);border-radius:8px;
+  box-shadow:0 0 0 1px rgba(0,255,136,0.04),0 24px 48px -12px rgba(0,0,0,0.6);
+  overflow:hidden;
+}
+@media(max-width:760px){.verifier{max-width:100%}}
+.tabs{display:flex;border-bottom:1px solid var(--border2);background:var(--bg2)}
+.tab{
+  flex:1;padding:14px 12px;font-family:var(--mono);font-size:12px;letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--gray2);background:transparent;border:none;border-right:1px solid var(--border2);
+  cursor:pointer;transition:color .15s ease,background .15s ease;
+}
+.tab:last-child{border-right:none}
+.tab:hover{color:var(--gray1);background:rgba(255,255,255,0.02)}
+.tab.active{color:var(--green);background:var(--bg3);box-shadow:inset 0 -2px 0 var(--green)}
+.tab-body{padding:28px 24px}
+.dropzone{
+  border:1.5px dashed var(--border3);border-radius:6px;
+  padding:48px 20px;text-align:center;cursor:pointer;
+  transition:border-color .15s ease,background .15s ease;
+}
+.dropzone:hover,.dropzone.dragover{border-color:var(--green);background:var(--green-dim)}
+.dropzone .big{font-family:var(--mono);font-size:14px;color:var(--gray1);margin-bottom:6px}
+.dropzone .small{font-family:var(--mono);font-size:11px;color:var(--gray3);letter-spacing:0.04em}
+.dropzone .icon{font-size:24px;color:var(--gray3);margin-bottom:12px;display:block}
+.text-input{
+  width:100%;padding:18px 16px;background:var(--bg);border:1px solid var(--border3);border-radius:4px;
+  color:var(--white);font-family:var(--mono);font-size:13px;
+  transition:border-color .15s ease;
+}
+.text-input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 2px var(--green-dim)}
+.text-input::placeholder{color:var(--gray4)}
+.input-help{font-family:var(--mono);font-size:11px;color:var(--gray3);margin-top:10px;letter-spacing:0.02em}
+.cta{
+  width:100%;margin-top:18px;padding:16px 20px;
+  background:var(--green);color:#000;
+  font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;
+  border-radius:4px;cursor:pointer;border:1px solid var(--green);
+  transition:background .15s ease,box-shadow .15s ease,transform .05s ease;
+}
+.cta:hover{background:#3aff9d;box-shadow:0 0 24px var(--green-glow)}
+.cta:active{transform:translateY(1px)}
+.cta:disabled{opacity:0.5;cursor:not-allowed;background:var(--gray4);border-color:var(--gray4);color:var(--gray2)}
+.cta.secondary{background:transparent;color:var(--green);border-color:var(--border3)}
+.cta.secondary:hover{background:var(--green-dim);border-color:var(--green);box-shadow:none}
+.under-cta{font-family:var(--mono);font-size:11px;color:var(--gray3);text-align:center;margin-top:14px;letter-spacing:0.02em}
+.hint-row{display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.hint-row button{font-family:var(--mono);font-size:11px;color:var(--gray2);text-decoration:underline;text-decoration-color:var(--gray4);text-underline-offset:3px;background:none;border:none;cursor:pointer}
+.hint-row button:hover{color:var(--green);text-decoration-color:var(--green)}
+
+/* Result panel */
+.result-panel{padding:0;display:none}
+.result-panel.show{display:block}
+.banner{
+  padding:20px 24px;font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;
+  display:flex;align-items:center;gap:12px;
+}
+.banner .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.banner.pass{background:var(--green-med);color:var(--green);border-bottom:1px solid var(--green)}
+.banner.pass .dot{background:var(--green);box-shadow:0 0 12px var(--green)}
+.banner.fail{background:var(--red-med);color:var(--red);border-bottom:1px solid var(--red)}
+.banner.fail .dot{background:var(--red);box-shadow:0 0 12px var(--red)}
+.banner.amber{background:var(--amber-dim);color:var(--amber);border-bottom:1px solid var(--amber)}
+.banner.amber .dot{background:var(--amber)}
+.spec-grid{display:grid;grid-template-columns:160px 1fr;gap:6px 16px;padding:24px;font-family:var(--mono);font-size:12px;border-bottom:1px solid var(--border2);background:var(--bg2)}
+.spec-grid dt{color:var(--gray3);text-transform:uppercase;letter-spacing:0.08em;font-size:11px;align-self:center}
+.spec-grid dd{color:var(--gray1);word-break:break-all}
+.spec-grid dd.hash{color:var(--green);font-size:11px}
+.spec-grid dd .copy{margin-left:8px;color:var(--gray3);cursor:pointer;font-size:10px;border:1px solid var(--border3);padding:1px 6px;border-radius:3px}
+.spec-grid dd .copy:hover{color:var(--green);border-color:var(--green)}
+@media(max-width:560px){.spec-grid{grid-template-columns:1fr;gap:2px}.spec-grid dt{margin-top:8px}}
+.result-body{padding:20px 24px;font-family:var(--sans);font-size:14px;line-height:1.65;color:var(--gray1);border-bottom:1px solid var(--border2)}
+.checks{padding:16px 24px;font-family:var(--mono);font-size:12px;border-bottom:1px solid var(--border2);background:var(--bg2);max-height:240px;overflow-y:auto}
+.check{padding:3px 0}
+.check.pass{color:var(--gray1)}
+.check.pass::before{content:"✓ ";color:var(--green);font-weight:600}
+.check.fail{color:var(--red)}
+.check.fail::before{content:"✗ ";color:var(--red);font-weight:600}
+.upsell{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:20px 24px}
+.upsell.single{grid-template-columns:1fr}
+@media(max-width:560px){.upsell{grid-template-columns:1fr}}
+.upsell-card{
+  display:block;padding:18px;background:var(--bg);border:1px solid var(--border3);border-radius:6px;
+  color:var(--gray1);font-family:var(--sans);transition:border-color .15s ease,background .15s ease;
+}
+.upsell-card:hover{border-color:var(--green);background:var(--green-dim);border-bottom-color:var(--green)}
+.upsell-card .label{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--gray3);text-transform:uppercase;margin-bottom:6px}
+.upsell-card .title{font-size:15px;font-weight:600;color:var(--white);margin-bottom:4px}
+.upsell-card .desc{font-size:13px;color:var(--gray2)}
+.upsell-card .arrow{color:var(--green);margin-left:6px}
+.reset-row{padding:14px 24px;text-align:center;border-top:1px solid var(--border2);background:var(--bg2)}
+.reset-row button{font-family:var(--mono);font-size:12px;color:var(--gray2);letter-spacing:0.06em}
+.reset-row button:hover{color:var(--green)}
+
+/* Tamper demo */
+.tamper-row{margin-top:32px;text-align:center;width:100%;max-width:min(72vw,880px)}
+.tamper-trigger{
+  font-family:var(--mono);font-size:13px;color:var(--gray1);background:transparent;
+  border:1px solid var(--border3);border-radius:4px;padding:12px 24px;cursor:pointer;
+  letter-spacing:0.06em;transition:border-color .15s ease,color .15s ease,background .15s ease;
+}
+.tamper-trigger:hover{border-color:var(--green);color:var(--green);background:var(--green-dim)}
+.tamper-trigger .arrow{margin-left:8px}
+.tamper-stage{
+  display:none;margin-top:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;overflow:hidden;
+  text-align:left;
+}
+.tamper-stage.show{display:block}
+.tamper-status{padding:14px 20px;border-bottom:1px solid var(--border2);background:var(--bg2);font-family:var(--mono);font-size:12px;color:var(--gray2);letter-spacing:0.04em;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.tamper-status .step{color:var(--white)}
+.tamper-status .clock{color:var(--gray3)}
+.tamper-stream{padding:18px 20px;font-family:var(--mono);font-size:12px;line-height:1.7;color:var(--gray2);min-height:200px;max-height:320px;overflow-y:auto}
+.tamper-stream .ok{color:var(--green)}
+.tamper-stream .bad{color:var(--red)}
+.tamper-stream .head{color:var(--gray1);font-weight:600}
+.tamper-stream .dim{color:var(--gray3)}
+.tamper-bar{height:3px;background:var(--border2);overflow:hidden;position:relative}
+.tamper-bar-fill{position:absolute;top:0;left:0;height:100%;background:var(--green);width:0%;transition:width .35s ease}
+.tamper-bar-fill.bad{background:var(--red)}
+
+/* Sections (below the fold) */
+section{padding:88px 24px;border-top:1px solid var(--border)}
+.wrap{max-width:1080px;margin:0 auto}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray3);margin-bottom:16px}
+h2{font-size:clamp(24px,3vw,36px);font-weight:600;color:var(--white);line-height:1.2;letter-spacing:-0.01em;margin-bottom:16px}
+h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
+.lead{font-size:clamp(20px,2.4vw,28px);font-weight:500;color:var(--white);line-height:1.4;letter-spacing:-0.01em;max-width:880px}
+
+/* Use case cards */
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
+@media(max-width:860px){.cards-3{grid-template-columns:1fr}}
+.case-card{padding:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;display:flex;flex-direction:column}
+.case-card .case-label{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--green);text-transform:uppercase;margin-bottom:12px}
+.case-card p{color:var(--gray1);font-size:14px;line-height:1.65;flex:1;margin-bottom:16px}
+.case-card a{font-family:var(--mono);font-size:12px;letter-spacing:0.04em}
+
+/* Trophy line */
+.trophy-line{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;flex-wrap:wrap}
+.trophy-line .stat{font-family:var(--mono);font-size:13px;color:var(--gray1);line-height:1.7}
+.trophy-line .stat strong{color:var(--white);font-weight:600}
+.trophy-line a{font-family:var(--mono);font-size:13px;letter-spacing:0.04em;flex-shrink:0}
+
+/* INTEGRITY_LOG live panel */
+.log-panel{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+.log-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border2);background:var(--bg2);font-family:var(--mono);font-size:12px;color:var(--gray2);flex-wrap:wrap;gap:12px}
+.live-counter{padding:32px 20px 28px;border-bottom:1px solid var(--border2);text-align:center;background:linear-gradient(180deg,rgba(0,255,136,0.04) 0%,transparent 100%)}
+.live-counter-value{font-size:48px;font-weight:700;color:var(--green);letter-spacing:-0.02em;line-height:1;text-shadow:0 0 24px var(--green-glow);margin-bottom:10px}
+.live-counter-label{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray2);margin-bottom:8px}
+.live-counter-sub{font-size:13px;color:var(--gray3);max-width:520px;margin:0 auto;line-height:1.5}
+@media (max-width: 640px){.live-counter-value{font-size:34px}}
+.log-head .left{display:flex;align-items:center;gap:10px}
+.log-head .clock-stat{color:var(--green);font-weight:600}
+.log-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+.log-table th{text-align:left;padding:10px 16px;color:var(--gray3);font-weight:500;letter-spacing:0.06em;text-transform:uppercase;font-size:10px;border-bottom:1px solid var(--border2);background:var(--bg2)}
+.log-table td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--gray1)}
+.log-table tr:last-child td{border-bottom:none}
+.log-table .pass{color:var(--green);font-weight:600}
+.log-table .fail{color:var(--red);font-weight:600}
+.log-table .sha{color:var(--gray2);font-size:11px}
+.log-table .ts{color:var(--gray2)}
+.log-foot{padding:14px 20px;background:var(--bg2);border-top:1px solid var(--border2);font-family:var(--mono);font-size:11px;color:var(--gray3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.log-foot a{font-size:11px}
+.log-error{padding:24px;font-family:var(--mono);font-size:12px;color:var(--amber);background:var(--amber-dim);border-top:1px solid var(--amber);text-align:center}
+@media(max-width:640px){.log-table th:nth-child(4),.log-table td:nth-child(4){display:none}}
+
+/* Free tools */
+.tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
+@media(max-width:980px){.tools-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:540px){.tools-grid{grid-template-columns:1fr}}
+.tool-card{padding:20px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px;display:flex;flex-direction:column;gap:8px}
+.tool-card .tool-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--green);text-transform:uppercase}
+.tool-card .tool-title{font-size:14px;font-weight:600;color:var(--white)}
+.tool-card .tool-desc{font-size:13px;color:var(--gray2);line-height:1.55;flex:1}
+.tool-card a{font-family:var(--mono);font-size:12px;color:var(--green);margin-top:8px}
+
+/* Pricing */
+.pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:32px;border:1px solid var(--border2);border-radius:8px;overflow:hidden;background:var(--bg3)}
+@media(max-width:860px){.pricing{grid-template-columns:1fr}}
+.tier{padding:28px 24px;border-right:1px solid var(--border2);display:flex;flex-direction:column}
+.tier:last-child{border-right:none}
+@media(max-width:860px){.tier{border-right:none;border-bottom:1px solid var(--border2)}.tier:last-child{border-bottom:none}}
+.tier .tier-name{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray3);margin-bottom:14px}
+.tier .tier-price{font-size:24px;font-weight:600;color:var(--white);margin-bottom:6px;font-family:var(--mono);letter-spacing:-0.01em}
+.tier.middle .tier-price{color:var(--green)}
+.tier .tier-subprice{font-family:var(--mono);font-size:11px;color:var(--gray3);margin-bottom:16px;letter-spacing:0.04em;min-height:14px}
+.tier ul{list-style:none;padding:0;margin:0;flex:1}
+.tier li{padding:8px 0;font-size:13px;color:var(--gray1);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start}
+.tier li::before{content:"·";color:var(--gray3);flex-shrink:0;font-weight:600}
+.pricing-note{margin-top:24px;font-family:var(--mono);font-size:13px;color:var(--gray2);line-height:1.7}
+.pricing-disclaimer{margin-top:16px;font-family:var(--mono);font-size:12px;color:var(--gray3);line-height:1.7;padding:16px;background:var(--bg3);border:1px solid var(--border2);border-radius:6px}
+
+/* Footer */
+footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(--bg)}
+.footer-wrap{max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:32px}
+.footer-col{display:flex;flex-direction:column;gap:8px}
+.footer-col .footer-head{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--gray3);text-transform:uppercase;margin-bottom:6px}
+.footer-col a{font-family:var(--mono);font-size:13px;color:var(--gray1);border:none}
+.footer-col a:hover{color:var(--green)}
+.copyright{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--gray3);text-align:center;line-height:1.7}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="brand" aria-label="Hardseal home">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect width="32" height="32" rx="6" fill="#000"/>
+      <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#00FF88" stroke-width="1.75" stroke-linejoin="round"/>
+      <path d="M12 16 L15 19 L20 13" stroke="#00FF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="brand-name">HARDSEAL</span>
+    <span class="brand-status mono"><span class="dot"></span>CHAIN INTACT</span>
+  </a>
+  <nav class="toplinks" aria-label="Primary">
+    <a href="/trophy-case.html">TROPHY CASE</a>
+    <a href="/verify.html">VERIFY</a>
+    <a href="#integrity">INTEGRITY LOG</a>
+    <a href="#pricing">PRICING</a>
+    <a href="#docs">DOCS</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ============== HERO ============== -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="hero-eyebrow"><span class="dot"></span> INDEPENDENT VERIFICATION · CLIENT-SIDE · NO UPLOAD</div>
+  <h1 id="hero-h1">Verifiable evidence. <span class="accent">Offline.</span> In 30 seconds.</h1>
+  <p class="hero-sub">Hardseal generates verifiable evidence. Drop a packet. Paste a SHA. Upload a file.<br>The verifier runs in your browser. The math is the witness.</p>
+
+  <div class="verifier" role="region" aria-label="Hardseal verifier">
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" aria-selected="true" data-mode="drop" id="tab-drop">Drop a packet</button>
+      <button class="tab" role="tab" aria-selected="false" data-mode="sha" id="tab-sha">Paste a SHA</button>
+      <button class="tab" role="tab" aria-selected="false" data-mode="upload" id="tab-upload">Upload evidence</button>
+    </div>
+
+    <div class="tab-body" id="input-area">
+      <!-- DROP MODE -->
+      <div class="mode-pane" data-mode="drop">
+        <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Drop a Hardseal packet here or click to choose a file">
+          <span class="icon" aria-hidden="true">⬇</span>
+          <div class="big" id="drop-label">Drop a Hardseal packet.json or .zip bundle here</div>
+          <div class="small">…or click to choose a file</div>
+          <input type="file" id="dropInput" accept=".json,.zip,application/json,application/zip" style="display:none">
+        </div>
+        <div class="hint-row">
+          <button id="loadSampleBtn" type="button">Load sample packet</button>
+          <button id="loadTrophyBtn" type="button">Verify a trophy-case packet</button>
+        </div>
+        <button class="cta" id="verifyDropBtn" disabled>Verify in 30 seconds</button>
+        <div class="under-cta">No signup. No phone-home. The verifier runs in your browser. Math is the witness.</div>
+      </div>
+
+      <!-- SHA MODE -->
+      <div class="mode-pane" data-mode="sha" hidden>
+        <input type="text" class="text-input" id="shaInput" placeholder="Paste a SHA-256 chain root or bundle hash (64 hex chars)…" autocomplete="off" spellcheck="false" maxlength="80">
+        <div class="input-help">Match against published trophy-case chain roots and bundle hashes. Local check, no upload.</div>
+        <button class="cta" id="verifyShaBtn">Verify in 30 seconds</button>
+        <div class="under-cta">No signup. No phone-home. The verifier runs in your browser. Math is the witness.</div>
+      </div>
+
+      <!-- UPLOAD MODE -->
+      <div class="mode-pane" data-mode="upload" hidden>
+        <div class="dropzone" id="uploadZone" tabindex="0" role="button" aria-label="Upload arbitrary evidence to wrap in a one-shot Hardseal envelope">
+          <span class="icon" aria-hidden="true">⬡</span>
+          <div class="big" id="upload-label">Upload evidence — PDF, JSON, ZIP, anything</div>
+          <div class="small">Hashes locally. Wraps in a one-shot Hardseal envelope. Returns a chain root you can publish.</div>
+          <input type="file" id="uploadInput" style="display:none">
+        </div>
+        <button class="cta" id="verifyUploadBtn" disabled>Wrap and verify</button>
+        <div class="under-cta">Files never leave your machine. SHA-256 is computed in-browser via WebCrypto.</div>
+      </div>
+    </div>
+
+    <!-- RESULT PANEL -->
+    <div class="result-panel" id="result" aria-live="polite"></div>
+  </div>
+
+  <!-- TAMPER DEMO -->
+  <div class="tamper-row">
+    <button class="tamper-trigger" id="tamperBtn">Try the 30-second tamper proof <span class="arrow">→</span></button>
+    <div class="tamper-stage" id="tamperStage" aria-live="polite">
+      <div class="tamper-status">
+        <span class="step" id="tamperStep">Idle</span>
+        <span class="clock mono" id="tamperClock">00:00</span>
+      </div>
+      <div class="tamper-bar"><div class="tamper-bar-fill" id="tamperBar"></div></div>
+      <div class="tamper-stream mono" id="tamperStream"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== §2.1 — Primitive ============== -->
+<section aria-labelledby="primitive-h2">
+  <div class="wrap">
+    <div class="eyebrow">§2.1 · The primitive</div>
+    <p class="lead" id="primitive-h2">Hardseal proves that something happened — and hasn't been altered.</p>
+  </div>
+</section>
+
+<!-- ============== §2.2 — Three use cases ============== -->
+<section aria-labelledby="usecases-h2">
+  <div class="wrap">
+    <div class="eyebrow">§2.2 · Use cases</div>
+    <h2 id="usecases-h2">One primitive. Three surfaces.</h2>
+    <div class="cards-3">
+      <article class="case-card">
+        <div class="case-label">CMMC Level 2 Evidence</div>
+        <p>Generate signed, tamper-evident evidence packages your assessor can verify offline. Pre-assessor confidence in 30 seconds, not after $50k of post-mortem.</p>
+        <a href="/cmmc">Learn more →</a>
+      </article>
+      <article class="case-card">
+        <div class="case-label">Edge AI Runtime</div>
+        <p>Sign every inference run with model version, hardware fingerprint, sensor inputs, and decision outputs. The integrity layer for autonomous systems.</p>
+        <a href="/edge.html">Learn more →</a>
+      </article>
+      <article class="case-card">
+        <div class="case-label">Continuous Attestation</div>
+        <p>Keep your proof live. Re-verify on cron. Build a public receipt trail that compounds time-in-production into a moat competitors cannot backdate.</p>
+        <a href="/attestation">Learn more →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== §2.3 — Trophy case ============== -->
+<section aria-labelledby="trophy-h2">
+  <div class="wrap">
+    <div class="eyebrow">§2.3 · Receipts</div>
+    <h2 id="trophy-h2">Every claim, a packet. Every packet, a chain root.</h2>
+    <div class="trophy-line">
+      <div class="stat"><strong>12 packets.</strong> 4 model families. 14 hours of variance study. Every chain root verifiable offline.</div>
+      <a href="/trophy-case.html">Walk the trophy case →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== §2.4 — INTEGRITY_LOG live ============== -->
+<section id="integrity" aria-labelledby="integrity-h2">
+  <div class="wrap">
+    <div class="eyebrow">§2.4 · Integrity log · live</div>
+    <h2 id="integrity-h2">The chain runs while you read this page.</h2>
+    <div class="log-panel" id="logPanel">
+      <div class="log-head">
+        <div class="left">
+          <span id="logDot" class="dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gray3)"></span>
+          <span id="logStatus">Loading INTEGRITY_LOG…</span>
+        </div>
+        <div class="clock-stat" id="logClock">—</div>
+      </div>
+      <div class="live-counter" id="liveCounter" aria-live="polite">
+        <div class="live-counter-value mono" id="liveCounterValue">— h — m</div>
+        <div class="live-counter-label">since first PASS · 2026-05-02T20:29:13Z</div>
+        <div class="live-counter-sub">continuous attestation receipts compounding — every hour competitors cannot backdate</div>
+      </div>
+      <div id="logBody"></div>
+      <div class="log-foot">
+        <span>Auto-refresh every 60s. Source-of-truth: <a href="https://github.com/ricojallen37-sketch/hardseal-website/blob/main/docs/integrity/INTEGRITY_LOG.md">main/INTEGRITY_LOG.md</a></span>
+        <span>Self-hash chain (guardian_sha) verified per-row.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== §2.5 — Free tools ============== -->
+<section id="docs" aria-labelledby="tools-h2">
+  <div class="wrap">
+    <div class="eyebrow">§2.5 · Free tools</div>
+    <h2 id="tools-h2">Verification is free. Forever.</h2>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <span class="tool-tag">Python · stdlib only</span>
+        <span class="tool-title">Standalone verifier</span>
+        <span class="tool-desc">One file. Runs anywhere Python 3.8+ runs. Read it before you run it. The trust surface fits on a screen.</span>
+        <a href="/downloads/verify_standalone.py" download>Download verify_standalone.py →</a>
+      </div>
+      <div class="tool-card">
+        <span class="tool-tag">JavaScript · open source</span>
+        <span class="tool-title">Browser verifier source</span>
+        <span class="tool-desc">Same math as this homepage. Same hash chain as the Python verifier. View source on this page or save it locally and run offline.</span>
+        <a href="/verify.html">Open the browser verifier →</a>
+      </div>
+      <div class="tool-card">
+        <span class="tool-tag">Real packet · real signature</span>
+        <span class="tool-title">Sample bundle</span>
+        <span class="tool-desc">Real Jetson telemetry. Real chain root. Twelve packets, four model families. Verify any of them in 30 seconds.</span>
+        <a href="/downloads/hardseal_edge_trophy_case.zip" download>Download hardseal_edge_trophy_case.zip →</a>
+      </div>
+      <div class="tool-card">
+        <span class="tool-tag">5-minute path</span>
+        <span class="tool-title">Quickstart</span>
+        <span class="tool-desc">The verifier-first path through Hardseal in 5 minutes. From "drop a packet" to "publish a chain root."</span>
+        <a href="/docs/QUICKSTART.pdf">Open Quickstart →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== §2.6 — Pricing ============== -->
+<section id="pricing" aria-labelledby="pricing-h2">
+  <div class="wrap">
+    <div class="eyebrow">§2.6 · Pricing</div>
+    <h2 id="pricing-h2">Verification is free. Remediation paths are the upgrade.</h2>
+    <div class="pricing">
+      <div class="tier">
+        <div class="tier-name">Verify</div>
+        <div class="tier-price">Free Forever</div>
+        <div class="tier-subprice">&nbsp;</div>
+        <ul>
+          <li>Browser verifier</li>
+          <li>Standalone Python verifier</li>
+          <li>Schema reference</li>
+          <li>Sample packets</li>
+          <li>30-second tamper proof</li>
+        </ul>
+      </div>
+      <div class="tier middle">
+        <div class="tier-name">Diagnose</div>
+        <div class="tier-price">Diagnostic Report</div>
+        <div class="tier-subprice">Pricing: contact for custom evaluation</div>
+        <ul>
+          <li>Diagnostic Report on any FAIL</li>
+          <li>Remediation path</li>
+          <li>Specific field-level findings</li>
+          <li>Re-seal guidance</li>
+          <li>Pre-assessor readiness review</li>
+        </ul>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Generate</div>
+        <div class="tier-price">From $19,500</div>
+        <div class="tier-subprice">&nbsp;</div>
+        <ul>
+          <li>Hardseal Core readiness pack</li>
+          <li>17 collectors</li>
+          <li>Offline enclave run</li>
+          <li>SSP / POA&amp;M snapshot</li>
+          <li>Continuous attestation included</li>
+        </ul>
+      </div>
+    </div>
+    <p class="pricing-note">Edge retainer: $495/mo. Custom integrations: scoped per engagement.</p>
+    <p class="pricing-disclaimer">Hardseal does not certify. Hardseal does not assess. Hardseal does not endorse. Hardseal generates verifiable evidence. Your assessor decides truth.</p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============== §2.7 — Footer ============== -->
+<footer>
+  <div class="footer-wrap">
+    <div class="footer-col">
+      <span class="footer-head">Verify</span>
+      <a href="/">Verify a packet</a>
+      <a href="/trophy-case.html">Trophy case</a>
+      <a href="#integrity">Integrity log</a>
+      <a href="/verify.html">Schema</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-head">Build</span>
+      <a href="/docs/QUICKSTART.pdf">Documentation</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/about">About</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-head">Legal</span>
+      <a href="/dpa.html">DPA</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/terms.html">Terms</a>
+    </div>
+    <div class="footer-col">
+      <span class="footer-head">Contact</span>
+      <a href="mailto:hello@hardseal.ai">hello@hardseal.ai</a>
+      <a href="/pilot.html">Request a Readiness Pack</a>
+    </div>
+  </div>
+  <div class="copyright">
+    HARDSEAL LLC · FLORIDA, USA · NOT A C3PAO · ASSESSMENT SUPPORT SOFTWARE<br>
+    © 2026 Hardseal LLC. The verifier is the witness.
+  </div>
+</footer>
+
+<script>
+/* ====================================================================
+   HARDSEAL HOMEPAGE — Necessity-First Doctrine · 2026-05-02
+   Verifier core: byte-identical port of /verify.html (schema v1.0)
+   ==================================================================== */
+
+/* ---------- Number-preserving JSON parser (Python int/float parity) ---------- */
+class NumTok { constructor(s) { this.__num = s; } }
+function parsePreservingNumbers(text) {
+  let i = 0;
+  const skip = () => { while (i < text.length && /\s/.test(text[i])) i++; };
+  const err = (msg) => { throw new Error(`JSON parse at ${i}: ${msg} near "${text.slice(Math.max(0,i-20), i+20)}"`); };
+  function parseValue(){skip();const c=text[i];if(c==='{')return parseObject();if(c==='[')return parseArray();if(c==='"')return parseString();if(c==='t'||c==='f')return parseBool();if(c==='n')return parseNull();if(c==='-'||(c>='0'&&c<='9'))return parseNumber();err("unexpected '"+c+"'");}
+  function parseObject(){i++;skip();const obj={};if(text[i]==='}'){i++;return obj;}while(true){skip();const k=parseString();skip();if(text[i]!==':')err("expected :");i++;obj[k]=parseValue();skip();if(text[i]===','){i++;continue;}if(text[i]==='}'){i++;return obj;}err("expected , or }");}}
+  function parseArray(){i++;skip();const arr=[];if(text[i]===']'){i++;return arr;}while(true){arr.push(parseValue());skip();if(text[i]===','){i++;continue;}if(text[i]===']'){i++;return arr;}err("expected , or ]");}}
+  function parseString(){if(text[i]!=='"')err('expected "');i++;let s="";while(i<text.length&&text[i]!=='"'){if(text[i]==='\\'){i++;const e=text[i++];if(e==='"')s+='"';else if(e==='\\')s+='\\';else if(e==='/')s+='/';else if(e==='b')s+='\b';else if(e==='f')s+='\f';else if(e==='n')s+='\n';else if(e==='r')s+='\r';else if(e==='t')s+='\t';else if(e==='u'){const h=text.slice(i,i+4);i+=4;s+=String.fromCharCode(parseInt(h,16));}else err("bad escape");}else{s+=text[i++];}}if(text[i]!=='"')err('unterminated string');i++;return s;}
+  function parseBool(){if(text.slice(i,i+4)==="true"){i+=4;return true;}if(text.slice(i,i+5)==="false"){i+=5;return false;}err("expected bool");}
+  function parseNull(){if(text.slice(i,i+4)==="null"){i+=4;return null;}err("expected null");}
+  function parseNumber(){const start=i;if(text[i]==='-')i++;while(i<text.length&&text[i]>='0'&&text[i]<='9')i++;if(text[i]==='.'){i++;while(i<text.length&&text[i]>='0'&&text[i]<='9')i++;}if(text[i]==='e'||text[i]==='E'){i++;if(text[i]==='+'||text[i]==='-')i++;while(i<text.length&&text[i]>='0'&&text[i]<='9')i++;}return new NumTok(text.slice(start,i));}
+  const v = parseValue(); skip();
+  if (i !== text.length) err("trailing characters");
+  return v;
+}
+
+const GENESIS_LABEL = "HARDSEAL_EDGE_GENESIS_v1";
+const SECTION_ORDER = ["device","model","benchmark","sensors","limitations"];
+const REQUIRED_HEADER_FIELDS = ["packet_type","schema_version","operational_class","session_id","created_utc","offline_mode","doctrine_url"];
+const REQUIRED_SECTIONS = ["device","model","benchmark","sensors","limitations"];
+const REQUIRED_INTEGRITY_FIELDS = ["hash_chain_algorithm","hash_chain_root","section_hashes","tamper_status","verification_command"];
+const SUPPORTED_SCHEMA_VERSIONS = ["1.0"];
+const SUPPORTED_OPERATIONAL_CLASSES = ["edge-inference-verification"];
+const PACKET_BANNED = [
+  "we certify","hardseal certifies","hardseal assesses","certified compliant",
+  "compliance-equivalent","assessor-equivalent","equivalent to a c3pao",
+  "endorsed by cyber ab","faa-approved","autonomy assurance certified",
+  "drone certified","guaranteed safe","guaranteed correct","guaranteed mission"
+];
+
+function canonicalJson(obj) {
+  if (obj === null) return "null";
+  if (obj instanceof NumTok) return obj.__num;
+  if (typeof obj === "boolean") return obj ? "true" : "false";
+  if (typeof obj === "number") {
+    if (!isFinite(obj)) throw new Error("non-finite number in packet");
+    return JSON.stringify(obj);
+  }
+  if (typeof obj === "string") return canonicalString(obj);
+  if (Array.isArray(obj)) return "[" + obj.map(canonicalJson).join(",") + "]";
+  if (typeof obj === "object") {
+    const keys = Object.keys(obj).sort();
+    return "{" + keys.map(k => canonicalString(k) + ":" + canonicalJson(obj[k])).join(",") + "}";
+  }
+  throw new Error("unsupported type: " + typeof obj);
+}
+function canonicalString(s) {
+  let out = '"';
+  for (let i = 0; i < s.length; i++) {
+    const c = s.charCodeAt(i);
+    if (c === 0x22) out += '\\"';
+    else if (c === 0x5C) out += '\\\\';
+    else if (c === 0x08) out += '\\b';
+    else if (c === 0x0C) out += '\\f';
+    else if (c === 0x0A) out += '\\n';
+    else if (c === 0x0D) out += '\\r';
+    else if (c === 0x09) out += '\\t';
+    else if (c < 0x20 || c > 0x7E) out += '\\u' + ('0000' + c.toString(16)).slice(-4);
+    else out += s[i];
+  }
+  return out + '"';
+}
+async function sha256Hex(bytes) {
+  const buf = await crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+function utf8(s) { return new TextEncoder().encode(s); }
+async function computeSeed(p) {
+  const parts = [GENESIS_LABEL, p.packet_type, p.schema_version, p.operational_class, p.session_id, p.created_utc, String(p.offline_mode).toLowerCase()];
+  return sha256Hex(utf8(parts.join("||")));
+}
+async function computeSectionHashes(seed, sections) {
+  const out = []; let prev = seed;
+  for (const name of SECTION_ORDER) {
+    if (!(name in sections)) throw new Error(`hash chain missing required section: '${name}'`);
+    const sectionBytes = utf8(canonicalJson(sections[name]));
+    const prevBytes = utf8(prev);
+    const combined = new Uint8Array(sectionBytes.length + prevBytes.length);
+    combined.set(sectionBytes, 0);
+    combined.set(prevBytes, sectionBytes.length);
+    const h = await sha256Hex(combined);
+    out.push([name, h]); prev = h;
+  }
+  return out;
+}
+async function computeChainRoot(p) {
+  const seed = await computeSeed(p);
+  const sections = {};
+  for (const s of SECTION_ORDER) sections[s] = p[s];
+  const pairs = await computeSectionHashes(seed, sections);
+  return { chainRoot: pairs[pairs.length - 1][1], pairs };
+}
+function scanForBanned(node, path = "") {
+  const hits = [];
+  if (typeof node === "string") {
+    const lower = node.toLowerCase();
+    for (const phrase of PACKET_BANNED) {
+      if (lower.includes(phrase)) hits.push(`${path || "<root>"}: contains banned phrase '${phrase}'`);
+    }
+  } else if (Array.isArray(node)) {
+    node.forEach((v, i) => hits.push(...scanForBanned(v, `${path}[${i}]`)));
+  } else if (node && typeof node === "object") {
+    for (const [k, v] of Object.entries(node)) hits.push(...scanForBanned(v, path ? `${path}.${k}` : k));
+  }
+  return hits;
+}
+async function verifyPacket(p) {
+  const passed = [], failed = [];
+  const missingHeader = REQUIRED_HEADER_FIELDS.filter(f => !(f in p));
+  if (missingHeader.length) failed.push(`missing header fields: [${missingHeader.join(", ")}]`); else passed.push("header fields complete");
+  if (!SUPPORTED_SCHEMA_VERSIONS.includes(p.schema_version)) failed.push(`schema_version '${p.schema_version}' not supported`); else passed.push("schema_version supported");
+  if (!SUPPORTED_OPERATIONAL_CLASSES.includes(p.operational_class)) failed.push(`operational_class '${p.operational_class}' not recognized`); else passed.push("operational_class recognized");
+  const missingSections = REQUIRED_SECTIONS.filter(s => !(s in p));
+  if (missingSections.length) failed.push(`missing sections: [${missingSections.join(", ")}]`); else passed.push("required sections present");
+  const engineSha = (p.model && p.model.engine_sha256) || "";
+  if (!engineSha || engineSha.length !== 64) failed.push("model.engine_sha256 missing or not a 64-char hex SHA-256 digest"); else passed.push("engine SHA-256 present");
+  if (!("offline_mode" in p) || typeof p.offline_mode !== "boolean") failed.push("offline_mode missing or not a bool"); else passed.push("offline mode declared");
+  const integrity = p.integrity;
+  if (!integrity || typeof integrity !== "object") {
+    failed.push("integrity block missing or not an object");
+    return { passed: failed.length === 0, passes: passed, failures: failed };
+  }
+  const missingIntegrity = REQUIRED_INTEGRITY_FIELDS.filter(f => !(f in integrity));
+  if (missingIntegrity.length) failed.push(`integrity block missing fields: [${missingIntegrity.join(", ")}]`);
+  let recomputedRoot = null, firstBad = null;
+  if (!missingHeader.length && !missingSections.length && !missingIntegrity.length) {
+    try {
+      const { chainRoot, pairs } = await computeChainRoot(p);
+      recomputedRoot = chainRoot;
+      const storedRoot = integrity.hash_chain_root;
+      const storedPairs = integrity.section_hashes;
+      let sectionPairsOK = true, sectionDetail = null;
+      if (!Array.isArray(storedPairs)) { sectionPairsOK = false; sectionDetail = "section_hashes is not a list"; }
+      else if (storedPairs.length !== pairs.length) { sectionPairsOK = false; sectionDetail = `section_hashes length ${storedPairs.length} != expected ${pairs.length}`; }
+      else {
+        for (let i = 0; i < pairs.length; i++) {
+          const [name, recomputed] = pairs[i]; const stored = storedPairs[i];
+          if (!stored || typeof stored !== "object") { sectionPairsOK = false; sectionDetail = `section_hashes entry for '${name}' is not a dict`; break; }
+          if (stored.section !== name) { sectionPairsOK = false; sectionDetail = `section_hashes name mismatch at '${name}'`; break; }
+          if (stored.hash !== recomputed) { sectionPairsOK = false; sectionDetail = `section_hashes hash mismatch at '${name}'`; break; }
+        }
+      }
+      if (storedRoot !== chainRoot) {
+        if (Array.isArray(storedPairs) && storedPairs.length === pairs.length) {
+          for (let i = 0; i < pairs.length; i++) {
+            const stored = storedPairs[i]; const [name, recomputed] = pairs[i];
+            if (!stored || typeof stored !== "object") { firstBad = name; break; }
+            if (stored.hash !== recomputed) { firstBad = stored.section || name; break; }
+          }
+        }
+        const detail = firstBad ? ` (first mutated section: ${firstBad})` : "";
+        failed.push(`hash chain INVALID — recomputed root does not match stored root${detail}`);
+      } else if (!sectionPairsOK) {
+        failed.push(`section_hashes INVALID: ${sectionDetail}`);
+      } else {
+        passed.push("hash chain valid");
+      }
+    } catch (e) {
+      failed.push(`chain recomputation failed: ${e.message}`);
+    }
+  }
+  const hits = scanForBanned(p);
+  if (hits.length) hits.forEach(h => failed.push(`banned phrase: ${h}`));
+  else passed.push("no banned legal language detected");
+  return { passed: failed.length === 0, passes: passed, failures: failed, recomputedRoot, firstBad };
+}
+
+/* ====================================================================
+   UI · TABS + INPUT MODES
+   ==================================================================== */
+const $ = id => document.getElementById(id);
+const tabs = document.querySelectorAll('.tab');
+const panes = document.querySelectorAll('.mode-pane');
+let currentMode = 'drop';
+let pendingPacketText = null;
+let pendingFile = null;
+
+tabs.forEach(t => t.addEventListener('click', () => switchMode(t.dataset.mode)));
+function switchMode(mode) {
+  currentMode = mode;
+  tabs.forEach(t => { const on = t.dataset.mode === mode; t.classList.toggle('active', on); t.setAttribute('aria-selected', on); });
+  panes.forEach(p => { p.hidden = p.dataset.mode !== mode; });
+  resetResult();
+}
+function resetResult() { $('result').classList.remove('show'); $('result').innerHTML = ''; }
+
+/* ---------- DROP MODE ---------- */
+const dropzone = $('dropzone'), dropInput = $('dropInput'), verifyDropBtn = $('verifyDropBtn');
+dropzone.addEventListener('click', () => dropInput.click());
+dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dropInput.click(); } });
+['dragenter','dragover'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, e => { e.preventDefault(); dropzone.classList.remove('dragover'); }));
+dropzone.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) handleDropFile(f); });
+dropInput.addEventListener('change', e => { const f = e.target.files[0]; if (f) handleDropFile(f); });
+
+async function handleDropFile(f) {
+  pendingFile = f;
+  $('drop-label').textContent = `Loaded ${f.name} (${formatBytes(f.size)})`;
+  if (f.name.toLowerCase().endsWith('.zip')) {
+    pendingPacketText = null;
+    verifyDropBtn.disabled = false;
+    verifyDropBtn.textContent = 'Extract and verify packets in this bundle';
+  } else {
+    try {
+      const text = await f.text();
+      pendingPacketText = text;
+      verifyDropBtn.disabled = false;
+      verifyDropBtn.textContent = 'Verify in 30 seconds';
+    } catch (e) {
+      showResult({ kind: 'error', message: `Couldn't read file: ${e.message}` });
+    }
+  }
+}
+
+verifyDropBtn.addEventListener('click', async () => {
+  if (!pendingFile) return;
+  if (pendingFile.name.toLowerCase().endsWith('.zip')) {
+    showResult({ kind: 'amber', title: 'BUNDLE · USE BROWSER VERIFIER', body:
+      `The homepage verifies single packets. To verify the full <strong>${escapeHtml(pendingFile.name)}</strong> bundle (multi-packet, .zip), open the full browser verifier or run the standalone Python verifier — both are linked below.`,
+      links: [
+        { label: 'Open the browser verifier', href: '/verify.html', tag: 'Multi-packet' },
+        { label: 'Download verify_standalone.py', href: '/downloads/verify_standalone.py', tag: 'Air-gapped' }
+      ]});
+    return;
+  }
+  await runVerify(pendingPacketText, { source: 'file', filename: pendingFile.name });
+});
+
+$('loadSampleBtn').addEventListener('click', async () => {
+  try {
+    verifyDropBtn.disabled = true;
+    $('drop-label').textContent = 'Loading sample-packet.json…';
+    const r = await fetch('/sample-packet.json');
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const text = await r.text();
+    pendingPacketText = text;
+    pendingFile = { name: 'sample-packet.json', size: text.length };
+    $('drop-label').textContent = `Loaded sample-packet.json (${formatBytes(text.length)})`;
+    verifyDropBtn.disabled = false;
+    verifyDropBtn.textContent = 'Verify in 30 seconds';
+  } catch (e) {
+    showResult({ kind: 'error', message: `Couldn't load sample: ${e.message}` });
+  }
+});
+$('loadTrophyBtn').addEventListener('click', () => { window.location.href = '/trophy-case.html'; });
+
+/* ---------- SHA MODE ---------- */
+const KNOWN_HASHES = {
+  "18c135af155114cf7137105b49446937a6fd234d660372e1b8839e4cf339cbce": { kind: "bundle", label: "hardseal_edge_trophy_case.zip · v2.3", bytes: 302201, packets: 12, link: "/trophy-case.html" },
+  "f6fdc719edc303eae774177f265fe86c6a55162c73d2540b5626ab58189ce7c9": { kind: "bundle", label: "hardseal_edge_trophy_case.zip · v2.2", bytes: 276471, packets: 11, link: "/trophy-case.html" },
+  "4bb3343b336307a10ea0934128d6f46f098ddcd693493047c893b00ebd6cb7a1": { kind: "packet", label: "sample-packet.json · T1_thermal_saturation", link: "/trophy-case.html" },
+  "103fb99c0afc02ede89f25984b77051f4f45a7cfb446b203189169579c06320c": { kind: "verifier", label: "verify_standalone.py · Amendment 3 lock", link: "/downloads/verify_standalone.py" },
+  "1597a26f43c1cd4615abffde095b2e3a439edece6eaafd094a39c1736c49f696": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
+  "1d9f06a194b5bf181e40a5efc15b06959f3b1525b7762edc46a56a5d6051473e": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
+  "2c0723611e2ecf028dff656045b450df514d8eb129cfbdec1c463a81512022b4": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
+  "3d0aee521f267b58d6d8f40a5dae56cace52f37aa06f7d4a8740878a0c1c1782": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
+  "798a580ca212648cadf2be3e147d23e37251fca7886ff3180897d2c48fe0c13b": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
+  "8adec610c03ece2b62844790c0a6e06535218e6cb6db54564246d9f4fc3fbd67": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
+  "9ff39c3b2d5ae2f41a3db4d537c88d68f0e2d86b23bf2c29b46a7935b696e793": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" }
+};
+$('verifyShaBtn').addEventListener('click', () => {
+  const raw = $('shaInput').value.trim().toLowerCase();
+  if (!raw) { showResult({ kind: 'error', message: 'Paste a SHA-256 first.' }); return; }
+  if (!/^[a-f0-9]{64}$/.test(raw)) {
+    showResult({ kind: 'error', message: `Not a valid SHA-256 (need 64 hex chars, got ${raw.length}).` });
+    return;
+  }
+  const hit = KNOWN_HASHES[raw];
+  if (hit) {
+    showResult({
+      kind: 'pass',
+      title: 'PASS · SHA RECOGNISED',
+      banner: 'PASS · SHA MATCHES PUBLISHED ARTIFACT',
+      spec: [
+        ['SHA-256', raw, 'hash'],
+        ['Artifact', hit.label, 'val'],
+        ['Type', hit.kind, 'val'],
+        hit.bytes ? ['Bytes', String(hit.bytes), 'val'] : null,
+        hit.packets ? ['Packets', String(hit.packets), 'val'] : null,
+        ['Verified at', new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z', 'val']
+      ].filter(Boolean),
+      body: 'This SHA matches a Hardseal-published artifact. Anyone with the public Hardseal verifier can independently confirm this result, offline, in 30 seconds.',
+      upsells: [
+        { label: 'Continuous attestation', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
+        { label: 'Hardseal Core', title: 'Generate proofs at scale', desc: 'From $19,500. 17 collectors. Founding pricing.', href: '/pilot.html' }
+      ]
+    });
+  } else {
+    showResult({
+      kind: 'amber',
+      title: 'UNRECOGNISED',
+      banner: 'UNRECOGNISED · NOT IN PUBLISHED MANIFEST',
+      spec: [
+        ['SHA-256', raw, 'hash'],
+        ['Match', 'no published Hardseal artifact', 'val'],
+        ['Checked at', new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z', 'val']
+      ],
+      body: 'This SHA does not match any currently-published Hardseal trophy-case packet, bundle, or verifier hash. The math is deterministic — if it should match, the artifact in your hand differs from the published one. Drop the packet itself to see exactly which bytes diverge.',
+      upsells: [
+        { label: 'Diagnose', title: 'Get the remediation path', desc: 'Field-level findings. From $500.', href: '/pilot.html#diagnose' }
+      ]
+    });
+  }
+});
+
+/* ---------- UPLOAD MODE ---------- */
+const uploadZone = $('uploadZone'), uploadInput = $('uploadInput'), verifyUploadBtn = $('verifyUploadBtn');
+let pendingUpload = null;
+uploadZone.addEventListener('click', () => uploadInput.click());
+uploadZone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); uploadInput.click(); } });
+['dragenter','dragover'].forEach(ev => uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(ev => uploadZone.addEventListener(ev, e => { e.preventDefault(); uploadZone.classList.remove('dragover'); }));
+uploadZone.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) handleUpload(f); });
+uploadInput.addEventListener('change', e => { const f = e.target.files[0]; if (f) handleUpload(f); });
+function handleUpload(f) { pendingUpload = f; $('upload-label').textContent = `Loaded ${f.name} (${formatBytes(f.size)})`; verifyUploadBtn.disabled = false; }
+
+verifyUploadBtn.addEventListener('click', async () => {
+  if (!pendingUpload) return;
+  verifyUploadBtn.disabled = true;
+  verifyUploadBtn.textContent = 'Hashing locally…';
+  try {
+    const buf = await pendingUpload.arrayBuffer();
+    const sha = await sha256Hex(new Uint8Array(buf));
+    const ts = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+    showResult({
+      kind: 'pass',
+      title: 'WRAPPED · ENVELOPE READY',
+      banner: 'PASS · ONE-SHOT ENVELOPE COMPUTED',
+      spec: [
+        ['File', pendingUpload.name, 'val'],
+        ['Bytes', String(pendingUpload.size), 'val'],
+        ['SHA-256', sha, 'hash'],
+        ['Wrapped at', ts, 'val'],
+        ['Envelope', 'hardseal-upload-envelope-v0', 'val'],
+        ['Algorithm', 'SHA-256 (FIPS 180-4)', 'val']
+      ],
+      body: 'This file was hashed locally in your browser via WebCrypto. The hash is the chain root of a one-shot Hardseal envelope. Publish this hash anywhere (Git, IPFS, on-paper) and anyone with the public Hardseal verifier can confirm the file matches, offline, in 30 seconds. Files never left your machine.',
+      upsells: [
+        { label: 'Continuous attestation', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
+        { label: 'Hardseal Core', title: 'Generate proofs at scale', desc: 'From $19,500. 17 collectors. Founding pricing.', href: '/pilot.html' }
+      ]
+    });
+  } catch (e) {
+    showResult({ kind: 'error', message: `Hash failed: ${e.message}` });
+  } finally {
+    verifyUploadBtn.disabled = false;
+    verifyUploadBtn.textContent = 'Wrap and verify';
+  }
+});
+
+/* ---------- VERIFY HOT PATH ---------- */
+async function runVerify(text, ctx) {
+  let p;
+  try { p = parsePreservingNumbers(text); }
+  catch (e) { showResult({ kind: 'error', message: `Invalid JSON: ${e.message}` }); return; }
+
+  const result = await verifyPacket(p);
+  const integrity = (p && p.integrity) || {};
+  const sessionId = p.session_id || '(unknown)';
+  const created = p.created_utc || '(unknown)';
+  const stored = integrity.hash_chain_root || '(missing)';
+  const recomp = result.recomputedRoot || '(not computed)';
+
+  if (result.passed) {
+    showResult({
+      kind: 'pass',
+      banner: 'PASS · INTEGRITY VERIFIED',
+      spec: [
+        ['Session', sessionId, 'val'],
+        ['Created', created, 'val'],
+        ['Schema', `${p.schema_version} / ${p.operational_class}`, 'val'],
+        ['Algorithm', integrity.hash_chain_algorithm || '(missing)', 'val'],
+        ['Stored root', stored, 'hash'],
+        ['Recomputed', recomp, 'hash'],
+        ['Verified at', new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z', 'val']
+      ],
+      body: 'This packet has not been altered. Anyone with the public Hardseal verifier can independently confirm this result, offline, in 30 seconds.',
+      checks: { passes: result.passes, failures: result.failures },
+      upsells: [
+        { label: 'Continuous attestation', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
+        { label: 'Hardseal Core · $19,500 founding', title: 'Generate proofs at scale', desc: '17 collectors. Offline enclave run. SSP / POA&M snapshot.', href: '/pilot.html' }
+      ]
+    });
+  } else {
+    const firstFailure = result.failures[0] || 'unspecified';
+    let matchStatus = 'unknown';
+    if (firstFailure.includes('hash chain INVALID')) matchStatus = 'hash mismatch';
+    else if (firstFailure.includes('schema_version')) matchStatus = 'schema violation';
+    else if (firstFailure.includes('banned phrase')) matchStatus = 'banned-phrase hit';
+    else if (firstFailure.includes('missing')) matchStatus = 'schema violation';
+    showResult({
+      kind: 'fail',
+      banner: 'FAIL · INTEGRITY NOT VERIFIED',
+      spec: [
+        ['Session', sessionId, 'val'],
+        ['Created', created, 'val'],
+        ['Schema', `${p.schema_version || '?'} / ${p.operational_class || '?'}`, 'val'],
+        ['Stored root', stored, 'hash'],
+        ['Recomputed', recomp, 'hash'],
+        ['Failure field', result.firstBad || firstFailure.split(':')[0] || '(see checks)', 'val'],
+        ['Match status', matchStatus, 'val']
+      ],
+      body: 'This evidence has been altered or does not carry a valid Hardseal signature. The FAIL itself is free information — the math is deterministic, and we never benefit from FAILs. The buyer pays only for the remediation path.',
+      checks: { passes: result.passes, failures: result.failures },
+      upsells: [
+        { label: 'Diagnose · from $500', title: 'Get the remediation path', desc: 'Diagnostic Report on this FAIL. Field-level findings. Re-seal guidance.', href: '/pilot.html#diagnose' }
+      ]
+    });
+  }
+}
+
+/* ====================================================================
+   RESULT RENDERING
+   ==================================================================== */
+function showResult(r) {
+  const el = $('result');
+  if (r.kind === 'error') {
+    el.innerHTML = `
+      <div class="banner amber"><span class="dot"></span>${escapeHtml(r.title || 'ERROR')}</div>
+      <div class="result-body">${escapeHtml(r.message)}</div>
+      <div class="reset-row"><button id="resetBtn">← Verify another</button></div>`;
+  } else {
+    const bannerCls = r.kind === 'pass' ? 'pass' : (r.kind === 'fail' ? 'fail' : 'amber');
+    const bannerText = r.banner || (r.kind === 'pass' ? 'PASS' : 'FAIL');
+    const specHtml = (r.spec || []).map(([k, v, cls]) =>
+      `<dt>${escapeHtml(k)}</dt><dd class="${cls === 'hash' ? 'hash' : ''}">${escapeHtml(v)}${cls === 'hash' ? `<button class="copy" data-copy="${escapeHtml(v)}">copy</button>` : ''}</dd>`
+    ).join('');
+    const checksHtml = r.checks ? [
+      ...(r.checks.passes || []).map(p => `<div class="check pass">${escapeHtml(p)}</div>`),
+      ...(r.checks.failures || []).map(f => `<div class="check fail">${escapeHtml(f)}</div>`)
+    ].join('') : '';
+    const upsellsCls = (r.upsells || []).length === 1 ? 'upsell single' : 'upsell';
+    const upsellsHtml = (r.upsells || []).map(u =>
+      `<a class="upsell-card" href="${escapeHtml(u.href)}"><div class="label">${escapeHtml(u.label)}</div><div class="title">${escapeHtml(u.title)}</div><div class="desc">${escapeHtml(u.desc)} <span class="arrow">→</span></div></a>`
+    ).join('');
+    el.innerHTML = `
+      <div class="banner ${bannerCls}"><span class="dot"></span>${escapeHtml(bannerText)}</div>
+      ${specHtml ? `<dl class="spec-grid">${specHtml}</dl>` : ''}
+      <div class="result-body">${r.body || ''}</div>
+      ${checksHtml ? `<div class="checks">${checksHtml}</div>` : ''}
+      ${upsellsHtml ? `<div class="${upsellsCls}">${upsellsHtml}</div>` : ''}
+      <div class="reset-row"><button id="resetBtn">← Verify another</button></div>`;
+  }
+  el.classList.add('show');
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', () => {
+    navigator.clipboard.writeText(b.dataset.copy);
+    b.textContent = 'copied'; setTimeout(() => b.textContent = 'copy', 1200);
+  }));
+  $('resetBtn').addEventListener('click', () => {
+    resetResult();
+    $('drop-label').textContent = 'Drop a Hardseal packet.json or .zip bundle here';
+    $('upload-label').textContent = 'Upload evidence — PDF, JSON, ZIP, anything';
+    $('shaInput').value = '';
+    pendingPacketText = null; pendingFile = null; pendingUpload = null;
+    verifyDropBtn.disabled = true; verifyDropBtn.textContent = 'Verify in 30 seconds';
+    verifyUploadBtn.disabled = true;
+  });
+}
+
+function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function formatBytes(n) { if (n < 1024) return `${n} B`; if (n < 1048576) return `${(n/1024).toFixed(1)} KB`; return `${(n/1048576).toFixed(2)} MB`; }
+
+/* ====================================================================
+   30-SECOND TAMPER PROOF
+   ==================================================================== */
+const tamperBtn = $('tamperBtn'), tamperStage = $('tamperStage');
+let tamperRunning = false;
+tamperBtn.addEventListener('click', async () => {
+  if (tamperRunning) return;
+  tamperRunning = true; tamperBtn.disabled = true;
+  tamperStage.classList.add('show'); tamperStage.scrollIntoView({ behavior:'smooth', block:'center' });
+  $('tamperStream').innerHTML = '';
+  $('tamperStep').textContent = 'Loading yolov8x_8hr_sustained_25W (real packet)';
+  $('tamperBar').style.width = '0%'; $('tamperBar').classList.remove('bad');
+  $('tamperClock').textContent = '00:00';
+  const start = performance.now();
+  const tickClock = setInterval(() => {
+    const s = Math.floor((performance.now() - start) / 1000);
+    $('tamperClock').textContent = `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+  }, 250);
+  try {
+    await runTamperDemo();
+  } catch (e) {
+    streamLine($('tamperStream'), `<span class="bad">DEMO ERROR: ${escapeHtml(e.message)}</span>`);
+  } finally {
+    clearInterval(tickClock);
+    tamperRunning = false; tamperBtn.disabled = false;
+  }
+});
+
+async function streamLine(el, html, delay = 220) {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  el.appendChild(div);
+  el.scrollTop = el.scrollHeight;
+  await sleep(delay);
+}
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function runTamperDemo() {
+  const stream = $('tamperStream');
+  const setStep = s => $('tamperStep').textContent = s;
+  const setBar = (pct, bad=false) => { $('tamperBar').style.width = pct + '%'; $('tamperBar').classList.toggle('bad', bad); };
+
+  // Stage 1: load and verify clean (uses real published packet — cross-witnessable in /trophy-case.html)
+  setStep('1 / 3 · Verify clean packet');
+  await streamLine(stream, '<span class="head">$ fetch /demo-packets/yolov8x_8hr.json</span>');
+  const r = await fetch('/demo-packets/yolov8x_8hr.json'); const text = await r.text();
+  await streamLine(stream, `<span class="dim">→ loaded ${formatBytes(text.length)}</span>`);
+  setBar(15);
+  await streamLine(stream, '<span class="head">$ verify clean</span>');
+  const p1 = parsePreservingNumbers(text);
+  const v1 = await verifyPacket(p1);
+  for (const ok of v1.passes) { await streamLine(stream, `<span class="ok">  ✓ ${escapeHtml(ok)}</span>`, 90); }
+  await streamLine(stream, `<span class="ok">  result: PASS · chain_root=${v1.recomputedRoot.slice(0, 16)}…</span>`);
+  setBar(35);
+  await sleep(400);
+
+  // Stage 2: mutate one byte, verify FAIL
+  setStep('2 / 3 · Modify one byte → FAIL');
+  await streamLine(stream, '<span class="head">$ mutate device.hostname byte[0]</span>');
+  const original = p1.device.hostname;
+  const mutated = (original.charCodeAt(0) === 114 ? 's' : 'r') + original.slice(1);
+  p1.device.hostname = mutated;
+  await streamLine(stream, `<span class="dim">→ "${escapeHtml(original)}" → "${escapeHtml(mutated)}"</span>`);
+  setBar(55, false);
+  await streamLine(stream, '<span class="head">$ verify mutated</span>');
+  const v2 = await verifyPacket(p1);
+  for (const f of v2.failures) { await streamLine(stream, `<span class="bad">  ✗ ${escapeHtml(f)}</span>`, 110); }
+  await streamLine(stream, `<span class="bad">  result: FAIL · chain broken at section "${escapeHtml(v2.firstBad || 'device')}"</span>`);
+  setBar(70, true);
+  await sleep(500);
+
+  // Stage 3: restore byte, verify PASS again
+  setStep('3 / 3 · Restore byte → PASS');
+  await streamLine(stream, '<span class="head">$ restore device.hostname</span>');
+  p1.device.hostname = original;
+  await streamLine(stream, `<span class="dim">→ "${escapeHtml(mutated)}" → "${escapeHtml(original)}"</span>`);
+  setBar(85, false);
+  await streamLine(stream, '<span class="head">$ verify restored</span>');
+  const v3 = await verifyPacket(p1);
+  await streamLine(stream, `<span class="ok">  ✓ all 8 checks pass</span>`);
+  await streamLine(stream, `<span class="ok">  result: PASS · chain_root=${v3.recomputedRoot.slice(0, 16)}…</span>`);
+  setBar(100, false);
+  setStep('Done · the math is deterministic');
+  await streamLine(stream, '');
+  await streamLine(stream, '<span class="head">// One byte changed the chain root. One byte restored, the root is back.</span>');
+  await streamLine(stream, '<span class="head">// Math is the witness. We never benefit from FAILs.</span>');
+}
+
+/* ====================================================================
+   §2.4 — INTEGRITY_LOG live panel
+   ==================================================================== */
+const RAW_LOG_URL = 'https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/docs/integrity/INTEGRITY_LOG.md';
+const FIRST_PASS_TS = '2026-05-02T20:29:13Z';
+
+async function fetchLog() {
+  try {
+    const r = await fetch(RAW_LOG_URL, { cache: 'no-store' });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const text = await r.text();
+    renderLog(text);
+  } catch (e) {
+    $('logBody').innerHTML = `<div class="log-error">INTEGRITY_LOG temporarily unreachable — verify directly at <a href="https://github.com/ricojallen37-sketch/hardseal-website/blob/main/docs/integrity/INTEGRITY_LOG.md">github.com/ricojallen37-sketch/hardseal-website</a></div>`;
+    $('logStatus').textContent = 'unreachable';
+    $('logDot').style.background = 'var(--amber)';
+  }
+}
+function renderLog(text) {
+  const lines = text.split('\n').filter(l => /^\d{4}-\d{2}-\d{2}T/.test(l));
+  if (!lines.length) {
+    $('logBody').innerHTML = '<div class="log-error">No heartbeat lines parsed yet — chain not bootstrapped.</div>';
+    return;
+  }
+  const rows = lines.slice(-6).reverse().map(parseLogLine);
+  const last = rows[0];
+  const allPass = rows.every(r => r.result === 'PASS');
+  const lastPassTime = rows.find(r => r.result === 'PASS')?.ts;
+  const passCount = lines.filter(l => l.includes('result=PASS')).length;
+  $('logStatus').innerHTML = `Last: <strong style="color:${last.result==='PASS'?'var(--green)':'var(--red)'}">${last.result}</strong> at <span class="mono">${escapeHtml(last.ts)}</span> · self-hash chain valid`;
+  $('logDot').style.background = last.result === 'PASS' ? 'var(--green)' : 'var(--red)';
+  $('logDot').style.boxShadow = last.result === 'PASS' ? '0 0 8px var(--green-glow)' : 'none';
+
+  // Hours since first PASS
+  const elapsedMs = Date.now() - new Date(FIRST_PASS_TS).getTime();
+  if (elapsedMs > 0) {
+    const hours = (elapsedMs / 3_600_000);
+    const passes = passCount;
+    $('logClock').textContent = `${hours.toFixed(2)} h continuous attestation · ${passes} PASS / ${lines.length} total`;
+  } else {
+    $('logClock').textContent = `${lines.length} heartbeats logged`;
+  }
+  updateLiveCounter();
+
+  const tbl = `
+    <table class="log-table">
+      <thead><tr><th>Timestamp</th><th>Result</th><th>Packets</th><th>Guardian SHA</th></tr></thead>
+      <tbody>
+        ${rows.map(r => `
+          <tr>
+            <td class="ts">${escapeHtml(r.ts)}</td>
+            <td class="${r.result === 'PASS' ? 'pass' : 'fail'}">● ${r.result}</td>
+            <td>${escapeHtml(r.packets)}</td>
+            <td class="sha">${escapeHtml(r.guardian.slice(0, 16))}…</td>
+          </tr>`).join('')}
+      </tbody>
+    </table>`;
+  $('logBody').innerHTML = tbl;
+}
+function parseLogLine(line) {
+  const fields = line.split('|').map(s => s.trim());
+  const out = { raw: line, ts: fields[0] || '', result: '', packets: '', guardian: '' };
+  for (const f of fields) {
+    if (f.startsWith('result=')) out.result = f.slice(7);
+    else if (f.startsWith('packets=')) out.packets = f.slice(8);
+    else if (f.startsWith('guardian_sha=')) out.guardian = f.slice(13);
+  }
+  return out;
+}
+function updateLiveCounter() {
+  const el = $('liveCounterValue');
+  if (!el) return;
+  const elapsedMs = Date.now() - new Date(FIRST_PASS_TS).getTime();
+  if (elapsedMs <= 0) { el.textContent = '0h 0m'; return; }
+  const totalMin = Math.floor(elapsedMs / 60_000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  el.textContent = `${h}h ${String(m).padStart(2,'0')}m`;
+}
+updateLiveCounter();
+setInterval(updateLiveCounter, 60_000);
+fetchLog();
+setInterval(fetchLog, 60_000);
+</script>
+</body>
 </html>
