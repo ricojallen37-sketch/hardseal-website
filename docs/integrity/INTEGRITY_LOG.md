@@ -56,3 +56,4 @@ anyway, then the workflow run exits non-zero. The failure publishes. That is
 the trust signal.
 
 # CHAIN_ANCHOR seed=hardseal-edge-integrity-log-v1
+2026-05-02T17:19:21Z | bundle_sha=f6fdc719edc303eae774177f265fe86c6a55162c73d2540b5626ab58189ce7c9 | bundle_bytes=276471 | packets=0/11 | result=FAIL | verifier_sha=103fb99c0afc02ede89f25984b77051f4f45a7cfb446b203189169579c06320c | guardian_sha=ff48afe52382a72dc574ad5c97af0b6ec09f88180dc7013141575eed88c0ece6 | next=2026-05-02T23:19:22Z
