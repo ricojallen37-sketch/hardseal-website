@@ -1,0 +1,179 @@
+{
+  "benchmark": {
+    "blocks": [],
+    "histogram": [],
+    "max_ms": 0.0,
+    "mean_ms": 0.0,
+    "min_ms": 0.0,
+    "p50_ms": 0.0,
+    "p95_ms": 0.0,
+    "p99_ms": 0.0,
+    "poam": {
+      "control_mapping": {
+        "cmmc_2_0_level_2_assessment_context": [
+          "CMMC 2.0 Level 2 \u2014 POA&M artifact review",
+          "C3PAO-style Phase 1 Pre-Assessment review context",
+          "POA&M closeout / remediation tracking context"
+        ],
+        "nist_sp_800_171_example_deficiencies": [
+          "3.1.1",
+          "3.4.1"
+        ],
+        "nist_sp_800_171_primary": [
+          "3.12.2"
+        ],
+        "nist_sp_800_171_supporting": [
+          "3.12.1",
+          "3.12.3"
+        ]
+      },
+      "poam_chain_algorithm": "sha256_append_only_v1",
+      "poam_chain_genesis_label": "HARDSEAL_POAM_GENESIS_v1",
+      "poam_chain_intermediate": [
+        "b15db9dde76f00716e67ffc8f6f7e5f4ad23051ca12992d0334fddcf5b2ed85e",
+        "6de5ba700ac9f25676398e079fefe3cde1c3eb70bad2383dafca0f306337a44e",
+        "5f00d1795850f7e7dc161d66e28501e9dfb8b5f03460fee65484b94ef27cfc18"
+      ],
+      "poam_chain_root": "5f00d1795850f7e7dc161d66e28501e9dfb8b5f03460fee65484b94ef27cfc18",
+      "poam_entries": [
+        {
+          "control_family": "Access Control",
+          "control_id": "3.1.1",
+          "deficiency": "Privileged account on cui-workstation-07 lacked unique authenticator; shared local administrator credential discovered during Phase 1 pre-assessment review.",
+          "discovered_utc": "2026-04-02T15:10:00Z",
+          "due_utc": "2026-07-31T23:59:59Z",
+          "last_updated_utc": "2026-05-20T18:42:00Z",
+          "milestone": "M2 of 3 \u2014 IdP enrollment cutover",
+          "owner_label": "issm@example.mil",
+          "owner_role": "System Owner / ISSM",
+          "poam_id": "POAM-2026-0001",
+          "progress_note": "IdP enrollment 80% complete (14/18 privileged users). Local admin disable pending change-control window 2026-06-04.",
+          "remediation_action": "Disable shared local admin account, enroll all privileged users in central IdP with MFA, document in SSP \u00a73.1.1 control implementation.",
+          "seq": 1,
+          "status": "in_progress"
+        },
+        {
+          "control_family": "Configuration Management",
+          "control_id": "3.4.1",
+          "deficiency": "Baseline configuration for the CUI enclave hypervisor not formally recorded; drift between documented build and running config observed on host esx-cui-02.",
+          "discovered_utc": "2026-04-18T12:30:00Z",
+          "due_utc": "2026-08-30T23:59:59Z",
+          "last_updated_utc": "2026-05-22T14:05:00Z",
+          "milestone": "M1 of 3 \u2014 baseline capture",
+          "owner_label": "infra-lead@example.mil",
+          "owner_role": "Infrastructure Lead",
+          "poam_id": "POAM-2026-0002",
+          "progress_note": "Golden-image template drafted in lab; awaiting peer review before promotion to production config repo.",
+          "remediation_action": "Capture authoritative baseline (golden image + Ansible role), publish to config repo, enable weekly drift scan, update SSP \u00a73.4.1.",
+          "seq": 2,
+          "status": "open"
+        },
+        {
+          "control_family": "Security Assessment (Ongoing Monitoring)",
+          "control_id": "3.12.3",
+          "deficiency": "Continuous monitoring cadence for control effectiveness was ad-hoc; no documented monthly review of selected controls per 3.12.3 ongoing monitoring requirement.",
+          "discovered_utc": "2026-03-11T17:00:00Z",
+          "due_utc": "2026-06-15T23:59:59Z",
+          "last_updated_utc": "2026-05-23T09:15:00Z",
+          "milestone": "M3 of 3 \u2014 independent validation",
+          "owner_label": "isso@example.mil",
+          "owner_role": "ISSO",
+          "poam_id": "POAM-2026-0003",
+          "progress_note": "Monthly cadence executed for April and May; awaiting independent validation by ISSM before status flip to closed.",
+          "remediation_action": "Define monthly control-sampling plan (10 controls/month rotating), assign reviewer, publish review minutes to /enclave/audit/poam-reviews/.",
+          "seq": 3,
+          "status": "remediated_pending_validation"
+        }
+      ],
+      "poam_entry_count": 3,
+      "poam_entry_hash_algorithm": "sha256",
+      "poam_entry_hashes": [
+        "78186b7957eb7059cf1cd4059d2514429f5404ea2ac54ed183390be54b675127",
+        "2dc40de0590df90932a01f91821d0e3ea236d91bd4b4be6a2bada26c10ad2733",
+        "a899f0381ad7fa0e3811b0dcca893ab7d5770721ff1ad886a5d9c07369c0dae4"
+      ],
+      "poam_format": "json",
+      "poam_source": "synthetic-cui-enclave-poam-demo"
+    },
+    "post_thermal_c": [],
+    "pre_thermal_c": [],
+    "recorded_iterations": 3,
+    "stdev_ms": 0.0,
+    "throughput_fps": 0.0,
+    "wall_seconds": 0.0,
+    "warmup_iterations": 0
+  },
+  "created_utc": "2026-05-23T18:00:00Z",
+  "device": {
+    "clocks_pinned": false,
+    "hostname": "cui-poam-tracker-demo",
+    "jetpack_version": "n/a",
+    "kernel": "",
+    "l4t_version": "n/a",
+    "os_name": "linux",
+    "os_version": "",
+    "platform": "synthetic_poam_tracker",
+    "power_mode": "n/a"
+  },
+  "doctrine_url": "hardseal_edge/DOCTRINE.md",
+  "integrity": {
+    "hash_chain_algorithm": "sha256_chain_v1",
+    "hash_chain_root": "6411654e1c78a9db221ab155634500d0a2ed5086dbac9f36a2b4055cf294db96",
+    "section_hashes": [
+      {
+        "hash": "2665c5973a5dc26b3d27c45ba5b4e0a552cb0c0887d27c328d1f3ca772359cfc",
+        "section": "device"
+      },
+      {
+        "hash": "51ef8a539aa91328135cf2489565f7f3fbc6601fdd50eadb8f8bfcad6b33c64a",
+        "section": "model"
+      },
+      {
+        "hash": "071c3f8bebe00cc0ddb392bd15b81d34eb1f53d465cecc6fc793e05f66a7f7c9",
+        "section": "benchmark"
+      },
+      {
+        "hash": "d0083b3f16383dc9bdd5a547a7ee601deba5ddb43fd69aa6bd6622c39dcbc3c7",
+        "section": "sensors"
+      },
+      {
+        "hash": "6411654e1c78a9db221ab155634500d0a2ed5086dbac9f36a2b4055cf294db96",
+        "section": "limitations"
+      }
+    ],
+    "tamper_status": "clean",
+    "verification_command": "python3 downloads/verify_standalone.py poam-evidence-receipt3.json"
+  },
+  "limitations": [
+    "This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.",
+    "operational_class is 'edge-inference-verification' so the existing browser/Python verifier can validate this packet without modification; the POA&M evidence is carried in the benchmark.poam block (per-entry sha256 entry hashes + append-only poam_chain_root). benchmark latency/throughput fields are zeroed because no inference workload ran. This is the same schema-reuse pattern used by Receipt #2's benchmark.audit_log block \u2014 no new verifier or schema change required.",
+    "scope: a small synthetic POA&M (3 line items) mapped to NIST SP 800-171 3.12.2 (primary POA&M control), 3.12.1 (assessments), and 3.12.3 (ongoing monitoring), with example deficiency entries against 3.1.1 (access control) and 3.4.1 (baseline configuration). Assessment context: CMMC 2.0 Level 2 POA&M artifact review / C3PAO-style Phase 1 pre-assessment / POA&M closeout. Verifier exercise only; not a customer POA&M, not a real assessment artifact.",
+    "what a PASS proves: the packet is internally consistent under the Hardseal Edge v1.0 hash-chain rules; benchmark.poam.poam_chain_root is the recomputable append-only chain over the included POA&M entries. What it does NOT prove: that the included entries describe a real system, that the system meets any CMMC 2.0 / NIST SP 800-171 control, or any assessor outcome."
+  ],
+  "model": {
+    "engine_path": "synthetic://cui-enclave/poam/2026-05-23T18.json",
+    "engine_sha256": "a36fb2f848a0ca0983b1fdb0db572da5aeb2ba88b6a931a04ef3056f723e318f",
+    "input_shape": [
+      1,
+      3,
+      0,
+      0
+    ],
+    "metadata_header_bytes": 0,
+    "name": "cmmc_poam_evidence_trail",
+    "precision": "n/a",
+    "runtime": "poam-evidence-trail",
+    "runtime_version": "1.0"
+  },
+  "offline_mode": true,
+  "operational_class": "edge-inference-verification",
+  "packet_type": "hardseal_edge_session",
+  "schema_version": "1.0",
+  "sensors": {
+    "barometer": "not_connected",
+    "camera": "not_connected",
+    "gps": "not_connected",
+    "imu": "not_connected"
+  },
+  "session_id": "DEMO_poam_evidence_receipt3_20260523T180000Z"
+}
