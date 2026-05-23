@@ -76,6 +76,17 @@ main{flex:1;width:100%}
   color:var(--gray2);margin-bottom:24px;
 }
 .hero-eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);vertical-align:middle;margin-right:8px}
+.try-now-band{
+  width:100%;background:var(--bg3);border-bottom:1px solid var(--border);
+  font-family:var(--mono);font-size:12px;letter-spacing:0.05em;
+  padding:10px 24px;text-align:center;color:var(--gray1);
+}
+.try-now-band a{color:var(--green);border-bottom:1px solid var(--green);padding-bottom:1px}
+.try-now-band a:hover{color:var(--white);border-bottom-color:var(--white)}
+.try-now-band .sep{color:var(--gray3);margin:0 10px}
+.try-now-band .label{color:var(--gray2);margin-right:8px}
+.try-now-band .try-now-note{display:block;margin-top:6px;color:var(--gray3);font-size:11px;letter-spacing:0.03em;line-height:1.5}
+.try-now-band .try-now-note code{background:var(--bg);padding:1px 5px;color:var(--gray1)}
 .hero h1{
   font-size:clamp(28px,4.5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-0.02em;
   color:var(--white);max-width:880px;margin-bottom:14px;
@@ -310,6 +321,17 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 </header>
 
 <main>
+
+<!-- ============== TRY-NOW BAND ============== -->
+<div class="try-now-band" role="region" aria-label="30-second offline verify">
+  <span class="label">▸ Try it now:</span>
+  <a href="/verify.html">30-second offline verify</a>
+  <span class="sep">·</span>
+  <a href="/sample-packet-receipt1.json" download>demo replay packet</a>
+  <span class="sep">·</span>
+  <a href="/sample-packet-receipt1.json.sha256" download>SHA-256</a>
+  <div class="try-now-note">Fresh-dated header over the canonical T1 thermal-saturation benchmark — verifier-exercise sample, not a new field measurement (see <code>limitations[]</code>).</div>
+</div>
 
 <!-- ============== HERO ============== -->
 <section class="hero" aria-labelledby="hero-h1">
@@ -829,6 +851,8 @@ const KNOWN_HASHES = {
   "18c135af155114cf7137105b49446937a6fd234d660372e1b8839e4cf339cbce": { kind: "bundle", label: "hardseal_edge_trophy_case.zip · v2.3", bytes: 302201, packets: 12, link: "/trophy-case.html" },
   "f6fdc719edc303eae774177f265fe86c6a55162c73d2540b5626ab58189ce7c9": { kind: "bundle", label: "hardseal_edge_trophy_case.zip · v2.2", bytes: 276471, packets: 11, link: "/trophy-case.html" },
   "4bb3343b336307a10ea0934128d6f46f098ddcd693493047c893b00ebd6cb7a1": { kind: "packet", label: "sample-packet.json · T1_thermal_saturation", link: "/trophy-case.html" },
+  "9cf799eef49b70c25ff5abc1cc0052c5bed55f9b855fe1b69363b2ab1713e82b": { kind: "packet", label: "sample-packet-receipt1.json · demo replay (file SHA-256)", link: "/verify.html" },
+  "52d2c01eb5af1a89fee89a4228d5e1f5b02712db3fe7945f2bdf97c2b6c88c3e": { kind: "packet", label: "sample-packet-receipt1.json · demo replay (chain root)", link: "/verify.html" },
   "103fb99c0afc02ede89f25984b77051f4f45a7cfb446b203189169579c06320c": { kind: "verifier", label: "verify_standalone.py · Amendment 3 lock", link: "/downloads/verify_standalone.py" },
   "1597a26f43c1cd4615abffde095b2e3a439edece6eaafd094a39c1736c49f696": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },
   "1d9f06a194b5bf181e40a5efc15b06959f3b1525b7762edc46a56a5d6051473e": { kind: "packet", label: "trophy-case packet · chain root", link: "/trophy-case.html" },

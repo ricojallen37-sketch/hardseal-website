@@ -81,6 +81,15 @@ textarea#packet:focus{border-color:var(--green-med)}
 .note code{font-family:var(--mono);background:var(--bg);padding:1px 6px;font-size:12px}
 footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
 .spec{font-family:var(--mono);font-size:11px;color:var(--gray2);margin-top:8px;letter-spacing:.05em}
+.quickstart{
+  background:var(--bg3);border:1px solid var(--border2);border-left:2px solid var(--green);
+  padding:20px 24px;margin-bottom:32px;font-family:var(--mono);font-size:13px;line-height:1.7;
+}
+.quickstart .qs-title{color:var(--green);font-weight:700;letter-spacing:.1em;font-size:12px;margin-bottom:10px}
+.quickstart ol{margin:0 0 0 22px;padding:0;color:var(--gray1)}
+.quickstart li{margin-bottom:6px}
+.quickstart code{background:var(--bg);padding:1px 6px;font-size:12px;color:var(--white)}
+.quickstart .qs-foot{color:var(--gray2);font-size:11px;margin-top:12px;letter-spacing:.05em}
 @media(max-width:720px){
   header{padding:16px 20px}
   nav a{margin-left:18px;font-size:12px}
@@ -110,6 +119,19 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     <br><br>
     <span style="font-size:14px;color:var(--gray2);">View source on this page — or save it locally and run it offline — for trust beyond TLS delivery. The standalone <a href="/downloads/verify_standalone.py">Python verifier</a> is the air-gapped equivalent.</span>
   </p>
+
+  <div class="quickstart" aria-label="30-second offline verify quickstart">
+    <div class="qs-title">▸ TRY IT NOW · 30-SECOND OFFLINE VERIFY</div>
+    <div style="color:var(--gray2);font-size:12px;margin-bottom:10px;line-height:1.55">Demo replay sample: fresh-dated header over the canonical T1 thermal-saturation benchmark. Verifier-exercise sample, not a new field measurement (see the packet's <code>limitations[]</code> entry).</div>
+    <ol>
+      <li>Download the demo replay packet: <a href="/sample-packet-receipt1.json" download>sample-packet-receipt1.json</a> <span style="color:var(--gray2)">(SHA-256: <a href="/sample-packet-receipt1.json.sha256" download>sidecar</a>)</span></li>
+      <li>Drop it into the box below — or click <em>Load .json file</em> — and press <em>Verify packet</em>. Expect <code>PASS · INTEGRITY VERIFIED</code>.</li>
+      <li>Open the file in a text editor, change any number by one digit, save, re-verify. Expect <code>FAIL · INTEGRITY NOT VERIFIED</code>.</li>
+    </ol>
+    <div class="qs-foot">
+      Air-gapped equivalent: <code>shasum -a 256 sample-packet-receipt1.json</code> then <code>python3 verify_standalone.py sample-packet-receipt1.json</code>. The <a href="/downloads/verify_standalone.py">standalone Python verifier</a> is stdlib-only, ~14&nbsp;KB, no network calls.
+    </div>
+  </div>
 
   <div class="panel">
     <h2>// Packet input</h2>
