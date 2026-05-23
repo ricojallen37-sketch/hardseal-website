@@ -123,7 +123,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <div class="quickstart" aria-label="Hardseal public trust ledger" id="trust-ledger">
     <div class="qs-title">▸ HARDSEAL PUBLIC TRUST LEDGER · RECEIPTS #1–#4 · INDEX</div>
     <div style="color:var(--gray2);font-size:12px;margin-bottom:10px;line-height:1.55">
-      One compact index for the four public demo receipts published so far. Each row is a self-contained proof artifact: download the packet, compare its file SHA-256 against the sidecar, drop it into the verifier on this page, and confirm the chain root recomputes. The artifact link, sidecar, source PR, ops command issue, file SHA-256, and chain root are listed so anyone — buyer, assessor, or stranger — can cross-check without contacting Hardseal.
+      One compact index for the four public demo receipts published so far. Each row is a self-contained proof artifact: download the packet, compare its file SHA-256 against the sidecar, drop it into the verifier on this page, and confirm the chain root recomputes. The artifact link, sidecar, source PR, file SHA-256, and chain root are listed so anyone — buyer, assessor, or stranger — can cross-check without contacting Hardseal. Internal command receipts are private operator records (linked for the owner) and are <strong>not</strong> required for public verification; public proof rests entirely on the packet, sidecar, source PR, file SHA-256, and chain root(s) in each row.
     </div>
     <div style="overflow-x:auto;margin-top:6px">
     <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;line-height:1.55">
@@ -131,7 +131,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
         <tr style="color:var(--gray1);text-align:left;border-bottom:1px solid #2a2a2a">
           <th style="padding:8px 10px;vertical-align:top;width:18%">Receipt</th>
           <th style="padding:8px 10px;vertical-align:top;width:32%">Artifact &amp; sidecar</th>
-          <th style="padding:8px 10px;vertical-align:top;width:18%">PR · command issue</th>
+          <th style="padding:8px 10px;vertical-align:top;width:18%">Source PR · internal command receipt (private)</th>
           <th style="padding:8px 10px;vertical-align:top;width:32%">Core hash · proof value · limitation</th>
         </tr>
       </thead>
@@ -144,11 +144,11 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
           </td>
           <td style="padding:10px">
             <a href="https://github.com/ricojallen37-sketch/hardseal-website/pull/8">PR #8</a><br>
-            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/3#issuecomment-4525971350">ops receipt</a>
+            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/3#issuecomment-4525971350">internal command receipt (private)</a>
           </td>
           <td style="padding:10px">
             File SHA-256: <code style="word-break:break-all">9cf799eef49b70c25ff5abc1cc0052c5bed55f9b855fe1b69363b2ab1713e82b</code><br>
-            Chain root: <code style="word-break:break-all">52d2c01eb5af1a89fee89a4228d5e1f5b02712db3fe7945f2bdf97c2b6c88c3e</code><br>
+            <code>hash_chain_root</code>: <code style="word-break:break-all">52d2c01eb5af1a89fee89a4228d5e1f5b02712db3fe7945f2bdf97c2b6c88c3e</code><br>
             <span style="color:var(--gray1)">Proves:</span> public 30-second PASS/FAIL verifier path for a demo replay packet.<br>
             <span style="color:#FFBD2E">Limit:</span> verifier-exercise replay sample, not a new field measurement.
           </td>
@@ -161,12 +161,12 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
           </td>
           <td style="padding:10px">
             <a href="https://github.com/ricojallen37-sketch/hardseal-website/pull/9">PR #9</a><br>
-            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/4#issuecomment-4526026454">ops receipt</a>
+            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/4#issuecomment-4526026454">internal command receipt (private)</a>
           </td>
           <td style="padding:10px">
             File SHA-256: <code style="word-break:break-all">b656d8b7ab59627b5fd165223f5e42c7d9a7d23bd14c05ede350e9b1dc525475</code><br>
-            Outer chain root: <code style="word-break:break-all">be4195cdb7074b56475b6e5be52e4d4b05134b5723f1f393fedd5c91e388fdf1</code><br>
-            Audit-log chain root: <code style="word-break:break-all">0d72ff3646648c84808befdb230c1803c61d86e430c82ede87b686e0d417a914</code><br>
+            Outer <code>hash_chain_root</code>: <code style="word-break:break-all">be4195cdb7074b56475b6e5be52e4d4b05134b5723f1f393fedd5c91e388fdf1</code><br>
+            Inner <code>log_chain_root</code>: <code style="word-break:break-all">0d72ff3646648c84808befdb230c1803c61d86e430c82ede87b686e0d417a914</code><br>
             <span style="color:var(--gray1)">Proves:</span> tamper-evident audit-log demo, verifier-compatible, schema-reuse only.<br>
             <span style="color:#FFBD2E">Limit:</span> synthetic demo. Not a customer log, not compliance proof, not an assessor outcome.
           </td>
@@ -179,12 +179,12 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
           </td>
           <td style="padding:10px">
             <a href="https://github.com/ricojallen37-sketch/hardseal-website/pull/10">PR #10</a><br>
-            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/5#issuecomment-4526074273">ops receipt</a>
+            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/5#issuecomment-4526074273">internal command receipt (private)</a>
           </td>
           <td style="padding:10px">
             File SHA-256: <code style="word-break:break-all">06967784f40dcc9caa0e8ce3253c3fb8edea8d418c7ee14b3815d354136e74a8</code><br>
-            Outer chain root: <code style="word-break:break-all">6411654e1c78a9db221ab155634500d0a2ed5086dbac9f36a2b4055cf294db96</code><br>
-            POA&amp;M chain root: <code style="word-break:break-all">5f00d1795850f7e7dc161d66e28501e9dfb8b5f03460fee65484b94ef27cfc18</code><br>
+            Outer <code>hash_chain_root</code>: <code style="word-break:break-all">6411654e1c78a9db221ab155634500d0a2ed5086dbac9f36a2b4055cf294db96</code><br>
+            Inner <code>poam_chain_root</code>: <code style="word-break:break-all">5f00d1795850f7e7dc161d66e28501e9dfb8b5f03460fee65484b94ef27cfc18</code><br>
             <span style="color:var(--gray1)">Proves:</span> POA&amp;M trail with timeline/status/owner fields and NIST 800-171 mapping.<br>
             <span style="color:#FFBD2E">Limit:</span> synthetic demo. Not a customer POA&amp;M, not a live assessment artifact.
           </td>
@@ -197,12 +197,12 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
           </td>
           <td style="padding:10px">
             <a href="https://github.com/ricojallen37-sketch/hardseal-website/pull/11">PR #11</a><br>
-            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/6#issuecomment-4526140936">ops receipt</a>
+            <a href="https://github.com/ricojallen37-sketch/hardseal-ai-ops/issues/6#issuecomment-4526140936">internal command receipt (private)</a>
           </td>
           <td style="padding:10px">
             File SHA-256: <code style="word-break:break-all">e196ed163d28711bc510c6cfe5c3e4a8f3816960b6e38ad0aa5bb1326becaf56</code><br>
-            Outer chain root: <code style="word-break:break-all">c323221b75a69c36d396a1e8311e28a11db2c591f7cc8d83cdc4726d1cfb0c1e</code><br>
-            SSP chain root: <code style="word-break:break-all">a99ec6eb8644c2cc4bb647b065794d590151d4d2e412ab9b37f7026a304c261d</code><br>
+            Outer <code>hash_chain_root</code>: <code style="word-break:break-all">c323221b75a69c36d396a1e8311e28a11db2c591f7cc8d83cdc4726d1cfb0c1e</code><br>
+            Inner <code>ssp_chain_root</code>: <code style="word-break:break-all">a99ec6eb8644c2cc4bb647b065794d590151d4d2e412ab9b37f7026a304c261d</code><br>
             <span style="color:var(--gray1)">Proves:</span> SSP living-document change history with continuous-monitoring triggers.<br>
             <span style="color:#FFBD2E">Limit:</span> synthetic demo. Not a customer SSP, not an assessment artifact.
           </td>
