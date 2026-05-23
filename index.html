@@ -76,6 +76,15 @@ main{flex:1;width:100%}
   color:var(--gray2);margin-bottom:24px;
 }
 .hero-eyebrow .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green-glow);vertical-align:middle;margin-right:8px}
+.try-now-band{
+  width:100%;background:var(--bg3);border-bottom:1px solid var(--border);
+  font-family:var(--mono);font-size:12px;letter-spacing:0.05em;
+  padding:10px 24px;text-align:center;color:var(--gray1);
+}
+.try-now-band a{color:var(--green);border-bottom:1px solid var(--green);padding-bottom:1px}
+.try-now-band a:hover{color:var(--white);border-bottom-color:var(--white)}
+.try-now-band .sep{color:var(--gray3);margin:0 10px}
+.try-now-band .label{color:var(--gray2);margin-right:8px}
 .hero h1{
   font-size:clamp(28px,4.5vw,52px);font-weight:600;line-height:1.1;letter-spacing:-0.02em;
   color:var(--white);max-width:880px;margin-bottom:14px;
@@ -310,6 +319,16 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 </header>
 
 <main>
+
+<!-- ============== TRY-NOW BAND ============== -->
+<div class="try-now-band" role="region" aria-label="30-second offline verify">
+  <span class="label">▸ Try it now:</span>
+  <a href="/verify.html">30-second offline verify</a>
+  <span class="sep">·</span>
+  <a href="/sample-packet-receipt1.json" download>fresh sample packet</a>
+  <span class="sep">·</span>
+  <a href="/sample-packet-receipt1.json.sha256" download>SHA-256</a>
+</div>
 
 <!-- ============== HERO ============== -->
 <section class="hero" aria-labelledby="hero-h1">
