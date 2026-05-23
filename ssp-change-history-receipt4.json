@@ -1,0 +1,278 @@
+{
+  "benchmark": {
+    "blocks": [],
+    "histogram": [],
+    "max_ms": 0.0,
+    "mean_ms": 0.0,
+    "min_ms": 0.0,
+    "p50_ms": 0.0,
+    "p95_ms": 0.0,
+    "p99_ms": 0.0,
+    "post_thermal_c": [],
+    "pre_thermal_c": [],
+    "recorded_iterations": 8,
+    "ssp_change_history": {
+      "control_mapping": {
+        "cmmc_2_0_level_2_assessment_context": [
+          "CMMC 2.0 Level 2 \u2014 Pre-Assessment Phase 1 SSP review",
+          "SSP completeness / accuracy / consistency review",
+          "Living-document evidence (continuous monitoring, POA&M closure, scope changes, periodic reviews)"
+        ],
+        "nist_sp_800_171_primary": [
+          "3.12.1",
+          "3.12.2",
+          "3.12.3"
+        ],
+        "nist_sp_800_171_supporting": [
+          "3.1.1",
+          "3.3.1",
+          "3.3.8",
+          "3.4.1",
+          "3.5.3",
+          "3.6.1",
+          "3.11.2"
+        ]
+      },
+      "ssp_chain_algorithm": "sha256_append_only_v1",
+      "ssp_chain_genesis_label": "HARDSEAL_SSP_CHANGE_HISTORY_GENESIS_v1",
+      "ssp_chain_intermediate": [
+        "4f0ba6d092bf4fe2de584719c0006df8cde4177da61d4d46d35812d3365fa20e",
+        "b733a578eacc56900f3d772da80562fb2deae9ca048e26cccbe1008279424a7e",
+        "d2ab43422646aa0be73e38fca8a50a4f87f1ecbd41edc6909cd2e9a8641d40e8",
+        "fc0a6408e9eb00c1020ee0de46c2dc2a44dc9637e8da5a491a3cb4b28f8383e9",
+        "eefba449dd6b034cb4111141a0746b1d6d40778a815838ad85065faf8991ad91",
+        "d137b51c6c798ede8b6cb955b04e7292c90df995b87a1da3bf9bb1b7c267b263",
+        "8f00f5dd716f34f51db3efb5625b04aa1e72c1b8b95163333020f185173fd439",
+        "a99ec6eb8644c2cc4bb647b065794d590151d4d2e412ab9b37f7026a304c261d"
+      ],
+      "ssp_chain_root": "a99ec6eb8644c2cc4bb647b065794d590151d4d2e412ab9b37f7026a304c261d",
+      "ssp_change_log_format": "json",
+      "ssp_change_log_source": "synthetic-cui-enclave-ssp-change-history-demo",
+      "ssp_entries": [
+        {
+          "description": "Initial SSP authored and approved for the CUI enclave. Baseline control implementation statements recorded for all NIST SP 800-171 families.",
+          "monitoring_event_id": null,
+          "owner_label": "issm@example.mil",
+          "owner_role": "System Owner / ISSM",
+          "related_controls": [
+            "3.12.1",
+            "3.12.2",
+            "3.12.3"
+          ],
+          "remediation_status": "n/a",
+          "seq": 1,
+          "source_tool": "manual_ssp_authoring",
+          "triggered_by": "initial_authorization",
+          "ts_utc": "2025-12-02T14:00:00Z",
+          "version": "1.0.0"
+        },
+        {
+          "description": "Authenticated scan of cui-workstation-07 surfaced an unpatched local privilege-escalation CVE. SSP RA-5 / CM-6 implementation statements updated to document the new monthly authenticated-scan cadence; POA&M item POAM-2026-0001 opened in parallel.",
+          "monitoring_event_id": "VSCAN-2026-0114-0001",
+          "owner_label": "vulnmgr@example.mil",
+          "owner_role": "Vulnerability Manager",
+          "related_controls": [
+            "3.11.2",
+            "3.4.1",
+            "3.12.2"
+          ],
+          "remediation_status": "poam_opened",
+          "seq": 2,
+          "source_tool": "vulnerability_scanner",
+          "triggered_by": "continuous_monitoring",
+          "ts_utc": "2026-01-14T16:45:00Z",
+          "version": "1.1.0"
+        },
+        {
+          "description": "POAM-2026-0001 closed after IdP enrollment and shared-admin disable. SSP \u00a73.12.2 remediation evidence updated; \u00a73.12.1 control-assessment narrative refreshed to record the closure validation by ISSM.",
+          "monitoring_event_id": null,
+          "owner_label": "isso@example.mil",
+          "owner_role": "ISSO",
+          "related_controls": [
+            "3.12.1",
+            "3.12.2",
+            "3.1.1"
+          ],
+          "remediation_status": "poam_closed",
+          "seq": 3,
+          "source_tool": "poam_tracker",
+          "triggered_by": "poam_closure",
+          "ts_utc": "2026-02-09T11:20:00Z",
+          "version": "1.2.0"
+        },
+        {
+          "description": "SIEM+EDR correlation flagged anomalous off-hours privileged logon from cui-workstation-12 followed by EDR process-injection alert. SSP AC-2 / IA-2 / IR-4 implementation statements updated to add conditional-access rule and out-of-band IR notification path.",
+          "monitoring_event_id": "SIEM-EDR-2026-0227-0007",
+          "owner_label": "ir-lead@example.mil",
+          "owner_role": "Incident Response Lead",
+          "related_controls": [
+            "3.1.1",
+            "3.5.3",
+            "3.6.1"
+          ],
+          "remediation_status": "controls_strengthened",
+          "seq": 4,
+          "source_tool": "siem_edr_correlation",
+          "triggered_by": "continuous_monitoring",
+          "ts_utc": "2026-02-27T03:42:00Z",
+          "version": "1.3.0"
+        },
+        {
+          "description": "Scope expansion: secondary CUI processing system (engineering-vdi-01) added to the authorization boundary. SSP system description, data-flow diagram, and boundary tables updated; inheritance from enclave shared controls documented.",
+          "monitoring_event_id": null,
+          "owner_label": "issm@example.mil",
+          "owner_role": "System Owner / ISSM",
+          "related_controls": [
+            "3.12.1",
+            "3.12.3",
+            "3.4.1"
+          ],
+          "remediation_status": "n/a",
+          "seq": 5,
+          "source_tool": "manual_ssp_authoring",
+          "triggered_by": "scope_change",
+          "ts_utc": "2026-03-18T13:05:00Z",
+          "version": "1.4.0"
+        },
+        {
+          "description": "Continuous attestation monitor detected audit-log retention drift on esx-cui-02: retention dropped from 365d to 280d after a storage reclaim. SSP AU-11 implementation updated to add automated retention-floor alert; drift remediated within the same change window.",
+          "monitoring_event_id": "HSLOG-2026-0407-0042",
+          "owner_label": "audit-eng@example.mil",
+          "owner_role": "Audit & Logging Engineer",
+          "related_controls": [
+            "3.3.1",
+            "3.3.8"
+          ],
+          "remediation_status": "drift_remediated",
+          "seq": 6,
+          "source_tool": "hardseal_log_integrity_monitor",
+          "triggered_by": "continuous_monitoring",
+          "ts_utc": "2026-04-07T19:30:00Z",
+          "version": "1.4.1"
+        },
+        {
+          "description": "Quarterly automated access review identified 3 stale privileged entitlements on the CUI enclave IdP. SSP AC-2 / IA-2 implementation statements updated to record the new 90-day recertification cadence and the auto-disable-on-expiry control.",
+          "monitoring_event_id": "ACR-2026-Q2-0019",
+          "owner_label": "access-review@example.mil",
+          "owner_role": "Access Review Coordinator",
+          "related_controls": [
+            "3.1.1",
+            "3.5.3"
+          ],
+          "remediation_status": "entitlements_revoked",
+          "seq": 7,
+          "source_tool": "access_review_automation",
+          "triggered_by": "continuous_monitoring",
+          "ts_utc": "2026-04-29T15:10:00Z",
+          "version": "1.5.0"
+        },
+        {
+          "description": "Quarterly SSP integrity review completed: all control implementation statements re-attested against current architecture; change-log consistency verified; minor edits to \u00a73.12.1 / \u00a73.12.3 narratives to reflect the new continuous-monitoring telemetry pipeline.",
+          "monitoring_event_id": "SSPINT-2026-Q2-0001",
+          "owner_label": "issm@example.mil",
+          "owner_role": "ISSM",
+          "related_controls": [
+            "3.12.1",
+            "3.12.2",
+            "3.12.3"
+          ],
+          "remediation_status": "review_complete",
+          "seq": 8,
+          "source_tool": "ssp_integrity_engine",
+          "triggered_by": "periodic_review",
+          "ts_utc": "2026-05-20T17:55:00Z",
+          "version": "1.6.0"
+        }
+      ],
+      "ssp_entry_count": 8,
+      "ssp_entry_hash_algorithm": "sha256",
+      "ssp_entry_hashes": [
+        "5da26e71754640b9ab0859691a66b0de958f3b7e7d76a3d69d29aba137d50b17",
+        "a4064ca8e15d476c46d36e8566dcd2ec4ea82786cbc2a0c02b0906323300f55e",
+        "11b29b8b9de7ce27e53d8476085d17f21126c164cb021cde4a050d99902508ad",
+        "3f2769c318000518c5cad757ef2c4165ebe7d8217256deafc136ad1c2d94773d",
+        "4145dd927495c69e4e3cce65278755d4e9824b44a51ce43717663682b25c8550",
+        "668985349da75750a1903048a429b0ffe31aa6d3f2c8674bf4307fe551556fa6",
+        "4f06f43246fa42a4b12c42ebf7e27b3e1c718e6e85d832e1b4de87150538c772",
+        "c04aae443e7a77d003df3350532dc2808a55ec3c14e621a93139a3ab05d2b8b9"
+      ]
+    },
+    "stdev_ms": 0.0,
+    "throughput_fps": 0.0,
+    "wall_seconds": 0.0,
+    "warmup_iterations": 0
+  },
+  "created_utc": "2026-05-23T19:00:00Z",
+  "device": {
+    "clocks_pinned": false,
+    "hostname": "cui-ssp-change-history-demo",
+    "jetpack_version": "n/a",
+    "kernel": "",
+    "l4t_version": "n/a",
+    "os_name": "linux",
+    "os_version": "",
+    "platform": "synthetic_ssp_change_history",
+    "power_mode": "n/a"
+  },
+  "doctrine_url": "hardseal_edge/DOCTRINE.md",
+  "integrity": {
+    "hash_chain_algorithm": "sha256_chain_v1",
+    "hash_chain_root": "c323221b75a69c36d396a1e8311e28a11db2c591f7cc8d83cdc4726d1cfb0c1e",
+    "section_hashes": [
+      {
+        "hash": "78ac41c621e4ee33b1162afab64c8835b6bc0cd0bff39a9afa466352816584ae",
+        "section": "device"
+      },
+      {
+        "hash": "ab0889a9925b8a50c2ef297151d524c9d7a00ef161b05133f5087d040e26b3b9",
+        "section": "model"
+      },
+      {
+        "hash": "923bcd0b6f37809834744380612d8d44273b0c856052026caaaab1c17738295e",
+        "section": "benchmark"
+      },
+      {
+        "hash": "2bea2b19440821e3fa48e544ca68d7fb3c716aee96d74917837909658b93fb32",
+        "section": "sensors"
+      },
+      {
+        "hash": "c323221b75a69c36d396a1e8311e28a11db2c591f7cc8d83cdc4726d1cfb0c1e",
+        "section": "limitations"
+      }
+    ],
+    "tamper_status": "clean",
+    "verification_command": "python3 downloads/verify_standalone.py ssp-change-history-receipt4.json"
+  },
+  "limitations": [
+    "This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.",
+    "operational_class is 'edge-inference-verification' so the existing browser/Python verifier can validate this packet without modification; the SSP change-history evidence is carried in the benchmark.ssp_change_history block (per-entry sha256 entry hashes + append-only ssp_chain_root). benchmark latency/throughput fields are zeroed because no inference workload ran. This is the same schema-reuse pattern used by Receipt #2 (benchmark.audit_log) and Receipt #3 (benchmark.poam) \u2014 no new verifier or schema change required.",
+    "scope: a small synthetic SSP change-history excerpt (8 entries spanning roughly 6 months) mapped to NIST SP 800-171 3.12.1 (periodic assessment), 3.12.2 (plans of action), and 3.12.3 (ongoing monitoring), with supporting touches on 3.1.1, 3.3.1, 3.3.8, 3.4.1, 3.5.3, 3.6.1, and 3.11.2. Assessment context: CMMC 2.0 Level 2 Pre-Assessment Phase 1 SSP review for completeness, accuracy, consistency, and living-document evidence. Verifier exercise only; not a customer SSP, not a real assessment artifact.",
+    "what a PASS proves: the packet is internally consistent under the Hardseal Edge v1.0 hash-chain rules; benchmark.ssp_change_history.ssp_chain_root is the recomputable append-only chain over the included SSP change-log entries. What it does NOT prove: that the included entries describe a real system, that the system meets any CMMC 2.0 / NIST SP 800-171 control, or any assessor outcome."
+  ],
+  "model": {
+    "engine_path": "synthetic://cui-enclave/ssp/change-history/2026-05-23T19.json",
+    "engine_sha256": "e8d6cf013cd190edd0cd08fc475f0022beb235707a0546d36c3661af8a938717",
+    "input_shape": [
+      1,
+      8,
+      0,
+      0
+    ],
+    "metadata_header_bytes": 0,
+    "name": "cmmc_ssp_change_history",
+    "precision": "n/a",
+    "runtime": "ssp-change-history",
+    "runtime_version": "1.0"
+  },
+  "offline_mode": true,
+  "operational_class": "edge-inference-verification",
+  "packet_type": "hardseal_edge_session",
+  "schema_version": "1.0",
+  "sensors": {
+    "barometer": "not_connected",
+    "camera": "not_connected",
+    "gps": "not_connected",
+    "imu": "not_connected"
+  },
+  "session_id": "DEMO_ssp_change_history_receipt4_20260523T190000Z"
+}
