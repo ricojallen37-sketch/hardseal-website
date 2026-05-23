@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Hardseal public proof pack for the CMMC Incident Response control family. Download the pack and verify it offline with a readable Python verifier.">
+<title>Hardseal Public Proof - IR Family</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #080b0f;
+    --surface: #0d1218;
+    --surface-2: #111821;
+    --surface-3: #151d27;
+    --line: rgba(219, 229, 239, 0.14);
+    --line-strong: rgba(219, 229, 239, 0.28);
+    --text: #e7edf3;
+    --muted: #9aa8b6;
+    --faint: #667383;
+    --accent: #b8c7d8;
+    --success: #85d49b;
+    --warn: #d9b66f;
+    --fail: #ee8d8d;
+    --code-bg: #05070a;
+    --max: 1180px;
+    --measure: 70ch;
+    --radius: 10px;
+    --font-body: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; text-size-adjust: none; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: var(--text); text-decoration-color: rgba(231, 237, 243, 0.38); text-underline-offset: 0.18em; }
+  a:hover { text-decoration-color: var(--text); }
+  code, pre, .mono { font-family: var(--font-mono); }
+  code {
+    color: var(--text);
+    background: rgba(255,255,255,0.045);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 0.08rem 0.35rem;
+    font-size: 0.88em;
+  }
+  pre {
+    margin: 0;
+    padding: 18px;
+    overflow-x: auto;
+    color: #dce7f2;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    font-size: 13px;
+    line-height: 1.55;
+    white-space: pre;
+  }
+  ul { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+  li { margin: 0.38rem 0; }
+  p { margin: 0; color: var(--muted); max-width: var(--measure); }
+  h1, h2, h3 { margin: 0; line-height: 1.12; letter-spacing: -0.025em; }
+  h1 {
+    max-width: 880px;
+    font-size: clamp(2.35rem, 7vw, 5.7rem);
+    font-weight: 680;
+  }
+  h2 { font-size: clamp(1.45rem, 2.4vw, 2.1rem); font-weight: 650; }
+  h3 {
+    font-size: 0.86rem;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+  .skip {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100;
+    padding: 10px 12px;
+    background: var(--text);
+    color: var(--bg);
+    border-radius: 4px;
+  }
+  .skip:focus { top: 12px; }
+  .page {
+    width: min(var(--max), calc(100% - 40px));
+    margin: 0 auto;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .mark {
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--line-strong);
+    display: grid;
+    place-items: center;
+  }
+  .mark svg { width: 18px; height: 18px; }
+  .brand-text {
+    display: grid;
+    gap: 1px;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .brand-text span:last-child { color: var(--faint); letter-spacing: 0.12em; }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .nav a { color: var(--muted); text-decoration: none; }
+  .nav a:hover { color: var(--text); }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.04fr) minmax(320px, 0.62fr);
+    gap: clamp(36px, 6vw, 76px);
+    padding: clamp(56px, 8vw, 104px) 0 54px;
+    border-bottom: 1px solid var(--line);
+  }
+  .eyebrow {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .lede {
+    margin-top: 24px;
+    color: var(--text);
+    font-size: clamp(1.03rem, 1.4vw, 1.23rem);
+    line-height: 1.58;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 34px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 680;
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+  }
+  .button-primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .button-secondary { color: var(--text); background: transparent; }
+  .button-tertiary { color: var(--muted); background: transparent; border-color: var(--line); }
+  .button:hover { text-decoration: none; border-color: var(--text); }
+  .proof-panel {
+    align-self: start;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .panel-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .status-ok { color: var(--success); }
+  .terminal {
+    position: relative;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .terminal-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 12px;
+    color: var(--faint);
+    background: rgba(255,255,255,0.025);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .terminal pre { border: 0; border-radius: 0; background: transparent; }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-top: 0;
+  }
+  .metric {
+    background: var(--bg);
+    padding: 18px;
+  }
+  .metric strong {
+    display: block;
+    color: var(--text);
+    font-size: clamp(1.35rem, 2.4vw, 2.2rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .metric span {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  section {
+    padding: clamp(42px, 7vw, 86px) 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-grid {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 68px);
+  }
+  .section-kicker {
+    position: sticky;
+    top: 20px;
+    align-self: start;
+  }
+  .section-kicker p {
+    margin-top: 12px;
+    font-size: 14px;
+    color: var(--faint);
+  }
+  .stack { display: grid; gap: 18px; }
+  .stack-large { display: grid; gap: 28px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(20px, 3vw, 30px);
+  }
+  .card h3 { margin-bottom: 14px; }
+  .card p + p { margin-top: 12px; }
+  .download-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    padding: 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .download-name {
+    display: grid;
+    gap: 3px;
+  }
+  .download-name strong { color: var(--text); }
+  .download-name span { color: var(--faint); font-size: 13px; }
+  .steps {
+    display: grid;
+    gap: 20px;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .terminal-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .claim-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .claim-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .claim-card.proves h3 { color: var(--success); }
+  .claim-card.limits h3 { color: var(--warn); }
+  .file-list {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .file-row {
+    display: grid;
+    grid-template-columns: minmax(240px, 0.42fr) minmax(0, 1fr);
+    gap: 18px;
+    padding: 15px 16px;
+    background: var(--surface);
+  }
+  .file-row code { background: transparent; border: 0; padding: 0; color: var(--text); }
+  .file-row span { color: var(--muted); font-size: 14px; }
+  .notice {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    color: var(--muted);
+  }
+  .notice strong { color: var(--text); }
+  .offer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    background: var(--surface-3);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: clamp(24px, 4vw, 38px);
+  }
+  footer {
+    padding: 34px 0 60px;
+    color: var(--faint);
+    font-size: 13px;
+  }
+  footer p { color: var(--faint); }
+  .fineprint {
+    margin-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--faint);
+  }
+
+  @media (max-width: 880px) {
+    .topbar { align-items: flex-start; flex-direction: column; }
+    .nav { flex-wrap: wrap; }
+    .hero, .section-grid, .offer { grid-template-columns: 1fr; }
+    .section-kicker { position: static; }
+    .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .terminal-pair, .claim-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .page { width: min(100% - 28px, var(--max)); }
+    .download-row, .file-row, .step { grid-template-columns: 1fr; }
+    .button { width: 100%; justify-content: center; }
+    .metrics { grid-template-columns: 1fr; }
+    pre { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="page topbar" aria-label="Hardseal public proof header">
+  <a class="brand" href="#main" aria-label="Hardseal public proof">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+        <path d="M6 6h12v12H6z"></path>
+        <path d="M9 12h6M12 9v6"></path>
+      </svg>
+    </span>
+    <span class="brand-text">
+      <span>Hardseal</span>
+      <span>Public proof</span>
+    </span>
+  </a>
+  <nav class="nav" aria-label="Page sections">
+    <a href="#verify">Verify</a>
+    <a href="#proof">Proof boundary</a>
+    <a href="#contents">Pack contents</a>
+    <a href="#offer">Free control-family run</a>
+  </nav>
+</header>
+
+<main id="main" class="page">
+  <section class="hero" aria-labelledby="hero-title">
+    <div>
+      <div class="eyebrow">Incident Response · NIST 800-171 §3.6 · Public reference pack</div>
+      <h1 id="hero-title">Verify this CMMC evidence pack yourself.</h1>
+      <p class="lede">
+        Download a single-family reference pack for NIST 800-171 §3.6
+        (Incident Response), run a readable stdlib-only Python verifier,
+        and independently check whether the package changed after it was created.
+      </p>
+      <div class="hero-actions" aria-label="Primary actions">
+        <a class="button button-primary" href="verify_standalone.py" download>Verify it yourself</a>
+        <a class="button button-secondary" href="proof_IR_2026-05-21.tar.gz" download>Download pack</a>
+        <a class="button button-tertiary" href="mailto:rico@hardseal.ai?subject=Hardseal%20control%20family%20proof%20run">Free control-family run</a>
+      </div>
+    </div>
+
+    <aside class="proof-panel" aria-label="Verifier output preview">
+      <div class="panel-title">
+        <span>Expected clean verification</span>
+        <span class="status-ok">PASS · exit 0</span>
+      </div>
+      <div class="terminal">
+        <div class="terminal-head">
+          <span>verify/verify_standalone.py</span>
+          <span>offline</span>
+        </div>
+<pre>[*] Verifying: .
+[*] Verifying manifest checksums... OK (10/10 files)
+[*] Verifying hash chain... OK (6 links)
+[*] No integrity tag present on bundle.
+
+[+] VERIFICATION PASSED -- bundle integrity confirmed.</pre>
+      </div>
+    </aside>
+  </section>
+
+  <div class="metrics" aria-label="Proof pack metrics">
+    <div class="metric" aria-label="10/10 manifest files verify clean">
+      <strong>10/10</strong>
+      <span>manifest files verify clean</span>
+    </div>
+    <div class="metric">
+      <strong>6</strong>
+      <span>6-link hash chain over IR evidence</span>
+    </div>
+    <div class="metric">
+      <strong>~555</strong>
+      <span>lines in the readable verifier</span>
+    </div>
+    <div class="metric" aria-label="0 dependencies. 0 network calls.">
+      <strong>0</strong>
+      <span>dependencies. 0 network calls.</span>
+    </div>
+  </div>
+
+  <section id="verify" aria-labelledby="verify-title">
+    <div class="section-grid">
+      <div class="section-kicker">
+        <h2 id="verify-title">30-second offline verification</h2>
+        <p>The proof and the verifier output are the design. Start with the files, not a claim.</p>
+      </div>
+
+      <div class="stack-large">
+        <div class="download-row">
+          <div class="download-name">
+            <strong>Public proof pack</strong>
+            <span>Filename: <code>proof_IR_2026-05-21.tar.gz</code></span>
+          </div>
+          <a class="button button-primary" href="proof_IR_2026-05-21.tar.gz" download>Download .tar.gz</a>
+          <a class="button button-secondary" href="proof_IR_2026-05-21.tar.gz.sig" download>Download .sig</a>
+        </div>
+
+        <div class="download-row">
+          <div class="download-name">
+            <strong>Standalone verifier</strong>
+            <span>Also bundled inside the pack at <code>verify/verify_standalone.py</code></span>
+          </div>
+          <a class="button button-secondary" href="verify_standalone.py" download>Download verifier</a>
+          <span></span>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num" aria-hidden="true">1</div>
+            <div class="stack">
+              <h3>Extract and verify</h3>
+<pre>tar -xzf proof_IR_2026-05-21.tar.gz
+cd proof_IR_2026-05-21
+python3 verify/verify_standalone.py .</pre>
+            </div>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-head">
+              <span>Expected output · clean pack</span>
+              <span class="status-ok">exit 0</span>
+            </div>
+<pre>[*] Verifying: .
+[*] Verifying manifest checksums... OK (10/10 files)
+[*] Verifying hash chain... OK (6 links)
+[*] No integrity tag present on bundle.
+
+[+] VERIFICATION PASSED -- bundle integrity confirmed.</pre>
+          </div>
+
+          <div class="step">
+            <div class="step-num" aria-hidden="true">2</div>
+            <div class="stack">
+              <h3>Tamper demo</h3>
+<pre>echo "x" >> evidence/INDEX.csv
+python3 verify/verify_standalone.py .</pre>
+            </div>
+          </div>
+
+          <div class="terminal">
+            <div class="terminal-head">
+              <span>Expected output · tampered pack</span>
+              <span style="color: var(--fail);">exit 1</span>
+            </div>
+<pre>[*] Verifying manifest checksums... FAILED
+    - Hash mismatch: evidence/INDEX.csv (expected db98c66e8475c8f9..., got 90b63516bdb204ce...)
+[*] Verifying hash chain... OK (6 links)
+[*] No integrity tag present on bundle.
+
+[!] VERIFICATION FAILED -- evidence may be tampered.</pre>
+          </div>
+
+          <p>
+            The verifier names the offending file with expected vs actual
+            SHA-256 hashes. Anything other than exit code <code>0</code> on
+            the clean pack means the package changed after it was created.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="meaning" aria-labelledby="meaning-title">
+    <div class="section-grid">
+      <div class="section-kicker">
+        <h2 id="meaning-title">What independently verifiable means here</h2>
+        <p>Two offline checks, both inspectable from the package itself.</p>
+      </div>
+      <div class="claim-grid">
+        <article class="claim-card">
+          <h3>Layer 2 evidence chain</h3>
+          <p>
+            SHA-256 hash chain over the IR evidence artifacts. Each link
+            binds to the previous; modifying, inserting, or removing any
+            artifact breaks the chain and the verifier names the broken link.
+          </p>
+          <p class="fineprint">Observed count: 6 links</p>
+        </article>
+        <article class="claim-card">
+          <h3>Package manifest</h3>
+          <p>
+            SHA-256 of every content file in the pack. Append one byte to any
+            file and the manifest layer names that specific file with a hash
+            mismatch on the next verify run.
+          </p>
+          <p class="fineprint">Observed count: 10 / 10 files</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="contents" aria-labelledby="contents-title">
+    <div class="section-grid">
+      <div class="section-kicker">
+        <h2 id="contents-title">What is in the pack</h2>
+        <p>One Incident Response family. Three controls. Evidence and verification files in one portable package.</p>
+      </div>
+      <div class="file-list">
+        <div class="file-row">
+          <code>assessment/SSP.json</code>
+          <span>The 3 IR SSP narratives (3.6.1 / 3.6.2 / 3.6.3), 100% all-real evidence citations, no placeholder text.</span>
+        </div>
+        <div class="file-row">
+          <code>assessment/POAM.csv</code>
+          <span>IR-family Plan of Action and Milestones rows.</span>
+        </div>
+        <div class="file-row">
+          <code>assessment/assessment-results.json</code>
+          <span>IR-family OSCAL 1.1.2 findings and observations.</span>
+        </div>
+        <div class="file-row">
+          <code>evidence/INDEX.csv</code>
+          <span>IR evidence index with 6 artifacts and real SHA-256 content hashes.</span>
+        </div>
+        <div class="file-row">
+          <code>evidence/evidence-bundle.json</code>
+          <span>Re-chained Layer-2 evidence bundle.</span>
+        </div>
+        <div class="file-row">
+          <code>manifest.sha256</code>
+          <span>Package-level SHA-256 manifest with detached HMAC-SHA256 signature file.</span>
+        </div>
+        <div class="file-row">
+          <code>verify/HOW_TO_VERIFY.md</code>
+          <span>Offline verification and tamper-demo walkthrough.</span>
+        </div>
+        <div class="file-row">
+          <code>verify/verify_standalone.py</code>
+          <span>Single-file Python verifier. This is the entire trust surface.</span>
+        </div>
+        <div class="file-row">
+          <code>README.md</code>
+          <span>Overview and cross-checked counts, with summary-report.txt beside it.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="proof" aria-labelledby="proof-title">
+    <div class="section-grid">
+      <div class="section-kicker">
+        <h2 id="proof-title">What this proves / What this does NOT claim</h2>
+        <p>This is the trust spine. The boundary is part of the proof.</p>
+      </div>
+
+      <div class="stack-large">
+        <div class="claim-grid">
+          <article class="claim-card proves">
+            <h3>Proves cryptographically, offline</h3>
+            <ul>
+              <li>Every <code>artifact_hash</code> in <code>evidence-bundle.json</code> is a real SHA-256 of collected content - not a stub, not a placeholder.</li>
+              <li>The Layer-2 hash chain over the 6 IR artifacts is intact. Modification to any artifact breaks the chain.</li>
+              <li>The package-level manifest is intact. Modification to any file in the pack breaks the manifest with a named offender.</li>
+            </ul>
+          </article>
+
+          <article class="claim-card limits">
+            <h3>Does not claim</h3>
+            <ul>
+              <li>Production-grade readiness against the full 110 CMMC L2 controls. This is one family of three controls, deliberately.</li>
+              <li>That the synthetic Acme Precision Components, Inc. profile is a real customer. It is a structurally-realistic reference profile used for proof and demo purposes.</li>
+              <li>Compliance certification, assessment, or RPO/C3PAO endorsement. Hardseal is a pre-assessment readiness product and does not certify, assess, or endorse anything.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="notice">
+          <p>
+            <strong>About the HMAC layer.</strong> The pack ships <em>without</em>
+            the HMAC secret used to sign the evidence bundle at build time. The
+            secret stays with the build operator. Third-party verification
+            therefore covers the chain + manifest layers, which is sufficient
+            to detect any tampering after the pack leaves the build operator.
+            Public-key signature attribution (Ed25519) is on the Hardseal Core
+            roadmap.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="why-one-title">
+    <div class="section-grid">
+      <div class="section-kicker">
+        <h2 id="why-one-title">Why one family, not all 110?</h2>
+        <p>Scope restraint keeps the public proof honest.</p>
+      </div>
+      <div class="stack">
+        <p>
+          The Hardseal pipeline produces packs covering the full 110 CMMC L2
+          controls, but evidence completeness varies by family depending on
+          what the local environment exposes to the collectors. Across the full
+          Acme reference build, 23 of the top-40 SSP narratives carry all-real
+          citations and 17 carry explicit scope-gap placeholders, clearly
+          marked <em>"evidence to be collected during delivery"</em>.
+        </p>
+        <p>
+          For this public proof, we ship the one family (IR, Incident Response,
+          three controls) where 100% of the rendered narratives carry all-real
+          evidence, so the proof is end-to-end real, with no narrative dressed
+          up as something it is not. The honesty doctrine is non-negotiable: a
+          proof that needs caveats stops being a proof.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="offer" aria-labelledby="offer-title">
+    <div class="offer">
+      <div>
+        <h2 id="offer-title">Want your own control family sealed the same way?</h2>
+        <p style="margin-top: 14px;">
+          Hardseal can run one real control family through this same
+          tamper-evident evidence-pack process for feedback. No cost, no
+          commitment, no outcome promise. Just pre-assessment readiness evidence
+          you can inspect.
+        </p>
+      </div>
+      <a class="button button-primary" href="mailto:rico@hardseal.ai?subject=Hardseal%20control%20family%20proof%20run">Ask about a free run</a>
+    </div>
+  </section>
+</main>
+
+<footer class="page">
+  <p>
+    Hardseal is a pre-assessment readiness product. Hardseal does
+    not certify, assess, or endorse any package against CMMC, RPO,
+    or C3PAO requirements. The bundled verifier is open and
+    readable - start there, not here.
+  </p>
+  <p class="fineprint">Static HTML. No external fonts. No external JavaScript. Download links are relative to this page.</p>
+</footer>
+</body>
+</html>
