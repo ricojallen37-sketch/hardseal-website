@@ -133,6 +133,25 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
   </div>
 
+  <div class="quickstart" aria-label="CMMC audit log integrity receipt example">
+    <div class="qs-title">▸ CMMC AUDIT LOG EXAMPLE · RECEIPT #2 · 30-SECOND VERIFY</div>
+    <div style="color:var(--gray2);font-size:12px;margin-bottom:10px;line-height:1.55">
+      Synthetic CUI-enclave audit-log excerpt (8 lines, AU-2 / AU-3 / AU-6 / AU-12 event types) sealed inside a Hardseal Edge v1.0 packet. Each log line is SHA-256 hashed and joined by an append-only log chain; the packet's outer hash chain seals the lines, line hashes, and log chain root together. The existing browser/Python verifier validates this packet without modification.
+    </div>
+    <ol>
+      <li>Download the audit-log demo packet: <a href="/cmmc-audit-log-receipt2.json" download>cmmc-audit-log-receipt2.json</a> <span style="color:var(--gray2)">(SHA-256: <a href="/cmmc-audit-log-receipt2.json.sha256" download>sidecar</a>)</span></li>
+      <li>Drop it into the box below — or click <em>Load .json file</em> — and press <em>Verify packet</em>. Expect <code>PASS · INTEGRITY VERIFIED</code>.</li>
+      <li>Open the file in a text editor, change a single digit anywhere inside <code>benchmark.audit_log.lines[]</code> (for example, flip a <code>seq</code> or <code>ts_utc</code> digit), save, re-verify. Expect <code>FAIL · INTEGRITY NOT VERIFIED</code> with <code>first mutated section: benchmark</code>.</li>
+    </ol>
+    <div class="qs-foot">
+      Air-gapped equivalent: <code>shasum -a 256 cmmc-audit-log-receipt2.json</code> then <code>python3 verify_standalone.py cmmc-audit-log-receipt2.json</code>. Same stdlib-only verifier as Receipt #1 — no new tooling.
+    </div>
+    <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
+      <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
+      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
+    </div>
+  </div>
+
   <div class="panel">
     <h2>// Packet input</h2>
     <textarea id="packet" placeholder="Paste packet.json contents here..." spellcheck="false"></textarea>

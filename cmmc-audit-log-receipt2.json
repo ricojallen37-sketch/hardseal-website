@@ -1,0 +1,210 @@
+{
+  "benchmark": {
+    "audit_log": {
+      "control_framework": "NIST SP 800-171 Rev.2 / CMMC L2 audit family (AU)",
+      "controls_referenced": [
+        "AU-2",
+        "AU-3",
+        "AU-6",
+        "AU-12"
+      ],
+      "line_count": 8,
+      "line_hash_algorithm": "sha256",
+      "line_hashes": [
+        "7cc8a52b2975c8029313e6fd4eee084b15a460b8be52c647a83590ece05b4366",
+        "3030296077a3ea44dfce05afd58cb5218019061b8733910ddd8364d5752b7d12",
+        "12454409adf6c31fa1d2945f15d882e4221ef31dd55bbaf321ed57d1cab3753c",
+        "b5b362af3d33419b97825c15e06e0411134b51ccafe5a6b088a33500409f18df",
+        "9f14d77266293fd1309fd61a496b0be41a6b3a59fbb14b5ef6a93e81dfb206ca",
+        "8e1506525b65ca0b6882137c34d9b0a631289d096a57189d1253e983cfe5e7b6",
+        "ab9cd9909bec8d369f1bc96db8958b919bc005d094f3bad1c4ff2894f22192a1",
+        "62267dca52492c3cde396720884f40d4c5100baa1ac53179f2d2ac16b3743fd8"
+      ],
+      "lines": [
+        {
+          "action": "logon.success",
+          "actor": "alice@example.mil",
+          "event_id": "AU-LOGON-001",
+          "outcome": "success",
+          "resource": "cui-workstation-07",
+          "seq": 1,
+          "src_ip": "10.20.30.41",
+          "ts_utc": "2026-05-23T13:00:01Z"
+        },
+        {
+          "action": "file.read",
+          "actor": "alice@example.mil",
+          "event_id": "AU-FILE-READ-002",
+          "outcome": "success",
+          "resource": "//enclave/cui/contract-X-sow.pdf",
+          "seq": 2,
+          "src_ip": "10.20.30.41",
+          "ts_utc": "2026-05-23T13:02:14Z"
+        },
+        {
+          "action": "sudo.invoke",
+          "actor": "alice@example.mil",
+          "event_id": "AU-PRIV-ESC-003",
+          "outcome": "success",
+          "resource": "/usr/bin/openssl",
+          "seq": 3,
+          "src_ip": "10.20.30.41",
+          "ts_utc": "2026-05-23T13:05:47Z"
+        },
+        {
+          "action": "logon.failure",
+          "actor": "bob@example.mil",
+          "event_id": "AU-LOGON-FAIL-004",
+          "outcome": "failure",
+          "resource": "cui-workstation-12",
+          "seq": 4,
+          "src_ip": "10.20.30.55",
+          "ts_utc": "2026-05-23T13:11:09Z"
+        },
+        {
+          "action": "logon.failure",
+          "actor": "bob@example.mil",
+          "event_id": "AU-LOGON-FAIL-005",
+          "outcome": "failure",
+          "resource": "cui-workstation-12",
+          "seq": 5,
+          "src_ip": "10.20.30.55",
+          "ts_utc": "2026-05-23T13:11:22Z"
+        },
+        {
+          "action": "account.lockout",
+          "actor": "bob@example.mil",
+          "event_id": "AU-ACCT-LOCK-006",
+          "outcome": "enforced",
+          "resource": "cui-workstation-12",
+          "seq": 6,
+          "src_ip": "10.20.30.55",
+          "ts_utc": "2026-05-23T13:11:38Z"
+        },
+        {
+          "action": "config.change",
+          "actor": "carol@example.mil",
+          "event_id": "AU-CFG-CHG-007",
+          "outcome": "success",
+          "resource": "firewall.ruleset.v42",
+          "seq": 7,
+          "src_ip": "10.20.30.9",
+          "ts_utc": "2026-05-23T13:24:55Z"
+        },
+        {
+          "action": "audit.export",
+          "actor": "system",
+          "event_id": "AU-AUDIT-EXP-008",
+          "outcome": "success",
+          "resource": "/var/log/audit/2026-05-23T13.jsonl",
+          "seq": 8,
+          "src_ip": "127.0.0.1",
+          "ts_utc": "2026-05-23T13:33:12Z"
+        }
+      ],
+      "log_chain_algorithm": "sha256_append_only_v1",
+      "log_chain_genesis_label": "HARDSEAL_AUDIT_LOG_GENESIS_v1",
+      "log_chain_intermediate": [
+        "80bb1bdc22ca6f8546a15f2aaff420bc7c47293435064ae0e089b0bebfe33437",
+        "9260168329ea2f2505bb8fd76a50a1605279d23bc780c44361fbdea95e71022f",
+        "09a106162aa55457422e1daa76318742121cdaf585f900f6789a79ac31ca7b07",
+        "e8d00b211043ca9b6701056a8f972100d693d0db72f6e8a5933d239e03a67a10",
+        "4d12aa47e63e7aeb0369436093c23af910177ae5e6f519317bc1118c808c3a89",
+        "cf321dc285c194d08a6a76c34bcc1191da693495f5ecf074b03b857d7b86bdb9",
+        "d1d973a34c42698e31f8ec5f6a39d5f2c1acfbf5e67c6ef6222e4d8f391556a5",
+        "0d72ff3646648c84808befdb230c1803c61d86e430c82ede87b686e0d417a914"
+      ],
+      "log_chain_root": "0d72ff3646648c84808befdb230c1803c61d86e430c82ede87b686e0d417a914",
+      "log_format": "jsonl",
+      "log_source": "synthetic-cui-enclave-demo"
+    },
+    "blocks": [],
+    "histogram": [],
+    "max_ms": 0.0,
+    "mean_ms": 0.0,
+    "min_ms": 0.0,
+    "p50_ms": 0.0,
+    "p95_ms": 0.0,
+    "p99_ms": 0.0,
+    "post_thermal_c": [],
+    "pre_thermal_c": [],
+    "recorded_iterations": 8,
+    "stdev_ms": 0.0,
+    "throughput_fps": 0.0,
+    "wall_seconds": 0.0,
+    "warmup_iterations": 0
+  },
+  "created_utc": "2026-05-23T17:00:00Z",
+  "device": {
+    "clocks_pinned": false,
+    "hostname": "cui-audit-collector-demo",
+    "jetpack_version": "n/a",
+    "kernel": "",
+    "l4t_version": "n/a",
+    "os_name": "linux",
+    "os_version": "",
+    "platform": "synthetic_audit_collector",
+    "power_mode": "n/a"
+  },
+  "doctrine_url": "hardseal_edge/DOCTRINE.md",
+  "integrity": {
+    "hash_chain_algorithm": "sha256_chain_v1",
+    "hash_chain_root": "4932b3b8d1482f2a09458075a2b36e1b35a7fd3e46584603b12f1d9afd46fc4b",
+    "section_hashes": [
+      {
+        "hash": "c1bfffddd21dcc6961757a80f1a460de9078a80b4e78760efbeddf1040ade4d5",
+        "section": "device"
+      },
+      {
+        "hash": "be80c7a0b734b2b3b4e9464de8a47f39310c81421523a8b78bfeb0fe5abce3da",
+        "section": "model"
+      },
+      {
+        "hash": "fe35bda59210ba476abd5f8b1fde36984ea7c5bc103fceb8145b449f635dd4fc",
+        "section": "benchmark"
+      },
+      {
+        "hash": "a320540ec8a6aa4007f7423b970a4b16f826a2174654bdc9c382e32b3d8b406a",
+        "section": "sensors"
+      },
+      {
+        "hash": "4932b3b8d1482f2a09458075a2b36e1b35a7fd3e46584603b12f1d9afd46fc4b",
+        "section": "limitations"
+      }
+    ],
+    "tamper_status": "clean",
+    "verification_command": "python3 downloads/verify_standalone.py cmmc-audit-log-receipt2.json"
+  },
+  "limitations": [
+    "This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.",
+    "operational_class is 'edge-inference-verification' so the existing browser/Python verifier can validate this packet without modification; the evidence payload is an audit-log excerpt carried in the benchmark.audit_log block (line_hashes + append-only log_chain_root). benchmark latency/throughput fields are zeroed because no inference workload ran.",
+    "scope: a small synthetic CUI-enclave audit-log excerpt (8 lines) covering AU-2 / AU-3 / AU-6 / AU-12 event types. Verifier exercise only; not a customer log, not a real assessment artifact.",
+    "what a PASS proves: the packet is internally consistent under the Hardseal Edge v1.0 hash-chain rules; benchmark.audit_log.log_chain_root is the recomputable append-only chain over the included lines. What it does NOT prove: that the included lines were ever generated by a real CUI system, that the system meets any CMMC control, or any assessor outcome."
+  ],
+  "model": {
+    "engine_path": "synthetic://cui-enclave/audit/2026-05-23T13.jsonl",
+    "engine_sha256": "2a4ddf134cc63f80fec1cce172d4a53902953ecdaf684ccf846e5e25d8856c58",
+    "input_shape": [
+      1,
+      8,
+      0,
+      0
+    ],
+    "metadata_header_bytes": 0,
+    "name": "cmmc_audit_log_excerpt",
+    "precision": "n/a",
+    "runtime": "audit-log-excerpt",
+    "runtime_version": "1.0"
+  },
+  "offline_mode": true,
+  "operational_class": "edge-inference-verification",
+  "packet_type": "hardseal_edge_session",
+  "schema_version": "1.0",
+  "sensors": {
+    "barometer": "not_connected",
+    "camera": "not_connected",
+    "gps": "not_connected",
+    "imu": "not_connected"
+  },
+  "session_id": "DEMO_cmmc_audit_log_receipt2_20260523T170000Z"
+}
