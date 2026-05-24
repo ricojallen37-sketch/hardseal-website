@@ -25,7 +25,7 @@ Every heartbeat line:
   packet passed. Otherwise FAIL.
 - `verifier_sha` — sha256 of `verify_standalone.py` shipped inside the bundle.
   Bit-identical across releases per Amendment 3.
-- `guardian_sha` — self-hash chain over all prior content. Tamper-evident.
+- `guardian_sha` — self-hash chain over all prior content. A naive or accidental modification to a prior row breaks the chain; a full rebuild does not, which is what the operator-held signing surface is for.
 - `next` — when the next heartbeat is expected.
 
 ## No-public-claim rule (locked)

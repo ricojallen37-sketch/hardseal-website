@@ -167,7 +167,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
             File SHA-256: <code style="word-break:break-all">b656d8b7ab59627b5fd165223f5e42c7d9a7d23bd14c05ede350e9b1dc525475</code><br>
             Outer <code>hash_chain_root</code>: <code style="word-break:break-all">be4195cdb7074b56475b6e5be52e4d4b05134b5723f1f393fedd5c91e388fdf1</code><br>
             Inner <code>log_chain_root</code>: <code style="word-break:break-all">0d72ff3646648c84808befdb230c1803c61d86e430c82ede87b686e0d417a914</code><br>
-            <span style="color:var(--gray1)">Proves:</span> tamper-evident audit-log demo, verifier-compatible, schema-reuse only.<br>
+            <span style="color:var(--gray1)">Proves:</span> hash-chained, offline-verifiable audit-log demo, verifier-compatible, schema-reuse only.<br>
             <span style="color:#FFBD2E">Limit:</span> synthetic demo. Not a customer log, not compliance proof, not an assessor outcome.
           </td>
         </tr>
@@ -246,8 +246,8 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
       Air-gapped equivalent: <code>shasum -a 256 cmmc-audit-log-receipt2.json</code> then <code>python3 verify_standalone.py cmmc-audit-log-receipt2.json</code>. Same stdlib-only verifier as Receipt #1 — no new tooling.
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
-      <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
-      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, or NIST SP 800-53 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
+      <strong>Disclaimer (rendered with hedged language; see the packet's <code>limitations[]</code> field for the on-disk version, which is pending a regen pass to match):</strong><br><br>
+      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, or NIST SP 800-53 compliance). It produces hash-chained, offline-verifiable evidence only; a passing verification proves the packet is internally consistent and free of accidental change. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
     </div>
   </div>
 
@@ -265,8 +265,8 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
       Air-gapped equivalent: <code>shasum -a 256 poam-evidence-receipt3.json</code> then <code>python3 verify_standalone.py poam-evidence-receipt3.json</code>. Same stdlib-only verifier as Receipts #1 and #2 — no new tooling.
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
-      <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
-      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
+      <strong>Disclaimer (rendered with hedged language; see the packet's <code>limitations[]</code> field for the on-disk version, which is pending a regen pass to match):</strong><br><br>
+      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces hash-chained, offline-verifiable evidence only; a passing verification proves the packet is internally consistent and free of accidental change. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
     </div>
   </div>
 
@@ -284,8 +284,8 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
       Air-gapped equivalent: <code>shasum -a 256 ssp-change-history-receipt4.json</code> then <code>python3 verify_standalone.py ssp-change-history-receipt4.json</code>. Same stdlib-only verifier as Receipts #1, #2, and #3 — no new tooling.
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
-      <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
-      This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.
+      <strong>Disclaimer (rendered with hedged language; see the packet's <code>limitations[]</code> field for the on-disk version, which is pending a regen pass to match):</strong><br><br>
+      This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces hash-chained, offline-verifiable evidence only; a passing verification proves the artifact is internally consistent and free of accidental change. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.
     </div>
   </div>
 
