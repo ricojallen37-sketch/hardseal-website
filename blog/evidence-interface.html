@@ -97,11 +97,11 @@ The non-obvious move is that the same primitive works across more than one subst
 </p>
 <h3>Compliance substrate (Hardseal Core)</h3>
 <p>
-CMMC Level 2 readiness. Generate the SSP, POA&M, SPRS snapshot, evidence gap matrix. Every artifact is a packet with the same hash chain. Every claim is scoped, signed, and verifiable. The C3PAO can run the same verifier the customer ran to produce the artifact. The Big-4 binder has nothing comparable.
+CMMC Level 2 readiness. Generate the SSP, POA&M, SPRS snapshot, evidence gap matrix. Every artifact is a packet with the same hash chain. Every claim is scoped, hash-sealed into a SHA-256 chain root, and independently verifiable. The C3PAO can run the same verifier the customer ran to produce the artifact. The Big-4 binder has nothing comparable.
 </p>
 <h3>Edge AI substrate (Hardseal Edge)</h3>
 <p>
-AI runtime evidence. Inference on a Jetson, on an enclaved server, on a moving platform. Same schema. Same verifier. Same hash chain. The buyer who needs to prove what their AI did at the edge gets a packet that travels through the same pipeline a CMMC artifact travels through.
+AI runtime evidence. Inference on a Jetson, on an isolated server, on a moving platform. Same schema. Same verifier. Same hash chain. The buyer who needs to prove what their AI did at the edge gets a packet that travels through the same pipeline a CMMC artifact travels through.
 </p>
 <h3>Cloud substrate (planned)</h3>
 <p>

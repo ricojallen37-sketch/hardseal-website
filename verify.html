@@ -117,7 +117,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <p class="lead">
     Paste a Hardseal Edge evidence packet below. Your browser recomputes the SHA-256 hash chain, validates every section hash, and confirms the chain root — <strong>without sending the packet anywhere</strong>. The verifier runs in JavaScript on this page. The packet never leaves your machine.
     <br><br>
-    <span style="font-size:14px;color:var(--gray2);">View source on this page — or save it locally and run it offline — for trust beyond TLS delivery. The standalone <a href="/downloads/verify_standalone.py">Python verifier</a> is the air-gapped equivalent.</span>
+    <span style="font-size:14px;color:var(--gray2);">This is an assessor-readable <strong>evidence integrity demonstration</strong> over synthetic demo replay artifacts (SHA-256 file digests, hash-chain / chain-root, sidecar verification, offline browser verification, PASS on original / FAIL on tamper). It is not Ed25519-signed production evidence, customer evidence, or compliance proof. View source on this page — or save it locally and run it offline — for trust beyond TLS delivery. The standalone <a href="/downloads/verify_standalone.py">Python verifier</a> is the air-gapped equivalent.</span>
   </p>
 
   <div class="quickstart" aria-label="Hardseal public trust ledger" id="trust-ledger">
@@ -215,7 +215,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
       <strong>Disclaimer (applies to every row above):</strong><br><br>
-      These are public synthetic demo receipts published for verification exercise and distribution. They are not certification, not assessment evidence, not compliance proof, not a guarantee of any regulatory outcome (including CMMC 2.0, NIST SP 800-171, NIST SP 800-53, ISO 27001, FAA airworthiness, or any other regime), and not customer evidence. Hardseal does not certify, assess, or attest on behalf of any third party. The verifier proves <em>integrity</em> only — that what was sealed has not been altered. Your assessor decides truth.
+      These are public synthetic demo replay receipts published for verification exercise and distribution. They are SHA-256 / hash-chain / sidecar-verifiable artifacts — they are <strong>not</strong> Ed25519-signed production evidence, customer evidence, certification proof, compliance proof, C3PAO-approved proof, audit-ready proof, or production continuous attestation. They do not guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, NIST SP 800-53, ISO 27001, FAA airworthiness, or any other regime). Hardseal does not certify, assess, or attest on behalf of any third party. The verifier proves <em>evidence integrity</em> only — that what was hash-sealed has not been altered. Your assessor decides truth.
     </div>
   </div>
 
@@ -235,7 +235,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <div class="quickstart" aria-label="CMMC audit log integrity receipt example">
     <div class="qs-title">▸ CMMC AUDIT LOG EXAMPLE · RECEIPT #2 · 30-SECOND VERIFY</div>
     <div style="color:var(--gray2);font-size:12px;margin-bottom:10px;line-height:1.55">
-      Synthetic CUI-enclave audit-log excerpt (8 lines) sealed inside a Hardseal Edge v1.0 packet. Mapped to <strong style="color:var(--gray1)">CMMC 2.0 Level 2: AU.L2-3.3.1 / AU.L2-3.3.2 / AU.L2-3.3.8</strong>; <strong style="color:var(--gray1)">NIST SP 800-171: 3.3.1 / 3.3.2 / 3.3.8</strong>; <strong style="color:var(--gray1)">NIST SP 800-53 AU family: AU-2 / AU-3 / AU-9 / AU-12</strong>. Each log line is SHA-256 hashed and joined by an append-only log chain; the packet's outer hash chain seals the lines, line hashes, and log chain root together. The existing browser/Python verifier validates this packet without modification.
+      Synthetic CUI-environment audit-log excerpt (8 lines) sealed inside a Hardseal Edge v1.0 packet (SHA-256 hash chain). Mapped to <strong style="color:var(--gray1)">CMMC 2.0 Level 2: AU.L2-3.3.1 / AU.L2-3.3.2 / AU.L2-3.3.8</strong>; <strong style="color:var(--gray1)">NIST SP 800-171: 3.3.1 / 3.3.2 / 3.3.8</strong>; <strong style="color:var(--gray1)">NIST SP 800-53 AU family: AU-2 / AU-3 / AU-9 / AU-12</strong>. Each log line is SHA-256 hashed and joined by an append-only log chain; the packet's outer hash chain seals the lines, line hashes, and log chain root together. The existing browser/Python verifier validates this packet without modification.
     </div>
     <ol>
       <li>Download the audit-log demo packet: <a href="/cmmc-audit-log-receipt2.json" download>cmmc-audit-log-receipt2.json</a> <span style="color:var(--gray2)">(SHA-256: <a href="/cmmc-audit-log-receipt2.json.sha256" download>sidecar</a>)</span></li>
@@ -312,7 +312,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <div class="note">
     <strong>What this verifier does:</strong> reproduces the canonical JSON serialization, recomputes the seed hash from packet headers, recomputes per-section SHA-256 hashes in the fixed order <code>device → model → benchmark → sensors → limitations</code>, validates each entry in <code>integrity.section_hashes</code> against the recomputed chain, and confirms the final <code>integrity.hash_chain_root</code> matches.
     <br><br>
-    <strong>What it doesn't do:</strong> claim the packet is true. The verifier only proves <em>integrity</em> — that what was signed has not been altered. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet.
+    <strong>What it doesn't do:</strong> claim the packet is true. The verifier only proves <em>integrity</em> — that what was hash-sealed has not been altered. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet.
     <br><br>
     <strong>Reproducibility:</strong> this client-side verifier implements the same canonical hash-chain algorithm as <code>verify_standalone.py</code> in the Hardseal repo and <code>hardseal verify</code> in the canonical CLI. Same valid packet → same chain root across all three implementations. The Python verifier is the air-gapped equivalent of this page; both are exercised by the same negative-test suite.
     <br><br>
@@ -716,7 +716,7 @@ $("verifyBtn").addEventListener("click", async () => {
       '<strong>⚠ Integrity verified — provenance is yours to confirm.</strong><br><br>' +
       'The packet is internally consistent. To prove it came from a trusted source, compare the recomputed chain root <code>' +
       escapeHtml(window.__lastRecomputed) +
-      '</code> against the publisher\'s out-of-band trusted manifest (e.g., the per-packet roots on <a href="/trophy-case.html" style="color:inherit;text-decoration:underline">/trophy-case.html</a>). A PASS with a non-matching root means a re-signed packet — reject it.';
+      '</code> against the publisher\'s out-of-band trusted manifest (e.g., the per-packet roots on <a href="/trophy-case.html" style="color:inherit;text-decoration:underline">/trophy-case.html</a>). A PASS with a non-matching root means the packet has been re-hashed after modification — reject it.';
     pw.style.display = "block";
   } else {
     pw.style.display = "none";
