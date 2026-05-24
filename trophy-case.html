@@ -122,7 +122,7 @@ less verify_standalone.py</pre>
     <h3>Run the verifier on each packet — then compare the chain root.</h3>
     <p>Stdlib Python 3.8+. No <code>pip install</code>. No network calls.</p>
     <pre>python3 verify_standalone.py T1_thermal_saturation_yolov8n_int8_25W_1M_iter/packet.json</pre>
-    <p>Expected output: a list of <code>PASS:</code> lines, ending with <code>result: PASS</code>. The verifier is Python stdlib only; shell examples shown are for macOS/Linux. <strong>Then compare the recomputed chain root against the published value in the specs block above.</strong> A PASS with a matching root means the packet is the one Hardseal published. A PASS with a different root means someone re-signed a modified packet — reject it. Repeat for each of the twelve packets.</p>
+    <p>Expected output: a list of <code>PASS:</code> lines, ending with <code>result: PASS</code>. The verifier is Python stdlib only; shell examples shown are for macOS/Linux. <strong>Then compare the recomputed chain root against the published value in the specs block above.</strong> A PASS with a matching root means the packet is the one Hardseal published. A PASS with a different root means the packet was modified and re-hashed against a different chain root — reject it. Repeat for each of the twelve packets.</p>
   </div>
 
   <div class="step">
@@ -143,7 +143,7 @@ Read the <code>limitations</code> section first in any packet. The packet states
 </p>
 
 <div class="note">
-  <strong>Tamper test.</strong> Mutate any signed field in any packet — change a benchmark number, edit a device field, or swap section hashes between packets — and the verifier will reject the packet unless the full chain still validates. The cross-packet section-hashes swap attack is in the <a href="/blog/learning-loop.html">Learning Loop doctrine</a> and is covered by negative tests in the canonical test suite. Try it on a copy.<br><br>
+  <strong>Tamper test.</strong> Mutate any hash-sealed field in any packet — change a benchmark number, edit a device field, or swap section hashes between packets — and the verifier will reject the packet unless the full chain still validates. The cross-packet section-hashes swap attack is in the <a href="/blog/learning-loop.html">Learning Loop doctrine</a> and is covered by negative tests in the canonical test suite. Try it on a copy.<br><br>
   And the trust anchor: even if a clever adversary mutates a packet and recomputes every internal hash, the resulting chain root will not match the value published on this page. That is why the chain roots above are out-of-band — the page is the trust anchor, not the verifier alone.
 </div>
 

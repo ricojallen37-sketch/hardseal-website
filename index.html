@@ -420,12 +420,12 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="cards-3">
       <article class="case-card">
         <div class="case-label">CMMC Level 2 Evidence</div>
-        <p>Generate signed, tamper-evident evidence packages your assessor can verify offline. Pre-assessor confidence in 30 seconds, not after $50k of post-mortem.</p>
+        <p>Generate hash-chained, tamper-evident evidence packages your assessor can verify offline (SHA-256 chain root, sidecar digest). Pre-assessor confidence in 30 seconds, not after $50k of post-mortem.</p>
         <a href="/cmmc">Learn more →</a>
       </article>
       <article class="case-card">
         <div class="case-label">Edge AI Runtime</div>
-        <p>Sign every inference run with model version, hardware fingerprint, sensor inputs, and decision outputs. The integrity layer for autonomous systems.</p>
+        <p>Hash-seal every inference run with model version, hardware fingerprint, sensor inputs, and decision outputs into a SHA-256 chain root. The integrity layer for autonomous systems.</p>
         <a href="/edge.html">Learn more →</a>
       </article>
       <article class="case-card">
@@ -495,7 +495,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
         <a href="/verify.html">Open the browser verifier →</a>
       </div>
       <div class="tool-card">
-        <span class="tool-tag">Real packet · real signature</span>
+        <span class="tool-tag">Real packet · real chain root</span>
         <span class="tool-title">Sample bundle</span>
         <span class="tool-desc">Real Jetson telemetry. Real chain root. Twelve packets, four model families. Verify any of them in 30 seconds.</span>
         <a href="/downloads/hardseal_edge_trophy_case.zip" download>Download hardseal_edge_trophy_case.zip →</a>
@@ -547,7 +547,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
         <ul>
           <li>Hardseal Core readiness pack</li>
           <li>17 collectors</li>
-          <li>Offline enclave run</li>
+          <li>Offline / air-gapped run</li>
           <li>SSP / POA&amp;M snapshot</li>
           <li>Continuous attestation included</li>
         </ul>
@@ -984,7 +984,7 @@ async function runVerify(text, ctx) {
       checks: { passes: result.passes, failures: result.failures },
       upsells: [
         { label: 'Continuous attestation', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
-        { label: 'Hardseal Core · $19,500 founding', title: 'Generate proofs at scale', desc: '17 collectors. Offline enclave run. SSP / POA&M snapshot.', href: '/pilot.html' }
+        { label: 'Hardseal Core · $19,500 founding', title: 'Generate proofs at scale', desc: '17 collectors. Offline / air-gapped run. SSP / POA&M snapshot.', href: '/pilot.html' }
       ]
     });
   } else {
@@ -1006,7 +1006,7 @@ async function runVerify(text, ctx) {
         ['Failure field', result.firstBad || firstFailure.split(':')[0] || '(see checks)', 'val'],
         ['Match status', matchStatus, 'val']
       ],
-      body: 'This evidence has been altered or does not carry a valid Hardseal signature. The FAIL itself is free information — the math is deterministic, and we never benefit from FAILs. The buyer pays only for the remediation path.',
+      body: 'This evidence has been altered or does not reproduce the published SHA-256 hash chain. The FAIL itself is free information — the math is deterministic, and we never benefit from FAILs. The buyer pays only for the remediation path.',
       checks: { passes: result.passes, failures: result.failures },
       upsells: [
         { label: 'Diagnose · from $500', title: 'Get the remediation path', desc: 'Diagnostic Report on this FAIL. Field-level findings. Re-seal guidance.', href: '/pilot.html#diagnose' }
