@@ -426,7 +426,8 @@
       <p class="lede">
         Download a single-family reference pack for NIST 800-171 §3.6
         (Incident Response), run a readable stdlib-only Python verifier,
-        and independently check whether the package changed after it was created.
+        and independently check the pack for internal consistency
+        and accidental or in-transit change.
       </p>
       <div class="hero-actions" aria-label="Primary actions">
         <a class="button button-primary" href="#verify">Verify it yourself</a>
@@ -549,13 +550,17 @@ python3 verify/verify_standalone.py .</pre>
           <p>
             The verifier names the offending file with expected vs actual
             SHA-256 hashes. Anything other than exit code <code>0</code> on
-            the clean pack means the package changed after it was created.
+            the clean pack means the pack is no longer internally consistent -
+            a file was edited without also rebuilding the manifest and chain.
+            A deliberate re-package that rebuilds both is not caught here;
+            see the HMAC note below.
           </p>
           <p>
             Note: <code>evidence/INDEX.csv</code> is covered by the manifest
             layer but is not itself a chained artifact, so this demo shows the
-            manifest catch. Modifying a chained artifact under
-            <code>evidence/</code> breaks the Layer-2 chain instead.
+            manifest catch. A naive edit to a chained artifact under
+            <code>evidence/</code> trips the Layer-2 chain instead; a full
+            rebuild of the chain over the edited artifact does not.
           </p>
         </div>
       </div>
@@ -573,8 +578,11 @@ python3 verify/verify_standalone.py .</pre>
           <h3>Layer 2 evidence chain</h3>
           <p>
             SHA-256 hash chain over the IR evidence artifacts. Each link
-            binds to the previous; modifying, inserting, or removing any
-            artifact breaks the chain and the verifier names the broken link.
+            binds to the previous, so a casual or accidental edit breaks the
+            chain and the verifier names the broken link. A deliberate
+            re-package that rebuilds the chain is not caught here - that is
+            what the withheld signature layer is for (see "About the HMAC
+            layer").
           </p>
           <p class="fineprint">Observed count: 6 links</p>
         </article>
@@ -582,8 +590,8 @@ python3 verify/verify_standalone.py .</pre>
           <h3>Package manifest</h3>
           <p>
             SHA-256 of every content file in the pack. Append one byte to any
-            file and the manifest layer names that specific file with a hash
-            mismatch on the next verify run.
+            file without rebuilding the manifest, and the manifest layer
+            names that specific file with a hash mismatch on the next run.
           </p>
           <p class="fineprint">Observed count: 10 / 10 files</p>
         </article>
@@ -628,11 +636,63 @@ python3 verify/verify_standalone.py .</pre>
         </div>
         <div class="file-row">
           <code>verify/verify_standalone.py</code>
-          <span>Single-file Python verifier. This is the entire third-party trust surface for tamper detection.</span>
+          <span>Single-file Python verifier. This is the third-party surface for the integrity and consistency checks described above.</span>
         </div>
         <div class="file-row">
           <code>README.md</code>
           <span>Overview and cross-checked counts, with summary-report.txt beside it.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="on-ramp" aria-labelledby="on-ramp-title">
+    <div class="section-grid">
+      <div class="section-kicker">
+        <h2 id="on-ramp-title">DIB / CMMC teams - what this gives you on Monday</h2>
+        <p>Three concrete uses for a Level 2 readiness effort.</p>
+      </div>
+      <div class="stack">
+        <p>
+          The same packet you just verified - cryptographically chained
+          and offline-verifiable with the single-file Python verifier above -
+          is the unit Hardseal Edge emits from your live workload.
+        </p>
+        <ol>
+          <li>
+            <strong>POA&amp;M change-history</strong> - append-only hash chain
+            over your POA&amp;M edits, so a casual or accidental change is
+            caught and named. Relevant to <code>3.12.2</code>.
+          </li>
+          <li>
+            <strong>SSP edit-history</strong> - the same chained,
+            offline-verifiable record over every SSP revision. Relevant to
+            <code>3.12.1</code> / <code>3.12.3</code>.
+          </li>
+          <li>
+            <strong>Audit-log consistency</strong> - line-by-line chaining of
+            CUI-environment audit logs, verifiable air-gapped. Relevant to
+            <code>AU.L2-3.3.1</code> / <code>-3.3.2</code> / <code>-3.3.8</code>.
+          </li>
+        </ol>
+        <p>
+          <strong>What the verifier proves:</strong> the pack is internally
+          consistent and free of accidental or in-transit change. It does not,
+          by itself, defeat a deliberate re-package by an adversary with the
+          hashing tools - that is what the operator-held signing secret (and
+          the Ed25519 signature on the roadmap) is for. Your assessor still
+          decides whether your evidence is sufficient. Hardseal makes the
+          artifacts they sample reproducible and consistency-checkable, so the
+          conversation is about your controls, not your tooling.
+        </p>
+        <p>
+          <strong>Next step:</strong> a 15-minute scoping call. No cost,
+          no commitment, no outcome promise.
+        </p>
+        <div class="hero-actions" aria-label="On-ramp actions">
+          <!-- TODO Rico: scheduling link -->
+          <a class="button button-primary" href="#">Book scoping call</a>
+          <a class="button button-secondary" href="verify_standalone.py" download>Download standalone Python verifier</a>
         </div>
       </div>
     </div>
@@ -650,9 +710,9 @@ python3 verify/verify_standalone.py .</pre>
           <article class="claim-card proves">
             <h3>Proves cryptographically, offline</h3>
             <ul>
-              <li>Every <code>artifact_hash</code> in <code>evidence-bundle.json</code> is the true SHA-256 of the corresponding file shipped in this pack - not a stub, not a placeholder; modifying the file breaks the match.</li>
-              <li>The Layer-2 hash chain over the 6 IR artifacts is intact. Modification to any artifact breaks the chain.</li>
-              <li>The package-level manifest is intact. Modification to any file in the pack breaks the manifest with a named offender.</li>
+              <li>Every <code>artifact_hash</code> in <code>evidence-bundle.json</code> is the true SHA-256 of the corresponding file shipped in this pack - not a stub, not a placeholder; modifying the file without updating its recorded hash breaks the match.</li>
+              <li>The Layer-2 hash chain over the 6 IR artifacts is internally consistent. A naive modification to any artifact breaks the chain; a full rebuild does not - see the HMAC note below.</li>
+              <li>The package-level manifest is internally consistent. A modification to any file that does not also rebuild the manifest is named with its offending file.</li>
             </ul>
           </article>
 
@@ -662,7 +722,7 @@ python3 verify/verify_standalone.py .</pre>
               <li>Production-grade readiness against the full 110 CMMC L2 controls. This is one family of three controls, deliberately.</li>
               <li>That the synthetic Acme Precision Components, Inc. profile is a real customer. It is a structurally-realistic reference profile used for proof and demo purposes.</li>
               <li>Compliance certification, assessment, or RPO/C3PAO endorsement. Hardseal is a pre-assessment readiness product and does not certify, assess, or endorse anything.</li>
-              <li>That a passing verification means the evidence is sufficient or will be accepted by an assessor. Verification proves the pack is unaltered - not that its contents satisfy any control.</li>
+              <li>That a passing verification means the evidence is sufficient or will be accepted by an assessor. A passing verification proves the pack is internally consistent and free of accidental change - not that it is unforgeable (defeating a deliberate re-package by an adversary with <code>sha256sum</code> and a text editor, or by anyone using this verifier's own functions as a library, needs the withheld signing secret or the Ed25519 public-key signature on the roadmap), and not that its contents satisfy any control.</li>
             </ul>
           </article>
         </div>
@@ -719,9 +779,11 @@ python3 verify/verify_standalone.py .</pre>
         <h2 id="offer-title">Want your own control family sealed the same way?</h2>
         <p style="margin-top: 14px;">
           Hardseal can run one real control family through this same
-          tamper-evident evidence-pack process for feedback. No cost, no
-          commitment, no outcome promise. Just pre-assessment readiness evidence
-          you can inspect.
+          evidence-pack process for feedback - the same offline-verifiable
+          integrity layers, the same operator-side signing, the same
+          published boundary on what passes verification proves. No cost,
+          no commitment, no outcome promise. Just pre-assessment readiness
+          evidence you can inspect.
         </p>
       </div>
       <a class="button button-primary" href="mailto:rico@hardseal.ai?subject=Hardseal%20control%20family%20proof%20run">Ask about a free run</a>

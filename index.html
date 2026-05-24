@@ -420,7 +420,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="cards-3">
       <article class="case-card">
         <div class="case-label">CMMC Level 2 Evidence</div>
-        <p>Generate hash-chained, tamper-evident evidence packages your assessor can verify offline (SHA-256 chain root, sidecar digest). Pre-assessor confidence in 30 seconds, not after $50k of post-mortem.</p>
+        <p>Generate hash-chained, offline-verifiable evidence packages your assessor can verify (SHA-256 chain root, sidecar digest). Pre-assessor confidence in 30 seconds, not after $50k of post-mortem.</p>
         <a href="/cmmc">Learn more →</a>
       </article>
       <article class="case-card">
@@ -980,7 +980,7 @@ async function runVerify(text, ctx) {
         ['Recomputed', recomp, 'hash'],
         ['Verified at', new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z', 'val']
       ],
-      body: 'This packet has not been altered. Anyone with the public Hardseal verifier can independently confirm this result, offline, in 30 seconds.',
+      body: 'This packet is internally consistent and free of accidental change. Anyone with the public Hardseal verifier can independently re-run these integrity checks, offline, in 30 seconds. A deliberate re-package by an adversary with the hashing tools is not caught by this verifier alone - that needs the withheld signing secret or the Ed25519 signature on the roadmap.',
       checks: { passes: result.passes, failures: result.failures },
       upsells: [
         { label: 'Continuous attestation', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },

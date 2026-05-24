@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hardseal Edge — Tamper-evident evidence for AI runtime systems</title>
-<meta name="description" content="Hardseal Edge produces SHA-256 hash-chained, tamper-evident evidence packets for AI inference at the edge. Designed for defense, aerospace, and DIB suppliers who need to prove what their AI systems did — without trusting a cloud provider.">
+<title>Hardseal Edge — Hash-chained, offline-verifiable evidence for AI runtime systems</title>
+<meta name="description" content="Hardseal Edge produces SHA-256 hash-chained, offline-verifiable evidence packets for AI inference at the edge. Designed for defense, aerospace, and DIB suppliers who need to prove what their AI systems did — without trusting a cloud provider.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -82,7 +82,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <div class="eyebrow">HARDSEAL EDGE · AI RUNTIME EVIDENCE LAYER</div>
   <h1>Prove the exact bytes your AI produced<br>from declared run artifacts<br><span class="dim">under declared conditions.</span></h1>
   <p class="lead">
-    Hardseal Edge produces tamper-evident, SHA-256 hash-chained evidence packets for AI inference running at the edge — on Jetson, on air-gapped servers, on any system where you cannot phone home. The packet captures device state, model identity, benchmark telemetry, sensor lineage, and explicit limitations into a single SHA-256 hash chain that anyone can independently verify with the stdlib-only Python verifier or the reference browser verifier on <a href="/verify.html">/verify.html</a>.
+    Hardseal Edge produces hash-chained, offline-verifiable evidence packets (SHA-256) for AI inference running at the edge — on Jetson, on air-gapped servers, on any system where you cannot phone home. The packet captures device state, model identity, benchmark telemetry, sensor lineage, and explicit limitations into a single SHA-256 hash chain that anyone can independently verify with the stdlib-only Python verifier or the reference browser verifier on <a href="/verify.html">/verify.html</a>.
   </p>
   <p class="lead">
     <strong>Runs offline. No phone-home. No SaaS dependency.</strong> Built for defense and aerospace suppliers, DIB primes, autonomy operators, and regulated AI deployments where <strong>"trust us" is not an answer</strong>.

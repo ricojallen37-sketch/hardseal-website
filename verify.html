@@ -167,7 +167,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
             File SHA-256: <code style="word-break:break-all">b656d8b7ab59627b5fd165223f5e42c7d9a7d23bd14c05ede350e9b1dc525475</code><br>
             Outer <code>hash_chain_root</code>: <code style="word-break:break-all">be4195cdb7074b56475b6e5be52e4d4b05134b5723f1f393fedd5c91e388fdf1</code><br>
             Inner <code>log_chain_root</code>: <code style="word-break:break-all">0d72ff3646648c84808befdb230c1803c61d86e430c82ede87b686e0d417a914</code><br>
-            <span style="color:var(--gray1)">Proves:</span> tamper-evident audit-log demo, verifier-compatible, schema-reuse only.<br>
+            <span style="color:var(--gray1)">Proves:</span> hash-chained audit-log demo, verifier-compatible, schema-reuse only.<br>
             <span style="color:#FFBD2E">Limit:</span> synthetic demo. Not a customer log, not compliance proof, not an assessor outcome.
           </td>
         </tr>
@@ -215,7 +215,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
       <strong>Disclaimer (applies to every row above):</strong><br><br>
-      These are public synthetic demo replay receipts published for verification exercise and distribution. They are SHA-256 / hash-chain / sidecar-verifiable artifacts — they are <strong>not</strong> Ed25519-signed production evidence, customer evidence, certification proof, compliance proof, C3PAO-approved proof, audit-ready proof, or production continuous attestation. They do not guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, NIST SP 800-53, ISO 27001, FAA airworthiness, or any other regime). Hardseal does not certify, assess, or attest on behalf of any third party. The verifier proves <em>evidence integrity</em> only — that what was hash-sealed has not been altered. Your assessor decides truth.
+      These are public synthetic demo replay receipts published for verification exercise and distribution. They are SHA-256 / hash-chain / sidecar-verifiable artifacts — they are <strong>not</strong> Ed25519-signed production evidence, customer evidence, certification proof, compliance proof, C3PAO-approved proof, audit-ready proof, or production continuous attestation. They do not guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, NIST SP 800-53, ISO 27001, FAA airworthiness, or any other regime). Hardseal does not certify, assess, or attest on behalf of any third party. The verifier proves <em>evidence integrity</em> only — that the pack is internally consistent under the chain rules and free of accidental change. A deliberate re-package by an adversary with the hashing tools is not caught by this verifier alone; that needs the withheld signing secret or the Ed25519 signature on the roadmap. Your assessor decides truth.
     </div>
   </div>
 
@@ -247,7 +247,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
       <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
-      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, or NIST SP 800-53 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
+      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0, NIST SP 800-171, or NIST SP 800-53 compliance). It produces hash-chained, offline-verifiable evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
     </div>
   </div>
 
@@ -266,7 +266,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
       <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
-      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
+      This is a synthetic demo replay packet created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces hash-chained, offline-verifiable evidence only. Your assessor decides truth. Do not use this packet as live evidence or compliance proof.
     </div>
   </div>
 
@@ -285,7 +285,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
       <strong>Disclaimer (verbatim, also embedded in the packet's <code>limitations[]</code>):</strong><br><br>
-      This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces tamper-evident evidence only. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.
+      This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces hash-chained, offline-verifiable evidence only. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.
     </div>
   </div>
 
@@ -312,7 +312,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <div class="note">
     <strong>What this verifier does:</strong> reproduces the canonical JSON serialization, recomputes the seed hash from packet headers, recomputes per-section SHA-256 hashes in the fixed order <code>device → model → benchmark → sensors → limitations</code>, validates each entry in <code>integrity.section_hashes</code> against the recomputed chain, and confirms the final <code>integrity.hash_chain_root</code> matches.
     <br><br>
-    <strong>What it doesn't do:</strong> claim the packet is true. The verifier only proves <em>integrity</em> — that what was hash-sealed has not been altered. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet.
+    <strong>What it doesn't do:</strong> claim the packet is true. The verifier only proves <em>integrity</em> — that the pack is internally consistent under the chain rules and free of accidental change. It does not, by itself, defeat a deliberate re-package by an adversary with the hashing tools; that needs the withheld signing secret or the Ed25519 signature on the roadmap. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet.
     <br><br>
     <strong>Reproducibility:</strong> this client-side verifier implements the same canonical hash-chain algorithm as <code>verify_standalone.py</code> in the Hardseal repo and <code>hardseal verify</code> in the canonical CLI. Same valid packet → same chain root across all three implementations. The Python verifier is the air-gapped equivalent of this page; both are exercised by the same negative-test suite.
     <br><br>
