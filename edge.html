@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hardseal Edge — Tamper-evident evidence for AI runtime systems</title>
-<meta name="description" content="Hardseal Edge produces SHA-256 hash-chained, tamper-evident evidence packets for AI inference at the edge. Designed for defense, aerospace, and DIB suppliers who need to prove what their AI systems did — without trusting a cloud provider.">
+<title>Hardseal Edge — Hash-chained, offline-verifiable evidence for AI runtime systems</title>
+<meta name="description" content="Hardseal Edge produces SHA-256 hash-chained, offline-verifiable evidence packets for AI inference at the edge. A passing verification proves the packet is internally consistent and free of accidental change; defeating a deliberate re-package requires the operator-held signing secret (Ed25519 attribution on the roadmap). Designed for defense, aerospace, and DIB suppliers who need to prove what their AI systems did — without trusting a cloud provider.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -82,7 +82,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <div class="eyebrow">HARDSEAL EDGE · AI RUNTIME EVIDENCE LAYER</div>
   <h1>Prove the exact bytes your AI produced<br>from declared run artifacts<br><span class="dim">under declared conditions.</span></h1>
   <p class="lead">
-    Hardseal Edge produces tamper-evident, SHA-256 hash-chained evidence packets for AI inference running at the edge — on Jetson, on air-gapped servers, on any system where you cannot phone home. The packet captures device state, model identity, benchmark telemetry, sensor lineage, and explicit limitations into a single SHA-256 hash chain that anyone can independently verify with the stdlib-only Python verifier or the reference browser verifier on <a href="/verify.html">/verify.html</a>.
+    Hardseal Edge produces SHA-256 hash-chained, offline-verifiable evidence packets for AI inference running at the edge — on Jetson, on air-gapped servers, on any system where you cannot phone home. The packet captures device state, model identity, benchmark telemetry, sensor lineage, and explicit limitations into a single SHA-256 hash chain that anyone can independently verify with the stdlib-only Python verifier or the reference browser verifier on <a href="/verify.html">/verify.html</a>. A passing verification proves the packet is internally consistent and free of accidental change; defeating a deliberate re-package requires the operator-held signing secret (Ed25519 attribution is on the roadmap).
   </p>
   <p class="lead">
     <strong>Runs offline. No phone-home. No SaaS dependency.</strong> Built for defense and aerospace suppliers, DIB primes, autonomy operators, and regulated AI deployments where <strong>"trust us" is not an answer</strong>.
@@ -216,7 +216,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   <h2>What Hardseal Edge does not claim.</h2>
   <div class="disclaimer">
     Hardseal Edge produces <strong>integrity evidence</strong>, not a certification. It does not certify the underlying AI system as compliant with CMMC, NIST 800-171, ISO 27001, FAA airworthiness, NIAP, or any other regulatory regime. It does not replace a C3PAO assessment, an RPO engagement, an FAA type certification, or any human assessor judgment. It does not guarantee mission outcomes, model accuracy, or safety properties of the AI system. <br><br>
-    What it does: prove that the bytes you see in a packet are the bytes that were hash-sealed into the SHA-256 chain from declared run artifacts on a Hardseal-instrumented engine, on a declared device, under declared sensor and power conditions — and that any subsequent tampering with the packet will be caught by a recomputed hash chain. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet. The evidence is the artifact. The interpretation is yours. <br><br>
+    What it does: prove that the bytes you see in a packet are the bytes that were hash-sealed into the SHA-256 chain from declared run artifacts on a Hardseal-instrumented engine, on a declared device, under declared sensor and power conditions — and that a naive or accidental modification to the packet is caught when the chain is recomputed. A deliberate re-package by an adversary with the hashing tools is not caught by the verifier alone; that is what the operator-held signing secret (and the Ed25519 signature on the roadmap) is for. The truth of the underlying measurement is the operator's responsibility under the limitations section of every packet. The evidence is the artifact. The interpretation is yours. <br><br>
     If you ever see a broader claim in any slide, document, or email — treat that as a bug in our language, not a property of the verifier. The code only enforces the narrow integrity claim described here.
   </div>
 </section>
