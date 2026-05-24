@@ -628,7 +628,7 @@ python3 verify/verify_standalone.py .</pre>
         </div>
         <div class="file-row">
           <code>verify/verify_standalone.py</code>
-          <span>Single-file Python verifier. This is the entire third-party trust surface for tamper detection.</span>
+          <span>Single-file Python verifier. This is the third-party surface for the integrity and consistency checks described above.</span>
         </div>
         <div class="file-row">
           <code>README.md</code>
@@ -662,7 +662,7 @@ python3 verify/verify_standalone.py .</pre>
               <li>Production-grade readiness against the full 110 CMMC L2 controls. This is one family of three controls, deliberately.</li>
               <li>That the synthetic Acme Precision Components, Inc. profile is a real customer. It is a structurally-realistic reference profile used for proof and demo purposes.</li>
               <li>Compliance certification, assessment, or RPO/C3PAO endorsement. Hardseal is a pre-assessment readiness product and does not certify, assess, or endorse anything.</li>
-              <li>That a passing verification means the evidence is sufficient or will be accepted by an assessor. Verification proves the pack is unaltered - not that its contents satisfy any control.</li>
+              <li>That a passing verification means the evidence is sufficient or will be accepted by an assessor. A passing verification proves the pack is internally consistent and free of accidental change - not that it is unforgeable (defeating a deliberate re-package by an adversary with <code>sha256sum</code> and a text editor, or by anyone using this verifier's own functions as a library, needs the withheld signing secret or the Ed25519 public-key signature on the roadmap), and not that its contents satisfy any control.</li>
             </ul>
           </article>
         </div>
@@ -719,9 +719,11 @@ python3 verify/verify_standalone.py .</pre>
         <h2 id="offer-title">Want your own control family sealed the same way?</h2>
         <p style="margin-top: 14px;">
           Hardseal can run one real control family through this same
-          tamper-evident evidence-pack process for feedback. No cost, no
-          commitment, no outcome promise. Just pre-assessment readiness evidence
-          you can inspect.
+          evidence-pack process for feedback - the same offline-verifiable
+          integrity layers, the same operator-side signing, the same
+          published boundary on what passes verification proves. No cost,
+          no commitment, no outcome promise. Just pre-assessment readiness
+          evidence you can inspect.
         </p>
       </div>
       <a class="button button-primary" href="mailto:rico@hardseal.ai?subject=Hardseal%20control%20family%20proof%20run">Ask about a free run</a>
