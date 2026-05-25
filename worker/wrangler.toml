@@ -1,0 +1,22 @@
+name = "hardseal-beacon"
+main = "src/index.js"
+compatibility_date = "2026-05-01"
+
+# Cloudflare Worker route: catches GET/POST to hardseal.ai/api/beacon
+# and writes one aggregate row to the D1 binding below.
+#
+# Rico's hand (one-time setup, see worker/DEPLOY.md):
+#   1. Create a Cloudflare account; add hardseal.ai as a zone (orange-cloud).
+#   2. wrangler d1 create hardseal-beacons   → paste the database_id below.
+#   3. wrangler d1 execute hardseal-beacons --file=./schema.sql --remote
+#   4. wrangler deploy
+#   5. In CF dashboard, confirm the route hardseal.ai/api/beacon is bound.
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hardseal-beacons"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[[routes]]
+pattern = "hardseal.ai/api/beacon"
+zone_name = "hardseal.ai"
