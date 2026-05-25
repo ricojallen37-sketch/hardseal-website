@@ -980,7 +980,7 @@ async function runVerify(text, ctx) {
         ['Recomputed', recomp, 'hash'],
         ['Verified at', new Date().toISOString().replace('T', ' ').slice(0, 19) + 'Z', 'val']
       ],
-      body: 'This packet has not been altered. Anyone with the public Hardseal verifier can independently confirm this result, offline, in 30 seconds.',
+      body: 'This packet is internally consistent and free of accidental or in-transit change — a deliberate re-hash after modification is not detected by the verifier alone (see Integrity is not provenance). Anyone with the public Hardseal verifier can independently confirm this result, offline, in 30 seconds.',
       checks: { passes: result.passes, failures: result.failures },
       upsells: [
         { label: 'Continuous attestation', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
