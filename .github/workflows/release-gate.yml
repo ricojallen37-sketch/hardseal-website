@@ -1,0 +1,68 @@
+# Release gate — runs before public deploy.
+#
+# Doctrine: we fly what we test, we test what we fly. If a public page,
+# verifier, receipt, sidecar, or Trust Ledger claim drifts, the site
+# should not deploy.
+#
+# This workflow runs scripts/release_gate.py on every push to main and
+# on every pull request targeting main. A failing gate marks the run
+# as failed; combine with a required-status-check + branch protection
+# on main to block merges that drift public-proof honesty.
+#
+# Note on GitHub Pages legacy auto-build: this repo is published via
+# Pages legacy build_type from main. The Pages auto-build cannot be
+# pre-empted by a separate workflow check. The intended deployment
+# discipline is: branch protection on main requires this workflow to
+# pass before merge. Direct pushes to main are protected by the same
+# check (workflow runs on push and exits non-zero on failure, leaving
+# a visible red mark on the commit even though Pages may still rebuild).
+#
+# Standard library only. <1s wall time on the current repo. No outbound
+# network access required.
+
+name: release-gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run release-gate negative-fixture tests
+        # Self-check first: if the gate's own tests are red, the gate
+        # cannot be trusted to gate the repo.
+        run: python3 scripts/test_release_gate.py
+
+      - name: Run release gate
+        run: python3 scripts/release_gate.py
+
+      - name: Annotate on failure
+        if: failure()
+        run: |
+          echo "::error title=Release Gate FAIL::Public-proof honesty drifted. \
+          See the 'Run release gate' step for details: receipt/sidecar hash, \
+          Trust Ledger label, Receipt #2 mapping, overclaim firewall, or link \
+          surface. Doctrine: we fly what we test, we test what we fly. Do not \
+          deploy this commit to hardseal.ai until the gate passes."
