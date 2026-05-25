@@ -1,0 +1,82 @@
+# Release gate — required check for public-proof honesty.
+#
+# Doctrine: we fly what we test, we test what we fly. If a public page,
+# verifier, receipt, sidecar, or Trust Ledger claim drifts, the gate
+# fails and the change must not ship.
+#
+# === Honest framing on deploy-blocking ===
+#
+# This workflow does NOT by itself block deployment. The hardseal.ai
+# site is published via GitHub Pages legacy build_type from `main`, and
+# the Pages auto-build runs in parallel with this workflow on every
+# push to `main`. There is no in-code way to prevent the Pages rebuild
+# from a separate workflow.
+#
+# To make this gate a real deploy block, branch protection on `main`
+# must be configured to require the `release-gate / gate` status check
+# AND to disallow direct pushes / require pull-request review. With
+# that configuration:
+#   - merging a PR is gated on this workflow passing;
+#   - direct push to `main` is rejected by GitHub;
+#   - so the Pages rebuild only ever fires from a commit that passed
+#     this gate.
+#
+# Branch protection is configured outside this workflow. See
+# docs/ops/RELEASE_GATE.md for the exact gh-API command.
+#
+# What this workflow DOES provide unconditionally:
+#   - a required-status-check signal on every PR;
+#   - a red mark on direct-to-main commits that violate the gate
+#     (visible in the commit list and the Pages deployment record);
+#   - a documented, runnable artifact that captures the public-proof
+#     honesty rules in code, not in tribal memory.
+#
+# Standard library only. <1s wall time on the current repo. No outbound
+# network access required.
+
+name: release-gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run release-gate negative-fixture tests
+        # Self-check first: if the gate's own tests are red, the gate
+        # cannot be trusted to gate the repo.
+        run: python3 scripts/test_release_gate.py
+
+      - name: Run release gate
+        run: python3 scripts/release_gate.py
+
+      - name: Annotate on failure
+        if: failure()
+        run: |
+          echo "::error title=Release Gate FAIL::Public-proof honesty drifted. \
+          See the 'Run release gate' step for details: receipt/sidecar hash, \
+          Trust Ledger label, Receipt #2 mapping, overclaim firewall, or link \
+          surface. Doctrine: we fly what we test, we test what we fly. Do not \
+          deploy this commit to hardseal.ai until the gate passes."
