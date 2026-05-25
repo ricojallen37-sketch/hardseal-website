@@ -1,21 +1,35 @@
-# Release gate — runs before public deploy.
+# Release gate — required check for public-proof honesty.
 #
 # Doctrine: we fly what we test, we test what we fly. If a public page,
-# verifier, receipt, sidecar, or Trust Ledger claim drifts, the site
-# should not deploy.
+# verifier, receipt, sidecar, or Trust Ledger claim drifts, the gate
+# fails and the change must not ship.
 #
-# This workflow runs scripts/release_gate.py on every push to main and
-# on every pull request targeting main. A failing gate marks the run
-# as failed; combine with a required-status-check + branch protection
-# on main to block merges that drift public-proof honesty.
+# === Honest framing on deploy-blocking ===
 #
-# Note on GitHub Pages legacy auto-build: this repo is published via
-# Pages legacy build_type from main. The Pages auto-build cannot be
-# pre-empted by a separate workflow check. The intended deployment
-# discipline is: branch protection on main requires this workflow to
-# pass before merge. Direct pushes to main are protected by the same
-# check (workflow runs on push and exits non-zero on failure, leaving
-# a visible red mark on the commit even though Pages may still rebuild).
+# This workflow does NOT by itself block deployment. The hardseal.ai
+# site is published via GitHub Pages legacy build_type from `main`, and
+# the Pages auto-build runs in parallel with this workflow on every
+# push to `main`. There is no in-code way to prevent the Pages rebuild
+# from a separate workflow.
+#
+# To make this gate a real deploy block, branch protection on `main`
+# must be configured to require the `release-gate / gate` status check
+# AND to disallow direct pushes / require pull-request review. With
+# that configuration:
+#   - merging a PR is gated on this workflow passing;
+#   - direct push to `main` is rejected by GitHub;
+#   - so the Pages rebuild only ever fires from a commit that passed
+#     this gate.
+#
+# Branch protection is configured outside this workflow. See
+# docs/ops/RELEASE_GATE.md for the exact gh-API command.
+#
+# What this workflow DOES provide unconditionally:
+#   - a required-status-check signal on every PR;
+#   - a red mark on direct-to-main commits that violate the gate
+#     (visible in the commit list and the Pages deployment record);
+#   - a documented, runnable artifact that captures the public-proof
+#     honesty rules in code, not in tribal memory.
 #
 # Standard library only. <1s wall time on the current repo. No outbound
 # network access required.

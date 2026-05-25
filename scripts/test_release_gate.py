@@ -147,6 +147,39 @@ class TestProofArtifacts(GateTestBase):
         rg.check_proof_artifacts(self.root, result)
         self.assertFails(result, "missing sidecar")
 
+    def test_verifier_nonzero_exit_caught(self) -> None:
+        # Replace the stub verifier with one that prints PASS but exits
+        # non-zero. The strict contract requires returncode == 0.
+        (self.root / "downloads" / "verify_standalone.py").write_text(
+            "import sys\nprint('result: PASS')\nsys.exit(1)\n",
+            encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_proof_artifacts(self.root, result)
+        self.assertFails(result, "returncode=1")
+
+    def test_verifier_sub_fail_line_caught(self) -> None:
+        # PASS summary but a sub-check failure should be caught.
+        (self.root / "downloads" / "verify_standalone.py").write_text(
+            "print('  FAIL: chain root mismatch')\nprint('result: PASS')\n",
+            encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_proof_artifacts(self.root, result)
+        self.assertFails(result, "sub-check 'FAIL:'")
+
+    def test_sidecar_wrong_filename_token_caught(self) -> None:
+        # Sidecar names a different file than its own basename.
+        receipt = self.root / rg.PUBLIC_RECEIPTS[0]
+        sidecar = receipt.with_suffix(receipt.suffix + ".sha256")
+        # Use the correct digest but point at the wrong filename.
+        import hashlib as _hashlib
+        digest = _hashlib.sha256(receipt.read_bytes()).hexdigest()
+        sidecar.write_text(f"{digest}  wrong-file.json\n", encoding="utf-8")
+        result = rg.GateResult()
+        rg.check_links(self.root, result)
+        self.assertFails(result, "wrong file")
+
 
 class TestTrustLedger(GateTestBase):
     """Trust Ledger labeled as Receipt #5 must be caught."""
@@ -173,6 +206,38 @@ class TestTrustLedger(GateTestBase):
         result = rg.GateResult()
         rg.check_trust_ledger(self.root, result)
         self.assertFails(result, "not labeled")
+
+    def test_ledger_label_in_footer_only(self) -> None:
+        # A correct label OUTSIDE the trust-ledger block does not save
+        # a mislabeled block. Reviewer-requested scoping check.
+        v = self.root / "verify.html"
+        v.write_text(textwrap.dedent("""\
+            <!doctype html><html><body>
+            <footer>Receipts #1-#4 · Index — see below</footer>
+            <div id="trust-ledger">
+              <div class="qs-title">▸ Hardseal Trust Ledger — Receipt #5</div>
+              <p>Receipt #2 mapping: AU.L2-3.3.1 / AU.L2-3.3.2 / AU.L2-3.3.8.</p>
+            </div>
+            </body></html>
+            """), encoding="utf-8")
+        result = rg.GateResult()
+        rg.check_trust_ledger(self.root, result)
+        # Both failure modes should fire: missing label inside block,
+        # and Receipt #5 inside block.
+        self.assertFails(result, "not labeled")
+        self.assertFails(result, "Receipt #5")
+
+    def test_ledger_block_missing(self) -> None:
+        # If the <... id="trust-ledger"> element is gone entirely, the
+        # check must fail explicitly rather than silently pass.
+        v = self.root / "verify.html"
+        v.write_text(
+            '<!doctype html><html><body><p>Some other content.</p></body></html>',
+            encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_trust_ledger(self.root, result)
+        self.assertFails(result, "trust-ledger")
 
 
 class TestReceipt2Mapping(GateTestBase):
@@ -291,6 +356,133 @@ class TestOverclaimFirewall(GateTestBase):
         self.assertEqual(
             result.failures, [],
             msg=f"Verifier banned-phrase array should pass; got {result.failures}",
+        )
+
+    def test_non_script_banned_phrase_array_is_NOT_allowed(self) -> None:
+        # Without <script> wrapping, a quoted-string list in body text
+        # must NOT be a free pass. Previously a structural heuristic
+        # allowed any line of comma-separated quoted strings; that was
+        # exploitable.
+        self._write_page(
+            '<p>Marketing copy: "we certify","certified compliant",'
+            '"endorsed by cyber ab".</p>'
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertTrue(
+            any("certified" in f for f in result.failures),
+            msg=(
+                "Quoted-string list outside <script> must be flagged; "
+                f"got {result.failures}"
+            ),
+        )
+
+    # --- Reviewer-supplied exploits (must FAIL the gate) -----------------
+
+    def test_reviewer_exploit_certified_with_sample_in_next_sentence(self) -> None:
+        # 'Hardseal Edge is certified for CMMC. (sample text follows.)'
+        # The hedge 'sample' is in a DIFFERENT sentence; it must not
+        # exempt 'certified'.
+        self._write_page(
+            "<p>Hardseal Edge is certified for CMMC. (sample text follows.)</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertTrue(
+            any("certified" in f for f in result.failures),
+            msg=(
+                "Reviewer exploit (certified + sample in next sentence) must "
+                f"FAIL; got passes={result.passes}, failures={result.failures}"
+            ),
+        )
+
+    def test_reviewer_exploit_certified_with_demo_in_next_sentence(self) -> None:
+        # 'Hardseal is certified. The next section is a demo replay.'
+        self._write_page(
+            "<p>Hardseal is certified. The next section is a demo replay.</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertTrue(
+            any("certified" in f for f in result.failures),
+            msg=(
+                "Reviewer exploit (certified + demo in next sentence) must "
+                f"FAIL; got {result.failures}"
+            ),
+        )
+
+    def test_reviewer_exploit_customer_enclave_no_possessive(self) -> None:
+        # 'Hardseal runs in a customer enclave.' — generic "customer
+        # enclave" without possessive must NOT exempt enclave.
+        self._write_page(
+            "<p>Hardseal runs in a customer enclave.</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertTrue(
+            any("enclave" in f for f in result.failures),
+            msg=(
+                "Reviewer exploit (Hardseal runs in a customer enclave) must "
+                f"FAIL; got {result.failures}"
+            ),
+        )
+
+    def test_possessive_customer_enclave_is_allowed(self) -> None:
+        # Conversely, the real DPA wording with possessive must pass.
+        self._write_page(
+            "<p>Conduct CUI handling on Customer's enclave or in a "
+            "documented secure environment under Customer's direction.</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertEqual(
+            result.failures, [],
+            msg=f"Possessive Customer's enclave should pass; got {result.failures}",
+        )
+
+    def test_ed25519_roadmap_qualified_is_allowed(self) -> None:
+        # Real edge.html wording.
+        self._write_page(
+            "<p>That is what the operator-held signing secret "
+            "(and the Ed25519 signature on the roadmap) is for.</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertEqual(
+            result.failures, [],
+            msg=f"Roadmap-qualified Ed25519 should pass; got {result.failures}",
+        )
+
+    def test_detection_signature_research_term_is_allowed(self) -> None:
+        # The research field report uses 'signature' to mean a
+        # detection rule. Must not be flagged as an overclaim.
+        self._write_page(
+            "<p>It catalogs twelve attack patterns observed across "
+            "pre-assessment packets, ships detection signatures for "
+            "seven of them, and documents the remaining five with "
+            "signature-only material.</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertEqual(
+            result.failures, [],
+            msg=(
+                "Research detection-signature usage should pass; "
+                f"got {result.failures}"
+            ),
+        )
+
+    def test_hmac_sha256_signature_is_allowed(self) -> None:
+        # Real proof_IR wording.
+        self._write_page(
+            "<p>Package-level SHA-256 manifest with detached "
+            "HMAC-SHA256 signature file.</p>"
+        )
+        result = rg.GateResult()
+        rg.check_overclaim_firewall(self.root, result)
+        self.assertEqual(
+            result.failures, [],
+            msg=f"HMAC-SHA256 signature should pass; got {result.failures}",
         )
 
 

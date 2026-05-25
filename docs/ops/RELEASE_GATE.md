@@ -1,10 +1,38 @@
 # Release Gate
 
-Public-proof honesty gate that runs before public deploy. If a public page, verifier, receipt, sidecar, or Trust Ledger claim drifts, the site should not deploy.
+Required release-gate check for public-proof honesty. If a public page, verifier, receipt, sidecar, or Trust Ledger claim drifts, the gate fails and the change must not ship.
 
 **Script:** `scripts/release_gate.py` — standard library only, <1s on the current repo.
 **Tests:** `scripts/test_release_gate.py` — negative-fixture suite proving the gate catches each documented failure mode.
 **CI:** `.github/workflows/release-gate.yml` — runs on every push to `main` and every PR targeting `main`.
+
+## Honest framing on deploy-blocking
+
+This workflow alone does NOT block deployment. hardseal.ai is served via GitHub Pages legacy `build_type` from `main`; the Pages auto-build runs in parallel with this workflow on every push to `main` and cannot be pre-empted from a separate workflow.
+
+**To make the gate a real deploy block, branch protection must be configured on `main`.** Until that happens, the gate is an after-the-fact red mark on offending commits and a required-status-check on PRs, not a deploy block on direct pushes.
+
+The one-time configuration command (requires repo-admin auth):
+
+```bash
+gh api -X PUT repos/<owner>/hardseal-website/branches/main/protection \
+  -H "Accept: application/vnd.github+json" \
+  -f required_status_checks.strict=true \
+  -F required_status_checks.contexts[]='release-gate / gate' \
+  -f enforce_admins=true \
+  -f required_pull_request_reviews.required_approving_review_count=1 \
+  -f restrictions=
+```
+
+After branch protection is enabled, direct pushes to `main` are rejected and PR merges require this gate to pass; only commits that passed the gate end up on `main` and therefore trigger Pages rebuilds.
+
+Verify with:
+
+```bash
+gh api repos/<owner>/hardseal-website/branches/main/protection
+```
+
+If this returns `Branch not protected`, the gate is documentation, not enforcement.
 
 ## Doctrine
 
@@ -43,16 +71,21 @@ For every receipt JSON in `PUBLIC_RECEIPTS` (the four public demo packets):
 
 - The matching `.sha256` sidecar must exist.
 - Recomputed SHA-256 of the receipt must equal the digest in the sidecar.
-- If `downloads/verify_standalone.py` (or `proof/ir/verify_standalone.py`) is present, the verifier is invoked on Receipt #1 and must print `result: PASS`.
+- The sidecar's second whitespace-delimited token (the `sha256sum`-style filename) must equal the receipt's basename — a sidecar pointing at the wrong file is caught here.
+- If `downloads/verify_standalone.py` (or `proof/ir/verify_standalone.py`) is present, the verifier is invoked on EVERY receipt (#1 through #4) and must:
+  - exit with returncode `0`;
+  - print `result: PASS` on its summary line;
+  - emit NO sub-check `FAIL:` line anywhere in its output.
 
-The gate never mutates packet JSON. Receipt #1 is the only packet the verifier is run against in the gate path (the full bundle verifier loop already runs in `integrity-heartbeat.yml` against the live bundle).
+The gate never mutates packet JSON.
 
 ### 2. Trust Ledger labeling
 
-Checks `verify.html`:
+The check is scoped to the `<... id="trust-ledger">` element and its inner HTML:
 
-- The Trust Ledger must be labeled as `Receipts #1-#4 · Index` (or equivalent — ASCII `-`, en/em dash, or `to` are accepted; `Index` or `Ledger` are accepted).
-- The Trust Ledger must NOT be labeled or implied as Receipt #5. The next packet receipt being numbered #5 in a future release is fine; the *ledger itself* is an index, not a receipt.
+- The trust-ledger block must contain a label matching `Receipts #1-#4 · Index` (or equivalent — ASCII `-`, en/em dash, or `to` are accepted; `Index` or `Ledger` are accepted). A correct label in the page footer or elsewhere does NOT satisfy this check.
+- The trust-ledger block must NOT contain `Receipt #5` anywhere. A future packet receipt numbered #5 is fine — but it appears in a separate per-receipt section, not inside the ledger index.
+- If the `<... id="trust-ledger">` element is missing or unbalanced, the check fails explicitly.
 
 ### 3. Receipt #2 mapping
 
@@ -62,11 +95,15 @@ Receipt #2 maps to:
 - `AU.L2-3.3.2`
 - `AU.L2-3.3.8`
 
-Any appearance of `AU.L2-3.3.3` through `AU.L2-3.3.7` as a Receipt #2 mapping claim fails the gate. The gate looks at every `AU.L2-3.3.x` token in `verify.html` and inspects a ~600-char window before it for a "Receipt #2" anchor; only tokens inside that anchored context are treated as Receipt #2 claims. Forbidden tokens within ~120 chars of a negation/prohibition/future word (`not`, `never`, `future`, `roadmap`, `prohibited`, …) are allowed.
+Any appearance of `AU.L2-3.3.3` through `AU.L2-3.3.7` as a Receipt #2 mapping claim fails the gate.
+
+The gate identifies a Receipt #2 block by walking outward from every Receipt #2 anchor (`Receipt #2`, `cmmc-audit-log-receipt2.json`, `receipt2`) to the nearest enclosing row-level tag — `<tr>`, `<div>`, `<section>`, or `<article>` — then scans `AU.L2-3.3.x` tokens INSIDE that block. This stops Receipt #3's row from leaking into Receipt #2's window (the earlier 600-char window approach could).
+
+Forbidden tokens within ~120 chars of a negation/prohibition/future word (`not`, `never`, `future`, `roadmap`, `prohibited`, …) are allowed (explicit `Receipt #2 does NOT claim AU.L2-3.3.4` is fine).
 
 ### 4. Overclaim firewall
 
-Substring/word-boundary scan of all public HTML files (`*.html` at the repo root) for unsupported affirmative claim phrases:
+Substring/word-boundary scan across **all public HTML** — root `*.html`, `blog/*.html`, `proof/ir/*.html`, and `research/**/*.html` — for unsupported affirmative claim phrases:
 
 ```
 signed, signature, Ed25519, certified, compliant, compliance proof,
@@ -76,26 +113,28 @@ unaltered, has not been altered, changed after it was created,
 detects any tampering, tampered with after the fact
 ```
 
-Short ambiguous phrases (`signed`, `certified`, `compliant`, `enclave`, `unaltered`, `signature`, `Ed25519`) are matched with word boundaries to avoid substring false positives like "designed", "GDPR-compliant".
+Short ambiguous phrases (`signed`, `certified`, `compliant`, `enclave`, `unaltered`, `signature`, `Ed25519`) are matched with word boundaries to avoid substring false positives like "designed", "GDPR-compliant". `<script>...</script>` and `<style>...</style>` blocks are masked before scanning (line numbers preserved).
 
-**Allowed contexts** (a hit in any of these is not a failure):
+**Allowed contexts are SENTENCE-SCOPED and CONCEPT-SPECIFIC.** A hit is allowed only if one of the rules below applies in the SAME sentence as the hit. Sentence boundaries split on `.`/`!`/`?`/`;` followed by whitespace, on inline HTML breaks (`<br>`), and on block-end tags (`</p>`, `</li>`, `</td>`, `</h*>`). Hedge words like `synthetic`/`demo`/`sample` no longer act as an across-sentence allower — that was the broad-window exploit the original review surfaced.
 
-1. **Explicit allowlist** — an entry in `OVERCLAIM_ALLOWLIST` (file + phrase + line-substring + justification). Currently empty.
-2. **HMAC-SHA256 factual reference** — relaxes only `signed`/`signature` when the line mentions `HMAC-SHA256`.
-3. **Banned-phrase array literal** — short standalone quoted-string lines, or single-line arrays dominated by comma-separated quoted strings. This recognizes the verifier's `BANNED_PHRASES` arrays in JS/Python.
-4. **Negation / prohibition / roadmap qualifier nearby** — `not`, `no`, `never`, `prohibited`, `forbidden`, `future`, `roadmap`, `planned`, `if and when`, etc., within ~250 chars before the hit.
-5. **Contract context** (`signed`/`signature` only) — `agreement`, `MSA`, `SOW`, `Subscription Order`, `engagement`, etc. nearby. "Signed Master Services Agreement" is a signed legal document, not a signed Hardseal artifact.
-6. **Customer-owned environment** (`enclave` only) — `customer's`, `client's`, `customer-designated`, etc. nearby. "Customer's enclave" is a factual reference to the customer's infrastructure, not a claim that Hardseal operates one.
-7. **Hedge qualifier nearby** — `synthetic`, `demo`, `demonstration`, `sample`, `example`, `illustrative`, `assessor-readable`, `integrity demonstration`, `replay artifact`. The honesty/proof-IR sweep added these qualifiers around residual claim language; the gate respects them.
+| # | Rule | Applies to | Examples |
+| --- | --- | --- | --- |
+| 1 | Explicit allowlist entry (file + phrase + line-substring + justification) | Any phrase | (currently empty) |
+| 2 | Negation / prohibition in same sentence | All phrases | `not Ed25519-signed`, `does not certify`, `prohibited`, `withheld` |
+| 3 | Roadmap qualifier in same sentence | All phrases | `Ed25519 signature on the roadmap`, `if and when`, `pre-assessment` |
+| 4 | Contract noun in same sentence | `signed`, `signature` | `signed Master Services Agreement`, `signed SOW`, `signed amendment` |
+| 5 | Possessive customer-owned enclave in same sentence | `enclave` | `Customer's enclave`, `your enclave`, `client's enclave`, `Customer-designated enclave` |
+| 6 | HMAC-SHA256 in same sentence | `signed`, `signature` | `detached HMAC-SHA256 signature file` |
+| 7 | Detection-signature domain term in same sentence | `signature` | `detection signatures`, `signature-only`, `stylometric signatures` |
 
-`<script>...</script>` and `<style>...</style>` blocks are masked before scanning (line numbers preserved). They are not user-visible claim text.
+To add a new exception, prefer adding a typed entry to `OVERCLAIM_ALLOWLIST` (in `scripts/release_gate.py`) with file + phrase + line-substring + justification, rather than broadening rules 2–7. Keep the list small and explicit.
 
-To add a new exception, prefer adding an entry to `OVERCLAIM_ALLOWLIST` with a clear justification rather than broadening the structural rules. Keep the list small and explicit.
+Verifier banned-phrase arrays (the JS/Python `BANNED_PHRASES` literals in the verifier code) are handled by `<script>` masking — they are not user-visible claim text. There is NO generic "quoted-string list" allowance any more.
 
 ### 5. Link / surface
 
 - `/verify.html#trust-ledger` anchor exists in `verify.html`.
-- Every entry in `PUBLIC_RECEIPTS` exists as both the JSON and the `.sha256` sidecar at the repo root.
+- Every entry in `PUBLIC_RECEIPTS` exists as both `.json` and `.sha256` at the repo root, AND the sidecar's filename token names the correct receipt file.
 - Every `href="...verify_standalone.py..."` in `verify.html` resolves to a file in the repo.
 
 No external network access is required.
@@ -108,7 +147,7 @@ The workflow runs on:
 - every pull request targeting `main`
 - manual dispatch from the Actions UI
 
-A failing gate marks the workflow as failed. To block merges, configure branch protection on `main` to require the `release-gate / gate` check.
+A failing gate marks the workflow as failed. **Branch protection on `main` is required to make this gate a real deploy block** — see "Honest framing on deploy-blocking" above for the exact configuration.
 
 The `integrity-heartbeat.yml` workflow remains independent — it verifies the published bundle on hardseal.ai every 6 hours. The release gate verifies the source-of-truth in this repo before that bundle is built.
 
@@ -124,6 +163,8 @@ Before merging changes that touch the gate itself:
 
 ## Limitations / known gaps
 
-- Only `*.html` at the repo root is scanned for overclaims. Blog posts (`blog/*.html`), policy pages under subdirectories, and PDFs are out of scope today. If a public surface moves outside the repo root, extend `PUBLIC_HTML_GLOBS`.
-- The Receipt #2 mapping check is anchored to `verify.html`. If Receipt #2's mapping is asserted in additional public surfaces (e.g., trophy-case.html, downloadable PDFs), extend the check.
-- The standalone verifier is invoked only on Receipt #1. Full-bundle verification continues to be the integrity-heartbeat workflow's job.
+- HTML scope is `*.html`, `blog/*.html`, `proof/ir/*.html`, and `research/**/*.html`. PDFs and downloadable archives (`.tar.gz`, `.zip`) are not scanned. If a public claim surface moves into one of those, extend `PUBLIC_HTML_GLOBS` and/or add an archive-specific check.
+- The Receipt #2 mapping check is anchored to `verify.html`. If Receipt #2's mapping is asserted in additional public surfaces (e.g., trophy-case.html, blog posts), extend the check.
+- The allowed-context rules are sentence-scoped. A hit and its qualifier must share a sentence; the gate will not catch a real overclaim whose negation/qualifier was deleted but whose sentence still happens to end with a contract noun. Mitigation: every new affirmative claim should ship with a `test_release_gate.py` case proving it is caught when its qualifier is removed.
+- `detection signatures` (research/blog terminology) is whitelisted for `signature` only. A real cryptographic-signature overclaim that sits in a sentence containing the word `detection signatures` would slip through. Audited against current public surface — no false positives observed today.
+- Pages legacy auto-build cannot be hard-blocked from this workflow alone. Branch protection on `main` is the necessary enforcement; see "Honest framing on deploy-blocking" above.

@@ -1,29 +1,43 @@
 #!/usr/bin/env python3
-"""Hardseal release gate — runs before public deploy.
+"""Hardseal release gate — required check for public-proof honesty.
 
 Doctrine: we fly what we test, we test what we fly. This script enforces
-public-proof honesty so a drifted page, receipt, sidecar, or claim cannot
-ship to production.
+public-proof honesty so a drifted page, receipt, sidecar, or claim does
+not reach the public-deploy path. The workflow that runs this script is
+intended to be a required-status-check on main; branch protection on
+main is what makes it deploy-blocking. See docs/ops/RELEASE_GATE.md.
 
-Checks (all must pass; first failure does not short-circuit so the operator
-sees every issue in one run):
+Checks (all must pass; first failure does not short-circuit so the
+operator sees every issue in one run):
 
   1. Proof artifact: every public receipt JSON has a matching .sha256
-     sidecar; recompute SHA-256 and compare; if the standalone verifier is
-     present, exercise it on Receipt #1.
-  2. Trust Ledger: must be labeled as "Receipts #1-#4 Index" (or
-     equivalent) and must not be labeled as "Receipt #5".
-  3. Receipt #2 mapping: must not broaden beyond AU.L2-3.3.1, AU.L2-3.3.2,
-     AU.L2-3.3.8. AU.L2-3.3.3..7 as Receipt #2 mapping fails unless in an
-     explicit negation / prohibition / future note.
-  4. Overclaim firewall: fail unsupported affirmative public claims for a
-     fixed list of phrases (signed, Ed25519, certified, compliant, etc.).
-     Allowlisted contexts: negations, prohibition/checklist text, verifier
-     banned-phrase arrays, roadmap-qualified language, factual HMAC-SHA256
-     file names.
-  5. Link / surface: key public links used in outbound exist in the repo:
-     /verify.html#trust-ledger anchor, receipt JSONs, receipt sidecars, the
-     standalone verifier file if linked from public surface.
+     sidecar; recomputed SHA-256 matches; the sidecar filename token
+     names the correct receipt; the standalone verifier (if present)
+     returns returncode==0 + 'result: PASS' + no sub-FAIL on EVERY
+     receipt, not just Receipt #1.
+  2. Trust Ledger: the <... id="trust-ledger"> element exists, its
+     inner HTML is labeled "Receipts #1-#4 Index" (or equivalent), and
+     it does NOT mention Receipt #5 anywhere inside.
+  3. Receipt #2 mapping: scoped to row-level enclosing blocks (<tr>,
+     <div>, <section>, <article>) around each Receipt #2 anchor. Must
+     not broaden beyond AU.L2-3.3.{1,2,8}. AU.L2-3.3.{3..7} as Receipt
+     #2 mapping fails unless within ~120 chars of a negation/future
+     note.
+  4. Overclaim firewall: a fixed list of unsupported affirmative claim
+     phrases (signed, Ed25519, certified, compliant, ...) scanned
+     across all public HTML — root *.html, blog/*.html, proof/ir/*.html,
+     research/**/*.html. Allowed contexts are SENTENCE-SCOPED and
+     CONCEPT-SPECIFIC: negation, roadmap qualifier, contract noun
+     (signed/signature only), possessive customer-owned enclave (enclave
+     only), HMAC-SHA256 (signed/signature only), detection-signature
+     domain term (signature only), or an explicit OVERCLAIM_ALLOWLIST
+     entry. <script>/<style> blocks are masked before scanning. Generic
+     hedge words (synthetic, demo, sample) do NOT act as an allower on
+     their own; they must co-occur with one of the rules above in the
+     same sentence.
+  5. Link / surface: key public links exist in the repo:
+     /verify.html#trust-ledger anchor, receipt JSONs, receipt sidecars,
+     standalone-verifier links resolve to files. No outbound network.
 
 Usage:
     python3 scripts/release_gate.py            # gate the whole repo
@@ -74,16 +88,25 @@ class GateResult:
 
 # ----------------------------------------------------------------------
 # Public surface — files the gate inspects for claim language.
-# Limited to public HTML on the deploy path. Internal docs, the script
-# itself, tests/fixtures, the verifier (which contains banned-phrase
-# strings by design), and the integrity log are excluded.
+# Anything deployed to hardseal.ai is in scope. The repo root *.html
+# files are the primary public surface; blog/, proof/ir/, and research/
+# subdirectories also ship as public HTML and must be scanned. Anything
+# not in this glob set is treated as out of scope.
 # ----------------------------------------------------------------------
 
-PUBLIC_HTML_GLOBS = ("*.html",)
+PUBLIC_HTML_GLOBS = (
+    "*.html",
+    "blog/*.html",
+    "proof/ir/*.html",
+    "research/**/*.html",
+)
 
-# Files under the repo root that are public HTML but should be skipped
-# (none today; kept as an explicit list so the operator can see it).
-PUBLIC_HTML_EXCLUDE: set[str] = set()
+# Explicit per-relative-path skip list. The gate refuses to silently
+# extend coverage; every skip must be named here with a reason.
+PUBLIC_HTML_EXCLUDE: set[str] = {
+    # 404 page does not carry product claims.
+    "404.html",
+}
 
 # Public receipts and their sidecars. Order matters: index 0 is Receipt #1.
 PUBLIC_RECEIPTS = (
@@ -148,39 +171,62 @@ def check_proof_artifacts(root: Path, result: GateResult) -> None:
 
         result.add_pass(f"[proof] {name}: sidecar matches recomputed SHA-256")
 
-    # If the standalone verifier is present, exercise it on Receipt #1.
-    # We try the downloads/ copy first (linked from verify.html); fall
-    # back to proof/ir/ if downloads/ is absent. Either is acceptable —
-    # the check is "if the repo supports invoking the verifier".
+    # If the standalone verifier is present, exercise it on EVERY public
+    # receipt — not just Receipt #1. The contract is strict:
+    #   - subprocess returncode must be 0
+    #   - the verifier's summary line must say `result: PASS`
+    #   - no `FAIL` token may appear anywhere in the output (the
+    #     verifier prints `  FAIL: ...` for failed sub-checks)
+    # We try downloads/ first (linked from verify.html); fall back to
+    # proof/ir/ if downloads/ is absent.
     verifier_candidates = (
         root / "downloads" / "verify_standalone.py",
         root / "proof" / "ir" / "verify_standalone.py",
     )
     verifier = next((p for p in verifier_candidates if p.exists()), None)
-    receipt1 = root / PUBLIC_RECEIPTS[0]
 
     if verifier is None:
         result.add_pass("[proof] standalone verifier not present (check skipped)")
-    elif not receipt1.exists():
-        result.add_fail(f"[proof] Receipt #1 missing for verifier sample run: {receipt1}")
-    else:
+        return
+
+    for name in PUBLIC_RECEIPTS:
+        receipt = root / name
+        if not receipt.exists():
+            # Already reported above; skip the verifier on missing input.
+            continue
         try:
             proc = subprocess.run(
-                [sys.executable, str(verifier), str(receipt1)],
+                [sys.executable, str(verifier), str(receipt)],
                 capture_output=True, text=True, timeout=30,
             )
         except (OSError, subprocess.TimeoutExpired) as exc:
-            result.add_fail(f"[proof] verifier invocation error on Receipt #1: {exc}")
+            result.add_fail(
+                f"[proof] verifier invocation error on {name}: {exc}"
+            )
+            continue
+
+        combined = (proc.stdout or "") + (proc.stderr or "")
+        problems: list[str] = []
+        if proc.returncode != 0:
+            problems.append(f"returncode={proc.returncode} (expected 0)")
+        if not re.search(r"^result:\s*PASS\s*$", combined, re.MULTILINE):
+            problems.append("missing 'result: PASS' summary line")
+        # The verifier emits sub-check failures as lines starting with
+        # whitespace + 'FAIL:' (see verify_standalone.py:render). Catch
+        # any such line — the summary 'result: PASS' alone is not enough
+        # if any sub-check failed.
+        if re.search(r"^\s*FAIL:", combined, re.MULTILINE):
+            problems.append("output contains a sub-check 'FAIL:' line")
+
+        if problems:
+            tail = combined.strip().splitlines()[-12:]
+            result.add_fail(
+                f"[proof] standalone verifier did not cleanly PASS on {name}: "
+                + "; ".join(problems)
+                + ". Tail of output:\n    " + "\n    ".join(tail)
+            )
         else:
-            combined = (proc.stdout or "") + (proc.stderr or "")
-            if re.search(r"^result:\s*PASS\s*$", combined, re.MULTILINE):
-                result.add_pass("[proof] standalone verifier PASS on Receipt #1")
-            else:
-                tail = combined.strip().splitlines()[-10:]
-                result.add_fail(
-                    "[proof] standalone verifier did not return PASS on Receipt #1. "
-                    f"Tail of output:\n    " + "\n    ".join(tail)
-                )
+            result.add_pass(f"[proof] standalone verifier clean PASS on {name}")
 
 
 # ----------------------------------------------------------------------
@@ -195,14 +241,49 @@ _LEDGER_LABEL_RE = re.compile(
     re.IGNORECASE,
 )
 
-# "Trust Ledger ... Receipt #5" or "Receipt #5 ... Trust Ledger" within a
-# small window — that would imply the ledger IS Receipt #5. The next
-# packet receipt being numbered #5 is fine elsewhere; this only fires when
-# the words appear together.
-_LEDGER_IS_5_RE = re.compile(
-    r"Trust\s+Ledger[^\n]{0,80}Receipt\s*#?\s*5|Receipt\s*#?\s*5[^\n]{0,80}Trust\s+Ledger",
-    re.IGNORECASE,
+# Mention of Receipt #5 INSIDE the trust-ledger block. The block is
+# defined as the trust-ledger element (id="trust-ledger") and its inner
+# HTML. The next packet receipt being numbered #5 in some FUTURE row
+# is the operator's call elsewhere on the page; what we forbid is
+# Receipt #5 appearing AS PART OF the ledger.
+_LEDGER_HAS_5_RE = re.compile(
+    r"Receipt\s*#?\s*5\b", re.IGNORECASE,
 )
+
+
+def _extract_trust_ledger_block(text: str) -> str | None:
+    """Return the inner-HTML chunk that constitutes the trust-ledger block.
+
+    Strategy: find the opening element with id="trust-ledger" (single or
+    double quotes), then walk a depth counter over <div>/</div> to find
+    its matching close. Falls back to a generous 8000-char window if the
+    block uses tags other than <div>; the table inside the ledger is
+    captured either way.
+    """
+    m = re.search(r'<(\w+)[^>]*\bid\s*=\s*["\']trust-ledger["\'][^>]*>',
+                  text, re.IGNORECASE)
+    if not m:
+        return None
+    tag = m.group(1).lower()
+    # Walk depth from m.end() until the matching close.
+    open_re = re.compile(rf"<{tag}\b[^>]*>", re.IGNORECASE)
+    close_re = re.compile(rf"</{tag}\s*>", re.IGNORECASE)
+    pos = m.end()
+    depth = 1
+    while depth > 0 and pos < len(text):
+        next_open = open_re.search(text, pos)
+        next_close = close_re.search(text, pos)
+        if not next_close:
+            return None  # unbalanced; bail
+        if next_open and next_open.start() < next_close.start():
+            depth += 1
+            pos = next_open.end()
+        else:
+            depth -= 1
+            pos = next_close.end()
+            if depth == 0:
+                return text[m.start():pos]
+    return None
 
 
 def check_trust_ledger(root: Path, result: GateResult) -> None:
@@ -212,22 +293,35 @@ def check_trust_ledger(root: Path, result: GateResult) -> None:
         return
 
     text = verify_html.read_text(encoding="utf-8", errors="replace")
-
-    if not _LEDGER_LABEL_RE.search(text):
+    block = _extract_trust_ledger_block(text)
+    if block is None:
         result.add_fail(
-            f"[ledger] {verify_html}: Trust Ledger is not labeled as "
+            f"[ledger] {verify_html}: could not locate <... id=\"trust-ledger\"> "
+            f"block — the ledger element is missing or malformed"
+        )
+        return
+
+    # Label must appear INSIDE the ledger block. A correct label elsewhere
+    # on the page (header, footer) does not save a mislabeled block.
+    if not _LEDGER_LABEL_RE.search(block):
+        result.add_fail(
+            f"[ledger] {verify_html}: trust-ledger block is not labeled as "
             f"'Receipts #1-#4 Index' (or equivalent index/ledger wording)"
         )
     else:
-        result.add_pass("[ledger] Trust Ledger labeled as Receipts #1-#4 index")
+        result.add_pass("[ledger] trust-ledger block labeled as Receipts #1-#4 index")
 
-    if _LEDGER_IS_5_RE.search(text):
+    # Receipt #5 must not appear INSIDE the ledger block at all. The
+    # next packet release shipping as Receipt #5 happens in a separate
+    # part of the page (a packet section / quickstart), not inside the
+    # ledger index itself.
+    if _LEDGER_HAS_5_RE.search(block):
         result.add_fail(
-            f"[ledger] {verify_html}: Trust Ledger appears to be labeled "
-            f"or implied as Receipt #5 — the ledger is an index, not a receipt"
+            f"[ledger] {verify_html}: trust-ledger block mentions Receipt #5 — "
+            f"the ledger is an index of Receipts #1-#4, not Receipt #5"
         )
     else:
-        result.add_pass("[ledger] Trust Ledger is not labeled as Receipt #5")
+        result.add_pass("[ledger] trust-ledger block does not mention Receipt #5")
 
 
 # ----------------------------------------------------------------------
@@ -252,45 +346,118 @@ _NEGATION_NEAR_RE = re.compile(
 )
 
 
+_RECEIPT2_ANCHOR_RE = re.compile(
+    r"Receipt\s*#?\s*2\b|cmmc-audit-log-receipt2\.json|\breceipt2\b",
+    re.IGNORECASE,
+)
+
+# Row-level container tags used to scope a Receipt #2 mapping claim. We
+# pick the smallest enclosing element of one of these row-level tags —
+# they correspond to "the whole Receipt #2 row" rather than a single
+# inline cell or list item. <tr> covers the trust-ledger table; <div>
+# with role-like classes (.quickstart) covers the per-receipt section.
+_RECEIPT_BLOCK_TAGS = ("tr", "div", "section", "article")
+
+
+def _enclosing_block(text: str, offset: int) -> tuple[int, int]:
+    """Return (start, end) of the smallest enclosing row-level element
+    containing `offset` — a <tr>, <div>, <section>, or <article>. We
+    skip generic inline containers (<li>, <td>, <p>) because the Receipt
+    #2 row in this repo's verify.html places the receipt anchor and its
+    mapping line in sibling children of the same <div class="quickstart">.
+    Falls back to an 800-char symmetric window if no row-level tag
+    encloses the offset.
+    """
+    best: tuple[int, int] | None = None
+    for tag in _RECEIPT_BLOCK_TAGS:
+        open_re = re.compile(rf"<{tag}\b[^>]*>", re.IGNORECASE)
+        close_re = re.compile(rf"</{tag}\s*>", re.IGNORECASE)
+        opens = [m for m in open_re.finditer(text, 0, offset)]
+        if not opens:
+            continue
+        for om in reversed(opens):
+            depth = 1
+            pos = om.end()
+            matched_close: int | None = None
+            while pos < len(text):
+                no = open_re.search(text, pos)
+                nc = close_re.search(text, pos)
+                if not nc:
+                    break
+                if no and no.start() < nc.start():
+                    depth += 1
+                    pos = no.end()
+                else:
+                    depth -= 1
+                    if depth == 0:
+                        if nc.end() > offset:
+                            matched_close = nc.end()
+                        break
+                    pos = nc.end()
+            if matched_close is not None and om.start() <= offset < matched_close:
+                span = matched_close - om.start()
+                if best is None or span < (best[1] - best[0]):
+                    best = (om.start(), matched_close)
+                break
+    if best is not None:
+        return best
+    return (max(0, offset - 400), min(len(text), offset + 400))
+
+
 def check_receipt2_mapping(root: Path, result: GateResult) -> None:
-    """Scan verify.html for the Receipt #2 mapping block."""
+    """Scan verify.html for Receipt #2 mapping claims.
+
+    Strategy: every Receipt #2 anchor (the textual reference) defines a
+    Receipt #2 block — the smallest enclosing div/section/article/tr/li/
+    p/td element. AU.L2-3.3.x tokens INSIDE that block are Receipt #2
+    mapping claims. Tokens outside any Receipt #2 block are not Receipt
+    #2 claims and are not checked here.
+    """
     verify_html = root / "verify.html"
     if not verify_html.exists():
         return  # already reported by ledger check
 
     text = verify_html.read_text(encoding="utf-8", errors="replace")
 
-    # Locate the Receipt #2 row. Strategy: find every AU.L2-3.3.x token,
-    # then for each, look at a window of ~600 chars before it. If the
-    # window mentions Receipt #2 (or its filename), the token is a
-    # Receipt #2 mapping claim. Otherwise it's some other context.
+    # Identify every Receipt #2 mapping block.
+    blocks: list[tuple[int, int]] = []
+    for am in _RECEIPT2_ANCHOR_RE.finditer(text):
+        b = _enclosing_block(text, am.start())
+        if b not in blocks:
+            blocks.append(b)
+
+    if not blocks:
+        result.add_fail(
+            f"[receipt2] {verify_html}: no Receipt #2 block found "
+            f"(expected at least one element mentioning 'Receipt #2')"
+        )
+        return
+
     found_allowed: set[str] = set()
     overbroad_hits: list[str] = []
-
     token_re = re.compile(r"AU\.L2-3\.3\.[1-8]")
-    for m in token_re.finditer(text):
-        token = m.group(0)
-        window_start = max(0, m.start() - 600)
-        window = text[window_start:m.start()]
-        # Is this a Receipt #2 mapping claim?
-        if not re.search(
-            r"Receipt\s*#?\s*2|cmmc-audit-log-receipt2|receipt2",
-            window, re.IGNORECASE,
-        ):
-            continue
 
-        if token in RECEIPT2_ALLOWED:
-            found_allowed.add(token)
-            continue
-
-        if token in RECEIPT2_FORBIDDEN:
-            # Check the immediate vicinity for negation / future qualifier.
-            local_window = text[max(0, m.start() - 120): m.end() + 60]
-            if _NEGATION_NEAR_RE.search(local_window):
+    for b_start, b_end in blocks:
+        block_text = text[b_start:b_end]
+        # A passing back-reference to another receipt ("same verifier as
+        # Receipt #1") does not disqualify this block — we trust the
+        # row-level tag scoping. If a Receipt #2 block ALSO contains
+        # another receipt's PRIMARY artifact filename (an actual link
+        # to Receipt #3's JSON, which only the trust-ledger ROW for #3
+        # would carry), THAT row's <tr> would be a separate block, not
+        # this one.
+        for m in token_re.finditer(block_text):
+            token = m.group(0)
+            abs_start = b_start + m.start()
+            if token in RECEIPT2_ALLOWED:
+                found_allowed.add(token)
                 continue
-            # Compute line number for clear failure messages.
-            line_no = text.count("\n", 0, m.start()) + 1
-            overbroad_hits.append(f"line {line_no}: {token}")
+            if token in RECEIPT2_FORBIDDEN:
+                local_window = text[max(0, abs_start - 120): abs_start + len(token) + 60]
+                if _NEGATION_NEAR_RE.search(local_window):
+                    continue
+                line_no = text.count("\n", 0, abs_start) + 1
+                overbroad_hits.append(f"line {line_no}: {token}")
 
     if overbroad_hits:
         result.add_fail(
@@ -351,65 +518,81 @@ OVERCLAIM_PHRASES: tuple[tuple[str, bool], ...] = (
     ("tampered with after the fact", False),
 )
 
-# Words that, if present in a small window around a hit, mark the hit as
-# an allowed context (negation, prohibition, roadmap qualifier).
-_OVERCLAIM_ALLOWED_NEAR_RE = re.compile(
-    r"\b(not|no|never|without|cannot|won't|will not|do(?:es)? not|don't|"
-    r"isn't|aren't|wasn't|weren't|"
+# Negation / prohibition / roadmap qualifier. Applied ONLY within the
+# same sentence as the hit. Strict word-list — "demo" or "synthetic"
+# alone are NOT in here because they describe an artifact's status, not
+# a qualifier attached to the claim.
+_NEGATION_RE = re.compile(
+    r"\b(not|no|never|without|cannot|can't|won't|will\s+not|"
+    r"do(?:es)?\s+not|don't|isn't|aren't|wasn't|weren't|"
     r"prohibit(?:ed|ion|s)?|forbidden|banned|disallow(?:ed)?|"
-    r"future|roadmap|planned|forthcoming|deferred|intended|"
-    r"not yet|yet to|todo|coming soon|if and when|"
-    r"out of scope|outside scope|exclud(?:ed|ing|es))\b",
+    r"withheld|exclud(?:ed|ing|es)|"
+    r"out\s+of\s+scope|outside\s+scope|nothing\s+(?:in|on)\s+this|"
+    r"not\s+yet|yet\s+to|todo)\b",
     re.IGNORECASE,
 )
 
-# Contract / legal context. When these terms appear near a "signed" hit,
-# the word refers to a signed AGREEMENT (MSA / SOW / contract) — a legal
-# document being signed — not a cryptographic signature on a Hardseal
-# artifact. This is the standard contract-law use of "signed" and is
-# not an overclaim of cryptographic provenance.
-_CONTRACT_CONTEXT_RE = re.compile(
+_ROADMAP_RE = re.compile(
+    r"\b(future|roadmap|on\s+the\s+roadmap|planned|forthcoming|deferred|"
+    r"intended|if\s+and\s+when|coming\s+soon|pre-release|pre-assessment)\b",
+    re.IGNORECASE,
+)
+
+# Contract context — ONLY relaxes the `signed`/`signature` phrases, and
+# ONLY when the sentence is clearly about a signed legal document.
+# Requires a legal-document noun in the same sentence.
+_CONTRACT_NOUN_RE = re.compile(
     r"\b(agreement|MSA|Master\s+Services\s+Agreement|SOW|Statement\s+of\s+Work|"
-    r"Subscription\s+Order|written\s+amendment|engagement|customer\s+engagement|"
-    r"Customer\s+engagements|authorized\s+representatives|"
-    r"both\s+parties|DPA|terms\s+of\s+the)\b",
+    r"Subscription\s+Order|written\s+amendment|amendment|engagement|"
+    r"Customer\s+engagements?|contract|DPA|"
+    r"Data\s+Processing\s+Addendum|order\s+form|order|"
+    r"this\s+Agreement|the\s+Agreement)\b",
     re.IGNORECASE,
 )
 
-# Customer/client-owned environment context. When `enclave` is referring
-# to the CUSTOMER's enclave (not a Hardseal-provided one), the word is a
-# factual reference to the customer's own infrastructure, not an
-# overclaim that Hardseal operates one.
-_CUSTOMER_ENV_RE = re.compile(
-    r"\b(customer'?s?|client'?s?|customer-designated|customer-controlled|"
-    r"single\s+real|one\s+(?:real|client|defined)|representative|"
-    r"per-enclave\s+licensing|configure\s+for|access\s+to(?:\s+one)?|"
-    r"single\s+|deploy\s+Hardseal)\b",
+# Customer-owned environment — ONLY relaxes the `enclave` phrase, and
+# ONLY when the possessive form ("Customer's enclave", "client's enclave"
+# or "the customer's <something> enclave") makes it explicit that the
+# enclave belongs to the customer, NOT Hardseal. Generic "customer
+# enclave" (without possessive) is intentionally NOT allowed — it is
+# ambiguous and "Hardseal runs in a customer enclave" should fail.
+_CUSTOMER_POSSESSIVE_ENCLAVE_RE = re.compile(
+    r"\b(?:Customer'?s|Client'?s|your)\s+(?:[\w\-]+\s+){0,3}enclave\b|"
+    r"\b(?:Customer-designated|Customer-controlled)\s+(?:[\w\-]+\s+){0,3}enclave\b|"
+    r"\benclave\s+(?:under|that\s+Customer|controlled\s+by\s+Customer)\b|"
+    r"\bone\s+(?:client|customer)\s+enclave\b|"
+    r"\baccess\s+to\s+(?:one\s+)?client\s+enclave\b|"
+    r"\bper-enclave\s+licensing\b|"
+    r"\bone\s+defined\s+client\s+environment\s+\(1\s+enclave\)|"
+    r"\bsingle\s+real\s+\(or\s+representative\)\s+CMMC\s+Level\s+\d\s+enclave\b|"
+    r"\bconfigure\s+for\s+enclave\b|"
+    r"\bdeploy\s+Hardseal,\s+configure\s+for\s+enclave\b",
     re.IGNORECASE,
 )
 
-# Hedge phrases that the existing "honesty" sweep added to soften residual
-# claim language. Their presence in the immediate vicinity means the
-# surrounding claim is already qualified — treat as allowed context.
-_OVERCLAIM_HEDGE_RE = re.compile(
-    r"\b(synthetic|demo|demonstration|sample|example|illustrative|"
-    r"assessor-readable|integrity demonstration|evidence integrity|"
-    r"replay artifact)\b",
+# HMAC-SHA256 factual filename / artifact name — relaxes only
+# `signed`/`signature`, and only when HMAC-SHA256 is adjacent (same
+# sentence, within 60 chars).
+_HMAC_NEAR_RE = re.compile(r"HMAC[-\s]?SHA[-\s]?256", re.IGNORECASE)
+
+# "detection signature" / "detection signatures" / "signature-only" —
+# domain terminology meaning a detection rule, not a cryptographic
+# signature. Relaxes ONLY the `signature` phrase.
+_DETECTION_SIGNATURE_RE = re.compile(
+    r"\b(?:detection|seven\s+detection|five\s+signature(?:-only)?|"
+    r"statistical|regex|stylometric|fingerprint)\s+signatures?\b|"
+    r"\bsignature[-\s]only\b|"
+    r"\bsignatures?\s+(?:for|of|under\s+MIT|shipping)\b",
     re.IGNORECASE,
 )
 
-# HMAC-SHA256 file-name pattern (factual artifact name — the word "signed"
-# never appears here, but "signature" can show up in HMAC contexts; this
-# pattern lets us recognize them).
-_HMAC_SHA256_RE = re.compile(r"HMAC-?SHA-?256", re.IGNORECASE)
-
-# A line that looks like a banned-phrase array element / verifier list
-# entry: a quoted string ending with a comma, inside a parenthesized or
-# bracketed list. Keeping these strict prevents the gate from yelling at
-# the verifier's own forbidden-phrase list.
-_BANNED_ARRAY_LINE_RE = re.compile(
-    r"""^\s*["'][^"']{1,120}["']\s*,?\s*$"""
-)
+## NOTE: previous versions accepted a generic "hedge" qualifier
+## (synthetic / demo / sample / etc.) within a 250-char window. That was
+## too permissive: a single hedge word in an unrelated nearby sentence
+## allowed a real overclaim to pass. The current design REMOVES that
+## allowance and replaces it with sentence-scoped, concept-specific
+## allowed contexts. The hedge words still appear in the public surface
+## (and are good) but they no longer act as an overclaim allower.
 
 
 @dataclass
@@ -443,10 +626,69 @@ def _line_at(text: str, offset: int) -> tuple[int, str]:
     return line_no, text[line_start:line_end]
 
 
+# Sentence-boundary regex. A sentence ends at ., !, ?, or ;, optionally
+# followed by closing quote/paren/bracket and required whitespace; OR at
+# an HTML block boundary (<br>, </p>, </li>, </td>, </h\d>, list items).
+# We deliberately split on `:` ONLY when it's followed by a paragraph
+# break ("Note:\n"), to avoid eating ":" in "AU.L2-3.3.1: …".
+_SENTENCE_SPLIT_RE = re.compile(
+    r"(?:"
+    # Punctuation followed by closing wrappers, then whitespace.
+    r"[.!?;](?:['\"\)\]]*)\s+|"
+    # HTML block-end tags.
+    r"</(?:p|li|td|th|h[1-6]|div|section|article)\s*>|"
+    # HTML inline breaks.
+    r"<br\s*/?>|"
+    # Double newline (paragraph break).
+    r"\n\s*\n"
+    r")",
+    re.IGNORECASE,
+)
+
+
+def _enclosing_sentence(text: str, hit_start: int, hit_end: int) -> str:
+    """Return the smallest sentence-like span containing the hit.
+
+    Sentence boundary on the LEFT: the nearest preceding sentence
+    terminator or HTML block-end / paragraph break (whichever is closer).
+    Sentence boundary on the RIGHT: the nearest following such terminator
+    AT OR AFTER the hit-end. The returned span includes both boundaries'
+    inside text but NOT the terminators themselves.
+    """
+    # Left boundary: scan backward from hit_start.
+    left_bound = 0
+    for m in _SENTENCE_SPLIT_RE.finditer(text, 0, hit_start):
+        # Use the *end* of the splitter as the start of the next sentence.
+        left_bound = m.end()
+    # Right boundary: scan forward from hit_end.
+    right_bound = len(text)
+    m = _SENTENCE_SPLIT_RE.search(text, hit_end)
+    if m:
+        right_bound = m.start()
+    return text[left_bound:right_bound]
+
+
 def _is_allowed_context(
     text: str, hit_start: int, hit_end: int, phrase: str, file_rel: str,
 ) -> tuple[bool, str]:
-    """Return (allowed, reason)."""
+    """Decide whether this overclaim hit is in an allowed context.
+
+    Allowed contexts are SENTENCE-SCOPED and CONCEPT-SPECIFIC:
+      * negation / prohibition in the same sentence: allows any phrase
+      * roadmap qualifier in the same sentence: allows any phrase
+      * contract noun in the same sentence: allows `signed`/`signature`
+      * possessive customer-owned-enclave phrasing in the same sentence:
+        allows `enclave`
+      * HMAC-SHA256 in the same sentence: allows `signed`/`signature`
+      * detection-signature domain phrasing in the same sentence:
+        allows `signature`
+      * explicit allowlist entry (file + phrase + line-substring): any
+
+    Generic hedge words (synthetic, demo, sample) on their own do NOT
+    allow a hit — they describe the artifact's status, not a qualifier
+    attached to the claim. If a real claim needs them as a qualifier,
+    they must co-occur with one of the rules above in the same sentence.
+    """
     # 1. Explicit allowlist match.
     line_no, line = _line_at(text, hit_start)
     for entry in OVERCLAIM_ALLOWLIST:
@@ -458,62 +700,50 @@ def _is_allowed_context(
             continue
         return True, f"allowlist: {entry.justification}"
 
-    # 2. HMAC-SHA256 factual file-name context — only relaxes the
-    #    "signature" phrase, not the broader claim phrases.
-    if phrase.lower() in {"signature", "signed"} and _HMAC_SHA256_RE.search(line):
-        return True, "HMAC-SHA256 factual reference"
+    sentence = _enclosing_sentence(text, hit_start, hit_end)
+    p = phrase.lower()
 
-    # 3. Banned-phrase array element / verifier list literal. We
-    #    recognize two structural patterns:
-    #      a) a short standalone line that is just a quoted string;
-    #      b) a line that is multiple comma-separated lowercase quoted
-    #         strings (the verifier's BANNED_PHRASES array, formatted
-    #         on one line in HTML/JS).
-    if _BANNED_ARRAY_LINE_RE.match(line):
-        return True, "banned-phrase array literal"
-    # (b): line is dominated by quoted lowercase strings + commas.
-    stripped = line.strip()
-    if stripped and stripped.count('"') >= 4 and stripped.count(",") >= 1:
-        # Strip quotes and commas; what's left should be near-empty.
-        residue = re.sub(r'"[^"]*"|,|\s', "", stripped)
-        if not residue:
-            return True, "banned-phrase array literal (inline)"
+    # 2. Negation / prohibition in the same sentence — applies to all.
+    if _NEGATION_RE.search(sentence):
+        return True, "negation / prohibition in same sentence"
 
-    # 4. Negation / prohibition / roadmap qualifier within a wider window
-    #    (covers "They are SHA-256 ... — they are not Ed25519-signed
-    #    production evidence, customer evidence, certification proof,
-    #    compliance proof, ..." where the "not" can be 150+ chars away).
-    window_start = max(0, hit_start - 250)
-    window_end = min(len(text), hit_end + 80)
-    window = text[window_start:window_end]
-    if _OVERCLAIM_ALLOWED_NEAR_RE.search(window):
-        return True, "negation / prohibition / roadmap qualifier nearby"
+    # 3. Roadmap qualifier in the same sentence — applies to all.
+    if _ROADMAP_RE.search(sentence):
+        return True, "roadmap qualifier in same sentence"
 
-    # 5. Contract context for "signed" / "signature": references to
-    #    MSA / SOW / agreement / engagement mean a signed legal document,
-    #    not a signed Hardseal artifact.
-    if phrase.lower() in {"signed", "signature"} and _CONTRACT_CONTEXT_RE.search(window):
-        return True, "contract context (signed agreement, not signed artifact)"
+    # 4. HMAC-SHA256 factual file-name context — relaxes only signed/signature.
+    if p in {"signed", "signature"} and _HMAC_NEAR_RE.search(sentence):
+        return True, "HMAC-SHA256 factual reference in same sentence"
 
-    # 6. Customer/client-owned environment context for "enclave".
-    if phrase.lower() == "enclave" and _CUSTOMER_ENV_RE.search(window):
-        return True, "customer/client-owned enclave (factual environment reference)"
+    # 5. Contract context — relaxes only signed/signature, and requires
+    #    a contract noun in the same sentence.
+    if p in {"signed", "signature"} and _CONTRACT_NOUN_RE.search(sentence):
+        return True, "contract context (signed agreement) in same sentence"
 
-    # 7. Hedge phrase ("synthetic", "demo", "integrity demonstration",
-    #    etc.) within the same sentence-ish window. The honesty/proof-ir
-    #    sweep already added these qualifiers around residual claim
-    #    language; treat them as the documented allowed context.
-    if _OVERCLAIM_HEDGE_RE.search(window):
-        return True, "hedge qualifier (synthetic / demo / demonstration) nearby"
+    # 6. Customer-owned enclave — relaxes only enclave, requires
+    #    possessive / customer-explicit phrasing in the same sentence.
+    if p == "enclave" and _CUSTOMER_POSSESSIVE_ENCLAVE_RE.search(sentence):
+        return True, "customer/client-owned enclave (possessive) in same sentence"
+
+    # 7. Detection-signature domain use — relaxes only `signature`.
+    if p == "signature" and _DETECTION_SIGNATURE_RE.search(sentence):
+        return True, "detection-signature domain term in same sentence"
 
     return False, ""
 
 
 def _iter_public_html(root: Path) -> Iterable[Path]:
+    seen: set[Path] = set()
     for pattern in PUBLIC_HTML_GLOBS:
         for path in sorted(root.glob(pattern)):
-            if path.name in PUBLIC_HTML_EXCLUDE:
+            if not path.is_file():
                 continue
+            rel = path.relative_to(root).as_posix()
+            if rel in PUBLIC_HTML_EXCLUDE:
+                continue
+            if path in seen:
+                continue
+            seen.add(path)
             yield path
 
 
@@ -613,26 +843,53 @@ def check_links(root: Path, result: GateResult) -> None:
             )
     else:
         result.add_fail("[links] verify.html missing — public verify surface is gone")
+        text = ""
 
-    # Every public receipt and sidecar exists at the expected path.
+    # Every public receipt and sidecar exists at the expected path. The
+    # sidecar must additionally name its receipt file in its body (the
+    # second whitespace-delimited token is `<filename>` per sha256sum
+    # convention) — this catches "sidecar for the wrong file".
+    artifacts_ok = True
     for name in PUBLIC_RECEIPTS:
-        for suffix in ("", ".sha256"):
-            p = root / f"{name}{suffix}"
-            if not p.exists():
-                result.add_fail(f"[links] expected public artifact missing: {p}")
+        receipt = root / name
+        sidecar = root / f"{name}.sha256"
+        if not receipt.exists():
+            result.add_fail(f"[links] expected public artifact missing: {receipt}")
+            artifacts_ok = False
+        if not sidecar.exists():
+            result.add_fail(f"[links] expected public artifact missing: {sidecar}")
+            artifacts_ok = False
+            continue
+        # Validate sidecar filename token.
+        try:
+            sidecar_text = sidecar.read_text(encoding="utf-8").strip()
+        except OSError as exc:
+            result.add_fail(f"[links] cannot read sidecar {sidecar}: {exc}")
+            artifacts_ok = False
+            continue
+        tokens = sidecar_text.split()
+        if len(tokens) >= 2 and tokens[1] != name:
+            result.add_fail(
+                f"[links] sidecar {sidecar} names {tokens[1]!r} but should "
+                f"name {name!r} — sidecar is pointing at the wrong file"
+            )
+            artifacts_ok = False
+    if artifacts_ok:
+        result.add_pass(
+            f"[links] all {len(PUBLIC_RECEIPTS)} receipts + sidecars present, "
+            f"sidecars name the correct receipt file"
+        )
 
     # If verify.html links the standalone verifier, the verifier must exist.
     if verify_html.exists():
-        text = verify_html.read_text(encoding="utf-8", errors="replace")
-        # Look for any link to verify_standalone.py.
+        bad = 0
+        total = 0
         for m in re.finditer(
             r'href=["\']([^"\']*verify_standalone\.py[^"\']*)["\']', text,
         ):
+            total += 1
             href = m.group(1)
-            # Resolve href relative to root for repo-local paths.
-            local = href.lstrip("/")
-            # Strip query / fragment.
-            local = local.split("?", 1)[0].split("#", 1)[0]
+            local = href.lstrip("/").split("?", 1)[0].split("#", 1)[0]
             if not local:
                 continue
             if not (root / local).exists():
@@ -641,7 +898,12 @@ def check_links(root: Path, result: GateResult) -> None:
                     f"[links] verify.html:{line_no}: links {href} but "
                     f"{root / local} does not exist in repo"
                 )
-        result.add_pass("[links] all standalone-verifier links resolve to files in repo")
+                bad += 1
+        if total > 0 and bad == 0:
+            result.add_pass(
+                f"[links] all {total} standalone-verifier link(s) "
+                f"resolve to files in repo"
+            )
 
 
 # ----------------------------------------------------------------------
