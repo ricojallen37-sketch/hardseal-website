@@ -1,121 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hardseal RPO Design Partner Pilot Playbook</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #000; color: #fff; font-family: 'Inter', sans-serif; line-height: 1.6; font-size: 15px; padding: 40px 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; padding-bottom: 20px; border-bottom: 1px solid #222; }
-        header h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-        header a { color: #00ff88; text-decoration: none; font-size: 13px; font-weight: 500; }
-        header a:hover { color: #fff; }
-        .section { margin-bottom: 50px; }
-        .section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #00ff88; margin-bottom: 16px; }
-        .section p { margin-bottom: 12px; color: #ddd; }
-        .section ul { list-style: none; margin-bottom: 12px; }
-        .section li { margin-bottom: 10px; padding-left: 20px; position: relative; color: #ddd; }
-        .section li:before { content: "&rarr;"; position: absolute; left: 0; color: #00ff88; font-weight: 600; }
-        .section strong { color: #fff; }
-        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 12px; }
-        .two-column-item h3 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #fff; margin-bottom: 12px; }
-        .two-column-item ul { list-style: none; }
-        .two-column-item li { margin-bottom: 8px; padding-left: 16px; position: relative; font-size: 14px; color: #bbb; }
-        .two-column-item li:before { content: "&#x25C6;"; position: absolute; left: 0; color: #00ff88; font-size: 6px; top: 6px; }
-        .timeline { border-left: 2px solid #00ff88; padding-left: 24px; }
-        .timeline-item { margin-bottom: 20px; position: relative; }
-        .timeline-item:before { content: ""; width: 10px; height: 10px; background: #00ff88; border-radius: 50%; position: absolute; left: -17px; top: 4px; }
-        .timeline-week { font-weight: 600; color: #fff; font-size: 14px; margin-bottom: 4px; }
-        .timeline-desc { font-size: 14px; color: #aaa; }
-        .callout { background: #0a2818; border: 1px solid #00ff88; border-radius: 3px; padding: 16px; margin: 24px 0; font-size: 14px; color: #ddd; }
-        .callout strong { color: #00ff88; }
-        code { background: #0a0a0a; padding: 2px 6px; border-radius: 2px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #00ff88; }
-        .disclaimer { margin-top: 40px; padding: 16px; background: #0a0a0a; border: 1px solid #1a1a1a; border-radius: 3px; font-size: 12px; color: #777; line-height: 1.5; }
-        footer { margin-top: 80px; padding-top: 20px; border-top: 1px solid #222; text-align: center; font-size: 12px; color: #666; }
-        footer a { color: #00ff88; text-decoration: none; }
-        footer a:hover { color: #fff; }
-        @media (max-width: 768px) { .two-column { grid-template-columns: 1fr; gap: 24px; } body { padding: 24px 16px; font-size: 14px; } header { flex-direction: column; align-items: flex-start; gap: 12px; } }
-        @media print { body { background: #fff; color: #000; padding: 40px; } .section-title { color: #333; } .section p, .section li, .two-column-item li, .timeline-desc, .callout { color: #222; } .section li:before, .two-column-item li:before, .timeline-item:before, .callout strong { color: #0066cc; } .timeline { border-left: 2px solid #0066cc; } code { background: #f0f0f0; color: #000; } .disclaimer { background: #f9f9f9; color: #555; } footer { color: #666; } footer a { color: #0066cc; } h1, h3 { color: #000; } }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hardseal Evidence Integrity Review</title>
+<meta name="description" content="A $5,500 B2B CMMC/NIST 800-171 evidence integrity review for SSP contradictions, AI-generated artifacts, and pre-assessor readiness gaps.">
+<link rel="canonical" href="https://hardseal.ai/pilot.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--panel:#0c0c0c;--border:#1f1f1f;
+  --white:#fff;--gray:#c7c7c7;--muted:#858585;--dim:#555;
+  --green:#00ff88;--green-soft:rgba(0,255,136,.09);--green-line:rgba(0,255,136,.28);
+  --blue:#2f80ff;--blue-soft:rgba(47,128,255,.1);--blue-line:rgba(47,128,255,.45);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:var(--green)}
+.wrap{width:min(1080px,calc(100% - 40px));margin:0 auto}
+header{border-bottom:1px solid var(--border);background:rgba(0,0,0,.9);position:sticky;top:0;z-index:2}
+.nav{height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-family:var(--mono);font-weight:700;letter-spacing:.08em;color:var(--white);border:0}
+.nav-links{display:flex;gap:22px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.hero{padding:84px 0 56px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(47,128,255,.08),transparent 42%)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
+h1{font-size:clamp(34px,6vw,72px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:920px;margin-bottom:20px}
+.sub{max-width:760px;color:var(--gray);font-size:19px;line-height:1.7;margin-bottom:34px}
+.actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.button{display:inline-flex;align-items:center;justify-content:center;padding:14px 18px;border-radius:3px;background:linear-gradient(180deg,#3b8cff,#1267d8);color:#fff;border:1px solid #3b8cff;font-family:var(--mono);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.button:hover{color:#fff;border-bottom-color:#3b8cff;filter:brightness(1.12)}
+.button.secondary{background:transparent;color:var(--white);border-color:var(--border)}
+.button.secondary:hover{background:var(--blue-soft);color:var(--white);border-color:var(--blue-line)}
+.notice{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--muted);max-width:720px}
+section{padding:58px 0;border-bottom:1px solid var(--border);scroll-margin-top:74px}
+h2{font-size:clamp(24px,3vw,38px);line-height:1.2;color:var(--white);letter-spacing:-.02em;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:22px}
+.card .label{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:10px}
+.card h3{font-size:18px;color:var(--white);margin-bottom:8px}
+.card p,.card li{font-size:14px;color:var(--gray)}
+.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:26px}
+.step{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:20px;display:grid;grid-template-columns:42px 1fr;gap:14px}
+.step-num{width:36px;height:36px;border:1px solid var(--blue-line);border-radius:999px;color:var(--blue);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:800;background:var(--blue-soft)}
+.step h3{font-size:17px;color:var(--white);margin-bottom:6px}
+.step p{font-size:14px;color:var(--gray)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+.callout{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:22px}
+.callout h3{font-size:18px;color:var(--white);margin-bottom:8px}
+.callout p{font-size:14px;color:var(--gray)}
+.faq{display:grid;gap:12px;margin-top:26px}
+.qa{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:18px}
+.qa h3{font-size:16px;color:var(--white);margin-bottom:6px}
+.qa p{font-size:14px;color:var(--gray)}
+ul{list-style:none}
+li{padding:8px 0;border-bottom:1px solid #151515}
+li:last-child{border-bottom:0}
+li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
+.scope{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-top:26px}
+.price-box{background:linear-gradient(180deg,var(--blue-soft),transparent),var(--panel);border:1px solid var(--blue-line);border-radius:8px;padding:26px}
+.price{font-family:var(--mono);font-size:44px;color:var(--white);font-weight:800;line-height:1;margin-bottom:8px}
+.price-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:22px}
+.fine{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7;margin-top:16px}
+.disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
+footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
+@media(max-width:800px){.grid,.scope,.steps,.split{grid-template-columns:1fr}.nav{height:auto;padding:16px 0;align-items:flex-start;flex-direction:column}.nav-links{flex-wrap:wrap}.hero{padding-top:56px}.step{grid-template-columns:1fr}.step-num{margin-bottom:2px}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Hardseal RPO Pilot</h1>
-            <a href="https://hardseal.ai">&larr; Back to hardseal.ai</a>
-        </header>
-        <div class="section">
-            <div class="section-title">Overview</div>
-            <p>The <strong>Hardseal Design Partner Engagement</strong> is a focused 2&ndash;4 week pilot designed to integrate the Hardseal compliance evidence engine into an RPO's existing CMMC assessment workflow.</p>
-            <p>The engagement validates Hardseal's offline-first, OSCAL-native evidence collection against a single real (or representative) CMMC Level 2 enclave. <strong>Goal:</strong> prove the tool saves time and produces verifiable evidence artifacts before broader rollout.</p>
-        </div>
-        <div class="section">
-            <div class="section-title">Scope</div>
-            <ul>
-                <li>One defined client environment (1 enclave)</li>
-                <li>Full NIST 800-171 Rev 2 evidence collection across all 14 control families (110 controls)</li>
-                <li><code>OSCAL v1.1.2</code> output with HMAC-SHA256 keyed authentication (FIPS 198-1)</li>
-                <li>Baseline &rarr; Current &rarr; Diff &rarr; OSCAL export &rarr; HTML report pipeline</li>
-                <li>Air-gapped or connected &mdash; works in both</li>
-            </ul>
-        </div>
-        <div class="section">
-            <div class="section-title">What We Each Bring</div>
-            <div class="two-column">
-                <div class="two-column-item">
-                    <h3>RPO Provides</h3>
-                    <ul>
-                        <li>Access to one client enclave (or representative test environment)</li>
-                        <li>Subject matter expertise on current assessment workflow</li>
-                        <li>Feedback on evidence quality and assessor readiness</li>
-                        <li>2&ndash;3 hours per week for check-ins</li>
-                    </ul>
-                </div>
-                <div class="two-column-item">
-                    <h3>Hardseal Provides</h3>
-                    <ul>
-                        <li>Full Hardseal deployment (zero dependencies, pure Python stdlib)</li>
-                        <li>Onboarding and configuration support</li>
-                        <li>Custom control family mapping if needed</li>
-                        <li>Ongoing iteration based on your feedback</li>
-                        <li>All OSCAL output files and HTML reports</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="section">
-            <div class="section-title">Timeline</div>
-            <div class="timeline">
-                <div class="timeline-item"><div class="timeline-week">Week 1: Onboarding</div><div class="timeline-desc">Deploy Hardseal, configure for enclave, run baseline snapshot</div></div>
-                <div class="timeline-item"><div class="timeline-week">Week 2: Evidence Collection</div><div class="timeline-desc">Full 110-control evidence run, OSCAL export, initial review</div></div>
-                <div class="timeline-item"><div class="timeline-week">Week 3: Refinement</div><div class="timeline-desc">RPO feedback integration, evidence quality tuning, assessor readiness check</div></div>
-                <div class="timeline-item"><div class="timeline-week">Week 4: Deliverables</div><div class="timeline-desc">Final OSCAL package, HTML report, pilot summary, go/no-go decision</div></div>
-            </div>
-        </div>
-        <div class="section">
-            <div class="section-title">Deliverables</div>
-            <ul>
-                <li>Validated <code>OSCAL v1.1.2</code> component definition (machine-readable, FedRAMP-format compatible)</li>
-                <li>HMAC-SHA256 + SHA-256 hash chain evidence (offline-verifiable, reproducible; a naive or accidental modification breaks the chain, a full rebuild does not &mdash; that is what the operator-held signing secret is for)</li>
-                <li>HTML assessment report (human-readable, shareable with clients)</li>
-                <li>Snapshot diff analysis (baseline vs current state)</li>
-                <li>Pilot summary with time-saved metrics vs manual collection</li>
-            </ul>
-        </div>
-        <div class="section">
-            <div class="section-title">Founding Partner Pricing</div>
-            <div class="callout">
-                <strong>Pilot engagement:</strong> Complimentary for first 3 design partners<br>
-                <strong>Post-pilot per-enclave licensing:</strong> Founding partner rate (locked for 12 months)<br>
-                <strong>No SaaS subscription. No cloud dependency. No per-seat fees.</strong>
-            </div>
-            <p style="color: #aaa; font-style: italic;">We're selecting 3 RPOs for founding partnerships. Priority goes to firms with active CMMC assessment pipelines.</p>
-        </div>
-        <div class="disclaimer"><strong>Hardseal Assessment Notice:</strong> Hardseal is assessment support software provided by Bulwark Systems. Hardseal is not a C3PAO, does not certify organizations, and does not replace professional assessment judgment. All compliance decisions remain the responsibility of the RPO and their clients.</div>
-        <footer>Hardseal &middot; Bulwark Systems &middot; April 2026 &middot; <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a></footer>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/">HARDSEAL</a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="/">Verifier</a>
+      <a href="/#pricing">Pricing</a>
+      <a href="/trophy-case.html">Trophy Case</a>
+      <a href="mailto:hello@hardseal.ai">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Evidence Integrity Review · CMMC / NIST 800-171</div>
+      <h1>Find the gaps before the assessor does.</h1>
+      <p class="sub">Hardseal reviews your compliance evidence package for SSP-to-evidence contradictions, AI-generated artifacts, boilerplate risk, and pre-assessor readiness gaps. You get a clear diagnostic path without a certification claim.</p>
+      <div class="actions">
+        <a class="button" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Start $5,500 review</a>
+        <a class="button secondary" href="mailto:hello@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review">Request invoice</a>
+        <a class="button secondary" href="/start.html">After payment</a>
+      </div>
+      <p class="notice">Buyer fields collected at checkout: email, full name, and business name. Card, Apple Pay, Link, and selected Stripe payment methods may appear based on buyer eligibility.</p>
     </div>
+  </section>
+
+  <section id="client-path">
+    <div class="wrap">
+      <h2>What the review covers</h2>
+      <div class="grid">
+        <article class="card">
+          <div class="label">Contradictions</div>
+          <h3>SSP vs. evidence</h3>
+          <p>We compare what the SSP claims against what the evidence actually supports, then flag supported, partial, contradicted, and no-evidence items.</p>
+        </article>
+        <article class="card">
+          <div class="label">AI artifact risk</div>
+          <h3>Generated theater check</h3>
+          <p>We screen for prompt leakage, boilerplate clustering, suspicious timestamp patterns, generic narratives, and unsupported references.</p>
+        </article>
+        <article class="card">
+          <div class="label">Readiness path</div>
+          <h3>Fix what matters first</h3>
+          <p>You receive field-level findings and a prioritized remediation path so your team can move toward stronger evidence before formal review.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>The client path, start to finish</h2>
+      <p class="sub">The review is built to be simple for busy teams: start the review, confirm scope, send the evidence package through an agreed handoff path, receive findings, and decide what to fix next.</p>
+      <div class="steps">
+        <article class="step">
+          <div class="step-num">01</div>
+          <div>
+            <h3>Start review or request invoice</h3>
+            <p>Use Stripe for card payment, or email for purchase order and invoice workflow. Stripe is payment only. Do not send sensitive evidence through checkout.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-num">02</div>
+          <div>
+            <h3>Confirm scope</h3>
+            <p>Hardseal confirms the matter type, evidence set, target controls, timeline, contact owner, and whether the review is for a contractor, MSP, RPO, or consultant-supported team.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-num">03</div>
+          <div>
+            <h3>Coordinate evidence handoff</h3>
+            <p>You receive the agreed handoff instructions. The goal is a clean packet: SSP or draft SSP, policies, screenshots, exports, tickets, POA&amp;M notes, and relevant control evidence.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-num">04</div>
+          <div>
+            <h3>Review claims against proof</h3>
+            <p>Hardseal checks where the narrative is supported, partial, contradicted, or not yet evidenced. The review also looks for AI/boilerplate signals and unsupported language.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-num">05</div>
+          <div>
+            <h3>Receive findings</h3>
+            <p>You get a clear findings packet with contradiction notes, risk notes, remediation priorities, and plain-English rationale your team can act on.</p>
+          </div>
+        </article>
+        <article class="step">
+          <div class="step-num">06</div>
+          <div>
+            <h3>Walk through next steps</h3>
+            <p>If included or requested, Hardseal walks through the findings so your team can decide what to fix, what to clarify, and what needs a follow-up readiness sprint.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>What to prepare</h2>
+      <div class="split">
+        <div class="callout">
+          <h3>Useful inputs</h3>
+          <ul>
+            <li>Current SSP or draft SSP</li>
+            <li>Control evidence folders or exports</li>
+            <li>POA&amp;M notes and status claims</li>
+            <li>Policies tied to reviewed controls</li>
+            <li>Screenshots, logs, tickets, and configuration exports</li>
+          </ul>
+        </div>
+        <div class="callout">
+          <h3>Best fit</h3>
+          <ul>
+            <li>Teams preparing for CMMC Level 2 evidence review</li>
+            <li>MSPs supporting DIB customers</li>
+            <li>RPOs and consultants who want a second-pass evidence check</li>
+            <li>Founders who know their SSP may be ahead of their proof</li>
+            <li>Operators who want weak evidence found early</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap scope">
+      <div>
+        <h2>Deliverables</h2>
+        <ul>
+          <li>Evidence Integrity Review summary</li>
+          <li>SSP-to-evidence contradiction notes</li>
+          <li>AI-generated artifact and boilerplate risk notes</li>
+          <li>Top remediation priorities with plain-English rationale</li>
+          <li>Guided intake checklist through the customer start path</li>
+          <li>Optional follow-up call to walk through the findings</li>
+        </ul>
+      </div>
+      <aside class="price-box">
+        <div class="price">$5,500</div>
+        <div class="price-note">One-time B2B review</div>
+        <a class="button" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay with Stripe</a>
+        <p class="fine">After payment or invoice request, use the <a href="/start.html">customer start path</a> to begin scope confirmation.</p>
+        <p class="fine">Need purchase order or invoice workflow? Email <a href="mailto:hello@hardseal.ai">hello@hardseal.ai</a>.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Questions before you start</h2>
+      <div class="faq">
+        <article class="qa">
+          <h3>Can I pay first and send evidence later?</h3>
+          <p>Yes. Payment starts the engagement, then Hardseal coordinates scope and evidence handoff. If your organization needs procurement review, request invoice first.</p>
+        </article>
+        <article class="qa">
+          <h3>Do I need a finished SSP?</h3>
+          <p>No. A draft can be reviewed if it is the current working narrative. The goal is to compare what the packet claims against what the artifacts support.</p>
+        </article>
+        <article class="qa">
+          <h3>Is this a formal assessment?</h3>
+          <p>No. It is evidence integrity support before formal review. Your assessor or authorized assessment organization makes formal assessment decisions.</p>
+        </article>
+        <article class="qa">
+          <h3>What happens if my packet is not ready?</h3>
+          <p>You still get value. The findings show where evidence is missing, contradictory, generic, unsupported, or worth fixing before a formal review.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="disclaimer"><strong>Assessment notice:</strong> Hardseal is assessment support software and evidence integrity review. Hardseal is not a C3PAO, does not certify compliance, does not make final assessment determinations, and does not replace a third-party assessor. The review helps teams find and fix evidence issues before formal review.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  Hardseal LLC · Florida, USA · Not a C3PAO · Assessment support software
+</footer>
 </body>
 </html>
