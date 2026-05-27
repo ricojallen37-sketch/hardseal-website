@@ -607,10 +607,10 @@ python3 verify/verify_standalone.py .</pre>
       <h2 id="provenance-title">Provenance status</h2>
       <p>
         The public IR pack proves local integrity of the packet you received.
-        In customer delivery, the next layer is origin binding: a detached
-        signature over the package root so the reviewer can verify who sealed
-        the packet, not only whether this copy still matches its recorded
-        hashes.
+        In customer delivery, the next layer is origin context: reviewer-held
+        delivery records and customer-specific handoff evidence that connect
+        the packet to the delivery workflow, not only whether this copy still
+        matches its recorded hashes.
       </p>
       <div class="provenance">
         <div>
@@ -619,7 +619,7 @@ python3 verify/verify_standalone.py .</pre>
         </div>
         <div>
           <strong>Delivery-grade provenance layer</strong>
-          <span>A root-hash signature or customer-held HMAC secret binds the packet to the producer. Do not treat this public demo as a provenance proof.</span>
+          <span>Customer-specific handoff evidence connects the packet to the delivery workflow. Do not treat this public demo as a provenance proof.</span>
         </div>
       </div>
     </section>
