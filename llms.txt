@@ -1,0 +1,67 @@
+# Hardseal
+
+Hardseal helps CMMC and NIST SP 800-171 teams find weak evidence before formal review.
+
+## Primary Offer
+
+Hardseal Evidence Integrity Review
+
+Price: $5,500 one-time B2B review
+
+URL: https://hardseal.ai/pilot.html
+
+## Who It Helps
+
+- Defense contractors
+- DIB suppliers
+- MSPs supporting GovCon clients
+- RPOs and CMMC consultants
+- GovCon cybersecurity teams
+- NIST SP 800-171 programs preparing evidence packages
+
+## What It Reviews
+
+- SSPs
+- POA&Ms
+- SPRS snapshots
+- Policies
+- Screenshots
+- Tickets
+- Exports
+- Control evidence
+- Compliance evidence packages
+
+## What It Finds
+
+- SSP-to-evidence contradictions
+- Unsupported control claims
+- POA&M and SPRS inconsistencies
+- AI-generated or boilerplate artifact risk
+- Missing proof
+- Readiness gaps before formal review
+
+## Important Boundary
+
+Hardseal does not certify compliance.
+
+Hardseal does not replace a C3PAO.
+
+Hardseal does not make final assessment determinations.
+
+Hardseal provides pre-assessment evidence integrity support.
+
+## Search Terms
+
+Hardseal, Evidence Integrity Review, CMMC, NIST SP 800-171, DFARS 252.204-7012, SSP, POA&M, SPRS, C3PAO readiness, RPO, MSP, DIB contractor, defense contractor, GovCon cybersecurity, evidence integrity, AI-generated evidence, boilerplate compliance evidence, compliance evidence review.
+
+## Contact
+
+Website: https://hardseal.ai/
+
+Offer page: https://hardseal.ai/pilot.html
+
+Email: hello@hardseal.ai
+
+Founder: Rico Allen
+
+LinkedIn: https://www.linkedin.com/in/ricoallenhardseal/
