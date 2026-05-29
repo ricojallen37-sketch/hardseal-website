@@ -10,6 +10,23 @@ Price: $5,500 one-time B2B review
 
 URL: https://hardseal.ai/pilot.html
 
+## Public Proof
+
+AI-era evidence contamination engine:
+https://github.com/ricojallen37-sketch/ai-detection
+
+Current public release:
+https://github.com/ricojallen37-sketch/ai-detection/releases/tag/v1.1.0
+
+Proof points:
+
+- MIT-licensed public repository
+- Python standard library only
+- No phone-home requirement
+- 107-test suite
+- GitHub Actions CI across Python 3.10, 3.11, and 3.12
+- Commitment verification for the frozen v0.2 scoring bundle
+
 ## Who It Helps
 
 - Defense contractors
