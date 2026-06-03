@@ -280,11 +280,11 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
     radial-gradient(circle at 82% 18%,rgba(47,128,255,.12),transparent 34%),
     var(--bg);
 }
-.hero-grid{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:.88fr 1.12fr;gap:56px;align-items:center}
-.hero-grid,.hero-copy,.chain-board,.path-strip,.path-step,.verification-lab{min-width:0}
+.hero-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero-grid,.hero-copy,.chain-board,.path-strip,.path-step,.verification-lab,.offer-panel{min-width:0}
 .classification{display:inline-flex;border:1px solid var(--blue-line);color:var(--blue);font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:9px 12px;margin-bottom:24px;background:rgba(47,128,255,.05)}
-.launch-hero h1{font-size:clamp(42px,6vw,86px);line-height:.98;letter-spacing:-.05em;max-width:780px;margin:0 0 24px;color:var(--white)}
-.launch-hero .hero-sub{font-family:var(--sans);font-size:clamp(18px,1.7vw,23px);line-height:1.55;color:var(--gray1);max-width:680px;margin:0 0 30px}
+.launch-hero h1{font-size:clamp(38px,5.4vw,72px);line-height:1.02;letter-spacing:-.04em;max-width:780px;margin:0 0 24px;color:var(--white)}
+.launch-hero .hero-sub{font-family:var(--sans);font-size:clamp(18px,1.45vw,21px);line-height:1.6;color:var(--gray1);max-width:680px;margin:0 0 30px}
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
 .action-primary,.action-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:14px 20px;border-radius:2px;font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--blue-line)}
 .action-primary{background:linear-gradient(180deg,#3b8cff,#1267d8);color:#fff;border-color:#3b8cff;box-shadow:0 0 26px rgba(47,128,255,.18)}
@@ -294,6 +294,16 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .hero-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:720px}
 .hero-proof span{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray1);display:flex;gap:8px;align-items:flex-start;min-width:0}
 .hero-proof span::before{content:"";width:8px;height:8px;margin-top:5px;border:1px solid var(--blue);background:var(--blue-dim);flex-shrink:0}
+.offer-panel{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(47,128,255,.08),rgba(255,255,255,.015));padding:28px 24px;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+.offer-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
+.offer-title{font-size:26px;line-height:1.18;color:var(--white);font-weight:650;letter-spacing:-.02em;margin-bottom:14px}
+.offer-price{font-family:var(--mono);font-size:38px;line-height:1;color:var(--green);font-weight:800;margin-bottom:8px}
+.offer-note{font-family:var(--mono);font-size:12px;color:var(--gray2);line-height:1.7;margin-bottom:20px}
+.offer-list{list-style:none;margin:0 0 22px;padding:0}
+.offer-list li{border-bottom:1px solid var(--border);padding:10px 0;color:var(--gray1);font-size:14px;display:grid;grid-template-columns:92px 1fr;gap:12px}
+.offer-list li::before{content:attr(data-label);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin:0}
+.offer-panel .action-primary,.offer-panel .action-secondary{width:100%;margin-top:10px}
+.proof-caption{font-family:var(--mono);font-size:11px;color:var(--gray3);line-height:1.7;margin-top:14px}
 .chain-board{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(47,128,255,.06),rgba(255,255,255,.015));padding:28px 24px;box-shadow:0 24px 80px rgba(0,0,0,.55)}
 .chain-title{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:28px}
 .chain-title::before,.chain-title::after{content:"";height:1px;background:var(--blue-line);flex:1}
@@ -343,6 +353,10 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
   .launch-hero .hero-sub{font-size:17px;max-width:100%;overflow-wrap:break-word;word-break:break-word}
   .action-primary,.action-secondary{width:100%;text-align:center;font-size:11px;line-height:1.45;white-space:normal;overflow-wrap:anywhere}
   .hero-proof{grid-template-columns:1fr;gap:10px}
+  .offer-panel{padding:22px 18px}
+  .offer-title{font-size:22px}
+  .offer-price{font-size:32px}
+  .offer-list li{grid-template-columns:1fr;gap:4px}
   .chain-board{width:100%;padding:24px 18px;overflow:hidden}
   .chain-title{font-size:10px;gap:8px}
   .chain-stage{grid-template-columns:64px minmax(0,1fr)}
@@ -459,94 +473,51 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 <main>
 
 <!-- ============== TRY-NOW BAND ============== -->
-<div class="try-now-band" role="region" aria-label="30-second offline verify">
-  <span class="label">Launch rail:</span>
-  <a href="/pilot.html">Request Evidence Integrity Review</a>
+<div class="try-now-band" role="region" aria-label="Hardseal primary buyer path">
+  <span class="label">Now booking:</span>
+  <a href="/pilot.html">Evidence Integrity Review</a>
   <span class="sep">·</span>
-  <a href="/start.html">Customer start path</a>
+  <a href="mailto:hello@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review">Request invoice</a>
   <span class="sep">·</span>
-  <a href="/client-experience.html">Client experience</a>
+  <a href="/client-experience.html">See client path</a>
   <span class="sep">·</span>
-  <a href="/verify.html">30-second offline verify</a>
-  <span class="sep">·</span>
-  <a href="/sample-packet-receipt1.json" download>demo replay packet</a>
-  <span class="sep">·</span>
-  <a href="/sample-packet-receipt1.json.sha256" download>SHA-256</a>
-  <div class="try-now-note">Buyer path and proof path now live locally: scope first, secure handoff next, findings after review.</div>
+  <a href="/verify.html">Verify a sample packet</a>
+  <div class="try-now-note">$5,500 one-time review for CMMC/NIST evidence packages. Hardseal does not certify compliance or replace a C3PAO.</div>
 </div>
 
 <!-- ============== HERO ============== -->
 <section class="hero launch-hero" aria-labelledby="hero-h1">
   <div class="hero-grid">
     <div class="hero-copy">
-      <div class="classification">CMMC Level 2 · NIST 800-171 Rev. 2</div>
-      <h1 id="hero-h1">Evidence integrity for AI-era CMMC readiness</h1>
-      <p class="hero-sub">Find weak claims, contradiction risk, and unsupported evidence before a formal review. Hardseal helps teams turn messy compliance packets into a cleaner path of scope, evidence, findings, and next actions.</p>
+      <div class="classification">CMMC Level 2 · NIST SP 800-171</div>
+      <h1 id="hero-h1">Find weak evidence before formal review.</h1>
+      <p class="hero-sub">Hardseal reviews SSPs, POA&amp;Ms, SPRS snapshots, policies, screenshots, exports, tickets, and control evidence for unsupported claims, contradictions, AI/boilerplate risk, and readiness gaps.</p>
       <div class="hero-actions">
-        <a class="action-primary" href="/pilot.html">Request Evidence Integrity Review →</a>
-        <a class="action-secondary" href="/start.html">Start customer path →</a>
-        <a class="action-secondary" href="/client-experience.html">See client experience →</a>
+        <a class="action-primary" href="/pilot.html">Start $5,500 review</a>
+        <a class="action-secondary" href="mailto:hello@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review">Request invoice</a>
+        <a class="action-secondary" href="/client-experience.html">See client path</a>
       </div>
       <div class="hero-proof" aria-label="Hardseal review capabilities">
-        <span>Claims vs. proof gap analysis</span>
-        <span>Contradiction detection</span>
-        <span>AI artifact risk screen</span>
-        <span>Privacy-first handoff</span>
+        <span>SSP vs. evidence gaps</span>
+        <span>Unsupported control claims</span>
+        <span>AI and boilerplate risk</span>
+        <span>Prioritized remediation path</span>
       </div>
     </div>
 
-    <div class="chain-board" aria-label="Hardseal evidence integrity workflow">
-      <div class="chain-title">Verification chain</div>
-      <div class="chain-stages">
-        <div class="chain-stage">
-          <div class="chain-icon">01</div>
-          <div>
-            <h3>Collect</h3>
-            <p>You identify evidence artifacts and context.</p>
-          </div>
-        </div>
-        <div class="chain-arrow">→</div>
-        <div class="chain-stage">
-          <div class="chain-icon">02</div>
-          <div>
-            <h3>Map</h3>
-            <p>Artifacts are mapped to claims and objectives.</p>
-          </div>
-        </div>
-        <div class="chain-arrow">→</div>
-        <div class="chain-stage">
-          <div class="chain-icon">03</div>
-          <div>
-            <h3>Analyze</h3>
-            <p>Hardseal reviews contradictions and artifact risk.</p>
-          </div>
-        </div>
-        <div class="chain-arrow">→</div>
-        <div class="chain-stage">
-          <div class="chain-icon">04</div>
-          <div>
-            <h3>Validate</h3>
-            <p>Findings are organized by support and risk.</p>
-          </div>
-        </div>
-        <div class="chain-arrow">→</div>
-        <div class="chain-stage">
-          <div class="chain-icon">05</div>
-          <div>
-            <h3>Deliver</h3>
-            <p>You receive a readiness packet with actions.</p>
-          </div>
-        </div>
-      </div>
-      <div class="chain-timeline" aria-hidden="true">
-        <span class="chain-lock">▣</span>
-        <span class="chain-lock">▣</span>
-        <span class="chain-lock">▣</span>
-        <span class="chain-lock">▣</span>
-        <span class="chain-lock">▣</span>
-      </div>
-      <div class="attestation">Integrity chain</div>
-      <p class="chain-note">A disciplined route from evidence intake to risk findings. No certification claim. No assessment replacement.</p>
+    <div class="offer-panel" aria-label="Hardseal Evidence Integrity Review offer">
+      <div class="offer-kicker">First paid offer</div>
+      <div class="offer-title">Evidence Integrity Review for CMMC/NIST teams.</div>
+      <div class="offer-price">$5,500</div>
+      <div class="offer-note">One-time diagnostic review. Clear scope, clean handoff, field-level findings, and next actions.</div>
+      <ul class="offer-list">
+        <li data-label="Inputs">SSP, POA&amp;M, SPRS, policies, screenshots, tickets, exports, and control evidence.</li>
+        <li data-label="Output">Findings packet showing supported, partial, contradicted, and missing evidence.</li>
+        <li data-label="Boundary">Pre-assessment support only. Hardseal does not certify, assess, or guarantee compliance.</li>
+      </ul>
+      <a class="action-primary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Start review</a>
+      <a class="action-secondary" href="/pilot.html">Read full scope</a>
+      <p class="proof-caption">Want proof first? Use the browser verifier below or inspect a sample packet before you buy.</p>
     </div>
   </div>
 
