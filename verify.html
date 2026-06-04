@@ -285,12 +285,15 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:14px 18px;margin-top:14px;line-height:1.6">
       <strong>Disclaimer (rendered with hedged language; see the packet's <code>limitations[]</code> field for the on-disk version, which is pending a regen pass to match):</strong><br><br>
-      This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces hash-chained, offline-verifiable evidence only; a passing verification proves the artifact is internally consistent and free of accidental change. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.
+      This is a synthetic demo replay artifact created for verification exercise only. Hardseal does not certify, assess, or guarantee any regulatory outcome (including CMMC 2.0 or NIST SP 800-171 compliance). It produces hash-chained, offline-verifiable evidence only; a passing verification indicates only that the packet produced no detected hash, schema, or chain mismatch under the verifier's published logic. It does not prove the truth, completeness, legal sufficiency, compliance status, assessor acceptance, or absence of all tampering or error in the underlying activity, system, evidence, or control. Your assessor decides truth. Do not use this artifact as live evidence or compliance proof.
     </div>
   </div>
 
   <div class="panel">
     <h2>// Packet input</h2>
+    <div style="background:rgba(255,189,46,0.06);border:1px solid #FFBD2E;color:#FFBD2E;font-family:var(--mono);font-size:12px;padding:12px 16px;margin-bottom:14px;line-height:1.6">
+      Verification runs entirely in your browser — nothing is transmitted to Hardseal. Even so, do not paste CUI, CDI, export-controlled data, credentials, production secrets, or incident data here. This is a public verification surface; use sanitized or synthetic packets only.
+    </div>
     <textarea id="packet" placeholder="Paste packet.json contents here..." spellcheck="false"></textarea>
     <div class="row">
       <button class="btn" id="verifyBtn">Verify packet</button>
