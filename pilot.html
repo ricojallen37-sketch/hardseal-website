@@ -72,7 +72,7 @@ a:hover{border-bottom-color:var(--green)}
 header{border-bottom:1px solid var(--border);background:rgba(0,0,0,.9);position:sticky;top:0;z-index:2}
 .nav{height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{font-family:var(--mono);font-weight:700;letter-spacing:.08em;color:var(--white);border:0}
-.nav-links{display:flex;gap:22px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+  .nav-links{display:flex;gap:22px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 .hero{padding:84px 0 56px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(47,128,255,.08),transparent 42%)}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:18px;overflow-wrap:anywhere}
 h1{font-size:clamp(34px,6vw,72px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:920px;margin-bottom:20px}
@@ -111,12 +111,31 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
 .price-box{background:linear-gradient(180deg,var(--blue-soft),transparent),var(--panel);border:1px solid var(--blue-line);border-radius:8px;padding:26px}
 .price{font-family:var(--mono);font-size:44px;color:var(--white);font-weight:800;line-height:1;margin-bottom:8px}
 .price-note{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:22px}
-.fine{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7;margin-top:16px}
-.disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
-footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
-@media(max-width:800px){
-  .wrap{width:320px;max-width:calc(100% - 40px);padding:0;margin:0 0 0 20px}
-  .grid,.scope,.steps,.split{grid-template-columns:1fr}
+  .fine{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7;margin-top:16px}
+  .disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
+  .intake-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.62fr);gap:16px;align-items:start;margin-top:26px}
+  .intake-form,.intake-output{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:22px}
+  .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .field{display:grid;gap:7px}
+  .field.full{grid-column:1/-1}
+  label,.form-title{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue)}
+  input,select,textarea{width:100%;border:1px solid var(--border);background:#050505;color:var(--white);border-radius:4px;padding:12px;font:14px/1.45 var(--sans);outline:none}
+  input:focus,select:focus,textarea:focus{border-color:var(--blue-line);box-shadow:0 0 0 3px var(--blue-soft)}
+  textarea{min-height:104px;resize:vertical}
+  .checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .check{display:flex;align-items:flex-start;gap:8px;background:#070707;border:1px solid #171717;border-radius:6px;padding:10px;color:var(--gray);font-size:13px;line-height:1.35}
+  .check input{width:auto;margin-top:2px;accent-color:var(--blue)}
+  .form-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+  .form-actions .button{cursor:pointer}
+  .result-pill{display:inline-flex;align-items:center;min-height:32px;padding:6px 10px;border-radius:999px;border:1px solid var(--blue-line);background:var(--blue-soft);color:var(--white);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+  .intake-output h3{font-size:20px;color:var(--white);margin-bottom:8px}
+  .intake-output p{font-size:14px;color:var(--gray);margin-bottom:14px}
+  #briefOutput{min-height:300px;font-family:var(--mono);font-size:12px;color:var(--gray);white-space:pre-wrap}
+  .small-status{min-height:20px;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--green)}
+  footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
+  @media(max-width:800px){
+    .wrap{width:320px;max-width:calc(100% - 40px);padding:0;margin:0 0 0 20px}
+    .grid,.scope,.steps,.split,.intake-shell,.form-grid,.checks{grid-template-columns:1fr}
   .nav{height:auto;padding:16px 0;align-items:flex-start;flex-direction:column}
   .nav-links{width:100%;flex-wrap:wrap;gap:12px 18px}
   .nav-links a{font-size:11px;overflow-wrap:anywhere}
@@ -126,11 +145,14 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
   .actions{display:grid;grid-template-columns:1fr;gap:12px;width:100%}
   .button{width:100%;font-size:11px;line-height:1.45}
   .notice,.fine,.card p,.card li,.step p,.callout p,.qa p{overflow-wrap:anywhere}
-  .card,.callout,.qa,.price-box{overflow:hidden}
-  .step{grid-template-columns:1fr}
-  .step-num{margin-bottom:2px}
-  .price{font-size:36px;overflow-wrap:anywhere}
-}
+    .card,.callout,.qa,.price-box{overflow:hidden}
+    .step{grid-template-columns:1fr}
+    .step-num{margin-bottom:2px}
+    .price{font-size:36px;overflow-wrap:anywhere}
+    .intake-form,.intake-output{padding:18px;overflow:hidden}
+    .form-actions{display:grid;grid-template-columns:1fr}
+    #briefOutput{min-height:260px}
+  }
 </style>
 </head>
 <body>
@@ -142,7 +164,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
       <a href="/#pricing">Pricing</a>
       <a href="/client-experience.html">Experience</a>
       <a href="/trophy-case.html">Trophy Case</a>
-      <a href="mailto:hello@hardseal.ai">Contact</a>
+        <a href="#intake">Start</a>
     </nav>
   </div>
 </header>
@@ -152,15 +174,136 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
     <div class="wrap">
       <div class="eyebrow">Evidence Integrity Review · CMMC / NIST 800-171</div>
       <h1>First 5 reviews free.</h1>
-      <p class="sub">Hardseal reviews your compliance evidence package for SSP-to-evidence contradictions, AI-generated artifacts, boilerplate risk, and pre-assessor readiness gaps. Standard value is $5,500. You get a clear diagnostic path without a certification claim.</p>
-      <div class="actions">
-        <a class="button" href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application&body=Company%20name%3A%0AWebsite%3A%0ARole%3A%0AAre%20you%20preparing%20for%20CMMC%20or%20NIST%20SP%20800-171%3F%0AWhat%20evidence%20packet%20do%20you%20want%20reviewed%3F%0ATimeline%3A%0A">Apply for free review</a>
-        <a class="button secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Standard paid review</a>
-        <a class="button secondary" href="/client-experience.html">See client path</a>
+        <p class="sub">Hardseal reviews your compliance evidence package for SSP-to-evidence contradictions, AI-generated artifacts, boilerplate risk, and pre-assessor readiness gaps. Standard value is $5,500. Start on-page, generate your scoping brief instantly, and move without waiting on a blank email.</p>
+        <div class="actions">
+          <a class="button" href="#intake">Start self-service intake</a>
+          <a class="button secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Standard paid review</a>
+          <a class="button secondary" href="/client-experience.html">See client path</a>
+        </div>
+        <p class="notice">First contact is scope only. Do not send CUI, credentials, screenshots, or sensitive evidence through this page, email, or checkout. Hardseal confirms the handoff path after fit and scope are clear.</p>
       </div>
-      <p class="notice">First contact is scope only. Do not send sensitive evidence through email or checkout. Hardseal confirms the handoff path after fit and scope are clear.</p>
-    </div>
-  </section>
+    </section>
+
+    <section id="intake">
+      <div class="wrap">
+        <h2>Self-service intake</h2>
+        <p class="sub">Answer the scoping questions, get an instant fit signal, and create a clean brief your team can copy, download, or send. No sensitive evidence is collected here.</p>
+        <div class="intake-shell">
+          <form class="intake-form" id="intakeForm">
+            <div class="form-grid">
+              <div class="field">
+                <label for="company">Company</label>
+                <input id="company" name="company" autocomplete="organization" placeholder="Company name">
+              </div>
+              <div class="field">
+                <label for="website">Website</label>
+                <input id="website" name="website" autocomplete="url" placeholder="https://">
+              </div>
+              <div class="field">
+                <label for="contact">Contact</label>
+                <input id="contact" name="contact" autocomplete="name" placeholder="Name">
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="name@company.com">
+              </div>
+              <div class="field">
+                <label for="role">Role</label>
+                <input id="role" name="role" placeholder="Founder, CISO, MSP lead">
+              </div>
+              <div class="field">
+                <label for="orgType">Organization</label>
+                <select id="orgType" name="orgType">
+                  <option value="">Select one</option>
+                  <option>DIB contractor</option>
+                  <option>MSP serving DIB customers</option>
+                  <option>RPO or CMMC consultant</option>
+                  <option>Prime or subcontractor team</option>
+                  <option>Other regulated team</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="framework">Framework</label>
+                <select id="framework" name="framework">
+                  <option value="">Select one</option>
+                  <option>CMMC Level 2</option>
+                  <option>NIST SP 800-171</option>
+                  <option>DFARS 252.204-7012 support</option>
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="timeline">Timeline</label>
+                <select id="timeline" name="timeline">
+                  <option value="">Select one</option>
+                  <option>0-30 days</option>
+                  <option>31-90 days</option>
+                  <option>3-6 months</option>
+                  <option>6+ months</option>
+                  <option>Exploring only</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="stage">Evidence stage</label>
+                <select id="stage" name="stage">
+                  <option value="">Select one</option>
+                  <option>We have an SSP or draft SSP</option>
+                  <option>We have SSP, POA&M, and evidence folders</option>
+                  <option>We are fixing findings from a prior review</option>
+                  <option>We need a second pass before formal review</option>
+                  <option>We are just starting</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="packet">Packet to review</label>
+                <textarea id="packet" name="packet" placeholder="Describe the packet at a high level. Example: SSP draft, POA&M, M365 screenshots, policy folder, ticket exports. Do not paste sensitive evidence."></textarea>
+              </div>
+              <div class="field full">
+                <div class="form-title">Available inputs</div>
+                <div class="checks" data-group="inputs">
+                  <label class="check"><input type="checkbox" name="inputs" value="SSP or draft SSP"> SSP or draft SSP</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="POA&M notes"> POA&amp;M notes</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="SPRS score or snapshot"> SPRS score</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="Policies and procedures"> Policies</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="Screenshots, logs, or exports"> Screenshots/logs</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="Tickets or change records"> Tickets</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="Network or system diagrams"> Diagrams</label>
+                  <label class="check"><input type="checkbox" name="inputs" value="Prior review notes"> Prior notes</label>
+                </div>
+              </div>
+              <div class="field full">
+                <div class="form-title">Main concerns</div>
+                <div class="checks" data-group="concerns">
+                  <label class="check"><input type="checkbox" name="concerns" value="SSP claims may be ahead of proof"> SSP ahead of proof</label>
+                  <label class="check"><input type="checkbox" name="concerns" value="Unsupported or vague control claims"> Unsupported claims</label>
+                  <label class="check"><input type="checkbox" name="concerns" value="AI or boilerplate language risk"> AI/boilerplate risk</label>
+                  <label class="check"><input type="checkbox" name="concerns" value="Scope or CUI boundary uncertainty"> Scope uncertainty</label>
+                  <label class="check"><input type="checkbox" name="concerns" value="MSP or inherited-control handoff gaps"> MSP handoff gaps</label>
+                  <label class="check"><input type="checkbox" name="concerns" value="Evidence dates or logs do not match claims"> Date/log mismatch</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="button" type="button" id="generateBrief">Generate brief</button>
+              <button class="button secondary" type="button" id="clearIntake">Clear</button>
+            </div>
+            <p class="fine">Scoping only. This intake does not submit evidence, does not create an engagement by itself, and is not a formal assessment decision.</p>
+          </form>
+          <aside class="intake-output" aria-live="polite">
+            <div class="result-pill" id="fitSignal">Brief not generated</div>
+            <h3>Your scoping brief</h3>
+            <p>Generate the brief, then copy it, download it, or send the organized summary to start the handoff.</p>
+            <textarea id="briefOutput" readonly>Complete the intake and generate your scoping brief.</textarea>
+            <div class="form-actions">
+              <button class="button" type="button" id="copyBrief">Copy brief</button>
+              <button class="button secondary" type="button" id="downloadBrief">Download JSON</button>
+              <a class="button secondary" id="emailBrief" href="mailto:hello@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review%20Scoping%20Brief">Send brief</a>
+            </div>
+            <div class="small-status" id="briefStatus"></div>
+          </aside>
+        </div>
+      </div>
+    </section>
 
   <section id="client-path">
     <div class="wrap">
@@ -220,8 +363,8 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
         <article class="step">
           <div class="step-num">01</div>
           <div>
-            <h3>Apply or request paid review</h3>
-            <p>Use email for the first 5 design partner slots. Use Stripe or invoice workflow if the free slots are gone or procurement requires a standard paid engagement. Do not send sensitive evidence through checkout.</p>
+              <h3>Complete intake</h3>
+              <p>Use the self-service intake to create the scoping brief, identify the packet type, and confirm whether the review is a fit. Do not send sensitive evidence through checkout.</p>
           </div>
         </article>
         <article class="step">
@@ -307,8 +450,8 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
       <aside class="price-box">
         <div class="price">First 5 free</div>
         <div class="price-note">$5,500 standard value · design partner window</div>
-        <a class="button" href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application&body=Company%20name%3A%0AWebsite%3A%0ARole%3A%0AAre%20you%20preparing%20for%20CMMC%20or%20NIST%20SP%20800-171%3F%0AWhat%20evidence%20packet%20do%20you%20want%20reviewed%3F%0ATimeline%3A%0A">Apply for free review</a>
-        <p class="fine">If the free slots are gone, the standard Evidence Integrity Review is $5,500 one-time. <a href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Use Stripe</a> or email <a href="mailto:hello@hardseal.ai">hello@hardseal.ai</a> for invoice workflow.</p>
+          <a class="button" href="#intake">Start self-service intake</a>
+          <p class="fine">If the free slots are gone, the standard Evidence Integrity Review is $5,500 one-time. <a href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Use Stripe</a> or email <a href="mailto:hello@hardseal.ai">hello@hardseal.ai</a> for invoice workflow.</p>
         <p class="fine">After fit and scope are confirmed, use the <a href="/start.html">customer start path</a> to begin scope confirmation. For the full flow, see the <a href="/client-experience.html">client experience</a>.</p>
       </aside>
     </div>
@@ -348,5 +491,143 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
 <footer>
   Hardseal LLC · Florida, USA · Not a C3PAO · Assessment support software
 </footer>
+<script>
+(function(){
+  var form = document.getElementById("intakeForm");
+  var output = document.getElementById("briefOutput");
+  var fit = document.getElementById("fitSignal");
+  var status = document.getElementById("briefStatus");
+  var emailLink = document.getElementById("emailBrief");
+  var storageKey = "hardseal-intake-v1";
+
+  function fields(){
+    return Array.prototype.slice.call(form.querySelectorAll("input:not([type=checkbox]), select, textarea"));
+  }
+
+  function checked(name){
+    return Array.prototype.slice.call(form.querySelectorAll("input[name='" + name + "']:checked")).map(function(item){return item.value;});
+  }
+
+  function serialize(){
+    var data = {};
+    fields().forEach(function(field){data[field.name] = field.value.trim();});
+    data.inputs = checked("inputs");
+    data.concerns = checked("concerns");
+    return data;
+  }
+
+  function restore(){
+    try{
+      var saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      fields().forEach(function(field){
+        if(saved[field.name]) field.value = saved[field.name];
+      });
+      ["inputs","concerns"].forEach(function(group){
+        var boxes = Array.prototype.slice.call(form.querySelectorAll("input[name='" + group + "']"));
+        (saved[group] || []).forEach(function(value){
+          boxes.forEach(function(box){
+            if(box.value === value) box.checked = true;
+          });
+        });
+      });
+    }catch(err){}
+  }
+
+  function save(){
+    try{localStorage.setItem(storageKey, JSON.stringify(serialize()));}catch(err){}
+  }
+
+  function fitSignal(data){
+    var score = 0;
+    if(/DIB|MSP|RPO|Prime/.test(data.orgType || "")) score += 2;
+    if(/CMMC|NIST|DFARS/.test(data.framework || "")) score += 2;
+    if(/SSP|POA|second pass|fixing findings/.test(data.stage || "")) score += 2;
+    if(/0-30|31-90/.test(data.timeline || "")) score += 1;
+    if(data.inputs.length >= 4) score += 2;
+    if(data.concerns.length >= 2) score += 1;
+    if(score >= 8) return "Priority fit";
+    if(score >= 5) return "Review fit";
+    if(score >= 2) return "Starter path";
+    return "Needs scope";
+  }
+
+  function line(label,value){
+    if(Array.isArray(value)) value = value.length ? value.join(", ") : "Not selected";
+    return label + ": " + (value || "Not provided");
+  }
+
+  function buildBrief(){
+    var data = serialize();
+    var signal = fitSignal(data);
+    var date = new Date().toLocaleString();
+    var brief = [
+      "Hardseal Evidence Integrity Review - self-service scoping brief",
+      "Generated: " + date,
+      "",
+      line("Company", data.company),
+      line("Website", data.website),
+      line("Contact", data.contact),
+      line("Email", data.email),
+      line("Role", data.role),
+      line("Organization type", data.orgType),
+      line("Framework", data.framework),
+      line("Timeline", data.timeline),
+      line("Evidence stage", data.stage),
+      line("Packet to review", data.packet),
+      line("Available inputs", data.inputs),
+      line("Main concerns", data.concerns),
+      "",
+      "Fit signal: " + signal,
+      "Requested path: First 5 free design partner review if qualified; otherwise standard paid review or invoice workflow.",
+      "",
+      "Safety note: No sensitive evidence, CUI, credentials, screenshots, or protected artifacts were submitted through this intake.",
+      "Assessment notice: Hardseal does not certify compliance, does not replace a C3PAO, and does not make final assessment determinations."
+    ].join("\n");
+    output.value = brief;
+    fit.textContent = signal;
+    emailLink.href = "mailto:hello@hardseal.ai?subject=" + encodeURIComponent("Hardseal Evidence Integrity Review Scoping Brief - " + (data.company || "New intake")) + "&body=" + encodeURIComponent(brief);
+    status.textContent = "Brief generated. Progress saved on this device.";
+    save();
+    return brief;
+  }
+
+  form.addEventListener("input", save);
+  form.addEventListener("change", save);
+  document.getElementById("generateBrief").addEventListener("click", buildBrief);
+  document.getElementById("copyBrief").addEventListener("click", function(){
+    var text = output.value || buildBrief();
+    navigator.clipboard.writeText(text).then(function(){
+      status.textContent = "Brief copied.";
+    }, function(){
+      output.focus();
+      output.select();
+      status.textContent = "Select and copy the brief.";
+    });
+  });
+  document.getElementById("downloadBrief").addEventListener("click", function(){
+    var data = serialize();
+    data.fitSignal = fit.textContent === "Brief not generated" ? fitSignal(data) : fit.textContent;
+    data.generatedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+    var link = document.createElement("a");
+    var company = (data.company || "hardseal-intake").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    link.href = URL.createObjectURL(blob);
+    link.download = company + "-hardseal-scoping-brief.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function(){URL.revokeObjectURL(link.href);}, 250);
+    status.textContent = "JSON downloaded.";
+  });
+  document.getElementById("clearIntake").addEventListener("click", function(){
+    form.reset();
+    output.value = "Complete the intake and generate your scoping brief.";
+    fit.textContent = "Brief not generated";
+    status.textContent = "Intake cleared on this device.";
+    try{localStorage.removeItem(storageKey);}catch(err){}
+  });
+  restore();
+})();
+</script>
 </body>
 </html>
