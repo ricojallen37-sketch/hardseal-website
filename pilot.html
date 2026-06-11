@@ -131,6 +131,14 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   .intake-output h3{font-size:20px;color:var(--white);margin-bottom:8px}
   .intake-output p{font-size:14px;color:var(--gray);margin-bottom:14px}
   #briefOutput{min-height:300px;font-family:var(--mono);font-size:12px;color:var(--gray);white-space:pre-wrap}
+  .score-panel{border:1px solid #171717;background:#070707;border-radius:6px;padding:12px;margin:14px 0}
+  .score-row{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
+  .score-track{height:8px;border-radius:999px;background:#141414;overflow:hidden}
+  .score-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .2s ease}
+  .next-actions{border-top:1px solid #171717;margin-top:14px;padding-top:14px}
+  .next-actions h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+  .action-list{display:grid;gap:8px}
+  .action-item{border:1px solid #171717;border-radius:6px;background:#050505;padding:9px 10px;color:var(--gray);font-size:13px;line-height:1.35}
   .small-status{min-height:20px;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--green)}
   footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
   @media(max-width:800px){
@@ -293,6 +301,16 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
             <div class="result-pill" id="fitSignal">Brief not generated</div>
             <h3>Your scoping brief</h3>
             <p>Generate the brief, then copy it, download it, or send the organized summary to start the handoff.</p>
+            <div class="score-panel">
+              <div class="score-row"><span id="scoreLabel">Score pending</span><span id="scoreValue">0/10</span></div>
+              <div class="score-track" aria-hidden="true"><div class="score-fill" id="scoreFill"></div></div>
+              <div class="next-actions">
+                <h4>Next actions</h4>
+                <div class="action-list" id="nextActions">
+                  <div class="action-item">Generate the brief to get the buyer-specific action list.</div>
+                </div>
+              </div>
+            </div>
             <textarea id="briefOutput" readonly>Complete the intake and generate your scoping brief.</textarea>
             <div class="form-actions">
               <button class="button" type="button" id="copyBrief">Copy brief</button>
@@ -498,6 +516,10 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   var fit = document.getElementById("fitSignal");
   var status = document.getElementById("briefStatus");
   var emailLink = document.getElementById("emailBrief");
+  var scoreLabel = document.getElementById("scoreLabel");
+  var scoreValue = document.getElementById("scoreValue");
+  var scoreFill = document.getElementById("scoreFill");
+  var nextActions = document.getElementById("nextActions");
   var storageKey = "hardseal-intake-v1";
 
   function fields(){
@@ -537,18 +559,78 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     try{localStorage.setItem(storageKey, JSON.stringify(serialize()));}catch(err){}
   }
 
-  function fitSignal(data){
+  function scoreProfile(data){
     var score = 0;
-    if(/DIB|MSP|RPO|Prime/.test(data.orgType || "")) score += 2;
-    if(/CMMC|NIST|DFARS/.test(data.framework || "")) score += 2;
-    if(/SSP|POA|second pass|fixing findings/.test(data.stage || "")) score += 2;
-    if(/0-30|31-90/.test(data.timeline || "")) score += 1;
-    if(data.inputs.length >= 4) score += 2;
-    if(data.concerns.length >= 2) score += 1;
-    if(score >= 8) return "Priority fit";
-    if(score >= 5) return "Review fit";
-    if(score >= 2) return "Starter path";
-    return "Needs scope";
+    var reasons = [];
+    if(/DIB|MSP|RPO|Prime/.test(data.orgType || "")){
+      score += 2;
+      reasons.push("regulated customer path identified");
+    }
+    if(/CMMC|NIST|DFARS/.test(data.framework || "")){
+      score += 2;
+      reasons.push("target framework identified");
+    }
+    if(/SSP|POA|second pass|fixing findings/.test(data.stage || "")){
+      score += 2;
+      reasons.push("reviewable evidence stage");
+    }
+    if(/0-30|31-90/.test(data.timeline || "")){
+      score += 1;
+      reasons.push("near-term timeline");
+    }
+    if(data.inputs.length >= 4){
+      score += 2;
+      reasons.push("enough input types for a useful first pass");
+    } else if(data.inputs.length >= 2){
+      score += 1;
+      reasons.push("partial input set identified");
+    }
+    if(data.concerns.length >= 2){
+      score += 1;
+      reasons.push("specific risk concerns identified");
+    }
+    var label = "Needs scope";
+    if(score >= 8) label = "Priority fit";
+    else if(score >= 5) label = "Review fit";
+    else if(score >= 2) label = "Starter path";
+    return {score: Math.min(score, 10), label: label, reasons: reasons};
+  }
+
+  function fitSignal(data){
+    return scoreProfile(data).label;
+  }
+
+  function actionPlan(data, profile){
+    var actions = [];
+    if(!data.contact || !data.email) actions.push("Name the owner who will coordinate scope and evidence handoff.");
+    if(!data.framework || data.framework === "Not sure yet") actions.push("Confirm whether the target is CMMC Level 2, NIST SP 800-171, or DFARS support.");
+    if(data.inputs.indexOf("SSP or draft SSP") === -1) actions.push("Prepare the current SSP or draft SSP narrative, even if incomplete.");
+    if(data.inputs.indexOf("POA&M notes") === -1) actions.push("Add current POA&M notes or a short list of known gaps.");
+    if(data.inputs.indexOf("Policies and procedures") === -1) actions.push("Collect the policy/procedure folder tied to the controls in scope.");
+    if(data.inputs.indexOf("Screenshots, logs, or exports") === -1) actions.push("Collect screenshots, logs, exports, or tickets that support the strongest control claims.");
+    if(data.concerns.indexOf("Scope or CUI boundary uncertainty") !== -1) actions.push("Write down the CUI boundary, in-scope systems, out-of-scope systems, and inherited-control assumptions.");
+    if(data.concerns.indexOf("MSP or inherited-control handoff gaps") !== -1) actions.push("List every MSP, cloud, or inherited-control owner connected to the evidence packet.");
+    if(profile.score >= 8){
+      actions.push("Use the generated brief to start the handoff path and keep sensitive evidence out of email.");
+      actions.push("Prepare a packet inventory by artifact type; do not attach artifacts until the handoff path is confirmed.");
+      actions.push("Mark the top claims that need proof checking first: access control, audit logs, configuration, POA&M status, and inherited controls.");
+    } else {
+      actions.push("Use this brief as a prep checklist, then regenerate after the missing pieces are identified.");
+    }
+    return actions.slice(0, 6);
+  }
+
+  function renderPlan(profile, actions){
+    scoreLabel.textContent = profile.label;
+    scoreValue.textContent = profile.score + "/10";
+    scoreFill.style.width = (profile.score * 10) + "%";
+    nextActions.innerHTML = "";
+    actions.forEach(function(action){
+      var item = document.createElement("div");
+      item.className = "action-item";
+      item.textContent = action;
+      nextActions.appendChild(item);
+    });
   }
 
   function line(label,value){
@@ -558,7 +640,9 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
 
   function buildBrief(){
     var data = serialize();
-    var signal = fitSignal(data);
+    var profile = scoreProfile(data);
+    var signal = profile.label;
+    var actions = actionPlan(data, profile);
     var date = new Date().toLocaleString();
     var brief = [
       "Hardseal Evidence Integrity Review - self-service scoping brief",
@@ -578,6 +662,12 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
       line("Main concerns", data.concerns),
       "",
       "Fit signal: " + signal,
+      "Scoping score: " + profile.score + "/10",
+      line("Score reasons", profile.reasons),
+      "",
+      "Suggested next actions:",
+      actions.map(function(action, index){return (index + 1) + ". " + action;}).join("\n"),
+      "",
       "Requested path: First 5 free design partner review if qualified; otherwise standard paid review or invoice workflow.",
       "",
       "Safety note: No sensitive evidence, CUI, credentials, screenshots, or protected artifacts were submitted through this intake.",
@@ -585,6 +675,7 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     ].join("\n");
     output.value = brief;
     fit.textContent = signal;
+    renderPlan(profile, actions);
     emailLink.href = "mailto:hello@hardseal.ai?subject=" + encodeURIComponent("Hardseal Evidence Integrity Review Scoping Brief - " + (data.company || "New intake")) + "&body=" + encodeURIComponent(brief);
     status.textContent = "Brief generated. Progress saved on this device.";
     save();
@@ -606,7 +697,11 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   });
   document.getElementById("downloadBrief").addEventListener("click", function(){
     var data = serialize();
-    data.fitSignal = fit.textContent === "Brief not generated" ? fitSignal(data) : fit.textContent;
+    var profile = scoreProfile(data);
+    data.fitSignal = fit.textContent === "Brief not generated" ? profile.label : fit.textContent;
+    data.scopingScore = profile.score;
+    data.scoreReasons = profile.reasons;
+    data.nextActions = actionPlan(data, profile);
     data.generatedAt = new Date().toISOString();
     var blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
     var link = document.createElement("a");
@@ -623,6 +718,10 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     form.reset();
     output.value = "Complete the intake and generate your scoping brief.";
     fit.textContent = "Brief not generated";
+    scoreLabel.textContent = "Score pending";
+    scoreValue.textContent = "0/10";
+    scoreFill.style.width = "0";
+    nextActions.innerHTML = '<div class="action-item">Generate the brief to get the buyer-specific action list.</div>';
     status.textContent = "Intake cleared on this device.";
     try{localStorage.removeItem(storageKey);}catch(err){}
   });
