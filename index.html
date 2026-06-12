@@ -32,7 +32,7 @@
     "name": "Rico Allen",
     "url": "https://www.linkedin.com/in/ricoallenhardseal/"
   },
-  "description": "Hardseal helps CMMC and NIST SP 800-171 teams review SSPs, POA&Ms, SPRS snapshots, and control evidence for unsupported claims, contradiction risk, AI/boilerplate risk, and readiness gaps before formal review.",
+  "description": "Hardseal helps CMMC and NIST SP 800-171 teams govern evidence packets with a local verification primitive, controlled handoff path, and evidence integrity review for unsupported claims, contradiction risk, AI/boilerplate risk, and readiness gaps before formal review.",
   "keywords": [
     "CMMC",
     "NIST SP 800-171",
@@ -56,7 +56,7 @@
     "price": "5500",
     "priceCurrency": "USD",
     "url": "https://hardseal.ai/pilot.html",
-    "description": "A pre-assessment evidence integrity review for CMMC and NIST SP 800-171 teams. Hardseal reviews SSPs, POA&Ms, SPRS snapshots, policies, screenshots, tickets, exports, and control evidence for contradictions, unsupported claims, AI/boilerplate risk, and readiness gaps. Hardseal does not certify compliance, does not replace a C3PAO, and does not make final assessment determinations."
+    "description": "A pre-assessment evidence governance and integrity review for CMMC and NIST SP 800-171 teams. Hardseal combines local packet verification, controlled evidence handoff, and SSP-to-evidence review for contradictions, unsupported claims, AI/boilerplate risk, and readiness gaps. Hardseal does not certify compliance, does not replace a C3PAO, and does not make final assessment determinations."
   }
 }
 </script>
@@ -79,7 +79,7 @@ body{
   background:var(--bg);color:var(--gray1);
   font-size:16px;line-height:1.55;
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
-  min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;
+  min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;overflow-wrap:break-word;
 }
 a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s ease}
 a:hover{border-bottom-color:var(--green)}
@@ -270,7 +270,7 @@ section{padding:88px 24px;border-top:1px solid var(--border)}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray3);margin-bottom:16px}
 h2{font-size:clamp(24px,3vw,36px);font-weight:600;color:var(--white);line-height:1.2;letter-spacing:-0.01em;margin-bottom:16px}
 h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
-.lead{font-size:clamp(20px,2.4vw,28px);font-weight:500;color:var(--white);line-height:1.4;letter-spacing:-0.01em;max-width:880px}
+.lead{font-size:clamp(20px,2.4vw,28px);font-weight:500;color:var(--white);line-height:1.4;letter-spacing:-0.01em;max-width:880px;overflow-wrap:anywhere}
 
 /* Premium buyer hero */
 .launch-hero{
@@ -321,7 +321,7 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .path-strip{max-width:1280px;margin:54px auto 0;border-top:1px solid var(--border3);padding-top:36px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:26px;align-items:start}
 .path-step .num{font-family:var(--mono);font-size:22px;color:var(--blue);font-weight:800;margin-bottom:8px}
 .path-step h2{font-family:var(--mono);font-size:18px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
-.path-step p{color:var(--gray1);font-size:15px;line-height:1.65}
+.path-step p{color:var(--gray1);font-size:15px;line-height:1.65;overflow-wrap:anywhere}
 .path-step ul{list-style:none;margin-top:14px}
 .path-step li{font-size:13px;color:var(--gray2);padding:5px 0;border-bottom:0}
 .path-step li::before{content:"▪";color:var(--blue);margin-right:8px}
@@ -376,9 +376,9 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 /* Use case cards */
 .cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:32px}
 @media(max-width:860px){.cards-3{grid-template-columns:1fr}}
-.case-card{padding:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;display:flex;flex-direction:column}
+.case-card{padding:24px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;display:flex;flex-direction:column;overflow:hidden}
 .case-card .case-label{font-family:var(--mono);font-size:11px;letter-spacing:0.08em;color:var(--green);text-transform:uppercase;margin-bottom:12px}
-.case-card p{color:var(--gray1);font-size:14px;line-height:1.65;flex:1;margin-bottom:16px}
+.case-card p{color:var(--gray1);font-size:14px;line-height:1.65;flex:1;margin-bottom:16px;overflow-wrap:anywhere}
 .case-card a{font-family:var(--mono);font-size:12px;letter-spacing:0.04em}
 
 /* Trophy line */
@@ -495,7 +495,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="hero-copy">
       <div class="classification">CMMC Level 2 · NIST SP 800-171</div>
       <h1 id="hero-h1">Find weak evidence before formal review.</h1>
-      <p class="hero-sub">Hardseal reviews SSPs, POA&amp;Ms, SPRS snapshots, policies, screenshots, tickets, exports, and control evidence for unsupported claims and readiness gaps.</p>
+      <p class="hero-sub">Hardseal combines a local proof primitive with a governed review path for SSPs, POA&amp;Ms, SPRS snapshots, policies, screenshots, tickets, exports, and control evidence.</p>
       <div class="hero-actions">
         <a class="action-primary" href="/pilot.html">Apply for free review</a>
       <a class="action-secondary" href="mailto:hello@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review">Ask about paid review</a>
@@ -505,7 +505,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
         <span>SSP vs. evidence gaps</span>
         <span>Unsupported control claims</span>
         <span>AI and boilerplate risk</span>
-        <span>Prioritized remediation path</span>
+        <span>Governed evidence handoff</span>
       </div>
     </div>
 
@@ -642,8 +642,25 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 <!-- ============== §2.1 — Primitive ============== -->
 <section id="what-we-do" aria-labelledby="primitive-h2">
   <div class="wrap">
-    <div class="eyebrow">§2.1 · The primitive</div>
-    <p class="lead" id="primitive-h2">Hardseal proves a packet is internally consistent and matches a chain root you can verify.</p>
+    <div class="eyebrow">§2.1 · Primitive + governance</div>
+    <p class="lead" id="primitive-h2">Hardseal is a verification primitive with a governance path around it: prove what copy you have, control how evidence moves, and name what must be fixed before formal review.</p>
+    <div class="cards-3">
+      <article class="case-card">
+        <div class="case-label">Primitive</div>
+        <p>Hash chains, sidecar digests, and browser or Python verifiers answer the first question: does this copy still match the recorded packet?</p>
+        <a href="/verify.html">Open verifier →</a>
+      </article>
+      <article class="case-card">
+        <div class="case-label">Governance</div>
+        <p>Scope confirmation, handoff rules, owner checks, sensitive-evidence warnings, and stop conditions keep the review from becoming an uncontrolled file dump.</p>
+        <a href="/client-experience.html">See client path →</a>
+      </article>
+      <article class="case-card">
+        <div class="case-label">Review layer</div>
+        <p>SSP, POA&amp;M, SPRS, and control evidence are compared for unsupported claims, partial support, contradiction risk, and the next proof needed.</p>
+        <a href="/pilot.html">Request review →</a>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -651,7 +668,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 <section id="usecases" aria-labelledby="usecases-h2">
   <div class="wrap">
     <div class="eyebrow">§2.2 · Use cases</div>
-    <h2 id="usecases-h2">One primitive. Three surfaces.</h2>
+    <h2 id="usecases-h2">One primitive. Three governed surfaces.</h2>
     <div class="cards-3">
       <article class="case-card">
         <div class="case-label">CMMC Level 2 Evidence</div>
