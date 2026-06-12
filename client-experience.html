@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hardseal Client Experience</title>
-<meta name="description" content="What happens after you start a Hardseal Evidence Integrity Review: scope confirmation, evidence handoff, review, findings, and next decisions.">
+<title>Hardseal Client Experience and Evidence Governance</title>
+<meta name="description" content="What happens after you start a Hardseal Evidence Integrity Review: verification primitive, scope confirmation, evidence handoff governance, review, findings, and next decisions.">
 <link rel="canonical" href="https://hardseal.ai/client-experience.html">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
@@ -17,7 +17,7 @@
   --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 html,body{overflow-x:hidden}
-body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent}
 a:hover{border-bottom-color:var(--green)}
 .wrap{width:min(1120px,calc(100% - 40px));margin:0 auto}
@@ -30,6 +30,7 @@ header{border-bottom:1px solid var(--border);background:rgba(0,0,0,.92);position
 h1{font-size:clamp(36px,6vw,76px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:100%;margin-bottom:20px;text-wrap:balance;overflow-wrap:anywhere;word-break:normal}
 .sub{max-width:min(780px,calc(100vw - 40px));color:var(--gray);font-size:19px;line-height:1.7;margin-bottom:34px}
 .actions{display:flex;gap:14px;flex-wrap:wrap}
+.section-actions{margin-top:20px}
 .button{display:inline-flex;align-items:center;justify-content:center;padding:14px 18px;border-radius:3px;background:linear-gradient(180deg,#3b8cff,#1267d8);color:#fff;border:1px solid #3b8cff;font-family:var(--mono);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .button:hover{color:#fff;border-bottom-color:#3b8cff;filter:brightness(1.12)}
 .button.secondary{background:transparent;color:var(--white);border-color:var(--border)}
@@ -39,7 +40,7 @@ h1{font-size:clamp(36px,6vw,76px);line-height:1.02;letter-spacing:-.04em;color:v
 .hero-meta strong{display:block;color:var(--white);font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
 .hero-meta span{display:block;color:var(--gray);font-size:14px;line-height:1.5}
 section{padding:58px 0;border-bottom:1px solid var(--border);overflow:hidden}
-h2{font-size:clamp(24px,3vw,40px);line-height:1.18;color:var(--white);letter-spacing:-.02em;margin-bottom:18px}
+h2{font-size:clamp(24px,3vw,40px);line-height:1.18;color:var(--white);letter-spacing:-.02em;margin-bottom:18px;text-wrap:balance;overflow-wrap:anywhere}
 .section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:28px}
 .section-head p{max-width:560px;color:var(--gray)}
 .checkpoint-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
@@ -52,10 +53,10 @@ h2{font-size:clamp(24px,3vw,40px);line-height:1.18;color:var(--white);letter-spa
 .day-card h3{font-size:20px;color:var(--white);margin-bottom:12px}
 .day-card p{color:var(--gray)}
 .path{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:28px}
-.stage,.card,.sample,.email{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:22px;min-width:0}
+.stage,.card,.sample,.email{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:22px;min-width:0;overflow:hidden}
 .stage-num{font-family:var(--mono);font-size:12px;color:var(--blue);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
 .stage h3,.card h3,.sample h3,.email h3{font-size:18px;color:var(--white);margin-bottom:8px}
-.stage p,.card p,.sample p,.email p,.card li,.sample li{font-size:14px;color:var(--gray);max-width:calc(100vw - 72px)}
+.stage p,.card p,.sample p,.email p,.card li,.sample li{font-size:14px;color:var(--gray);max-width:100%;overflow-wrap:anywhere}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
 ul{list-style:none}
@@ -78,7 +79,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:var(--bg2);border:1px 
 .disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
 footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
 @media(max-width:960px){.path,.grid,.split,.hero-meta,.checkpoint-strip,.day-one,.handoff-grid{grid-template-columns:1fr}.section-head{display:block}.nav{align-items:flex-start;flex-direction:column;padding:16px 0}.hero{padding-top:56px}.button{width:100%;text-align:center}.checkpoint{min-height:auto}.checkpoint .num{margin-bottom:12px}.finding-row{grid-template-columns:1fr}}
-@media(max-width:520px){.wrap{width:calc(100% - 32px)}.nav-links{width:100%;gap:16px;font-size:11px}h1{font-size:32px;line-height:1.08;letter-spacing:-.01em}.sub{font-size:16px;line-height:1.75;max-width:calc(100vw - 40px)}.stage p,.card p,.sample p,.email p,.notice{max-width:calc(100vw - 72px)}.button{max-width:calc(100vw - 32px)}.stage,.card,.sample,.email,.notice{padding:18px}pre{font-size:11px;max-width:calc(100vw - 72px)}}
+@media(max-width:520px){.wrap{width:calc(100% - 32px)}.nav-links{width:100%;gap:16px;font-size:11px}h1{font-size:32px;line-height:1.08;letter-spacing:-.01em}h2{font-size:25px;line-height:1.18}.sub{font-size:16px;line-height:1.75;max-width:calc(100vw - 40px)}.stage p,.card p,.sample p,.email p,.notice{max-width:100%;overflow-wrap:anywhere}.button{max-width:calc(100vw - 32px)}.stage,.card,.sample,.email,.notice{padding:18px}pre{font-size:11px;max-width:100%;overflow-wrap:anywhere}}
 </style>
 </head>
 <body>
@@ -99,7 +100,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
     <div class="wrap">
       <div class="eyebrow">Client experience</div>
       <h1>From payment to findings, no guessing.</h1>
-      <p class="sub">Hardseal turns a messy evidence handoff into a controlled review path: scope confirmed, handoff protected, evidence checked, findings delivered, next decision clear.</p>
+      <p class="sub">Hardseal turns a messy evidence handoff into a governed review path: proof primitive underneath, scope rules around it, evidence checked, findings delivered, next decision clear.</p>
       <div class="actions">
         <a class="button" href="/pilot.html">Start review</a>
         <a class="button secondary" href="/start.html">Use start path</a>
@@ -117,6 +118,32 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
           <strong>Output</strong>
           <span>Findings, priorities, and the next decision.</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Primitive + governance</div>
+          <h2>The packet needs math. The customer needs rules.</h2>
+        </div>
+        <p>The verifier answers whether a copy still matches the recorded packet. The customer experience answers who owns the packet, what is in scope, how evidence moves, and when review should stop.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h3>Primitive</h3>
+          <p>Local verification, hashes, sidecars, and named failures. The narrow job is copy integrity: does this packet still match its recorded structure?</p>
+        </article>
+        <article class="card">
+          <h3>Governance</h3>
+          <p>Scope confirmation, handoff rules, sensitive-evidence warnings, owner checks, and stop conditions before review time is spent on the wrong packet.</p>
+        </article>
+        <article class="card">
+          <h3>Decision path</h3>
+          <p>Findings name the control, claim, evidence reviewed, gap, why it matters, and next proof needed so the team can act without guessing.</p>
+        </article>
       </div>
     </div>
   </section>
@@ -236,32 +263,39 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
           <div class="eyebrow">Findings preview</div>
           <h2>The output is plain enough to act on.</h2>
         </div>
-        <p>No mystery report. A finding should show the claim, the evidence, the status, the priority, and the next move.</p>
+        <p>No mystery report. A finding should show the control, the claim, the evidence reviewed, the gap, why it matters, and the next proof needed.</p>
       </div>
       <div class="finding" aria-label="Sample Hardseal finding">
         <div class="finding-row">
+          <div class="finding-label">Control</div>
+          <div class="finding-value"><strong>IA.L2-3.5.3 - multifactor authentication.</strong></div>
+        </div>
+        <div class="finding-row">
           <div class="finding-label">Claim</div>
-          <div class="finding-value"><strong>SSP says MFA is enforced for all users.</strong></div>
+          <div class="finding-value">SSP says MFA is enforced for all users accessing the CUI environment.</div>
         </div>
         <div class="finding-row">
-          <div class="finding-label">Evidence</div>
-          <div class="finding-value">User export and policy screenshot.</div>
+          <div class="finding-label">Evidence reviewed</div>
+          <div class="finding-value">User export, conditional-access policy screenshot, and sample sign-in log.</div>
         </div>
         <div class="finding-row">
-          <div class="finding-label">Status</div>
-          <div class="finding-value"><strong>Partially supported.</strong> Exceptions or unclear populations weaken the claim.</div>
+          <div class="finding-label">Gap</div>
+          <div class="finding-value"><strong>Partially supported.</strong> The policy screenshot names one included group, but the user export shows service accounts and break-glass accounts outside the shown policy scope.</div>
         </div>
         <div class="finding-row">
-          <div class="finding-label">Priority</div>
-          <div class="finding-value">High.</div>
+          <div class="finding-label">Why it matters</div>
+          <div class="finding-value">A reviewer cannot tell whether the MFA claim covers the full user population or only a subset.</div>
         </div>
         <div class="finding-row">
-          <div class="finding-label">Next action</div>
-          <div class="finding-value">Clarify scope, document exceptions, and add dated export evidence.</div>
+          <div class="finding-label">Next proof needed</div>
+          <div class="finding-value">Dated conditional-access export, exception register, and sign-in evidence for privileged and non-privileged users.</div>
         </div>
       </div>
       <div class="notice">
-        <strong>Plain-English promise:</strong> Hardseal helps the team see what is supported, partially supported, contradicted, or missing before formal review.
+        <strong>Reviewer value:</strong> the issue is named before deeper review time is spent: claim, population, missing evidence, and next proof needed.
+      </div>
+      <div class="actions section-actions">
+        <a class="button secondary" href="/proof/ir/30-second-demo.html">View 30-second proof</a>
       </div>
     </div>
   </section>

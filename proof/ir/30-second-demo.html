@@ -503,7 +503,7 @@
       </p>
       <div class="attack">
         <strong>Stop condition for a reviewer</strong>
-        <span>This packet was modified in transit or evidence was replaced after submission. Ask for a regenerated packet from the original source.</span>
+        <span>This copy no longer matches the recorded packet. Pause review and ask for a regenerated packet from the original source.</span>
       </div>
 
       <div class="ladder" aria-label="Original tampered result ladder">
@@ -598,7 +598,7 @@ python3 verify/verify_standalone.py .</pre>
     - Link 0: artifact_hash mismatch (expected 003b63cd49500152..., got 073275914e9b07b1...)
 [*] No integrity tag present on bundle.
 
-[!] VERIFICATION FAILED -- evidence may be tampered.</pre>
+[!] VERIFICATION FAILED -- packet mismatch detected.</pre>
         </article>
       </div>
     </section>
@@ -606,11 +606,11 @@ python3 verify/verify_standalone.py .</pre>
     <section class="section" aria-labelledby="provenance-title">
       <h2 id="provenance-title">Provenance status</h2>
       <p>
-        The public IR pack proves local integrity of the packet you received.
-        In customer delivery, the next layer is origin context: reviewer-held
-        delivery records and customer-specific handoff evidence that connect
-        the packet to the delivery workflow, not only whether this copy still
-        matches its recorded hashes.
+        The public IR pack checks local consistency for the packet you
+        received. In customer delivery, the next layer is source context:
+        reviewer-held delivery records and customer-specific handoff evidence
+        that connect the packet to the delivery workflow, not only whether
+        this copy still matches its recorded hashes.
       </p>
       <div class="provenance">
         <div>
@@ -627,10 +627,9 @@ python3 verify/verify_standalone.py .</pre>
     <section class="section" aria-labelledby="boundary-title">
       <h2 id="boundary-title">The claim boundary</h2>
       <p>
-        This demo proves a smaller, useful thing: the reviewer can confirm
-        whether the packet still matches the recorded hashes. It does not
-        certify compliance, replace a C3PAO, or decide whether a control is
-        satisfied.
+        This demo checks a smaller, useful thing: whether the packet still
+        matches the recorded hashes. It does not certify compliance, replace a
+        C3PAO, or decide whether a control is satisfied.
       </p>
       <div class="boundary">
         <div>
@@ -643,7 +642,7 @@ python3 verify/verify_standalone.py .</pre>
         </div>
         <div>
           <strong>What it leaves alone</strong>
-          <span>Assessment judgment, compliance status, and whether the underlying evidence proves a security claim.</span>
+          <span>Assessment judgment, compliance status, and whether the underlying evidence supports a security claim.</span>
         </div>
       </div>
     </section>
@@ -663,9 +662,12 @@ changed file: evidence/evidence-bundle.json
 artifact chain: FAILED
 result: VERIFICATION FAILED
 
-The point is narrow: a reviewer can confirm whether the packet still
+The point is narrow: a reviewer can confirm whether this copy still
 matches its recorded hashes. It does not certify compliance or replace
 assessor judgment.
+
+The value is not the PASS. The value is the named failure before deeper
+review time gets spent on the wrong packet.
 
 Demo page:
 [insert published 30-second demo URL]
