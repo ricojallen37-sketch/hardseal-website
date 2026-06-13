@@ -133,6 +133,9 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   #briefOutput{min-height:300px;font-family:var(--mono);font-size:12px;color:var(--gray);white-space:pre-wrap}
   .score-panel{border:1px solid #171717;background:#070707;border-radius:6px;padding:12px;margin:14px 0}
   .score-row{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);margin-bottom:8px}
+  .receipt-row{border-top:1px solid #171717;margin-top:10px;padding-top:10px}
+  .receipt-row span:last-child{color:var(--green);text-align:right}
+  .receipt-note{font-size:12px;line-height:1.5;color:var(--dim);margin:8px 0 0}
   .score-track{height:8px;border-radius:999px;background:#141414;overflow:hidden}
   .score-fill{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--green));transition:width .2s ease}
   .next-actions{border-top:1px solid #171717;margin-top:14px;padding-top:14px}
@@ -188,7 +191,7 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
           <a class="button secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Standard paid review</a>
           <a class="button secondary" href="/client-experience.html">See client path</a>
         </div>
-        <p class="notice">First contact is scope only. Do not send CUI, credentials, screenshots, or sensitive evidence through this page, email, or checkout. Hardseal confirms the handoff path after fit and scope are clear.</p>
+        <p class="notice">First contact is scope only. Do not send CUI, SSPs, network maps, data-flow diagrams, credentials, screenshots, or sensitive evidence through this page, email, or checkout. Hardseal confirms the handoff path after fit and scope are clear.</p>
       </div>
     </section>
 
@@ -304,6 +307,8 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
             <div class="score-panel">
               <div class="score-row"><span id="scoreLabel">Score pending</span><span id="scoreValue">0/10</span></div>
               <div class="score-track" aria-hidden="true"><div class="score-fill" id="scoreFill"></div></div>
+              <div class="score-row receipt-row"><span>Receipt ID</span><span id="receiptValue">Pending</span></div>
+              <p class="receipt-note">Local intake reference only. It helps match the brief, JSON, and follow-up thread; it is not evidence validation.</p>
               <div class="next-actions">
                 <h4>Next actions</h4>
                 <div class="action-list" id="nextActions">
@@ -520,7 +525,26 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   var scoreValue = document.getElementById("scoreValue");
   var scoreFill = document.getElementById("scoreFill");
   var nextActions = document.getElementById("nextActions");
+  var receiptValue = document.getElementById("receiptValue");
   var storageKey = "hardseal-intake-v1";
+  var sourceKeys = ["src", "utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+
+  function sourceData(){
+    var params = new URLSearchParams(window.location.search);
+    var fields = {};
+    var lines = [];
+    sourceKeys.forEach(function(key){
+      var value = params.get(key);
+      if(value) fields[key] = value.slice(0, 160);
+    });
+    if(fields.src) lines.push("Source tag: " + fields.src);
+    if(fields.utm_source) lines.push("UTM source: " + fields.utm_source);
+    if(fields.utm_medium) lines.push("UTM medium: " + fields.utm_medium);
+    if(fields.utm_campaign) lines.push("UTM campaign: " + fields.utm_campaign);
+    if(fields.utm_content) lines.push("UTM content: " + fields.utm_content);
+    if(fields.utm_term) lines.push("UTM term: " + fields.utm_term);
+    return {fields: fields, lines: lines};
+  }
 
   function fields(){
     return Array.prototype.slice.call(form.querySelectorAll("input:not([type=checkbox]), select, textarea"));
@@ -638,15 +662,45 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     return label + ": " + (value || "Not provided");
   }
 
+  function stableHash(text){
+    var hash = 2166136261;
+    for(var i = 0; i < text.length; i += 1){
+      hash ^= text.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(16).padStart(8, "0").toUpperCase();
+  }
+
+  function receiptFor(data){
+    var day = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    var basis = [
+      data.company,
+      data.website,
+      data.email,
+      data.orgType,
+      data.framework,
+      data.timeline,
+      data.stage,
+      data.inputs.join("|"),
+      data.concerns.join("|")
+    ].join("||").toLowerCase();
+    return "HS-" + day + "-" + stableHash(basis);
+  }
+
   function buildBrief(){
     var data = serialize();
     var profile = scoreProfile(data);
     var signal = profile.label;
     var actions = actionPlan(data, profile);
+    var receipt = receiptFor(data);
     var date = new Date().toLocaleString();
-    var brief = [
+    var source = sourceData();
+    var briefLines = [
       "Hardseal Evidence Integrity Review - self-service scoping brief",
       "Generated: " + date,
+      "Receipt ID: " + receipt,
+      "Schema version: hardseal-intake-v1"
+    ].concat(source.lines).concat([
       "",
       line("Company", data.company),
       line("Website", data.website),
@@ -672,9 +726,11 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
       "",
       "Safety note: No sensitive evidence, CUI, credentials, screenshots, or protected artifacts were submitted through this intake.",
       "Assessment notice: Hardseal does not certify compliance, does not replace a C3PAO, and does not make final assessment determinations."
-    ].join("\n");
+    ]);
+    var brief = briefLines.join("\n");
     output.value = brief;
     fit.textContent = signal;
+    receiptValue.textContent = receipt;
     renderPlan(profile, actions);
     emailLink.href = "mailto:hello@hardseal.ai?subject=" + encodeURIComponent("Hardseal Evidence Integrity Review Scoping Brief - " + (data.company || "New intake")) + "&body=" + encodeURIComponent(brief);
     status.textContent = "Brief generated. Progress saved on this device.";
@@ -698,10 +754,15 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   document.getElementById("downloadBrief").addEventListener("click", function(){
     var data = serialize();
     var profile = scoreProfile(data);
+    var receipt = receiptFor(data);
+    data.schemaVersion = "hardseal-intake-v1";
+    data.receiptId = receipt;
+    data.sensitiveEvidenceSubmitted = false;
     data.fitSignal = fit.textContent === "Brief not generated" ? profile.label : fit.textContent;
     data.scopingScore = profile.score;
     data.scoreReasons = profile.reasons;
     data.nextActions = actionPlan(data, profile);
+    data.source = sourceData().fields;
     data.generatedAt = new Date().toISOString();
     var blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
     var link = document.createElement("a");
@@ -718,6 +779,7 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     form.reset();
     output.value = "Complete the intake and generate your scoping brief.";
     fit.textContent = "Brief not generated";
+    receiptValue.textContent = "Pending";
     scoreLabel.textContent = "Score pending";
     scoreValue.textContent = "0/10";
     scoreFill.style.width = "0";
@@ -728,5 +790,6 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   restore();
 })();
 </script>
+<script src="/assets/source-tag.js"></script>
 </body>
 </html>
