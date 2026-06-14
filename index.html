@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='13'%3E%E2%97%88%3C/text%3E%3C/svg%3E">
+<title>Seam — Mix AI music & samples seamlessly</title>
+<meta name="description" content="Seam is a browser studio for blending AI-generated music with your own samples. Drag in tracks, build a beat on the 16-step sequencer, mix it all in real time, and record the result — no install, all in your browser.">
+<meta name="theme-color" content="#0a0a0b">
+<meta property="og:title" content="Seam — Mix AI music & samples seamlessly">
+<meta property="og:description" content="A browser studio for blending AI-generated music with your own samples.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ===================== HEADER / TRANSPORT ===================== -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◈</span>
+      <span class="brand-name">Seam</span>
+      <span class="brand-sub">mix a.i music &amp; samples</span>
+    </div>
+
+    <div class="transport">
+      <button id="btnPlay" class="t-btn play" title="Play / Pause (Space)" aria-label="Play">
+        <span class="ic-play">▶</span><span class="ic-pause" hidden>❚❚</span>
+      </button>
+      <button id="btnStop" class="t-btn" title="Stop" aria-label="Stop">■</button>
+      <button id="btnRec" class="t-btn rec" title="Record the mix" aria-label="Record">●</button>
+
+      <div class="clock">
+        <span id="clockBars" class="clock-bars">1.1.1</span>
+        <span id="clockTime" class="clock-time">0:00.0</span>
+      </div>
+
+      <div class="tempo">
+        <label>BPM</label>
+        <input id="bpm" type="number" min="40" max="240" value="120" step="1" inputmode="numeric">
+        <button id="tapTempo" class="ghost" title="Tap tempo">TAP</button>
+      </div>
+
+      <label class="met-toggle">
+        <input id="metro" type="checkbox"><span>Click</span>
+      </label>
+    </div>
+
+    <div class="master">
+      <div class="meter" aria-hidden="true"><div id="meterFill" class="meter-fill"></div></div>
+      <label class="mvol">
+        <span>MASTER</span>
+        <input id="masterVol" type="range" min="0" max="1.5" step="0.01" value="1">
+      </label>
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <!-- ===================== TRACKS ===================== -->
+    <section class="panel tracks-panel">
+      <div class="panel-head">
+        <h2>Tracks <span class="hint">AI songs &amp; stems</span></h2>
+        <div class="panel-actions">
+          <button id="addTrack" class="btn primary">+ Add track</button>
+        </div>
+      </div>
+
+      <div id="trackList" class="track-list">
+        <!-- tracks injected here -->
+        <div id="trackEmpty" class="empty drop-hint">
+          <p>Drop audio files here, or <button id="addTrackInline" class="link">browse</button>.</p>
+          <p class="muted">WAV, MP3, OGG, FLAC, M4A — your AI-generated tracks live here.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SAMPLE SEQUENCER ===================== -->
+    <section class="panel seq-panel">
+      <div class="panel-head">
+        <h2>Sampler <span class="hint">one-shots on a 16-step grid</span></h2>
+        <div class="panel-actions">
+          <span class="swing-wrap">
+            <label>Swing</label>
+            <input id="swing" type="range" min="0" max="0.6" step="0.01" value="0">
+          </span>
+          <button id="clearSteps" class="btn">Clear grid</button>
+          <button id="addPad" class="btn primary">+ Add sample</button>
+        </div>
+      </div>
+
+      <div class="seq-grid-head">
+        <div class="seq-label-spacer"></div>
+        <div id="stepNumbers" class="step-numbers"></div>
+      </div>
+
+      <div id="padList" class="pad-list">
+        <div id="padEmpty" class="empty">
+          <p>Add a one-shot sample (kick, snare, hat, vocal chop…) and program a pattern.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="statusbar">
+    <span id="status">Ready. Add a track or a sample to begin.</span>
+    <span class="status-right">
+      runs 100% in your browser · nothing uploaded
+    </span>
+  </footer>
+
+  <!-- hidden inputs -->
+  <input id="trackFile" type="file" accept="audio/*" multiple hidden>
+  <input id="padFile" type="file" accept="audio/*" multiple hidden>
+
+  <!-- big drop overlay -->
+  <div id="dropOverlay" class="drop-overlay" hidden><div class="drop-inner">Drop audio to add a track</div></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
