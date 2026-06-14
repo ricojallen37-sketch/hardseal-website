@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>The Cyber Playbook — Cybersecurity explained in sports lingo | Hardseal</title>
+<meta name="description" content="An interactive bridge between sports and cybersecurity. Translate the locker-room lingo you already know — offense, defense, playbooks, scouting reports, refs — into the security concepts that protect teams, leagues, and the data behind the game.">
+<meta name="keywords" content="cybersecurity for sports, sports analogies cybersecurity, security awareness, cyber playbook, explain cybersecurity simply, red team blue team, threat intelligence, incident response, Hardseal">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Cyber Playbook — Cybersecurity explained in sports lingo">
+<meta property="og:description" content="The bridge between sports lingo and cybersecurity. Offense, defense, playbooks, scouting reports, refs — translated into the concepts that keep the game safe.">
+<meta property="og:url" content="https://hardseal.ai/playbook.html">
+<meta property="og:image" content="https://hardseal.ai/og-card.png">
+<meta property="og:site_name" content="Hardseal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="The Cyber Playbook — Cybersecurity explained in sports lingo">
+<meta name="twitter:description" content="Translate the locker-room lingo you already know into the security concepts that protect the game.">
+<meta name="twitter:image" content="https://hardseal.ai/og-card.png">
+<link rel="canonical" href="https://hardseal.ai/playbook.html">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;
+  --border:#1A1A1A;--border2:#222;--border3:#2A2A2A;
+  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--gray4:#333;
+  --green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.18);--green-glow:rgba(0,255,136,0.35);
+  --blue:#2F80FF;--blue-dim:rgba(47,128,255,0.1);--blue-line:rgba(47,128,255,0.45);--blue-glow:rgba(47,128,255,0.34);
+  --red:#FF5577;--red-dim:rgba(255,85,119,0.08);--red-med:rgba(255,85,119,0.18);
+  --amber:#FFBD2E;--amber-dim:rgba(255,189,46,0.08);
+  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html{scroll-behavior:smooth;background:var(--bg)}
+body{font-family:var(--sans);color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;line-height:1.6;font-size:16px;overflow-x:hidden}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.mono{font-family:var(--mono)}
+
+/* Header */
+header{border-bottom:1px solid var(--border);padding:18px 40px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:50}
+.logo{font-family:var(--mono);font-weight:700;letter-spacing:.08em;font-size:14px;color:var(--white)}
+nav a{color:var(--gray1);margin-left:28px;font-size:13px;letter-spacing:.05em;font-family:var(--mono)}
+nav a:hover{color:var(--green);text-decoration:none}
+@media(max-width:760px){nav{display:none}}
+
+/* Hero */
+.hero{max-width:900px;margin:0 auto;padding:72px 40px 36px;text-align:center}
+.eyebrow{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.18em;margin-bottom:20px}
+.eyebrow::before{content:"● ";color:var(--green)}
+h1{font-size:52px;line-height:1.05;letter-spacing:-.025em;margin-bottom:22px;font-weight:800}
+h1 .accent{color:var(--green)}
+.hero .lead{font-size:19px;color:var(--gray1);max-width:680px;margin:0 auto 8px;line-height:1.55}
+.score-strip{display:flex;justify-content:center;gap:0;margin:40px auto 0;max-width:620px;border:1px solid var(--border2);background:var(--bg2)}
+.score-cell{flex:1;padding:18px 12px;text-align:center;border-right:1px solid var(--border2)}
+.score-cell:last-child{border-right:none}
+.score-cell .num{font-family:var(--mono);font-size:26px;color:var(--green);font-weight:700;display:block}
+.score-cell .lbl{font-family:var(--mono);font-size:10px;color:var(--gray2);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
+
+/* Layout */
+main{max-width:980px;margin:0 auto;padding:0 40px 96px}
+.section-label{font-family:var(--mono);font-size:11px;color:var(--green);letter-spacing:.18em;margin:64px 0 8px;border-top:1px solid var(--border);padding-top:36px}
+.section-title{font-size:30px;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.section-intro{color:var(--gray1);max-width:740px;font-size:16px;margin-bottom:28px}
+
+/* Write-up prose */
+.prose p{color:var(--gray1);margin-bottom:18px;max-width:740px}
+.prose strong{color:var(--white)}
+.prose .pull{border-left:2px solid var(--green);padding:6px 22px;margin:24px 0;color:var(--white);background:var(--bg3);font-size:17px;max-width:740px}
+
+/* Translator app */
+.app{border:1px solid var(--border2);background:var(--bg2);margin-top:8px}
+.app-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--border2);background:var(--bg3)}
+.search{flex:1;min-width:220px;position:relative}
+.search input{width:100%;background:var(--bg);border:1px solid var(--border3);color:var(--white);font-family:var(--mono);font-size:14px;padding:11px 14px 11px 38px;outline:none}
+.search input:focus{border-color:var(--green);box-shadow:0 0 0 1px var(--green-dim)}
+.search input::placeholder{color:var(--gray3)}
+.search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--gray3)}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:8px 12px;border:1px solid var(--border3);color:var(--gray1);text-transform:uppercase;transition:all .15s}
+.chip:hover{border-color:var(--gray3);color:var(--white)}
+.chip.active{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0}
+.card{border-bottom:1px solid var(--border2);border-right:1px solid var(--border2);padding:22px 22px 20px;position:relative;transition:background .15s}
+.card:hover{background:var(--bg3)}
+.card .cat{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--gray2);text-transform:uppercase;margin-bottom:12px}
+.card .bridge{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card .sport{font-family:var(--mono);font-size:15px;color:var(--amber);font-weight:600}
+.card .arrow{color:var(--green);font-family:var(--mono);font-size:15px}
+.card .cyber{font-family:var(--mono);font-size:15px;color:var(--green);font-weight:600}
+.card p{color:var(--gray1);font-size:14px;line-height:1.6;margin:0}
+.empty{padding:48px 22px;text-align:center;color:var(--gray2);font-family:var(--mono);font-size:13px;grid-column:1/-1}
+.app-foot{padding:14px 20px;border-top:1px solid var(--border2);font-family:var(--mono);font-size:11px;color:var(--gray2);letter-spacing:.06em}
+
+/* Playbook two-column */
+.plays{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border2);margin-top:8px}
+.play-col{padding:0}
+.play-col:first-child{border-right:1px solid var(--border2)}
+.play-head{font-family:var(--mono);font-size:12px;letter-spacing:.12em;padding:16px 22px;border-bottom:1px solid var(--border2);text-transform:uppercase;font-weight:600}
+.play-head.off{color:var(--red);background:var(--red-dim)}
+.play-head.def{color:var(--blue);background:var(--blue-dim)}
+.play-item{padding:18px 22px;border-bottom:1px solid var(--border)}
+.play-item:last-child{border-bottom:none}
+.play-item h4{font-family:var(--mono);font-size:13px;color:var(--white);margin-bottom:6px;letter-spacing:.03em}
+.play-item p{color:var(--gray1);font-size:13.5px;line-height:1.55}
+@media(max-width:680px){.plays{grid-template-columns:1fr}.play-col:first-child{border-right:none;border-bottom:1px solid var(--border2)}}
+
+/* Quiz */
+.quiz{border:1px solid var(--border2);background:var(--bg2);margin-top:8px;padding:28px}
+.quiz-progress{font-family:var(--mono);font-size:11px;color:var(--gray2);letter-spacing:.1em;margin-bottom:14px}
+.quiz-q{font-size:20px;font-weight:600;margin-bottom:20px;line-height:1.4}
+.quiz-q .term{color:var(--amber);font-family:var(--mono)}
+.quiz-opts{display:grid;gap:10px;margin-bottom:8px}
+.opt{text-align:left;border:1px solid var(--border3);padding:14px 16px;font-size:14.5px;color:var(--gray1);transition:all .15s;display:flex;align-items:center;gap:12px}
+.opt:hover:not(:disabled){border-color:var(--gray3);color:var(--white)}
+.opt:disabled{cursor:default}
+.opt .key{font-family:var(--mono);font-size:12px;color:var(--gray3);border:1px solid var(--border3);width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.opt.correct{border-color:var(--green);background:var(--green-dim);color:var(--white)}
+.opt.correct .key{border-color:var(--green);color:var(--green)}
+.opt.wrong{border-color:var(--red);background:var(--red-dim);color:var(--white)}
+.opt.wrong .key{border-color:var(--red);color:var(--red)}
+.quiz-explain{font-size:14px;color:var(--gray1);background:var(--bg3);border-left:2px solid var(--green);padding:12px 16px;margin-top:16px;display:none}
+.quiz-explain.show{display:block}
+.quiz-next{margin-top:18px;display:none}
+.quiz-next button{font-family:var(--mono);font-size:13px;letter-spacing:.06em;padding:12px 24px;border:1px solid var(--green);color:var(--green);background:var(--green-dim);text-transform:uppercase}
+.quiz-next button:hover{background:var(--green-med)}
+.quiz-next.show{display:block}
+.quiz-result{text-align:center;padding:20px 0}
+.quiz-result .big{font-family:var(--mono);font-size:48px;color:var(--green);font-weight:700}
+.quiz-result .grade{font-size:18px;color:var(--white);margin:8px 0 6px}
+.quiz-result p{color:var(--gray1);font-size:14px;margin-bottom:20px}
+.quiz-result button{font-family:var(--mono);font-size:12px;letter-spacing:.06em;padding:11px 22px;border:1px solid var(--border3);color:var(--gray1);text-transform:uppercase}
+.quiz-result button:hover{border-color:var(--green);color:var(--green)}
+
+/* CTA */
+.cta{border:1px solid var(--border2);background:var(--bg2);padding:36px;margin-top:64px;text-align:center}
+.cta h3{font-size:24px;font-weight:700;margin-bottom:12px}
+.cta p{color:var(--gray1);max-width:620px;margin:0 auto 22px;font-size:15px}
+.cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta a{font-family:var(--mono);font-size:13px;letter-spacing:.05em;padding:13px 24px;border:1px solid var(--border3);color:var(--white);text-transform:uppercase}
+.cta a:hover{text-decoration:none;border-color:var(--green);color:var(--green)}
+.cta a.primary{border-color:var(--green);background:var(--green-dim);color:var(--green)}
+.cta a.primary:hover{background:var(--green-med)}
+
+footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
+footer a{color:var(--gray2)}
+
+@media(max-width:720px){
+  header{padding:16px 20px}
+  .hero{padding:48px 20px 24px}
+  h1{font-size:34px}
+  .hero .lead{font-size:16px}
+  main{padding:0 20px 64px}
+  .section-title{font-size:24px}
+  .score-cell .num{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo">HARDSEAL</a>
+  <nav>
+    <a href="/edge.html">EDGE</a>
+    <a href="/verify.html">VERIFY</a>
+    <a href="/resources.html">RESOURCES</a>
+    <a href="/playbook.html" style="color:var(--white)">PLAYBOOK</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">SECURITY AWARENESS · THE SPORTS ↔ CYBER BRIDGE</div>
+  <h1>The <span class="accent">Cyber Playbook.</span></h1>
+  <p class="lead">
+    Everybody understands sports. Almost nobody thinks they understand cybersecurity. But it's the same game — offense and defense, scouting reports and game film, a rulebook and the refs who enforce it. This is the bridge: the locker-room lingo you already know, translated into the security concepts that keep the game — and the data behind it — safe.
+  </p>
+  <div class="score-strip">
+    <div class="score-cell"><span class="num" id="stat-terms">30</span><span class="lbl">Lingo Bridges</span></div>
+    <div class="score-cell"><span class="num">6</span><span class="lbl">Positions</span></div>
+    <div class="score-cell"><span class="num">5</span><span class="lbl">Quiz Plays</span></div>
+    <div class="score-cell"><span class="num">∞</span><span class="lbl">Free Forever</span></div>
+  </div>
+</section>
+
+<main>
+
+  <!-- WRITE-UP -->
+  <div class="section-label">// PRE-GAME · WHY THIS BRIDGE EXISTS</div>
+  <div class="section-title">If you can read a box score, you can read a security posture.</div>
+  <div class="prose">
+    <p>
+      Cybersecurity has a reputation problem. It sounds like a wall of acronyms thrown up by people who don't want you in the room — SIEM, EDR, MFA, NIST, CMMC. So most people tune out, decide it's "the IT team's problem," and click the link in the email anyway. That tuning-out is exactly how breaches happen. Security isn't a back-office chore; it's a <strong>team sport</strong>, and every person on the roster either makes a play or gives one up.
+    </p>
+    <p>
+      Sports already taught the whole world how to think about this. A team puts points on the board (offense) and stops the other team from scoring (defense). It studies its opponent before the game (scouting), reviews what went wrong after (game film), runs set plays from a <strong>playbook</strong>, and plays inside a rulebook enforced by refs. Swap a few nouns and you've described a modern security operation almost perfectly.
+    </p>
+    <p class="pull">
+      Attackers are the away team. Your defenders are the home team. The data is the trophy. Everything else is just play-calling.
+    </p>
+    <p>
+      That's what this page is — a translator. Below, you'll find an interactive glossary that maps sports lingo to its cybersecurity counterpart, a side-by-side <strong>playbook</strong> of offense (how attackers score) versus defense (how teams stop them), and a quick quiz to see if the lingo stuck. No prior knowledge required. If you've ever yelled at a TV over a bad call, you already have the instincts.
+    </p>
+  </div>
+
+  <!-- TRANSLATOR APP -->
+  <div class="section-label">// THE TRANSLATOR · SPORTS LINGO → CYBER MEANING</div>
+  <div class="section-title">Look up any term.</div>
+  <p class="section-intro">Search a word you know from the field, or filter by position. The amber side is the sport. The green side is what it means in security.</p>
+
+  <div class="app">
+    <div class="app-bar">
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="search" placeholder="Search: playbook, scouting, foul, MVP, hail mary…" autocomplete="off">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="app-foot" id="count">Showing all bridges.</div>
+  </div>
+
+  <!-- PLAYBOOK -->
+  <div class="section-label">// THE PLAYBOOK · OFFENSE VS. DEFENSE</div>
+  <div class="section-title">How points get scored — and stopped.</div>
+  <p class="section-intro">In security, the offense is the attacker (and the "red team" who simulates them). The defense is your "blue team." Here are the signature plays on each side of the ball.</p>
+
+  <div class="plays">
+    <div class="play-col">
+      <div class="play-head off">▲ OFFENSE — How attackers score</div>
+      <div class="play-item"><h4>The Trick Play (Phishing)</h4><p>A fake handoff. The attacker disguises a malicious email or text as something you trust — your coach, your bank, the league office — to make you hand over the ball (your password).</p></div>
+      <div class="play-item"><h4>The Blitz (Brute Force / DDoS)</h4><p>Send everything at once. Overwhelm the line by flooding a login or a website with so much traffic it collapses or cracks.</p></div>
+      <div class="play-item"><h4>Stealing Signs (Reconnaissance)</h4><p>Before the snap, study the defense. Attackers map your network, scan for open ports, and read your "signals" to find the weak spot.</p></div>
+      <div class="play-item"><h4>The Hail Mary (Zero-Day)</h4><p>An unscouted play nobody has a defense for yet — an exploit for a flaw the defenders don't even know exists.</p></div>
+      <div class="play-item"><h4>The Inside Job (Insider Threat)</h4><p>A player on your own roster throwing the game — a disgruntled or careless insider who already has a jersey and locker access.</p></div>
+    </div>
+    <div class="play-col">
+      <div class="play-head def">▼ DEFENSE — How teams stop it</div>
+      <div class="play-item"><h4>Zone Defense (Segmentation)</h4><p>Don't leave the whole field open. Split the network into zones so a breach in one area can't run the length of the field untouched.</p></div>
+      <div class="play-item"><h4>Two Defenders on the Ball (MFA)</h4><p>One lock isn't enough. Multi-factor authentication requires a second proof — a code, a tap, a fingerprint — so a stolen password alone can't score.</p></div>
+      <div class="play-item"><h4>Watching Game Film (Logging & Monitoring)</h4><p>Every snap is recorded. Security logs let defenders replay exactly what happened, spot the missed assignment, and adjust before the rematch.</p></div>
+      <div class="play-item"><h4>The Goalkeeper (Endpoint Detection)</h4><p>Last line at every device. EDR sits on laptops and phones, watching for the shot that beat everyone else and stopping it at the net.</p></div>
+      <div class="play-item"><h4>The Two-Minute Drill (Incident Response)</h4><p>A rehearsed plan for when you're losing. When a breach hits, the team runs a practiced drill — contain, eradicate, recover — instead of improvising.</p></div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section-label">// CALL THE PLAY · TEST YOURSELF</div>
+  <div class="section-title">Five snaps. Did the lingo stick?</div>
+  <p class="section-intro">Match the sports term to the cyber concept it bridges to. No score is saved, nobody's watching — just reps.</p>
+
+  <div class="quiz" id="quiz"></div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <h3>Hardseal plays defense for regulated teams.</h3>
+    <p>This page is the friendly intro. Behind it, Hardseal does the serious work: deterministic, offline-verifiable evidence for CMMC and NIST SP 800-171 teams — so when the refs (assessors) show up, the game film holds up. Learn how the real defense works.</p>
+    <div class="btns">
+      <a href="/" class="primary">See what Hardseal does →</a>
+      <a href="/resources.html">Read the doctrine →</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Hardseal · the cyber playbook · a free security-awareness bridge · <a href="/resources.html">more resources</a>
+</footer>
+
+<script>
+// ---- The Translator data: sports lingo -> cyber meaning ----
+const TERMS = [
+  // PEOPLE / ROLES
+  {sport:"Head Coach", cyber:"CISO", cat:"Roles", desc:"The Chief Information Security Officer calls the overall strategy and is accountable for whether the team wins or loses on security."},
+  {sport:"Team Captain", cyber:"Incident Commander", cat:"Roles", desc:"When a breach is in progress, one person runs the huddle — making the calls so the response is coordinated instead of chaotic."},
+  {sport:"The Refs", cyber:"Auditors / Assessors", cat:"Roles", desc:"Independent officials who check that you played by the rulebook. In compliance, a C3PAO or auditor reviews your evidence and calls the fouls."},
+  {sport:"Scout", cyber:"Threat Intelligence Analyst", cat:"Roles", desc:"Studies the opponents you haven't faced yet — tracking attacker groups, their tools, and their tendencies before they line up against you."},
+  {sport:"The Roster", cyber:"Users / Identities", cat:"Roles", desc:"Everyone with a jersey. Every account on the network is a player who can either make a defensive stop or give up an own goal."},
+  // OFFENSE / THREATS
+  {sport:"Trick Play", cyber:"Phishing", cat:"Offense", desc:"A play built on deception — a fake email or text dressed up as something you trust, designed to make you hand over the ball (your credentials)."},
+  {sport:"The Blitz", cyber:"DDoS Attack", cat:"Offense", desc:"Send everyone at once. A Distributed Denial of Service floods a site or service with traffic until the line buckles and it goes down."},
+  {sport:"Stealing Signs", cyber:"Reconnaissance", cat:"Offense", desc:"Reading the defense before the snap — scanning a network for open doors, weak spots, and exposed signals to plan the attack."},
+  {sport:"Hail Mary", cyber:"Zero-Day Exploit", cat:"Offense", desc:"A play nobody has a defense for yet — an attack on a flaw the defenders don't even know exists, so there's no patch and no game plan."},
+  {sport:"The Inside Job", cyber:"Insider Threat", cat:"Offense", desc:"A rostered player throwing the game. Someone with legitimate access misuses it — out of malice, money, or carelessness."},
+  {sport:"Performance Enhancers", cyber:"Malware", cat:"Offense", desc:"Banned substances slipped into the system. Malicious software that hides in a device to cheat, steal, or sabotage from the inside."},
+  {sport:"Hostage Situation", cyber:"Ransomware", cat:"Offense", desc:"They grab your trophy and demand a payout to give it back. Ransomware encrypts your data and holds it for ransom."},
+  {sport:"Flopping", cyber:"Social Engineering", cat:"Offense", desc:"Selling a lie to manipulate the call. Attackers con a human — sympathy, urgency, authority — into bending the rules and opening a door."},
+  // DEFENSE
+  {sport:"Zone Defense", cyber:"Network Segmentation", cat:"Defense", desc:"Don't leave the whole field open. Split the network into zones so one breach can't run coast to coast untouched."},
+  {sport:"Two Defenders on the Ball", cyber:"Multi-Factor Auth (MFA)", cat:"Defense", desc:"One lock isn't enough. MFA demands a second proof — a code, a tap, a fingerprint — so a stolen password alone can't score."},
+  {sport:"The Goalkeeper", cyber:"Endpoint Detection (EDR)", cat:"Defense", desc:"The last line at every device. EDR watches laptops and phones for the shot that beat everyone else and stops it at the net."},
+  {sport:"The Wall", cyber:"Firewall", cat:"Defense", desc:"The defensive line at the perimeter. A firewall decides which traffic gets through the gate and which gets turned away."},
+  {sport:"Two-Minute Drill", cyber:"Incident Response Plan", cat:"Defense", desc:"A rehearsed plan for when you're losing. When a breach hits, run the practiced drill — contain, eradicate, recover — don't improvise."},
+  {sport:"Man-to-Man", cyber:"Least Privilege", cat:"Defense", desc:"Everyone covers only their assignment. Users get access to exactly what they need for their role — nothing extra to exploit."},
+  {sport:"Decoy / Dummy Runner", cyber:"Honeypot", cat:"Defense", desc:"Bait that looks like the real thing. A fake target left out to lure attackers so defenders can spot them and study the play."},
+  // THE FIELD / INFRASTRUCTURE
+  {sport:"The Stadium", cyber:"Network Perimeter", cat:"The Field", desc:"The whole venue you have to secure — every gate, tunnel, and turnstile is a way in that has to be watched."},
+  {sport:"The Locker Room", cyber:"Internal / Trusted Zone", cat:"The Field", desc:"Behind-the-scenes space that's supposed to be players-only. Once an attacker gets in here, they can move freely if you let them."},
+  {sport:"The Vault / Trophy Room", cyber:"Crown Jewels", cat:"The Field", desc:"Your most valuable assets — the championship data you'd protect at all costs. Everything else exists to keep this safe."},
+  {sport:"Ticket at the Gate", cyber:"Authentication", cat:"The Field", desc:"Proving you're allowed in. Your ticket (password, badge, key) gets checked at the turnstile before you reach your seat."},
+  {sport:"Season Ticket Holder", cyber:"Standing Credentials", cat:"The Field", desc:"Long-lived access that gets you in again and again. Convenient — and a prize for an attacker, because it keeps working."},
+  // RULES / COMPLIANCE
+  {sport:"The Rulebook", cyber:"Compliance Framework", cat:"Rules", desc:"The official standard everyone agrees to play by — NIST SP 800-171, CMMC, ISO 27001. Break it and you draw a penalty."},
+  {sport:"Instant Replay", cyber:"Audit Log / Evidence", cat:"Rules", desc:"The recorded proof of what actually happened. When the call is challenged, you go to the tape — tamper-proof logs settle it."},
+  {sport:"A Foul", cyber:"Policy Violation", cat:"Rules", desc:"Breaking a rule — sharing a password, dodging MFA, leaving data exposed. Some are minor; some get you ejected."},
+  {sport:"The Penalty", cyber:"Fine / Sanction", cat:"Rules", desc:"The cost of the foul. Regulatory fines, lost contracts, or a failed assessment — the scoreboard consequence of breaking the rules."},
+  {sport:"Pre-Season Scrimmage", cyber:"Penetration Test", cat:"Rules", desc:"A controlled practice game against your own 'red team' to find weak spots before a real opponent does it for points."},
+];
+
+const CATS = ["All","Roles","Offense","Defense","The Field","Rules"];
+let activeCat = "All";
+let query = "";
+
+const grid = document.getElementById('grid');
+const filters = document.getElementById('filters');
+const countEl = document.getElementById('count');
+const searchEl = document.getElementById('search');
+
+document.getElementById('stat-terms').textContent = TERMS.length;
+
+CATS.forEach(c => {
+  const b = document.createElement('button');
+  b.className = 'chip' + (c === 'All' ? ' active' : '');
+  b.textContent = c;
+  b.onclick = () => { activeCat = c; [...filters.children].forEach(x=>x.classList.remove('active')); b.classList.add('active'); render(); };
+  filters.appendChild(b);
+});
+
+function render(){
+  const q = query.trim().toLowerCase();
+  const list = TERMS.filter(t => {
+    const catOk = activeCat === 'All' || t.cat === activeCat;
+    const qOk = !q || (t.sport+t.cyber+t.desc+t.cat).toLowerCase().includes(q);
+    return catOk && qOk;
+  });
+  grid.innerHTML = '';
+  if(!list.length){
+    grid.innerHTML = '<div class="empty">No play matches that. Try "playbook", "phishing", or clear the search.</div>';
+    countEl.textContent = 'No bridges found.';
+    return;
+  }
+  list.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML =
+      '<div class="cat">'+t.cat+'</div>'+
+      '<div class="bridge"><span class="sport">'+t.sport+'</span><span class="arrow">→</span><span class="cyber">'+t.cyber+'</span></div>'+
+      '<p>'+t.desc+'</p>';
+    grid.appendChild(d);
+  });
+  countEl.textContent = 'Showing ' + list.length + ' of ' + TERMS.length + ' bridges' + (activeCat!=='All' ? ' · '+activeCat : '') + (q ? ' · "'+query+'"' : '') + '.';
+}
+searchEl.addEventListener('input', e => { query = e.target.value; render(); });
+render();
+
+// ---- Quiz ----
+const QUIZ = [
+  {q:'In security, a <span class="term">Trick Play</span> — a fake handoff dressed up as something you trust — is which kind of attack?',
+   opts:['Phishing','Firewall','Encryption','Patching'], a:0,
+   e:'Phishing is deception by design: a message disguised as a trusted source to make you hand over credentials.'},
+  {q:'Splitting the field into zones so one breach can\'t run coast-to-coast is the cyber version of a <span class="term">Zone Defense</span>. What\'s it called?',
+   opts:['Brute Force','Network Segmentation','Reconnaissance','Social Engineering'], a:1,
+   e:'Network segmentation limits an attacker\'s movement — a breach in one zone is contained instead of spreading everywhere.'},
+  {q:'Requiring a second proof beyond your password — like <span class="term">two defenders on the ball</span> — is what?',
+   opts:['A honeypot','A firewall','Multi-Factor Authentication','A penalty'], a:2,
+   e:'MFA means a stolen password alone can\'t score — the attacker still has to beat the second defender.'},
+  {q:'The recorded proof you go to when a call is challenged — the <span class="term">instant replay</span> of security — is the…',
+   opts:['Audit log','Hail Mary','Blitz','Scrimmage'], a:0,
+   e:'Tamper-proof audit logs are the game film: they settle disputes by showing exactly what happened.'},
+  {q:'An attack on a flaw nobody knows about yet — the <span class="term">Hail Mary</span> with no defense drawn up — is a…',
+   opts:['Insider threat','Zero-day exploit','Ransom note','Compliance audit'], a:1,
+   e:'A zero-day exploits an unknown flaw, so there\'s no patch and no rehearsed defense — exactly like an unscouted play.'},
+];
+let qi = 0, score = 0;
+const quizEl = document.getElementById('quiz');
+
+function renderQuiz(){
+  if(qi >= QUIZ.length){ renderResult(); return; }
+  const item = QUIZ[qi];
+  const keys = ['A','B','C','D'];
+  quizEl.innerHTML =
+    '<div class="quiz-progress">PLAY '+(qi+1)+' OF '+QUIZ.length+' · SCORE '+score+'</div>'+
+    '<div class="quiz-q">'+item.q+'</div>'+
+    '<div class="quiz-opts" id="opts"></div>'+
+    '<div class="quiz-explain" id="explain"></div>'+
+    '<div class="quiz-next" id="next"><button id="nextBtn">'+(qi===QUIZ.length-1?'See results →':'Next play →')+'</button></div>';
+  const opts = document.getElementById('opts');
+  item.opts.forEach((o,i) => {
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.innerHTML = '<span class="key">'+keys[i]+'</span>'+o;
+    b.onclick = () => answer(i, b);
+    opts.appendChild(b);
+  });
+}
+function answer(i, btn){
+  const item = QUIZ[qi];
+  const opts = document.getElementById('opts');
+  [...opts.children].forEach((b,idx) => {
+    b.disabled = true;
+    if(idx === item.a) b.classList.add('correct');
+    if(idx === i && i !== item.a) b.classList.add('wrong');
+  });
+  if(i === item.a) score++;
+  const ex = document.getElementById('explain');
+  ex.innerHTML = (i===item.a?'✓ Good call. ':'✗ Whistle. ') + item.e;
+  ex.classList.add('show');
+  document.getElementById('next').classList.add('show');
+  document.getElementById('nextBtn').onclick = () => { qi++; renderQuiz(); };
+}
+function renderResult(){
+  const pct = Math.round(score/QUIZ.length*100);
+  let grade = 'Rookie';
+  if(pct===100) grade='MVP — perfect game.';
+  else if(pct>=80) grade='Starter — you know the playbook.';
+  else if(pct>=60) grade='Bench player — run it back.';
+  else grade='Practice squad — the lingo bridge above will help.';
+  quizEl.innerHTML =
+    '<div class="quiz-result">'+
+    '<div class="big">'+score+'/'+QUIZ.length+'</div>'+
+    '<div class="grade">'+grade+'</div>'+
+    '<p>You just translated attacker offense and defender defense without a single acronym getting in the way. That instinct is the whole point.</p>'+
+    '<button id="again">↺ Run it back</button>'+
+    '</div>';
+  document.getElementById('again').onclick = () => { qi=0; score=0; renderQuiz(); };
+}
+renderQuiz();
+</script>
+
+</body>
+</html>
