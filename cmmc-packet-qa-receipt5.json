@@ -1,0 +1,202 @@
+{
+  "created_utc": "2026-06-13T18:00:00Z",
+  "integrity": {
+    "chain_root": "e64cea918ba9a26ee395d4d8e1e5caede4261a984ea61beab7569d0c1a5a1af0",
+    "genesis_label": "HARDSEAL_CMMC_PACKET_QA_RECEIPT_v1",
+    "hash_chain_algorithm": "sha256_canonical_json_chain_v1",
+    "section_hashes": [
+      {
+        "hash": "9792ef7fcfc0cdce3b9a4a76c9c79915eff47c0af319bc7666024f188342f370",
+        "section": "metadata"
+      },
+      {
+        "hash": "bfde6a2ba31a3ce192960b596777efb8a34b047192d0a08ca9b20408c1bd9885",
+        "section": "framework_basis"
+      },
+      {
+        "hash": "a2036f70b6844e77122ea447b896ae2cbf4b833c33b836393771333b9d9bcc64",
+        "section": "packet_slice"
+      },
+      {
+        "hash": "834df4bde301967619ed14fe0232197fdfdbad4a7021f725750226a62bd6c071",
+        "section": "packet_claim"
+      },
+      {
+        "hash": "130d971cc2ce81d4100763cd9a7606f19164512446d052d1603cca0790e335e9",
+        "section": "evidence_observed"
+      },
+      {
+        "hash": "912452e079140e9a08dd117b895caf998e51753a28fbb3970d267d0bda4418d2",
+        "section": "finding"
+      },
+      {
+        "hash": "1a5f4b011d693cd7c26ad3eeae7f85a1d26d49799320a6c555b687d7682818fa",
+        "section": "reviewer_question"
+      },
+      {
+        "hash": "9f422c7831578d76c5cbab3c7ece703bf47da2841f77a40fab8f087adc23eda7",
+        "section": "next_proof_needed"
+      },
+      {
+        "hash": "e64cea918ba9a26ee395d4d8e1e5caede4261a984ea61beab7569d0c1a5a1af0",
+        "section": "limitations"
+      }
+    ],
+    "section_order": [
+      "metadata",
+      "framework_basis",
+      "packet_slice",
+      "packet_claim",
+      "evidence_observed",
+      "finding",
+      "reviewer_question",
+      "next_proof_needed",
+      "limitations"
+    ],
+    "tamper_status": "clean",
+    "verification_command": "python3 -m hardseal.receipts.cmmc_packet_qa verify <receipt.json>"
+  },
+  "offline_mode": true,
+  "receipt_id": "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample",
+  "receipt_type": "hardseal_cmmc_packet_qa_receipt",
+  "schema_version": "0.1",
+  "sections": {
+    "evidence_observed": {
+      "observed_items": [
+        {
+          "artifact": "admin-account-export.csv",
+          "observation": "Privileged accounts are listed, including break-glass and service-admin accounts.",
+          "supports": [
+            "3.5.3[a]"
+          ]
+        },
+        {
+          "artifact": "conditional-access-policy-summary.md",
+          "does_not_support": [
+            "3.5.3[b]"
+          ],
+          "observation": "MFA policy is described for cloud network sign-in, but no local console or local admin path evidence is present.",
+          "supports": [
+            "3.5.3[c]",
+            "3.5.3[d]"
+          ]
+        },
+        {
+          "artifact": "vpn-auth-screenshot-redacted.txt",
+          "observation": "Network access evidence shows MFA prompt text, but no sample authentication log is included.",
+          "partial_support": [
+            "3.5.3[d]"
+          ],
+          "supports": [
+            "3.5.3[c]"
+          ]
+        }
+      ]
+    },
+    "finding": {
+      "finding_id": "HS-CMMC-QA-2026-001",
+      "finding_text": "The packet names privileged accounts and shows some network MFA evidence, but it does not yet support the SSP claim that MFA is implemented for local access to privileged accounts.",
+      "partially_supported_objectives": [
+        "3.5.3[d]"
+      ],
+      "severity": "medium",
+      "status": "partially_supported",
+      "supported_objectives": [
+        "3.5.3[a]",
+        "3.5.3[c]"
+      ],
+      "unsupported_objectives": [
+        "3.5.3[b]"
+      ],
+      "why_it_matters": "A reviewer can ask for objective-level evidence, not just a general MFA policy statement."
+    },
+    "framework_basis": {
+      "assessment_objectives": [
+        {
+          "id": "3.5.3[a]",
+          "text": "privileged accounts are identified."
+        },
+        {
+          "id": "3.5.3[b]",
+          "text": "multifactor authentication is implemented for local access to privileged accounts."
+        },
+        {
+          "id": "3.5.3[c]",
+          "text": "multifactor authentication is implemented for network access to privileged accounts."
+        },
+        {
+          "id": "3.5.3[d]",
+          "text": "multifactor authentication is implemented for network access to non-privileged accounts."
+        }
+      ],
+      "control": {
+        "id": "IA.L2-3.5.3",
+        "nist_sp_800_171": "3.5.3",
+        "requirement": "Use multifactor authentication."
+      },
+      "framework": "CMMC Level 2 / NIST SP 800-171 Rev. 2",
+      "source": "NIST SP 800-171A assessment procedures CSV",
+      "source_url": "https://csrc.nist.gov/files/pubs/sp/800/171/a/final/docs/sp800-171a-assessment-procedures.csv"
+    },
+    "limitations": {
+      "claim_boundary": "Hardseal records whether the packet matches the anchored finding under explicit assumptions.",
+      "what_pass_does_not_prove": [
+        "customer facts",
+        "complete evidence coverage",
+        "formal review result",
+        "official CMMC status",
+        "physical truth"
+      ],
+      "what_pass_proves": [
+        "The receipt sections still match the recorded SHA-256 chain root.",
+        "The finding text, objective mapping, and limitations were not changed after sealing."
+      ]
+    },
+    "metadata": {
+      "customer_data_rule": "No CUI, credentials, screenshots, network maps, data-flow diagrams, SSPs, or sensitive customer evidence are included.",
+      "input_class": "synthetic_public_sample",
+      "operator": "Rico Allen",
+      "organization": "Hardseal LLC",
+      "receipt_name": "Receipt 001 - CMMC Packet QA - IA.L2-3.5.3"
+    },
+    "next_proof_needed": {
+      "acceptable_examples": [
+        "PAM policy export showing local privileged MFA enforcement",
+        "Endpoint or directory policy showing local admin MFA control",
+        "Procedure plus test record showing local privileged MFA behavior"
+      ],
+      "do_not_collect_here": [
+        "CUI",
+        "credentials",
+        "unredacted network maps",
+        "full SSP",
+        "sensitive screenshots"
+      ],
+      "primary_next_artifact": "local-privileged-mfa-control-export"
+    },
+    "packet_claim": {
+      "claim_id": "CLAIM-IA-3-5-3-MFA-001",
+      "claim_text": "The packet claims MFA is implemented for local privileged access, network privileged access, and network non-privileged access.",
+      "claimed_objective_coverage": [
+        "3.5.3[a]",
+        "3.5.3[b]",
+        "3.5.3[c]",
+        "3.5.3[d]"
+      ]
+    },
+    "packet_slice": {
+      "artifact_area": "identity and access evidence",
+      "contractor_profile": "Cardinal Point Aerostructures synthetic sample",
+      "packet_scope": "single objective-sliced sample finding",
+      "safe_input_summary": [
+        "SSP excerpt claims MFA is enforced for all remote and privileged access.",
+        "Policy excerpt states privileged access requires MFA.",
+        "Synthetic admin-account export lists privileged accounts and MFA status."
+      ]
+    },
+    "reviewer_question": {
+      "expected_answer_shape": "A local admin login control export, PAM configuration, or equivalent record mapped directly to 3.5.3[b].",
+      "question": "Where is the objective-level evidence that local privileged account access requires MFA?"
+    }
+  }
+}

@@ -44,6 +44,7 @@ MINIMAL_VERIFY_HTML = """<!doctype html>
 are <strong>not</strong> Ed25519-signed production evidence, customer evidence,
 or compliance proof.</p>
 <a href="/downloads/verify_standalone.py">Python verifier</a>
+<a href="/downloads/verify_cmmc_packet_qa.py">Native CMMC verifier</a>
 </body></html>
 """
 
@@ -64,6 +65,10 @@ def _build_baseline_repo(root: Path) -> None:
         p = root / name
         p.write_bytes(SAMPLE_RECEIPT_JSON)
         _write_sidecar(p)
+    for name, _verifier_rel in rg.PUBLIC_NATIVE_CMMC_RECEIPTS:
+        p = root / name
+        p.write_bytes(SAMPLE_RECEIPT_JSON)
+        _write_sidecar(p)
     (root / "verify.html").write_text(MINIMAL_VERIFY_HTML, encoding="utf-8")
     # verify.html links the standalone verifier; the link-check expects
     # the file to exist. We create a stub — the proof-artifact check
@@ -76,6 +81,10 @@ def _build_baseline_repo(root: Path) -> None:
     # verifier's correctness is the verifier's own concern; the gate's
     # job is to invoke it and confirm the PASS contract.
     (downloads / "verify_standalone.py").write_text(
+        "import sys\nprint('result: PASS')\n",
+        encoding="utf-8",
+    )
+    (downloads / "verify_cmmc_packet_qa.py").write_text(
         "import sys\nprint('result: PASS')\n",
         encoding="utf-8",
     )
@@ -179,6 +188,28 @@ class TestProofArtifacts(GateTestBase):
         result = rg.GateResult()
         rg.check_links(self.root, result)
         self.assertFails(result, "wrong file")
+
+    def test_native_cmmc_receipt_bad_sidecar_hash(self) -> None:
+        receipt = self.root / rg.PUBLIC_NATIVE_CMMC_RECEIPTS[0][0]
+        sidecar = receipt.with_suffix(receipt.suffix + ".sha256")
+        sidecar.write_text(
+            f"{'0' * 64}  {receipt.name}\n", encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_proof_artifacts(self.root, result)
+        self.assertFails(result, "sidecar hash mismatch")
+        self.assertFails(result, receipt.name)
+
+    def test_native_cmmc_verifier_nonzero_exit_caught(self) -> None:
+        verifier_rel = rg.PUBLIC_NATIVE_CMMC_RECEIPTS[0][1]
+        (self.root / verifier_rel).write_text(
+            "import sys\nprint('result: PASS')\nsys.exit(1)\n",
+            encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_proof_artifacts(self.root, result)
+        self.assertFails(result, "native CMMC verifier")
+        self.assertFails(result, "returncode=1")
 
 
 class TestTrustLedger(GateTestBase):
