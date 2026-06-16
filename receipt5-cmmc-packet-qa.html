@@ -28,31 +28,31 @@
 <body>
   <main class="wrap">
     <a class="brand" href="/">Hardseal</a>
-    <div class="eyebrow">Public synthetic demo receipt</div>
-    <h1>Receipt #5: CMMC evidence packet QA.</h1>
-    <p class="sub">A verifier-compatible demo packet for the current Hardseal wedge: pre-review CMMC/NIST evidence packet QA, SSP-to-evidence mismatch review, and finding-chain integrity.</p>
+    <div class="eyebrow">Public synthetic native CMMC receipt</div>
+    <h1>Receipt #5: Objective-sliced packet QA.</h1>
+    <p class="sub">A native CMMC evidence-gap receipt for IA.L2-3.5.3. It shows one synthetic finding can be recomputed offline and rejected if the claim, evidence, finding, reviewer question, or limits change.</p>
     <div class="actions">
       <a class="btn" href="/cmmc-packet-qa-receipt5.json" download>Download JSON</a>
       <a class="btn secondary" href="/cmmc-packet-qa-receipt5.json.sha256" download>Download SHA</a>
-      <a class="btn secondary" href="/verify.html">Open verifier</a>
+      <a class="btn secondary" href="/downloads/verify_cmmc_packet_qa.py" download>Download verifier</a>
     </div>
 
     <section class="grid" aria-label="Receipt details">
       <article class="card">
         <div class="k">File SHA-256</div>
-        <p class="mono">7b186a6076ccf5a351f58aa907db6e95b54bc3834412851c6c2fb752887a657c</p>
+        <p class="mono">85f340d77505d334cf390b2b4eb090f5827f48f32c10ff84517c261fa4799ec8</p>
       </article>
       <article class="card">
-        <div class="k">Packet chain root</div>
-        <p class="mono">dce115aafb3f020697eb9879273794ff3f6f010a366fa402fccb54fe04509ea7</p>
+        <div class="k">Receipt chain root</div>
+        <p class="mono">e64cea918ba9a26ee395d4d8e1e5caede4261a984ea61beab7569d0c1a5a1af0</p>
       </article>
       <article class="card">
-        <div class="k">Finding chain root</div>
-        <p class="mono">631b701660718d47913386048757126dae2da18739cd015c3267b49e3e1a5c1a</p>
+        <div class="k">Control slice</div>
+        <p class="mono">IA.L2-3.5.3 / 3.5.3[a]-[d]</p>
       </article>
       <article class="card">
         <div class="k">Verification command</div>
-        <p class="mono">python3 downloads/verify_standalone.py cmmc-packet-qa-receipt5.json</p>
+        <p class="mono">python3 downloads/verify_cmmc_packet_qa.py verify cmmc-packet-qa-receipt5.json</p>
       </article>
     </section>
 
@@ -60,23 +60,23 @@
       <article class="card">
         <h2>What this receipt covers</h2>
         <ul>
-          <li>Synthetic Cardinal Point-style CMMC packet QA demo.</li>
-          <li>Four pre-review findings mapped to CMMC/NIST context.</li>
-          <li>Packet inventory, readiness metrics, and finding hashes.</li>
-          <li>Append-only finding chain sealed inside the outer packet chain.</li>
+          <li>One synthetic IA.L2-3.5.3 packet QA finding.</li>
+          <li>Objective slices 3.5.3[a], 3.5.3[b], 3.5.3[c], and 3.5.3[d].</li>
+          <li>Packet claim, evidence observed, finding, reviewer question, next proof needed, and explicit limits.</li>
+          <li>Fixed section order and SHA-256 chain root over the native CMMC receipt.</li>
         </ul>
       </article>
       <article class="card">
         <h2>What a PASS means</h2>
-        <p>The JSON still matches the recorded Hardseal packet structure, section hashes, packet chain root, and finding chain root. Anyone can recompute it locally with the browser verifier or standalone Python verifier.</p>
+        <p>The JSON sections still match the recorded Hardseal receipt structure, section hashes, and receipt chain root. Anyone can recompute it locally with the native stdlib-only Python verifier.</p>
       </article>
       <article class="card">
         <h2>What it does not mean</h2>
-        <p class="warn">This is not customer evidence, not a live assessment artifact, not a regulatory result, and not a claim that any organization meets CMMC or NIST SP 800-171 requirements.</p>
+        <p class="warn">This is not customer evidence, not a live assessment artifact, not a formal review result, and not a claim that any organization meets CMMC or NIST SP 800-171 requirements.</p>
       </article>
       <article class="card">
         <h2>Why this is first</h2>
-        <p>The first commercial receipt must prove the paid wedge: one packet reviewed, one scored critique, one verifiable record, and one explicit limitation boundary before a design partner sends sensitive evidence.</p>
+        <p>The first commercial receipt must prove the paid wedge: one objective-sliced packet finding, one verifiable record, and one explicit limitation boundary before a design partner sends sensitive evidence.</p>
       </article>
     </section>
   </main>

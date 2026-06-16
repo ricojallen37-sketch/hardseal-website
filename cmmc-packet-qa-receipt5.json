@@ -1,217 +1,202 @@
 {
-  "benchmark": {
-    "blocks": [],
-    "histogram": [],
-    "max_ms": 0.0,
-    "mean_ms": 0.0,
-    "min_ms": 0.0,
-    "p50_ms": 0.0,
-    "p95_ms": 0.0,
-    "p99_ms": 0.0,
-    "packet_qa": {
-      "artifact_type": "cmmc_evidence_packet_qa_demo",
-      "contractor_profile": {
-        "framework": "CMMC Level 2 / NIST SP 800-171 Rev 2",
-        "industry": "DIB Tier 2 aerospace supplier",
-        "name": "Cardinal Point Aerostructures, LLC",
-        "profile_type": "synthetic_public_sample",
-        "target_review_window": "Q4 2026 synthetic scenario"
-      },
-      "control_mapping": {
-        "cmmc_2_0_level_2_context": [
-          "Pre-review evidence packet QA",
-          "SSP-to-evidence mismatch review",
-          "POA&M prioritization support"
-        ],
-        "nist_sp_800_171_controls_referenced": [
-          "3.1.20",
-          "3.3.8",
-          "3.6.2",
-          "3.12.1",
-          "3.12.2",
-          "3.12.3"
-        ]
-      },
-      "finding_chain_algorithm": "sha256_append_only_v1",
-      "finding_chain_genesis_label": "HARDSEAL_PACKET_QA_FINDINGS_GENESIS_v1",
-      "finding_chain_intermediate": [
-        "b930836e9dd850a040e5d11c381977d8e10ed420186a61c2acc02d22a8b0992a",
-        "c69c314da42783251a66fccb583a920d99b63f2c2febbc20cd459ceffc722c1d",
-        "93d8d9a90a5c5940152b433d2b3b5016bf5c180df8c679c6fa30b82ff2750b4d",
-        "631b701660718d47913386048757126dae2da18739cd015c3267b49e3e1a5c1a"
-      ],
-      "finding_chain_root": "631b701660718d47913386048757126dae2da18739cd015c3267b49e3e1a5c1a",
-      "finding_count": 4,
-      "finding_hash_algorithm": "sha256",
-      "finding_hashes": [
-        "e976cf40ad9c938096627f09c48b136ad74e050b00940c9c50bf60149c873960",
-        "4d8c46b8314c604ab30221ee738160888b6a68b379d4d2a10709f0db5dd4c252",
-        "301abe17f10e5d9aa90a4a5790cbcdc10b18522c7f306cf4edd2245ba7671b8a",
-        "14719dd434af9ed6032303ac195b3fe002e4e03d776b232070d1b93ccc43bd0c"
-      ],
-      "findings": [
-        {
-          "control_id": "AU.L2-3.3.8",
-          "evidence_observed": "Synthetic Sentinel configuration excerpt shows interactive retention tier, not immutable archive.",
-          "finding_id": "HS-QA-2026-0001",
-          "nist_sp_800_171": "3.3.8",
-          "recommended_next_step": "Reconfigure archive retention, export before and after evidence, then update the SSP claim.",
-          "risk": "A reviewer can identify a direct mismatch between the narrative and the evidence artifact.",
-          "seq": 1,
-          "severity": "high",
-          "ssp_claim": "SSP states audit records are retained in immutable storage.",
-          "status": "contradicted"
-        },
-        {
-          "control_id": "AC.L2-3.1.20",
-          "evidence_observed": "Synthetic allowlist exists, but last review date is 11 months old.",
-          "finding_id": "HS-QA-2026-0002",
-          "nist_sp_800_171": "3.1.20",
-          "recommended_next_step": "Restart monthly allowlist review and preserve three consecutive review records.",
-          "risk": "The control narrative claims a cadence that the provided record does not support.",
-          "seq": 2,
-          "severity": "medium",
-          "ssp_claim": "External system connections are allowlisted and reviewed monthly.",
-          "status": "partially_supported"
-        },
-        {
-          "control_id": "IR.L2-3.6.2",
-          "evidence_observed": "No tabletop record, after-action report, attendee list, or exercise artifact included in the synthetic packet.",
-          "finding_id": "HS-QA-2026-0003",
-          "nist_sp_800_171": "3.6.2",
-          "recommended_next_step": "Run and document an incident response tabletop before formal review.",
-          "risk": "A claimed annual test has no supporting artifact in the packet.",
-          "seq": 3,
-          "severity": "high",
-          "ssp_claim": "Incident response plan is tested annually.",
-          "status": "no_evidence"
-        },
-        {
-          "control_id": "3.12.1",
-          "evidence_observed": "Synthetic scope summary identifies MSP inheritance assumptions but no signed customer responsibility matrix.",
-          "finding_id": "HS-QA-2026-0004",
-          "nist_sp_800_171": "3.12.1",
-          "recommended_next_step": "Produce an MSP customer responsibility matrix and map inherited controls to owner, artifact, and cadence.",
-          "risk": "Inherited-control ownership is not clear enough for a clean pre-review conversation.",
-          "seq": 4,
-          "severity": "medium",
-          "ssp_claim": "Shared responsibility with the MSP is understood and inherited controls are identified.",
-          "status": "partially_supported"
-        }
-      ],
-      "first_real_customer_receipt_definition": {
-        "customer_data_rule": "No customer data appears in a public receipt without written approval and redaction review.",
-        "must_include": [
-          "packet inventory",
-          "control mapping",
-          "SSP-to-evidence findings",
-          "readiness score",
-          "receipt ID",
-          "file digest sidecar",
-          "explicit limitations"
-        ],
-        "receipt_name": "Design Partner CMMC Evidence Packet QA Receipt"
-      },
-      "packet_inventory": {
-        "ai_contamination_scan": "present",
-        "evidence_gap_matrix": "present",
-        "poam_excerpt": "present",
-        "scope_map": "present",
-        "sprs_snapshot": "present",
-        "ssp_excerpt": "present"
-      },
-      "summary_metrics": {
-        "contradicted_count": 4,
-        "controls_in_full_scope": 110,
-        "controls_sampled_in_public_demo": 10,
-        "current_sprs_score": 62,
-        "no_evidence_count": 17,
-        "open_poam_count": 21,
-        "partially_supported_count": 31,
-        "pre_review_readiness_score": 67,
-        "projected_sprs_after_ranked_remediation": 89,
-        "supported_count": 58
-      }
-    },
-    "post_thermal_c": [],
-    "pre_thermal_c": [],
-    "recorded_iterations": 4,
-    "stdev_ms": 0.0,
-    "throughput_fps": 0.0,
-    "wall_seconds": 0.0,
-    "warmup_iterations": 0
-  },
-  "created_utc": "2026-06-13T15:15:00Z",
-  "device": {
-    "clocks_pinned": false,
-    "hostname": "cmmc-packet-qa-demo",
-    "jetpack_version": "n/a",
-    "kernel": "",
-    "l4t_version": "n/a",
-    "os_name": "linux",
-    "os_version": "",
-    "platform": "synthetic_cmmc_packet_qa",
-    "power_mode": "n/a"
-  },
-  "doctrine_url": "hardseal_edge/DOCTRINE.md",
+  "created_utc": "2026-06-13T18:00:00Z",
   "integrity": {
+    "chain_root": "e64cea918ba9a26ee395d4d8e1e5caede4261a984ea61beab7569d0c1a5a1af0",
     "chain_verification_status": "matches_recomputed_chain",
-    "hash_chain_algorithm": "sha256_chain_v1",
-    "hash_chain_root": "dce115aafb3f020697eb9879273794ff3f6f010a366fa402fccb54fe04509ea7",
+    "genesis_label": "HARDSEAL_CMMC_PACKET_QA_RECEIPT_v1",
+    "hash_chain_algorithm": "sha256_canonical_json_chain_v1",
     "section_hashes": [
       {
-        "hash": "13c7555af6dc9bb3d469e3f564da1d06362abf93547dedfed459829454b12ba9",
-        "section": "device"
+        "hash": "9792ef7fcfc0cdce3b9a4a76c9c79915eff47c0af319bc7666024f188342f370",
+        "section": "metadata"
       },
       {
-        "hash": "8a6f6d8fb347b255645ff6ea3b46766face4d1ac69ac82c2cd11ce7ae62dbe85",
-        "section": "model"
+        "hash": "bfde6a2ba31a3ce192960b596777efb8a34b047192d0a08ca9b20408c1bd9885",
+        "section": "framework_basis"
       },
       {
-        "hash": "dea58ada1f2bb03d8be189fc64c038b5726e39b810ddf82213e40082a54de0ab",
-        "section": "benchmark"
+        "hash": "a2036f70b6844e77122ea447b896ae2cbf4b833c33b836393771333b9d9bcc64",
+        "section": "packet_slice"
       },
       {
-        "hash": "da36a16e392982767debab9145225f7e85eb95a50e04cb291f25eac57aab7ba0",
-        "section": "sensors"
+        "hash": "834df4bde301967619ed14fe0232197fdfdbad4a7021f725750226a62bd6c071",
+        "section": "packet_claim"
       },
       {
-        "hash": "dce115aafb3f020697eb9879273794ff3f6f010a366fa402fccb54fe04509ea7",
+        "hash": "130d971cc2ce81d4100763cd9a7606f19164512446d052d1603cca0790e335e9",
+        "section": "evidence_observed"
+      },
+      {
+        "hash": "912452e079140e9a08dd117b895caf998e51753a28fbb3970d267d0bda4418d2",
+        "section": "finding"
+      },
+      {
+        "hash": "1a5f4b011d693cd7c26ad3eeae7f85a1d26d49799320a6c555b687d7682818fa",
+        "section": "reviewer_question"
+      },
+      {
+        "hash": "9f422c7831578d76c5cbab3c7ece703bf47da2841f77a40fab8f087adc23eda7",
+        "section": "next_proof_needed"
+      },
+      {
+        "hash": "e64cea918ba9a26ee395d4d8e1e5caede4261a984ea61beab7569d0c1a5a1af0",
         "section": "limitations"
       }
     ],
-    "verification_command": "python3 downloads/verify_standalone.py cmmc-packet-qa-receipt5.json"
-  },
-  "limitations": [
-    "This is a synthetic public demo packet created for verification exercise only. It is not customer evidence and should not be used as a live assessment artifact.",
-    "Hardseal provides pre-review evidence integrity support. Hardseal does not certify compliance, does not make final assessment determinations, and does not replace an authorized third-party assessor.",
-    "operational_class is edge-inference-verification so the existing browser and Python verifier can validate this packet without modification; the CMMC packet QA evidence is carried in benchmark.packet_qa. Benchmark latency and throughput fields are zeroed because no inference workload ran.",
-    "what a PASS proves: the packet is internally consistent under the Hardseal Edge v1.0 hash-chain rules; benchmark.packet_qa.finding_chain_root is the recomputable append-only chain over the included synthetic findings. What it does not prove: that any real organization has these facts, that any system meets CMMC or NIST SP 800-171 requirements, or any assessor outcome."
-  ],
-  "model": {
-    "engine_path": "synthetic://cmmc-packet-qa/cardinal-point/2026-06-13T15.json",
-    "engine_sha256": "7568efdb4148451c5cc664a3fd2f0ebeaeea8752db1640465e15e999f5af4f18",
-    "input_shape": [
-      1,
-      4,
-      0,
-      0
+    "section_order": [
+      "metadata",
+      "framework_basis",
+      "packet_slice",
+      "packet_claim",
+      "evidence_observed",
+      "finding",
+      "reviewer_question",
+      "next_proof_needed",
+      "limitations"
     ],
-    "metadata_header_bytes": 0,
-    "name": "cmmc_packet_qa_receipt",
-    "precision": "n/a",
-    "runtime": "cmmc-evidence-packet-qa",
-    "runtime_version": "1.0"
+    "verification_command": "python3 -m hardseal.receipts.cmmc_packet_qa verify <receipt.json>"
   },
   "offline_mode": true,
-  "operational_class": "edge-inference-verification",
-  "packet_type": "hardseal_edge_session",
-  "schema_version": "1.0",
-  "sensors": {
-    "barometer": "not_connected",
-    "camera": "not_connected",
-    "gps": "not_connected",
-    "imu": "not_connected"
-  },
-  "session_id": "DEMO_cmmc_packet_qa_receipt5_20260613T151500Z"
+  "receipt_id": "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample",
+  "receipt_type": "hardseal_cmmc_packet_qa_receipt",
+  "schema_version": "0.1",
+  "sections": {
+    "evidence_observed": {
+      "observed_items": [
+        {
+          "artifact": "admin-account-export.csv",
+          "observation": "Privileged accounts are listed, including break-glass and service-admin accounts.",
+          "supports": [
+            "3.5.3[a]"
+          ]
+        },
+        {
+          "artifact": "conditional-access-policy-summary.md",
+          "does_not_support": [
+            "3.5.3[b]"
+          ],
+          "observation": "MFA policy is described for cloud network sign-in, but no local console or local admin path evidence is present.",
+          "supports": [
+            "3.5.3[c]",
+            "3.5.3[d]"
+          ]
+        },
+        {
+          "artifact": "vpn-auth-screenshot-redacted.txt",
+          "observation": "Network access evidence shows MFA prompt text, but no sample authentication log is included.",
+          "partial_support": [
+            "3.5.3[d]"
+          ],
+          "supports": [
+            "3.5.3[c]"
+          ]
+        }
+      ]
+    },
+    "finding": {
+      "finding_id": "HS-CMMC-QA-2026-001",
+      "finding_text": "The packet names privileged accounts and shows some network MFA evidence, but it does not yet support the SSP claim that MFA is implemented for local access to privileged accounts.",
+      "partially_supported_objectives": [
+        "3.5.3[d]"
+      ],
+      "severity": "medium",
+      "status": "partially_supported",
+      "supported_objectives": [
+        "3.5.3[a]",
+        "3.5.3[c]"
+      ],
+      "unsupported_objectives": [
+        "3.5.3[b]"
+      ],
+      "why_it_matters": "A reviewer can ask for objective-level evidence, not just a general MFA policy statement."
+    },
+    "framework_basis": {
+      "assessment_objectives": [
+        {
+          "id": "3.5.3[a]",
+          "text": "privileged accounts are identified."
+        },
+        {
+          "id": "3.5.3[b]",
+          "text": "multifactor authentication is implemented for local access to privileged accounts."
+        },
+        {
+          "id": "3.5.3[c]",
+          "text": "multifactor authentication is implemented for network access to privileged accounts."
+        },
+        {
+          "id": "3.5.3[d]",
+          "text": "multifactor authentication is implemented for network access to non-privileged accounts."
+        }
+      ],
+      "control": {
+        "id": "IA.L2-3.5.3",
+        "nist_sp_800_171": "3.5.3",
+        "requirement": "Use multifactor authentication."
+      },
+      "framework": "CMMC Level 2 / NIST SP 800-171 Rev. 2",
+      "source": "NIST SP 800-171A assessment procedures CSV",
+      "source_url": "https://csrc.nist.gov/files/pubs/sp/800/171/a/final/docs/sp800-171a-assessment-procedures.csv"
+    },
+    "limitations": {
+      "claim_boundary": "Hardseal records whether the packet matches the anchored finding under explicit assumptions.",
+      "what_pass_does_not_prove": [
+        "customer facts",
+        "complete evidence coverage",
+        "formal review result",
+        "official CMMC status",
+        "physical truth"
+      ],
+      "what_pass_proves": [
+        "The receipt sections still match the recorded SHA-256 chain root.",
+        "The finding text, objective mapping, and limitations were not changed after sealing."
+      ]
+    },
+    "metadata": {
+      "customer_data_rule": "No CUI, credentials, screenshots, network maps, data-flow diagrams, SSPs, or sensitive customer evidence are included.",
+      "input_class": "synthetic_public_sample",
+      "operator": "Rico Allen",
+      "organization": "Hardseal LLC",
+      "receipt_name": "Receipt 001 - CMMC Packet QA - IA.L2-3.5.3"
+    },
+    "next_proof_needed": {
+      "acceptable_examples": [
+        "PAM policy export showing local privileged MFA enforcement",
+        "Endpoint or directory policy showing local admin MFA control",
+        "Procedure plus test record showing local privileged MFA behavior"
+      ],
+      "do_not_collect_here": [
+        "CUI",
+        "credentials",
+        "unredacted network maps",
+        "full SSP",
+        "sensitive screenshots"
+      ],
+      "primary_next_artifact": "local-privileged-mfa-control-export"
+    },
+    "packet_claim": {
+      "claim_id": "CLAIM-IA-3-5-3-MFA-001",
+      "claim_text": "The packet claims MFA is implemented for local privileged access, network privileged access, and network non-privileged access.",
+      "claimed_objective_coverage": [
+        "3.5.3[a]",
+        "3.5.3[b]",
+        "3.5.3[c]",
+        "3.5.3[d]"
+      ]
+    },
+    "packet_slice": {
+      "artifact_area": "identity and access evidence",
+      "contractor_profile": "Cardinal Point Aerostructures synthetic sample",
+      "packet_scope": "single objective-sliced sample finding",
+      "safe_input_summary": [
+        "SSP excerpt claims MFA is enforced for all remote and privileged access.",
+        "Policy excerpt states privileged access requires MFA.",
+        "Synthetic admin-account export lists privileged accounts and MFA status."
+      ]
+    },
+    "reviewer_question": {
+      "expected_answer_shape": "A local admin login control export, PAM configuration, or equivalent record mapped directly to 3.5.3[b].",
+      "question": "Where is the objective-level evidence that local privileged account access requires MFA?"
+    }
+  }
 }
