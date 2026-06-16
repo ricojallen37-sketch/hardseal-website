@@ -38,6 +38,8 @@ operator sees every issue in one run):
   5. Link / surface: key public links exist in the repo:
      /verify.html#trust-ledger anchor, receipt JSONs, receipt sidecars,
      standalone-verifier links resolve to files. No outbound network.
+  6. Receipt schema language: public receipt JSON must not use retired
+     integrity field names or public crypto-overclaim phrases.
 
 Usage:
     python3 scripts/release_gate.py            # gate the whole repo
@@ -114,6 +116,22 @@ PUBLIC_RECEIPTS = (
     "cmmc-audit-log-receipt2.json",
     "poam-evidence-receipt3.json",
     "ssp-change-history-receipt4.json",
+)
+
+OPTIONAL_PUBLIC_RECEIPTS = (
+    "cmmc-packet-qa-receipt5.json",
+)
+
+RETIRED_INTEGRITY_FIELD = "tamper_" + "status"
+CHAIN_STATUS_FIELD = "chain_verification_status"
+PUBLIC_RECEIPT_OVERCLAIM_PHRASES = (
+    "tamper-evident",
+    "tamper detection",
+    "unaltered",
+    "has not been altered",
+    "changed after it was created",
+    "detects any tampering",
+    "tampered with after the fact",
 )
 
 
@@ -907,6 +925,73 @@ def check_links(root: Path, result: GateResult) -> None:
 
 
 # ----------------------------------------------------------------------
+# Check 6: receipt schema language
+# ----------------------------------------------------------------------
+
+def _walk_json_strings(node: object, path: str = "") -> Iterable[tuple[str, str]]:
+    if isinstance(node, str):
+        yield path or "<root>", node
+    elif isinstance(node, dict):
+        for k, v in node.items():
+            next_path = f"{path}.{k}" if path else str(k)
+            yield from _walk_json_strings(v, next_path)
+    elif isinstance(node, list):
+        for i, v in enumerate(node):
+            yield from _walk_json_strings(v, f"{path}[{i}]")
+
+
+def check_receipt_schema_language(root: Path, result: GateResult) -> None:
+    receipt_names = list(PUBLIC_RECEIPTS)
+    receipt_names.extend(
+        name for name in OPTIONAL_PUBLIC_RECEIPTS if (root / name).exists()
+    )
+
+    checked = 0
+    failures_before = len(result.failures)
+    for name in receipt_names:
+        path = root / name
+        if not path.exists():
+            continue
+        try:
+            packet = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            result.add_fail(f"[receipt-schema] {name}: unreadable JSON: {exc}")
+            continue
+
+        checked += 1
+        integrity = packet.get("integrity") if isinstance(packet, dict) else None
+        if not isinstance(integrity, dict):
+            result.add_fail(f"[receipt-schema] {name}: missing integrity object")
+            continue
+
+        if RETIRED_INTEGRITY_FIELD in integrity:
+            result.add_fail(
+                f"[receipt-schema] {name}: retired integrity field present; "
+                f"use {CHAIN_STATUS_FIELD}"
+            )
+        if CHAIN_STATUS_FIELD not in integrity:
+            result.add_fail(
+                f"[receipt-schema] {name}: missing {CHAIN_STATUS_FIELD}"
+            )
+
+        for json_path, value in _walk_json_strings(packet):
+            lower = value.lower()
+            for phrase in PUBLIC_RECEIPT_OVERCLAIM_PHRASES:
+                if phrase in lower:
+                    result.add_fail(
+                        f"[receipt-schema] {name}:{json_path}: "
+                        f"public receipt JSON contains unsupported phrase "
+                        f"{phrase!r}"
+                    )
+
+    if checked and len(result.failures) == failures_before:
+        result.add_pass(
+            f"[receipt-schema] {checked} public receipt JSON file(s) use "
+            f"chain-scoped integrity language"
+        )
+
+
+# ----------------------------------------------------------------------
 # Driver
 # ----------------------------------------------------------------------
 
@@ -917,6 +1002,7 @@ def run_all(root: Path) -> GateResult:
     check_receipt2_mapping(root, result)
     check_overclaim_firewall(root, result)
     check_links(root, result)
+    check_receipt_schema_language(root, result)
     return result
 
 

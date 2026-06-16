@@ -155,6 +155,7 @@
   },
   "doctrine_url": "hardseal_edge/DOCTRINE.md",
   "integrity": {
+    "chain_verification_status": "matches_recomputed_chain",
     "hash_chain_algorithm": "sha256_chain_v1",
     "hash_chain_root": "dce115aafb3f020697eb9879273794ff3f6f010a366fa402fccb54fe04509ea7",
     "section_hashes": [
@@ -179,7 +180,6 @@
         "section": "limitations"
       }
     ],
-    "tamper_status": "clean",
     "verification_command": "python3 downloads/verify_standalone.py cmmc-packet-qa-receipt5.json"
   },
   "limitations": [

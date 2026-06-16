@@ -47,9 +47,13 @@ or compliance proof.</p>
 </body></html>
 """
 
-# Receipt JSON content kept tiny — the gate only checks SHA-256 vs sidecar,
-# not packet semantics (the standalone verifier is exercised separately).
-SAMPLE_RECEIPT_JSON = b'{"packet_type":"test","schema_version":"1.0"}\n'
+# Receipt JSON content kept tiny. The proof check only checks SHA-256 vs
+# sidecar, but the schema-language check still requires the public integrity
+# field name.
+SAMPLE_RECEIPT_JSON = (
+    b'{"integrity":{"chain_verification_status":"matches_recomputed_chain"},'
+    b'"packet_type":"test","schema_version":"1.0"}\n'
+)
 
 
 def _write_sidecar(receipt_path: Path) -> None:
@@ -119,6 +123,7 @@ class TestBaselinePasses(GateTestBase):
         rg.check_receipt2_mapping(self.root, result)
         rg.check_overclaim_firewall(self.root, result)
         rg.check_links(self.root, result)
+        rg.check_receipt_schema_language(self.root, result)
         self.assertEqual(
             result.failures, [],
             msg=f"Baseline failed: {result.failures}",
@@ -484,6 +489,49 @@ class TestOverclaimFirewall(GateTestBase):
             result.failures, [],
             msg=f"HMAC-SHA256 signature should pass; got {result.failures}",
         )
+
+
+class TestReceiptSchemaLanguage(GateTestBase):
+    """Public receipt JSON must stay chain-scoped and avoid retired wording."""
+
+    def test_retired_integrity_field_fails(self) -> None:
+        receipt = self.root / rg.PUBLIC_RECEIPTS[0]
+        receipt.write_text(
+            json.dumps(
+                {
+                    "packet_type": "test",
+                    "schema_version": "1.0",
+                    "integrity": {"tamper_" + "status": "clean"},
+                }
+            ),
+            encoding="utf-8",
+        )
+        _write_sidecar(receipt)
+
+        result = rg.GateResult()
+        rg.check_receipt_schema_language(self.root, result)
+        self.assertFails(result, "retired integrity field")
+
+    def test_public_receipt_overclaim_phrase_fails(self) -> None:
+        receipt = self.root / rg.PUBLIC_RECEIPTS[1]
+        receipt.write_text(
+            json.dumps(
+                {
+                    "packet_type": "test",
+                    "schema_version": "1.0",
+                    "integrity": {
+                        "chain_verification_status": "matches_recomputed_chain"
+                    },
+                    "limitations": ["tamper-evident evidence only"],
+                }
+            ),
+            encoding="utf-8",
+        )
+        _write_sidecar(receipt)
+
+        result = rg.GateResult()
+        rg.check_receipt_schema_language(self.root, result)
+        self.assertFails(result, "unsupported phrase")
 
 
 class TestLinks(GateTestBase):

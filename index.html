@@ -880,7 +880,9 @@ const GENESIS_LABEL = "HARDSEAL_EDGE_GENESIS_v1";
 const SECTION_ORDER = ["device","model","benchmark","sensors","limitations"];
 const REQUIRED_HEADER_FIELDS = ["packet_type","schema_version","operational_class","session_id","created_utc","offline_mode","doctrine_url"];
 const REQUIRED_SECTIONS = ["device","model","benchmark","sensors","limitations"];
-const REQUIRED_INTEGRITY_FIELDS = ["hash_chain_algorithm","hash_chain_root","section_hashes","tamper_status","verification_command"];
+const REQUIRED_INTEGRITY_FIELDS = ["hash_chain_algorithm","hash_chain_root","section_hashes","verification_command"];
+const CHAIN_STATUS_FIELD = "chain_verification_status";
+const LEGACY_CHAIN_STATUS_FIELD = "tamper_" + "status";
 const SUPPORTED_SCHEMA_VERSIONS = ["1.0"];
 const SUPPORTED_OPERATIONAL_CLASSES = ["edge-inference-verification"];
 const PACKET_BANNED = [
@@ -993,6 +995,9 @@ async function verifyPacket(p) {
     return { passed: failed.length === 0, passes: passed, failures: failed };
   }
   const missingIntegrity = REQUIRED_INTEGRITY_FIELDS.filter(f => !(f in integrity));
+  if (!(CHAIN_STATUS_FIELD in integrity) && !(LEGACY_CHAIN_STATUS_FIELD in integrity)) {
+    missingIntegrity.push(CHAIN_STATUS_FIELD);
+  }
   if (missingIntegrity.length) failed.push(`integrity block missing fields: [${missingIntegrity.join(", ")}]`);
   let recomputedRoot = null, firstBad = null;
   if (!missingHeader.length && !missingSections.length && !missingIntegrity.length) {
