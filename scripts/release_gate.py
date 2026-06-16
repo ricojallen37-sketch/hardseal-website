@@ -116,6 +116,10 @@ PUBLIC_RECEIPTS = (
     "ssp-change-history-receipt4.json",
 )
 
+PUBLIC_NATIVE_CMMC_RECEIPTS = (
+    ("cmmc-packet-qa-receipt5.json", "downloads/verify_cmmc_packet_qa.py"),
+)
+
 
 # ----------------------------------------------------------------------
 # Check 1: proof artifacts
@@ -227,6 +231,74 @@ def check_proof_artifacts(root: Path, result: GateResult) -> None:
             )
         else:
             result.add_pass(f"[proof] standalone verifier clean PASS on {name}")
+
+    for name, verifier_rel in PUBLIC_NATIVE_CMMC_RECEIPTS:
+        receipt = root / name
+        sidecar = root / f"{name}.sha256"
+        verifier = root / verifier_rel
+
+        if not receipt.exists():
+            result.add_fail(f"[proof] missing native CMMC receipt: {receipt}")
+            continue
+        if not sidecar.exists():
+            result.add_fail(
+                f"[proof] missing native CMMC sidecar: {sidecar} "
+                f"(every public receipt must have a .sha256 sidecar)"
+            )
+            continue
+
+        expected = _read_sidecar_digest(sidecar)
+        if not expected:
+            result.add_fail(f"[proof] empty or malformed sidecar: {sidecar}")
+            continue
+        observed = _sha256_file(receipt)
+        if observed != expected:
+            result.add_fail(
+                f"[proof] sidecar hash mismatch for {receipt}: "
+                f"expected {expected}, observed {observed}"
+            )
+            continue
+        result.add_pass(
+            f"[proof] {name}: native CMMC sidecar matches recomputed SHA-256"
+        )
+
+        if not verifier.exists():
+            result.add_fail(
+                f"[proof] native CMMC verifier missing for {name}: {verifier}"
+            )
+            continue
+
+        try:
+            proc = subprocess.run(
+                [sys.executable, str(verifier), "verify", str(receipt)],
+                capture_output=True, text=True, timeout=30,
+            )
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            result.add_fail(
+                f"[proof] native CMMC verifier invocation error on {name}: {exc}"
+            )
+            continue
+
+        combined = (proc.stdout or "") + (proc.stderr or "")
+        problems: list[str] = []
+        if proc.returncode != 0:
+            problems.append(f"returncode={proc.returncode} (expected 0)")
+        if not re.search(r"^result:\s*PASS\s*$", combined, re.MULTILINE):
+            problems.append("missing 'result: PASS' summary line")
+        if re.search(r"^\s*FAIL:", combined, re.MULTILINE):
+            problems.append("output contains a sub-check 'FAIL:' line")
+
+        if problems:
+            tail = combined.strip().splitlines()[-12:]
+            result.add_fail(
+                f"[proof] native CMMC verifier did not cleanly PASS on {name}: "
+                + "; ".join(problems)
+                + ". Tail of output:\n    " + "\n    ".join(tail)
+            )
+        else:
+            result.add_pass(
+                f"[proof] native CMMC verifier clean PASS on {name}"
+            )
 
 
 # ----------------------------------------------------------------------
@@ -850,7 +922,9 @@ def check_links(root: Path, result: GateResult) -> None:
     # second whitespace-delimited token is `<filename>` per sha256sum
     # convention) — this catches "sidecar for the wrong file".
     artifacts_ok = True
-    for name in PUBLIC_RECEIPTS:
+    all_receipts = list(PUBLIC_RECEIPTS)
+    all_receipts.extend(name for name, _ in PUBLIC_NATIVE_CMMC_RECEIPTS)
+    for name in all_receipts:
         receipt = root / name
         sidecar = root / f"{name}.sha256"
         if not receipt.exists():
@@ -876,7 +950,7 @@ def check_links(root: Path, result: GateResult) -> None:
             artifacts_ok = False
     if artifacts_ok:
         result.add_pass(
-            f"[links] all {len(PUBLIC_RECEIPTS)} receipts + sidecars present, "
+            f"[links] all {len(all_receipts)} receipts + sidecars present, "
             f"sidecars name the correct receipt file"
         )
 
@@ -885,7 +959,8 @@ def check_links(root: Path, result: GateResult) -> None:
         bad = 0
         total = 0
         for m in re.finditer(
-            r'href=["\']([^"\']*verify_standalone\.py[^"\']*)["\']', text,
+            r'href=["\']([^"\']*verify_(?:standalone|cmmc_packet_qa)\.py[^"\']*)["\']',
+            text,
         ):
             total += 1
             href = m.group(1)
@@ -901,7 +976,7 @@ def check_links(root: Path, result: GateResult) -> None:
                 bad += 1
         if total > 0 and bad == 0:
             result.add_pass(
-                f"[links] all {total} standalone-verifier link(s) "
+                f"[links] all {total} public-verifier link(s) "
                 f"resolve to files in repo"
             )
 
