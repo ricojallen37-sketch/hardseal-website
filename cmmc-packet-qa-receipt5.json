@@ -2,6 +2,7 @@
   "created_utc": "2026-06-13T18:00:00Z",
   "integrity": {
     "chain_root": "e64cea918ba9a26ee395d4d8e1e5caede4261a984ea61beab7569d0c1a5a1af0",
+    "chain_verification_status": "matches_recomputed_chain",
     "genesis_label": "HARDSEAL_CMMC_PACKET_QA_RECEIPT_v1",
     "hash_chain_algorithm": "sha256_canonical_json_chain_v1",
     "section_hashes": [
@@ -53,7 +54,6 @@
       "next_proof_needed",
       "limitations"
     ],
-    "tamper_status": "clean",
     "verification_command": "python3 -m hardseal.receipts.cmmc_packet_qa verify <receipt.json>"
   },
   "offline_mode": true,

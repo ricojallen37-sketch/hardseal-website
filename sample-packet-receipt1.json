@@ -380,6 +380,7 @@
   },
   "doctrine_url": "hardseal_edge/DOCTRINE.md",
   "integrity": {
+    "chain_verification_status": "matches_recomputed_chain",
     "hash_chain_algorithm": "sha256_chain_v1",
     "hash_chain_root": "52d2c01eb5af1a89fee89a4228d5e1f5b02712db3fe7945f2bdf97c2b6c88c3e",
     "section_hashes": [
@@ -404,7 +405,6 @@
         "section": "limitations"
       }
     ],
-    "tamper_status": "clean",
     "verification_command": "python3 -m hardseal_edge.verify <packet.json>"
   },
   "limitations": [

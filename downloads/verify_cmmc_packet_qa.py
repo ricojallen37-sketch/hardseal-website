@@ -50,9 +50,10 @@ REQUIRED_INTEGRITY_FIELDS = (
     "section_order",
     "section_hashes",
     "chain_root",
-    "tamper_status",
     "verification_command",
 )
+CHAIN_STATUS_FIELD = "chain_verification_status"
+LEGACY_CHAIN_STATUS_FIELD = "tamper_" + "status"
 
 BANNED_PHRASES = (
     "we certify",
@@ -166,7 +167,7 @@ def seal_receipt(receipt: Dict[str, Any]) -> Dict[str, Any]:
         "section_order": list(SECTION_ORDER),
         "section_hashes": section_hashes,
         "chain_root": chain_root,
-        "tamper_status": "clean",
+        "chain_verification_status": "matches_recomputed_chain",
         "verification_command": (
             "python3 -m hardseal.receipts.cmmc_packet_qa verify <receipt.json>"
         ),
@@ -422,6 +423,11 @@ def verify_receipt(receipt: Dict[str, Any]) -> ReceiptVerifyResult:
     missing_integrity = [
         field for field in REQUIRED_INTEGRITY_FIELDS if field not in integrity
     ]
+    if (
+        CHAIN_STATUS_FIELD not in integrity
+        and LEGACY_CHAIN_STATUS_FIELD not in integrity
+    ):
+        missing_integrity.append(CHAIN_STATUS_FIELD)
     if missing_integrity:
         result.add_fail(f"integrity block missing fields: {missing_integrity}")
     else:

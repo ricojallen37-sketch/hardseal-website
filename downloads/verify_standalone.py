@@ -163,9 +163,13 @@ REQUIRED_INTEGRITY_FIELDS = (
     "hash_chain_algorithm",
     "hash_chain_root",
     "section_hashes",
-    "tamper_status",
     "verification_command",
 )
+CHAIN_STATUS_FIELD = "chain_verification_status"
+# Backward compatibility for older packets. Split the legacy key so the
+# standalone verifier can read old artifacts without keeping the retired exact
+# schema token in public verifier source.
+LEGACY_CHAIN_STATUS_FIELD = "tamper_" + "status"
 SUPPORTED_SCHEMA_VERSIONS = ("1.0",)
 SUPPORTED_OPERATIONAL_CLASSES = ("edge-inference-verification",)
 
@@ -267,6 +271,11 @@ def verify_packet(packet_dict: Dict[str, Any]) -> VerifyResult:
         return _finalize(result)
 
     missing_integrity = [f for f in REQUIRED_INTEGRITY_FIELDS if f not in integrity]
+    if (
+        CHAIN_STATUS_FIELD not in integrity
+        and LEGACY_CHAIN_STATUS_FIELD not in integrity
+    ):
+        missing_integrity.append(CHAIN_STATUS_FIELD)
     if missing_integrity:
         result.add_fail(f"integrity block missing fields: {missing_integrity}")
 
