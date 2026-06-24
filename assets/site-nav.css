@@ -1,0 +1,42 @@
+/* Hardseal — global navigation chrome */
+.site-header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(0,0,0,0.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(255,255,255,0.14);
+  padding:0 32px;
+}
+.site-header-inner{
+  max-width:1280px;margin:0 auto;
+  min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px;
+}
+.site-brand{
+  display:flex;align-items:center;gap:10px;
+  color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:13px;font-weight:700;letter-spacing:0.1em;text-decoration:none;border:none;
+}
+.site-brand:hover{color:#fff;border:none}
+.site-brand svg{width:22px;height:22px;flex-shrink:0}
+.site-nav{display:flex;align-items:center;gap:20px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase}
+.site-nav a{color:#a8a8a8;text-decoration:none;border:none;white-space:nowrap}
+.site-nav a:hover{color:#fff;border:none}
+.site-nav a.is-active{color:#fff}
+.site-nav-cta{
+  padding:10px 14px;background:#fff;color:#000!important;
+  font-weight:700;letter-spacing:0.1em;
+}
+.site-nav-cta:hover{background:#e8e8e8!important;color:#000!important}
+.site-menu-btn{
+  display:none;width:40px;height:40px;align-items:center;justify-content:center;
+  background:transparent;border:1px solid rgba(255,255,255,0.2);color:#fff;cursor:pointer;
+}
+@media(max-width:960px){
+  .site-menu-btn{display:flex}
+  .site-nav{
+    display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;align-items:stretch;
+    gap:0;background:#000;border-bottom:1px solid rgba(255,255,255,0.14);padding:8px 0;
+  }
+  .site-nav.open{display:flex}
+  .site-nav a{padding:14px 32px;border-bottom:1px solid rgba(255,255,255,0.08)}
+  .site-nav-cta{margin:8px 24px;text-align:center}
+  .site-header{position:relative;padding:0 20px}
+}
