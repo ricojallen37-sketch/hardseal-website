@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hardseal Client Experience and Evidence Governance</title>
-<meta name="description" content="What happens after you start a Hardseal Evidence Integrity Review: verification primitive, scope confirmation, evidence handoff governance, review, findings, and next decisions.">
+<meta name="description" content="What happens after you start a Hardseal Evidence Integrity Review without a sales call: verification primitive, scope confirmation, evidence handoff governance, review, findings, and next decisions.">
 <link rel="canonical" href="https://hardseal.ai/client-experience.html">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
@@ -90,7 +90,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
       <a href="/pilot.html">Review</a>
       <a href="/start.html">Start</a>
       <a href="/client-experience.html">Experience</a>
-      <a href="mailto:hello@hardseal.ai">Contact</a>
+      <a href="mailto:rico@hardseal.ai">Contact</a>
     </nav>
   </div>
 </header>
@@ -100,15 +100,15 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
     <div class="wrap">
       <div class="eyebrow">Client experience</div>
       <h1>From payment to findings, no guessing.</h1>
-      <p class="sub">Hardseal turns a messy evidence handoff into a governed review path: proof primitive underneath, scope rules around it, evidence checked, findings delivered, next decision clear.</p>
+      <p class="sub">Hardseal turns a messy evidence handoff into a governed no-call review path: proof primitive underneath, scope rules around it, evidence checked, findings delivered, next decision clear.</p>
       <div class="actions">
-        <a class="button" href="/pilot.html">Start review</a>
+        <a class="button" href="/pilot.html">Start no-call review</a>
         <a class="button secondary" href="/start.html">Use start path</a>
       </div>
       <div class="hero-meta" aria-label="Hardseal client experience summary">
         <div>
           <strong>First reply</strong>
-          <span>Scope and handoff instructions before evidence moves.</span>
+          <span>Scope and sensitivity instructions before evidence moves.</span>
         </div>
         <div>
           <strong>Review path</strong>
@@ -203,9 +203,9 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
         <article class="day-card">
           <h3>Buyer receives</h3>
           <ul>
-            <li>Welcome and scope-confirmation email</li>
+          <li>Welcome and scope-confirmation email</li>
             <li>Instruction not to send sensitive evidence too early</li>
-            <li>Procurement path if invoice or PO is needed</li>
+          <li>Procurement path if invoice or PO is needed</li>
             <li>Evidence checklist and labeling guidance</li>
           </ul>
         </article>
@@ -214,7 +214,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
           <ul>
             <li>Who owns the packet</li>
             <li>What environment or evidence set is in scope</li>
-            <li>Whether CUI or sensitive records may appear</li>
+            <li>Whether SSPs, CUI, network maps, data-flow diagrams, or sensitive records may appear</li>
             <li>How the evidence handoff will happen</li>
           </ul>
         </article>
@@ -245,7 +245,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
         <article class="handoff-card">
           <h3>Hold until agreed</h3>
           <ul>
-            <li>CUI or sensitive evidence</li>
+            <li>SSPs, CUI, network maps, data-flow diagrams, or sensitive evidence</li>
             <li>Credentials, secrets, or authentication materials</li>
             <li>Full mailbox exports</li>
             <li>Unbounded file dumps</li>
@@ -256,19 +256,28 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
     </div>
   </section>
 
-  <section>
+  <section id="sample-finding">
     <div class="wrap">
       <div class="section-head">
         <div>
           <div class="eyebrow">Findings preview</div>
-          <h2>The output is plain enough to act on.</h2>
+          <h2>The output is specific enough to challenge.</h2>
         </div>
-        <p>No mystery report. A finding should show the control, the claim, the evidence reviewed, the gap, why it matters, and the next proof needed.</p>
+        <p>No mystery report. A finding should name the control, objective slices, claim, evidence reviewed, gap, reviewer question, and next proof needed.</p>
       </div>
+      <p class="sub">Synthetic sample v0.1. No customer data. Use it to challenge the format, not to treat the example as your environment.</p>
       <div class="finding" aria-label="Sample Hardseal finding">
         <div class="finding-row">
           <div class="finding-label">Control</div>
-          <div class="finding-value"><strong>IA.L2-3.5.3 - multifactor authentication.</strong></div>
+          <div class="finding-value"><strong>IA.L2-3.5.3 - multifactor authentication for privileged and non-privileged account access.</strong></div>
+        </div>
+        <div class="finding-row">
+          <div class="finding-label">Objectives</div>
+          <div class="finding-value">3.5.3[a] privileged accounts identified; 3.5.3[b] MFA for local privileged access; 3.5.3[c] MFA for network privileged access; 3.5.3[d] MFA for network non-privileged access.</div>
+        </div>
+        <div class="finding-row">
+          <div class="finding-label">Basis</div>
+          <div class="finding-value">Mapped to the NIST SP 800-171A assessment objectives for 3.5.3.</div>
         </div>
         <div class="finding-row">
           <div class="finding-label">Claim</div>
@@ -276,25 +285,26 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
         </div>
         <div class="finding-row">
           <div class="finding-label">Evidence reviewed</div>
-          <div class="finding-value">User export, conditional-access policy screenshot, and sample sign-in log.</div>
+          <div class="finding-value">User export, conditional-access policy screenshot, and sample sign-in log. No privileged-account inventory, local-admin access evidence, or exception register was included in the sample packet.</div>
         </div>
         <div class="finding-row">
-          <div class="finding-label">Gap</div>
-          <div class="finding-value"><strong>Partially supported.</strong> The policy screenshot names one included group, but the user export shows service accounts and break-glass accounts outside the shown policy scope.</div>
+          <div class="finding-label">Finding</div>
+          <div class="finding-value"><strong>Partially supported.</strong> The packet gives partial support for 3.5.3[d] if the included group maps to the non-privileged user population. It does not yet support 3.5.3[a], 3.5.3[b], or 3.5.3[c] because privileged accounts are not identified and local/network privileged MFA coverage is not evidenced.</div>
         </div>
         <div class="finding-row">
-          <div class="finding-label">Why it matters</div>
-          <div class="finding-value">A reviewer cannot tell whether the MFA claim covers the full user population or only a subset.</div>
+          <div class="finding-label">Reviewer question</div>
+          <div class="finding-value">Which accounts are privileged, which access paths exist, and which MFA mechanism covers each objective slice?</div>
         </div>
         <div class="finding-row">
           <div class="finding-label">Next proof needed</div>
-          <div class="finding-value">Dated conditional-access export, exception register, and sign-in evidence for privileged and non-privileged users.</div>
+          <div class="finding-value">Privileged-account inventory, dated conditional-access export, sign-in evidence for privileged and non-privileged network access, local privileged-access evidence, and any approved exceptions.</div>
         </div>
       </div>
       <div class="notice">
-        <strong>Reviewer value:</strong> the issue is named before deeper review time is spent: claim, population, missing evidence, and next proof needed.
+        <strong>Reviewer value:</strong> the issue is named before deeper review time is spent: not "MFA missing," but which objective slices the submitted packet does and does not support.
       </div>
       <div class="actions section-actions">
+        <a class="button" href="mailto:rico@hardseal.ai?subject=Hardseal%20sample%20finding%20feedback&body=Sample%20finding%20feedback%0A%0AWhat%20felt%20useful%3A%0A%0AWhat%20felt%20too%20generic%3A%0A%0AWhat%20question%20would%20a%20reviewer%20ask%20next%3A%0A%0AWould%20you%20review%20a%20second%20synthetic%20sample%20next%20Wednesday%20or%20after%3A%0A">Pressure-test sample</a>
         <a class="button secondary" href="/proof/ir/30-second-demo.html">View 30-second proof</a>
       </div>
     </div>
@@ -310,5 +320,6 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
 <footer>
   Hardseal LLC · Florida, USA · Not a C3PAO · Assessment support software
 </footer>
+<script src="/assets/source-tag.js"></script>
 </body>
 </html>

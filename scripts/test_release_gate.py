@@ -44,7 +44,6 @@ MINIMAL_VERIFY_HTML = """<!doctype html>
 are <strong>not</strong> Ed25519-signed production evidence, customer evidence,
 or compliance proof.</p>
 <a href="/downloads/verify_standalone.py">Python verifier</a>
-<a href="/downloads/verify_cmmc_packet_qa.py">Native CMMC verifier</a>
 </body></html>
 """
 
@@ -201,8 +200,8 @@ class TestProofArtifacts(GateTestBase):
         self.assertFails(result, receipt.name)
 
     def test_native_cmmc_verifier_nonzero_exit_caught(self) -> None:
-        verifier_rel = rg.PUBLIC_NATIVE_CMMC_RECEIPTS[0][1]
-        (self.root / verifier_rel).write_text(
+        verifier = self.root / rg.PUBLIC_NATIVE_CMMC_RECEIPTS[0][1]
+        verifier.write_text(
             "import sys\nprint('result: PASS')\nsys.exit(1)\n",
             encoding="utf-8",
         )

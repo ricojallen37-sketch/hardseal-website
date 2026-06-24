@@ -175,6 +175,37 @@ def check_proof_artifacts(root: Path, result: GateResult) -> None:
 
         result.add_pass(f"[proof] {name}: sidecar matches recomputed SHA-256")
 
+    for name, _verifier_rel in PUBLIC_NATIVE_CMMC_RECEIPTS:
+        receipt = root / name
+        sidecar = root / f"{name}.sha256"
+
+        if not receipt.exists():
+            result.add_fail(f"[proof] missing native CMMC receipt: {receipt}")
+            continue
+        if not sidecar.exists():
+            result.add_fail(
+                f"[proof] missing sidecar: {sidecar} "
+                f"(every public receipt must have a .sha256 sidecar)"
+            )
+            continue
+
+        expected = _read_sidecar_digest(sidecar)
+        if not expected:
+            result.add_fail(f"[proof] empty or malformed sidecar: {sidecar}")
+            continue
+
+        observed = _sha256_file(receipt)
+        if observed != expected:
+            result.add_fail(
+                f"[proof] sidecar hash mismatch for {receipt}: "
+                f"expected {expected}, observed {observed}"
+            )
+            continue
+
+        result.add_pass(
+            f"[proof] {name}: native CMMC sidecar matches recomputed SHA-256"
+        )
+
     # If the standalone verifier is present, exercise it on EVERY public
     # receipt — not just Receipt #1. The contract is strict:
     #   - subprocess returncode must be 0
@@ -234,40 +265,14 @@ def check_proof_artifacts(root: Path, result: GateResult) -> None:
 
     for name, verifier_rel in PUBLIC_NATIVE_CMMC_RECEIPTS:
         receipt = root / name
-        sidecar = root / f"{name}.sha256"
         verifier = root / verifier_rel
-
         if not receipt.exists():
-            result.add_fail(f"[proof] missing native CMMC receipt: {receipt}")
             continue
-        if not sidecar.exists():
-            result.add_fail(
-                f"[proof] missing native CMMC sidecar: {sidecar} "
-                f"(every public receipt must have a .sha256 sidecar)"
-            )
-            continue
-
-        expected = _read_sidecar_digest(sidecar)
-        if not expected:
-            result.add_fail(f"[proof] empty or malformed sidecar: {sidecar}")
-            continue
-        observed = _sha256_file(receipt)
-        if observed != expected:
-            result.add_fail(
-                f"[proof] sidecar hash mismatch for {receipt}: "
-                f"expected {expected}, observed {observed}"
-            )
-            continue
-        result.add_pass(
-            f"[proof] {name}: native CMMC sidecar matches recomputed SHA-256"
-        )
-
         if not verifier.exists():
             result.add_fail(
                 f"[proof] native CMMC verifier missing for {name}: {verifier}"
             )
             continue
-
         try:
             proc = subprocess.run(
                 [sys.executable, str(verifier), "verify", str(receipt)],
@@ -296,9 +301,7 @@ def check_proof_artifacts(root: Path, result: GateResult) -> None:
                 + ". Tail of output:\n    " + "\n    ".join(tail)
             )
         else:
-            result.add_pass(
-                f"[proof] native CMMC verifier clean PASS on {name}"
-            )
+            result.add_pass(f"[proof] native CMMC verifier clean PASS on {name}")
 
 
 # ----------------------------------------------------------------------
@@ -922,8 +925,9 @@ def check_links(root: Path, result: GateResult) -> None:
     # second whitespace-delimited token is `<filename>` per sha256sum
     # convention) — this catches "sidecar for the wrong file".
     artifacts_ok = True
-    all_receipts = list(PUBLIC_RECEIPTS)
-    all_receipts.extend(name for name, _ in PUBLIC_NATIVE_CMMC_RECEIPTS)
+    all_receipts = list(PUBLIC_RECEIPTS) + [
+        name for name, _verifier_rel in PUBLIC_NATIVE_CMMC_RECEIPTS
+    ]
     for name in all_receipts:
         receipt = root / name
         sidecar = root / f"{name}.sha256"
@@ -954,7 +958,7 @@ def check_links(root: Path, result: GateResult) -> None:
             f"sidecars name the correct receipt file"
         )
 
-    # If verify.html links the standalone verifier, the verifier must exist.
+    # If verify.html links a public verifier, the verifier must exist.
     if verify_html.exists():
         bad = 0
         total = 0

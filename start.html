@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start Your Hardseal Evidence Integrity Review</title>
-<meta name="description" content="Start the Hardseal Evidence Integrity Review after payment or invoice request. Confirm scope, prepare evidence, and coordinate a safe handoff path.">
+<title>Start Hardseal Evidence Integrity Review Without a Sales Call</title>
+<meta name="description" content="Start the Hardseal Evidence Integrity Review without a sales call. Pay by Stripe or request invoice, generate a scoping brief, prepare evidence, and coordinate a safe handoff path.">
 <link rel="canonical" href="https://hardseal.ai/start.html">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;min-width:0}
 :root{
   --bg:#000;--bg2:#060606;--panel:#0c0c0c;--border:#1f1f1f;
   --white:#fff;--gray:#c7c7c7;--muted:#858585;--dim:#555;
@@ -17,7 +17,8 @@
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent}
 a:hover{border-bottom-color:var(--green)}
 .wrap{width:min(1080px,calc(100% - 40px));margin:0 auto}
@@ -27,8 +28,8 @@ header{border-bottom:1px solid var(--border);background:rgba(0,0,0,.9);position:
 .nav-links{display:flex;gap:22px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
 .hero{padding:84px 0 56px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(47,128,255,.08),transparent 42%)}
 .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
-h1{font-size:clamp(34px,6vw,72px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:980px;margin-bottom:20px}
-.sub{max-width:780px;color:var(--gray);font-size:19px;line-height:1.7;margin-bottom:34px}
+h1{font-size:clamp(34px,6vw,72px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:980px;margin-bottom:20px;text-wrap:balance;overflow-wrap:anywhere}
+.sub{max-width:780px;color:var(--gray);font-size:19px;line-height:1.7;margin-bottom:34px;overflow-wrap:anywhere}
 .actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
 .button{display:inline-flex;align-items:center;justify-content:center;padding:14px 18px;border-radius:3px;background:linear-gradient(180deg,#3b8cff,#1267d8);color:#fff;border:1px solid #3b8cff;font-family:var(--mono);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
 .button:hover{color:#fff;border-bottom-color:#3b8cff;filter:brightness(1.12)}
@@ -64,7 +65,7 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
 .fine{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7;margin-top:14px}
 .disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
 footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
-@media(max-width:800px){.grid,.steps,.split,.navigator-grid{grid-template-columns:1fr}.nav{height:auto;padding:16px 0;align-items:flex-start;flex-direction:column}.nav-links{flex-wrap:wrap}.hero{padding-top:56px}.step{grid-template-columns:1fr}.step-num{margin-bottom:2px}.button{width:100%;text-align:center}.navigator{padding:20px}}
+@media(max-width:800px){.wrap{width:320px;max-width:calc(100% - 40px);margin:0 0 0 20px}.grid,.steps,.split,.navigator-grid{grid-template-columns:1fr}.nav{height:auto;padding:16px 0;align-items:flex-start;flex-direction:column}.nav-links{width:100%;flex-wrap:wrap;gap:12px 18px}.nav-links a{font-size:11px;overflow-wrap:anywhere}.hero{padding-top:56px}h1{font-size:31px;line-height:1.08;letter-spacing:-.02em;max-width:100%}.sub{font-size:17px;line-height:1.7;max-width:100%}.step{grid-template-columns:1fr}.step-num{margin-bottom:2px}.button{width:100%;text-align:center}.navigator{padding:20px}.notice,.fine,.card p,.step p,.warning p{overflow-wrap:anywhere}}
 </style>
 </head>
 <body>
@@ -76,7 +77,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
       <a href="/client-experience.html">Experience</a>
       <a href="/#pricing">Pricing</a>
       <a href="/verify.html">Verifier</a>
-      <a href="mailto:hello@hardseal.ai">Contact</a>
+      <a href="mailto:rico@hardseal.ai">Contact</a>
     </nav>
   </div>
 </header>
@@ -84,12 +85,13 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
 <main>
   <section class="hero">
     <div class="wrap">
-      <div class="eyebrow">Customer start path</div>
-      <h1>Start your Evidence Integrity Review cleanly.</h1>
-      <p class="sub">Use this page after Stripe payment, invoice request, or procurement approval. The goal is simple: confirm scope first, coordinate evidence handoff safely, then review claims against proof.</p>
+      <div class="eyebrow">No-call customer start path</div>
+      <h1>Start cleanly without booking a meeting.</h1>
+      <p class="sub">Use this page after Stripe payment, invoice request, or procurement approval. The goal is simple: confirm scope first, coordinate evidence handoff safely, then review claims against proof. Calls are optional; the default path is asynchronous.</p>
       <div class="actions">
-        <a class="button" href="mailto:hello@hardseal.ai?subject=Start%20Hardseal%20Evidence%20Integrity%20Review&body=Business%20name%3A%0APoint%20of%20contact%3A%0ARole%20(contractor%2FMSP%2FRPO%2Fconsultant)%3A%0ATarget%20review%20scope%3A%0APayment%20or%20invoice%20status%3A%0ARequested%20timeline%3A">Start by email</a>
-        <a class="button secondary" href="/pilot.html">Review scope</a>
+        <a class="button" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay $5,500 with Stripe</a>
+        <a class="button secondary" href="/pilot.html#intake">Build scoping brief</a>
+        <a class="button secondary" href="mailto:rico@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review%20Invoice%20Request&body=Business%20name%3A%0ABilling%20contact%3A%0AInvoice%20email%3A%0APO%20required%3F%20yes%2Fno%3A%0AW-9%20required%3F%20yes%2Fno%3A%0ATarget%20start%20date%3A%0A">Request invoice</a>
         <a class="button secondary" href="/client-experience.html">See full experience</a>
       </div>
       <p class="notice">Do not attach sensitive evidence to the first email unless a secure handoff path has already been agreed. Stripe checkout is for payment only, not evidence transfer.</p>
@@ -306,5 +308,6 @@ document.getElementById("navigatorBtn").addEventListener("click", () => {
   });
 });
 </script>
+<script src="/assets/source-tag.js"></script>
 </body>
 </html>
