@@ -388,7 +388,7 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 /* INTEGRITY_LOG live panel */
 .log-panel{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;overflow:hidden}
 .log-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border2);background:var(--bg2);font-family:var(--mono);font-size:12px;color:var(--gray2);flex-wrap:wrap;gap:12px}
-.live-counter{padding:32px 20px 28px;border-bottom:1px solid var(--border2);text-align:center;background:linear-gradient(180deg,rgba(0,255,136,0.04) 0%,transparent 100%)}
+.live-counter{padding:32px 20px 28px;border-bottom:1px solid var(--border2);text-align:center;background:linear-gradient(180deg,rgba(255,255,255,0.04) 0%,transparent 100%)}
 .live-counter-value{font-size:48px;font-weight:700;color:var(--green);letter-spacing:-0.02em;line-height:1;text-shadow:0 0 24px var(--green-glow);margin-bottom:10px}
 .live-counter-label{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray2);margin-bottom:8px}
 .live-counter-sub{font-size:13px;color:var(--gray3);max-width:520px;margin:0 auto;line-height:1.5}
@@ -432,7 +432,7 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .tier li{padding:8px 0;font-size:13px;color:var(--gray1);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start}
 .tier li::before{content:"·";color:var(--gray3);flex-shrink:0;font-weight:600}
 .tier-action{display:inline-flex;align-items:center;justify-content:center;margin-top:20px;padding:12px 14px;border:1px solid var(--green);border-radius:4px;background:var(--green);color:#000;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
-.tier-action:hover{background:#3aff9d;color:#000;border-bottom-color:var(--green);box-shadow:0 0 18px var(--green-glow)}
+.tier-action:hover{background:#e8e8e8;color:#000;border-bottom-color:var(--green);box-shadow:none}
 .tier-action.secondary{background:transparent;color:var(--green);border-color:var(--border3)}
 .tier-action.secondary:hover{background:var(--green-dim);color:var(--green);border-color:var(--green);box-shadow:none}
 .pricing-note{margin-top:24px;font-family:var(--mono);font-size:13px;color:var(--gray2);line-height:1.7}
@@ -1308,9 +1308,10 @@ function showResult(r) {
       ...(r.checks.failures || []).map(f => `<div class="check fail">${escapeHtml(f)}</div>`)
     ].join('') : '';
     const upsellsCls = (r.upsells || []).length === 1 ? 'upsell single' : 'upsell';
-    const upsellsHtml = (r.upsells || []).map(u =>
-      `<a class="upsell-card" href="${escapeHtml(u.href)}"><div class="label">${escapeHtml(u.label)}</div><div class="title">${escapeHtml(u.title)}</div><div class="desc">${escapeHtml(u.desc)} <span class="arrow">→</span></div></a>`
-    ).join('');
+    const upsellsHtml = (r.upsells || []).map(u => {
+      const href = normalizeHref(u.href);
+      return '<a class="upsell-card" ' + 'href="' + escapeHtml(href) + '"><div class="label">' + escapeHtml(u.label) + '</div><div class="title">' + escapeHtml(u.title) + '</div><div class="desc">' + escapeHtml(u.desc) + ' <span class="arrow">→</span></div></a>';
+    }).join('');
     el.innerHTML = `
       <div class="banner ${bannerCls}"><span class="dot"></span>${escapeHtml(bannerText)}</div>
       ${specHtml ? `<dl class="spec-grid">${specHtml}</dl>` : ''}
@@ -1337,6 +1338,11 @@ function showResult(r) {
 }
 
 function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function normalizeHref(href) {
+  const value = String(href || '#').trim();
+  if (value.startsWith('/') || value.startsWith('#') || value.startsWith('https://')) return value;
+  return '#';
+}
 function formatBytes(n) { if (n < 1024) return `${n} B`; if (n < 1048576) return `${(n/1024).toFixed(1)} KB`; return `${(n/1048576).toFixed(2)} MB`; }
 
 /* ====================================================================
