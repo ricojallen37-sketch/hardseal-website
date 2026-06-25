@@ -329,6 +329,16 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .assessment-band strong{display:block;color:var(--white);font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
 .assessment-band p{color:var(--gray2);font-size:14px}
 .assessment-band .role{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);white-space:nowrap}
+.proof-first{padding:56px 32px;border-top:1px solid var(--border);background:var(--bg2)}
+.proof-first-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:28px;align-items:start}
+.proof-first h2{font-size:clamp(26px,3.4vw,44px);line-height:1.08;max-width:560px;margin-bottom:14px}
+.proof-first p{color:var(--gray1);font-size:16px;line-height:1.7;max-width:620px}
+.proof-first-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.proof-first-step{border:1px solid var(--accent-line);background:var(--bg3);padding:20px 18px;min-width:0}
+.proof-first-step .num{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray2);margin-bottom:16px}
+.proof-first-step h3{font-size:18px;line-height:1.25;margin-bottom:8px}
+.proof-first-step p{font-size:13px;line-height:1.6;color:var(--gray2)}
+.proof-first-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
 .verification-lab{padding-top:64px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
 .verification-lab .hero-eyebrow{margin-bottom:14px}
 .verification-lab h2{max-width:760px;margin:0 auto 14px}
@@ -364,6 +374,10 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
   .chain-stage h3,.chain-stage p{overflow-wrap:anywhere;word-break:break-word}
   .assessment-band{grid-template-columns:1fr}
   .assessment-band .role{white-space:normal}
+  .proof-first{padding:42px 20px}
+  .proof-first-grid,.proof-first-steps{grid-template-columns:1fr}
+  .proof-first h2,.proof-first p{max-width:320px}
+  .proof-first-actions{display:grid;grid-template-columns:1fr;width:100%;max-width:320px}
   .try-now-band{padding:10px 16px;line-height:1.65;overflow-wrap:anywhere}
   .try-now-band .label{display:block;margin:0 0 4px}
   .try-now-band a{display:block;width:100%;white-space:normal;overflow-wrap:anywhere}
@@ -483,14 +497,8 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 <!-- ============== TRY-NOW BAND ============== -->
 <div class="try-now-band" role="region" aria-label="Hardseal primary buyer path">
   <span class="label">No-call buyer path:</span>
-  <a href="/pilot.html">Pay, intake, handoff</a>
-  <span class="sep">·</span>
-  <a href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay with Stripe</a>
-  <span class="sep">·</span>
-  <a href="/client-experience.html">See client path</a>
-  <span class="sep">·</span>
-  <a href="/verify.html">Verify a sample packet</a>
-  <div class="try-now-note">$5,500 one-time Evidence Integrity Review. No sales call required to start. Hardseal does not certify compliance or replace a C3PAO.</div>
+  <a href="/pilot.html">Scope brief → pay or invoice → secure handoff</a>
+  <div class="try-now-note">$5,500 one-time Evidence Integrity Review. Start with scope first. Hardseal does not certify compliance or replace a C3PAO.</div>
 </div>
 
 <!-- ============== HERO ============== -->
@@ -499,11 +507,10 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="hero-copy">
       <div class="classification">CMMC Level 2 · NIST SP 800-171</div>
       <h1 id="hero-h1">Find weak evidence before formal review.</h1>
-      <p class="hero-sub">Hardseal combines a local proof primitive with a governed review path for SSPs, POA&amp;Ms, SPRS snapshots, policies, screenshots, tickets, exports, and control evidence.</p>
+      <p class="hero-sub">Hardseal reviews CMMC evidence packets for unsupported claims, contradiction risk, AI/boilerplate artifacts, and integrity breaks before teams rely on them.</p>
       <div class="hero-actions">
-        <a class="action-primary" href="/pilot.html">Start paid review</a>
-      <a class="action-secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay with Stripe</a>
-        <a class="action-secondary" href="/client-experience.html">See client path</a>
+        <a class="action-primary" href="/pilot.html">Start review</a>
+        <a class="action-secondary" href="#sixty-second-proof">See proof first</a>
       </div>
       <div class="hero-proof" aria-label="Hardseal review capabilities">
         <span>SSP vs. evidence gaps</span>
@@ -517,14 +524,14 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
       <div class="offer-kicker">No-call review path</div>
       <div class="offer-title">Evidence review for CMMC teams.</div>
       <div class="offer-price">$5,500</div>
-      <div class="offer-note">One-time B2B review. Pay with Stripe, build the scoping brief, or request invoice workflow before any evidence moves.</div>
+      <div class="offer-note">One-time B2B review. Start with the scoping brief; payment or invoice happens after the packet boundary is clear.</div>
       <ul class="offer-list">
         <li data-label="Inputs">SSP, POA&amp;M, SPRS, policies, screenshots, tickets, exports, and control evidence.</li>
         <li data-label="Output">Findings packet showing supported, partial, contradicted, and missing evidence.</li>
         <li data-label="Boundary">Pre-assessment support only. Hardseal does not certify, assess, or guarantee compliance.</li>
       </ul>
-      <a class="action-primary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay with Stripe</a>
-      <a class="action-secondary" href="/pilot.html">Build intake brief</a>
+      <a class="action-primary" href="/pilot.html">Build scoping brief</a>
+      <a class="action-secondary" href="/pilot.html#invoice">Need invoice first?</a>
       <p class="proof-caption">Want proof first? Use the browser verifier below or inspect a sample packet before you start.</p>
     </div>
   </div>
@@ -533,9 +540,9 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="path-step">
       <div class="num">01</div>
       <h2>Scope</h2>
-      <p>We align on business context, environment boundary, target control set, and what review outcome matters.</p>
+      <p>Generate the scoping brief so the packet, owner, framework, and review boundary are clear before any evidence moves.</p>
       <ul>
-        <li>Scope confirmation</li>
+        <li>Scoping brief</li>
         <li>Inheritance and assumptions</li>
         <li>Assessment objective mapping</li>
       </ul>
@@ -543,23 +550,23 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="path-arrow">→</div>
     <div class="path-step">
       <div class="num">02</div>
-      <h2>Evidence handoff</h2>
-      <p>You provide artifacts through an agreed path. The first contact identifies the packet; sensitive evidence does not move through checkout.</p>
+      <h2>Pay or invoice</h2>
+      <p>Use card, invoice, PO, W-9, or vendor workflow after the review shape is clear. Stripe is a payment rail, not a file-transfer rail.</p>
       <ul>
-        <li>Secure handoff path</li>
-        <li>Packet completeness check</li>
-        <li>No blind email dump</li>
+        <li>Stripe or invoice</li>
+        <li>Procurement details</li>
+        <li>No blind checkout</li>
       </ul>
     </div>
     <div class="path-arrow">→</div>
     <div class="path-step">
       <div class="num">03</div>
-      <h2>Findings packet</h2>
-      <p>You receive clear findings that show contradiction risk, unsupported claims, and what to fix next.</p>
+      <h2>Secure handoff</h2>
+      <p>You provide artifacts through an agreed path. The first contact identifies the packet; sensitive evidence does not move through checkout.</p>
       <ul>
-        <li>Evidence integrity summary</li>
-        <li>Risk and contradiction notes</li>
-        <li>Prioritized actions</li>
+        <li>Evidence handoff path</li>
+        <li>Packet completeness check</li>
+        <li>No blind email dump</li>
       </ul>
     </div>
   </div>
@@ -571,6 +578,38 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
       <p>Hardseal identifies evidence risk, gaps, and contradictions so teams can prepare better before formal review.</p>
     </div>
     <div class="role">Prepare. Not attest.</div>
+  </div>
+</section>
+
+<!-- ============== 60-SECOND PROOF ============== -->
+<section class="proof-first" id="sixty-second-proof" aria-labelledby="proof-first-h2">
+  <div class="proof-first-grid">
+    <div>
+      <div class="eyebrow">60-second proof</div>
+      <h2 id="proof-first-h2">Verify the primitive before you buy the review.</h2>
+      <p>Hardseal does not ask you to trust a screenshot. Download a sample receipt, paste it into the verifier, and watch the packet prove whether it still matches its recorded chain.</p>
+      <div class="proof-first-actions">
+        <a class="action-primary" href="/sample-packet-receipt1.json" download>Download sample</a>
+        <a class="action-secondary" href="/verify.html">Open verifier</a>
+      </div>
+    </div>
+    <div class="proof-first-steps" aria-label="60-second proof steps">
+      <article class="proof-first-step">
+        <div class="num">01</div>
+        <h3>Download sample receipt</h3>
+        <p>Use the same public sample packet behind the live verifier and trust ledger.</p>
+      </article>
+      <article class="proof-first-step">
+        <div class="num">02</div>
+        <h3>Paste in verifier → PASS</h3>
+        <p>The browser recomputes the SHA-256 chain locally. No upload, no account, no sales call.</p>
+      </article>
+      <article class="proof-first-step">
+        <div class="num">03</div>
+        <h3>That is the packet test</h3>
+        <p>The paid review applies the same discipline to your CMMC evidence before formal review.</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -847,7 +886,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
       <a href="/pilot.html">Start Evidence Integrity Review</a>
       <a href="/start.html">Customer start path</a>
       <a href="/client-experience.html">Client experience</a>
-      <a href="mailto:rico@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review%20Invoice%20Request">Request invoice</a>
+      <a href="/pilot.html#invoice">Request invoice</a>
     </div>
   </div>
   <div class="copyright">

@@ -200,12 +200,12 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   <section class="hero">
     <div class="wrap">
       <div class="eyebrow">Evidence Integrity Review · No sales call required</div>
-      <h1>Pay, intake, handoff. No meeting needed to start.</h1>
-        <p class="sub">Hardseal reviews your compliance evidence package for SSP-to-evidence contradictions, AI-generated artifacts, boilerplate risk, and pre-assessor readiness gaps. The standard Evidence Integrity Review is $5,500. Start on-page, generate your scoping brief instantly, then pay by Stripe or request invoice workflow.</p>
+      <h1>Scope first. Pay or invoice second. Handoff only after the boundary is clear.</h1>
+        <p class="sub">Hardseal reviews your compliance evidence package for SSP-to-evidence contradictions, AI-generated artifacts, boilerplate risk, and pre-assessor readiness gaps. The standard Evidence Integrity Review is $5,500. Start on-page with a scoping brief; card, invoice, PO, W-9, and vendor workflow come after fit and scope are clear.</p>
         <div class="actions">
-          <a class="button" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay $5,500 with Stripe</a>
-          <a class="button secondary" href="#intake">Build intake brief</a>
-          <a class="button secondary" href="mailto:rico@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review%20Invoice%20Request&body=Company%20name%3A%0ABilling%20contact%3A%0AInvoice%20email%3A%0APO%20required%3F%20yes%2Fno%3A%0AW-9%20required%3F%20yes%2Fno%3A%0ATarget%20start%20date%3A%0A">Request invoice</a>
+          <a class="button" href="#intake">Build scoping brief</a>
+          <a class="button secondary" href="#invoice">Need invoice / PO?</a>
+          <a class="button secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay by Stripe</a>
           <a class="button secondary" href="/client-experience.html">See client path</a>
         </div>
         <p class="notice">First contact is scope only. Do not send CUI, SSPs, network maps, data-flow diagrams, credentials, screenshots, or sensitive evidence through this page, email, or checkout. Hardseal confirms the handoff path after fit and scope are clear. Calls are optional; the default path is asynchronous.</p>
@@ -320,7 +320,7 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
           <aside class="intake-output" aria-live="polite">
             <div class="result-pill" id="fitSignal">Brief not generated</div>
             <h3>Your scoping brief</h3>
-            <p>Generate the brief, then copy it, download it, or send the organized summary to start the handoff.</p>
+            <p>Generate the brief, then copy it or download the JSON to start the handoff without opening an email client.</p>
             <div class="score-panel">
               <div class="score-row"><span id="scoreLabel">Score pending</span><span id="scoreValue">0/10</span></div>
               <div class="score-track" aria-hidden="true"><div class="score-fill" id="scoreFill"></div></div>
@@ -337,13 +337,80 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
             <div class="form-actions">
               <button class="button" type="button" id="copyBrief">Copy brief</button>
               <button class="button secondary" type="button" id="downloadBrief">Download JSON</button>
-              <a class="button secondary" id="emailBrief" href="mailto:rico@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review%20Scoping%20Brief">Send brief</a>
+              <button class="button secondary" type="button" id="copyBriefForHandoff">Copy for handoff</button>
             </div>
             <div class="small-status" id="briefStatus"></div>
           </aside>
         </div>
       </div>
     </section>
+
+  <section id="invoice">
+    <div class="wrap">
+      <h2>Invoice / procurement request</h2>
+      <p class="sub">If your organization needs invoice, PO, W-9, vendor setup, or procurement review before payment, create the request here. This page does not transmit data; it generates a clean procurement brief you can copy or download for the agreed handoff path.</p>
+      <div class="intake-shell">
+        <form class="intake-form" id="invoiceForm">
+          <div class="form-grid">
+            <div class="field">
+              <label for="invoiceCompany">Company</label>
+              <input id="invoiceCompany" name="company" autocomplete="organization" placeholder="Company name">
+            </div>
+            <div class="field">
+              <label for="billingContact">Billing contact</label>
+              <input id="billingContact" name="billingContact" autocomplete="name" placeholder="Name">
+            </div>
+            <div class="field">
+              <label for="invoiceEmail">Invoice email</label>
+              <input id="invoiceEmail" name="invoiceEmail" type="email" autocomplete="email" placeholder="billing@company.com">
+            </div>
+            <div class="field">
+              <label for="targetStart">Target start</label>
+              <input id="targetStart" name="targetStart" placeholder="Example: July 2026">
+            </div>
+            <div class="field">
+              <label for="poRequired">PO required?</label>
+              <select id="poRequired" name="poRequired">
+                <option value="">Select one</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Unknown</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="w9Required">W-9 required?</label>
+              <select id="w9Required" name="w9Required">
+                <option value="">Select one</option>
+                <option>Yes</option>
+                <option>No</option>
+                <option>Unknown</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="procurementNotes">Procurement notes</label>
+              <textarea id="procurementNotes" name="procurementNotes" placeholder="Vendor setup, purchase order process, billing instructions, or timing notes. Do not paste sensitive evidence."></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="button" type="button" id="generateInvoiceBrief">Generate invoice request</button>
+            <button class="button secondary" type="button" id="clearInvoice">Clear</button>
+          </div>
+          <p class="fine">Procurement only. Do not include CUI, credentials, screenshots, SSP content, or evidence artifacts here.</p>
+        </form>
+        <aside class="intake-output" aria-live="polite">
+          <div class="result-pill" id="invoiceSignal">Invoice request not generated</div>
+          <h3>Your invoice request</h3>
+          <p>Generate the request, then copy or download it for the agreed handoff path. This avoids Outlook dead ends and keeps the procurement record structured.</p>
+          <textarea id="invoiceOutput" readonly>Complete the procurement fields and generate the invoice request.</textarea>
+          <div class="form-actions">
+            <button class="button" type="button" id="copyInvoiceBrief">Copy request</button>
+            <button class="button secondary" type="button" id="downloadInvoiceBrief">Download JSON</button>
+          </div>
+          <div class="small-status" id="invoiceStatus"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
 
   <section id="client-path">
     <div class="wrap">
@@ -492,7 +559,8 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
         <div class="price-note">One-time B2B evidence review · no sales call required</div>
           <a class="button" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay with Stripe</a>
           <a class="button secondary" href="#intake">Build intake brief</a>
-          <p class="fine">Need procurement first? Email <a href="mailto:rico@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review%20Invoice%20Request">rico@hardseal.ai</a> for invoice, PO, W-9, or vendor-form workflow. A small number of qualified design-partner reviews may be comped when the packet helps improve the product.</p>
+          <a class="button secondary" href="#invoice">Create invoice request</a>
+          <p class="fine">Need procurement first? Use the on-page invoice request above for invoice, PO, W-9, or vendor-form workflow. A small number of qualified design-partner reviews may be comped when the packet helps improve the product.</p>
         <p class="fine">After fit and scope are confirmed, use the <a href="/start.html">customer start path</a> to begin scope confirmation. For the full flow, see the <a href="/client-experience.html">client experience</a>.</p>
       </aside>
     </div>
@@ -538,7 +606,6 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
   var output = document.getElementById("briefOutput");
   var fit = document.getElementById("fitSignal");
   var status = document.getElementById("briefStatus");
-  var emailLink = document.getElementById("emailBrief");
   var scoreLabel = document.getElementById("scoreLabel");
   var scoreValue = document.getElementById("scoreValue");
   var scoreFill = document.getElementById("scoreFill");
@@ -750,7 +817,6 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     fit.textContent = signal;
     receiptValue.textContent = receipt;
     renderPlan(profile, actions);
-    emailLink.href = "mailto:rico@hardseal.ai?subject=" + encodeURIComponent("Hardseal Evidence Integrity Review Scoping Brief - " + (data.company || "New intake")) + "&body=" + encodeURIComponent(brief);
     status.textContent = "Brief generated. Progress saved on this device.";
     save();
     return brief;
@@ -763,6 +829,16 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     var text = output.value || buildBrief();
     navigator.clipboard.writeText(text).then(function(){
       status.textContent = "Brief copied.";
+    }, function(){
+      output.focus();
+      output.select();
+      status.textContent = "Select and copy the brief.";
+    });
+  });
+  document.getElementById("copyBriefForHandoff").addEventListener("click", function(){
+    var text = output.value || buildBrief();
+    navigator.clipboard.writeText(text).then(function(){
+      status.textContent = "Brief copied for handoff.";
     }, function(){
       output.focus();
       output.select();
@@ -803,6 +879,128 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
     scoreFill.style.width = "0";
     nextActions.innerHTML = '<div class="action-item">Generate the brief to get the buyer-specific action list.</div>';
     status.textContent = "Intake cleared on this device.";
+    try{localStorage.removeItem(storageKey);}catch(err){}
+  });
+  restore();
+})();
+
+(function(){
+  var form = document.getElementById("invoiceForm");
+  if(!form) return;
+  var output = document.getElementById("invoiceOutput");
+  var signal = document.getElementById("invoiceSignal");
+  var status = document.getElementById("invoiceStatus");
+  var storageKey = "hardseal-invoice-v1";
+
+  function fields(){
+    return Array.prototype.slice.call(form.querySelectorAll("input, select, textarea"));
+  }
+
+  function serialize(){
+    var data = {};
+    fields().forEach(function(field){data[field.name] = field.value.trim();});
+    return data;
+  }
+
+  function restore(){
+    try{
+      var saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+      fields().forEach(function(field){
+        if(saved[field.name]) field.value = saved[field.name];
+      });
+    }catch(err){}
+  }
+
+  function save(){
+    try{localStorage.setItem(storageKey, JSON.stringify(serialize()));}catch(err){}
+  }
+
+  function line(label, value){
+    return label + ": " + (value || "Not provided");
+  }
+
+  function stableHash(text){
+    var hash = 2166136261;
+    for(var i = 0; i < text.length; i += 1){
+      hash ^= text.charCodeAt(i);
+      hash = Math.imul(hash, 16777619);
+    }
+    return (hash >>> 0).toString(16).padStart(8, "0").toUpperCase();
+  }
+
+  function requestId(data){
+    var day = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    var basis = [data.company, data.billingContact, data.invoiceEmail, data.poRequired, data.w9Required, data.targetStart].join("||").toLowerCase();
+    return "HS-INV-" + day + "-" + stableHash(basis);
+  }
+
+  function buildInvoiceBrief(){
+    var data = serialize();
+    var id = requestId(data);
+    var date = new Date().toLocaleString();
+    var lines = [
+      "Hardseal Evidence Integrity Review - invoice / procurement request",
+      "Generated: " + date,
+      "Request ID: " + id,
+      "Schema version: hardseal-invoice-v1",
+      "",
+      line("Company", data.company),
+      line("Billing contact", data.billingContact),
+      line("Invoice email", data.invoiceEmail),
+      line("Target start date", data.targetStart),
+      line("PO required", data.poRequired),
+      line("W-9 required", data.w9Required),
+      line("Procurement notes", data.procurementNotes),
+      "",
+      "Requested item: Hardseal Evidence Integrity Review",
+      "Price: $5,500 one-time B2B review",
+      "Safety note: No sensitive evidence, CUI, credentials, screenshots, or protected artifacts were submitted through this procurement request.",
+      "Assessment notice: Hardseal does not certify compliance, does not replace a C3PAO, and does not make final assessment determinations."
+    ];
+    output.value = lines.join("\n");
+    signal.textContent = "Invoice request ready";
+    status.textContent = "Invoice request generated. Progress saved on this device.";
+    save();
+    return output.value;
+  }
+
+  form.addEventListener("input", save);
+  form.addEventListener("change", save);
+  document.getElementById("generateInvoiceBrief").addEventListener("click", buildInvoiceBrief);
+  document.getElementById("copyInvoiceBrief").addEventListener("click", function(){
+    var text = output.value || buildInvoiceBrief();
+    navigator.clipboard.writeText(text).then(function(){
+      status.textContent = "Invoice request copied.";
+    }, function(){
+      output.focus();
+      output.select();
+      status.textContent = "Select and copy the invoice request.";
+    });
+  });
+  document.getElementById("downloadInvoiceBrief").addEventListener("click", function(){
+    var data = serialize();
+    data.schemaVersion = "hardseal-invoice-v1";
+    data.requestId = requestId(data);
+    data.service = "Hardseal Evidence Integrity Review";
+    data.price = "$5,500";
+    data.sensitiveEvidenceSubmitted = false;
+    data.generatedAt = new Date().toISOString();
+    var blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+    var link = document.createElement("a");
+    var company = (data.company || "hardseal-invoice-request").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    link.href = URL.createObjectURL(blob);
+    link.download = company + "-hardseal-invoice-request.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function(){URL.revokeObjectURL(link.href);}, 250);
+    status.textContent = "Invoice request JSON downloaded.";
+  });
+  document.getElementById("clearInvoice").addEventListener("click", function(){
+    form.reset();
+    output.value = "Complete the procurement fields and generate the invoice request.";
+    signal.textContent = "Invoice request not generated";
+    status.textContent = "Invoice request cleared on this device.";
     try{localStorage.removeItem(storageKey);}catch(err){}
   });
   restore();
