@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trophy Case — Hardseal Edge real-run evidence packets</title>
-<meta name="description" content="Download a 12-packet bundle of real Hardseal Edge evidence from a Jetson Orin Nano Super, including 1-million-iteration soaks and an 8-hour sustained 25W run. Run the standalone verifier yourself. Independent reproducible chain roots.">
+<meta name="description" content="Download a 12-packet bundle of real Hardseal Edge evidence from a Jetson Orin Nano Super, including 1-million-iteration soaks and a 13.23-hour sustained 25W run. Run the standalone verifier yourself. Independent reproducible chain roots.">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;--border:#1A1A1A;--border2:#222;--white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.15);--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+:root{--bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;--border:#1A1A1A;--border2:#222;--white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--green:var(--accent);--green-dim:rgba(255,255,255,0.08);--green-med:rgba(255,255,255,0.15);--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.55}
 a{color:var(--green);text-decoration:none}
@@ -40,16 +40,34 @@ h2{font-size:24px;margin:40px 0 14px;font-weight:700}
 footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);font-size:12px;text-align:center}
 @media(max-width:720px){header{padding:16px 20px}nav a{margin-left:18px;font-size:12px}main{padding:32px 20px 64px}h1{font-size:32px}.step{padding-left:24px}.step::before{position:static;display:block;margin-bottom:6px}}
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
 </head>
 <body>
-<header>
-  <a href="/" class="logo">HARDSEAL</a>
-  <nav>
-    <a href="/edge.html">EDGE</a>
-    <a href="/verify.html">VERIFY</a>
-    <a href="/resources.html">RESOURCES</a>
-    <a href="/#access">GET ACCESS</a>
-  </nav>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/verify.html">Verifier</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
+    </nav>
+  </div>
 </header>
 
 <main>
@@ -57,7 +75,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
 <div class="eyebrow">REAL EVIDENCE · REAL HARDWARE · DOWNLOAD AND VERIFY</div>
 <h1>Trophy case.</h1>
 <p class="lead">
-  Twelve sealed Hardseal Edge evidence packets from a Jetson Orin Nano Super. Million-iteration soaks across multiple precision classes and power modes, plus an 8-hour sustained 25W run. Pinned-clocks replicate chain. Bundle SHA-256 below. Recompute the chain yourself — Python stdlib only, zero dependencies, short enough to read before you run it. Trust anchor lives on this page; the per-packet chain roots below are what you compare against.
+  Twelve sealed Hardseal Edge evidence packets from a Jetson Orin Nano Super. Million-iteration soaks across multiple precision classes and power modes, plus a 13.23-hour sustained 25W run. Pinned-clocks replicate chain. Bundle SHA-256 below. Recompute the chain yourself — Python stdlib only, zero dependencies, short enough to read before you run it. Trust anchor lives on this page; the per-packet chain roots below are what you compare against.
 </p>
 
 <div class="cta-row">
@@ -134,7 +152,7 @@ less verify_standalone.py</pre>
 
 <h2>Findings — yolov8x family.</h2>
 <p>
-The yolov8x INT8 evidence in this bundle covers two run classes on the same Jetson Orin Nano Super, same engine SHA-256, same TensorRT 10.3.0. Three MAXN_SUPER replicate runs at pinned clocks recorded 500,000 inferences each (1,500,000 total, ~8.23 wall-hours) at mean latency 19.733 ms, p99 32.368 ms, throughput ~50.64 FPS, p99/mean ratio 1.640. One 8-hour sustained run at 25W power mode recorded 2,000,000 inferences (~13.23 wall-hours, 200 blocks) at mean latency 23.812 ms, p99 39.235 ms, throughput ~41.98 FPS, p99/mean ratio 1.648, and stdev across the 200 block-means of 0.023 ms. The structurally similar p99/mean ratio across power modes (1.640 at MAXN_SUPER vs 1.648 at 25W) indicates the tail behavior is workload-bound, not power-bound — the same shape under both clock regimes. The chain roots above are what you recompute against; the verifier output is the only thing that should convince you these numbers are real.
+The yolov8x INT8 evidence in this bundle covers two run classes on the same Jetson Orin Nano Super, same engine SHA-256, same TensorRT 10.3.0. Three MAXN_SUPER replicate runs at pinned clocks recorded 500,000 inferences each (1,500,000 total, ~8.23 wall-hours) at mean latency 19.733 ms, p99 32.368 ms, throughput ~50.64 FPS, p99/mean ratio 1.640. One sustained run at 25W power mode recorded 2,000,000 inferences (~13.23 wall-hours, 200 blocks) at mean latency 23.812 ms, p99 39.235 ms, throughput ~41.98 FPS, p99/mean ratio 1.648, and stdev across the 200 block-means of 0.023 ms. The structurally similar p99/mean ratio across power modes (1.640 at MAXN_SUPER vs 1.648 at 25W) indicates the tail behavior is workload-bound, not power-bound — the same shape under both clock regimes. The chain roots above are what you recompute against; the verifier output is the only thing that should convince you these numbers are real.
 </p>
 
 <h2>What you should look for in the packets.</h2>
@@ -163,5 +181,7 @@ Independent verification is the point of the artifact. Share it with your CISO, 
   Hardseal · trophy case · v1.1 · May 2026 · packet chain roots independently recomputable · written by Rico Allen
 </footer>
 
+<script src="/assets/source-tag.js"></script>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

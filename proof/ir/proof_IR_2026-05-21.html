@@ -8,20 +8,20 @@
 <style>
   :root {
     color-scheme: dark;
-    --bg: #080b0f;
-    --surface: #0d1218;
-    --surface-2: #111821;
-    --surface-3: #151d27;
-    --line: rgba(219, 229, 239, 0.14);
-    --line-strong: rgba(219, 229, 239, 0.28);
-    --text: #e7edf3;
-    --muted: #9aa8b6;
-    --faint: #667383;
-    --accent: #b8c7d8;
-    --success: #85d49b;
-    --warn: #d9b66f;
-    --fail: #ee8d8d;
-    --code-bg: #05070a;
+    --bg: #000000;
+    --surface: #0a0a0a;
+    --surface-2: #111111;
+    --surface-3: #151515;
+    --line: rgba(255, 255, 255, 0.14);
+    --line-strong: rgba(255, 255, 255, 0.28);
+    --text: #e8e8e8;
+    --muted: #8a8a8a;
+    --faint: #5a5a5a;
+    --accent: #d0d0d0;
+    --success: #ffffff;
+    --warn: #8a8a8a;
+    --fail: #8a8a8a;
+    --code-bg: #050505;
     --max: 1180px;
     --measure: 70ch;
     --radius: 10px;
@@ -42,7 +42,7 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
-  a { color: var(--text); text-decoration-color: rgba(231, 237, 243, 0.38); text-underline-offset: 0.18em; }
+  a { color: var(--text); text-decoration-color: rgba(255, 255, 255, 0.38); text-underline-offset: 0.18em; }
   a:hover { text-decoration-color: var(--text); }
   code, pre, .mono { font-family: var(--font-mono); }
   code {
@@ -57,7 +57,7 @@
     margin: 0;
     padding: 18px;
     overflow-x: auto;
-    color: #dce7f2;
+    color: var(--text);
     background: var(--code-bg);
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -393,9 +393,37 @@
     *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
   }
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/verify.html">Verifier</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
+    </nav>
+  </div>
+</header>
 
 <header class="page topbar" aria-label="Hardseal public proof header">
   <a class="brand" href="#main" aria-label="Hardseal public proof">
@@ -780,5 +808,6 @@ python3 verify/verify_standalone.py .</pre>
   </p>
   <p class="fineprint">Static HTML. No external fonts. No external JavaScript. Download links are relative to this page.</p>
 </footer>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

@@ -7,21 +7,21 @@
   <meta name="description" content="A clean Hardseal evidence packet passes local verification. Replaced evidence fails and names the changed file.">
   <style>
     :root {
-      color-scheme: light;
-      --ink: #111827;
-      --muted: #5b6472;
-      --line: #d8dee8;
-      --paper: #ffffff;
-      --soft: #f4f7fb;
-      --hardseal: #0f766e;
-      --hardseal-dark: #115e59;
-      --pass: #0f7a4f;
-      --fail: #b42318;
-      --fail-soft: #fff0ee;
-      --pass-soft: #e9f8f1;
-      --code-bg: #0f172a;
-      --code-fg: #e5edf7;
-      --shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+      color-scheme: dark;
+      --ink: #ffffff;
+      --muted: #8a8a8a;
+      --line: rgba(255,255,255,0.2);
+      --paper: #0a0a0a;
+      --soft: #000000;
+      --hardseal: #ffffff;
+      --hardseal-dark: #d0d0d0;
+      --pass: #ffffff;
+      --fail: #8a8a8a;
+      --fail-soft: rgba(255,255,255,0.04);
+      --pass-soft: rgba(255,255,255,0.06);
+      --code-bg: #050505;
+      --code-fg: #d0d0d0;
+      --shadow: none;
     }
 
     * {
@@ -172,7 +172,7 @@
       height: 28px;
       display: grid;
       place-items: center;
-      background: #e7f4f2;
+      background: rgba(255,255,255,0.06);
       color: var(--hardseal-dark);
       font-weight: 800;
       font-size: 0.88rem;
@@ -257,7 +257,7 @@
 
     .command {
       margin: 0 0 12px;
-      border: 1px solid #223047;
+      border: 1px solid var(--line);
     }
 
     .section {
@@ -292,7 +292,7 @@
     }
 
     .attack span {
-      color: #5f241f;
+      color: var(--muted);
     }
 
     .ladder {
@@ -315,7 +315,7 @@
       text-transform: uppercase;
       letter-spacing: 0.06em;
       color: var(--muted);
-      background: #f8fafc;
+      background: rgba(255,255,255,0.04);
     }
 
     .ladder-cell strong {
@@ -329,12 +329,12 @@
     }
 
     .result-pass {
-      border-color: rgba(15, 122, 79, 0.25);
+      border-color: rgba(255,255,255,0.24);
       background: var(--pass-soft);
     }
 
     .result-fail {
-      border-color: rgba(180, 35, 24, 0.25);
+      border-color: rgba(255,255,255,0.14);
       background: var(--fail-soft);
     }
 
@@ -394,7 +394,7 @@
     .reply {
       margin: 30px 0 46px;
       border: 1px solid var(--line);
-      background: #fbfcfe;
+      background: var(--paper);
     }
 
     .reply-head {
@@ -433,8 +433,35 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/assets/site-nav.css">
+  <link rel="stylesheet" href="/assets/theme-spacex.css">
 </head>
 <body>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="/" class="site-brand" aria-label="Hardseal home">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <rect width="32" height="32" rx="6" fill="#000"/>
+          <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+          <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        HARDSEAL
+      </a>
+      <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="Primary">
+        <a href="/verify.html">Verifier</a>
+        <a href="/trophy-case.html">Proof</a>
+        <a href="/client-experience.html">Experience</a>
+        <a href="/pilot.html">Review</a>
+        <a href="/resources.html">Resources</a>
+        <a href="/pilot.html" class="site-nav-cta">Start</a>
+      </nav>
+    </div>
+  </header>
   <header class="page">
     <a class="brand" href="#top" aria-label="Hardseal">
       <span class="mark" aria-hidden="true"><span></span></span>
@@ -680,5 +707,7 @@ redacted sample from your environment. No CUI needed.</pre>
   <footer class="page">
     Hardseal LLC - rico@hardseal.ai - hardseal.ai
   </footer>
+  <script src="/assets/source-tag.js"></script>
+  <script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

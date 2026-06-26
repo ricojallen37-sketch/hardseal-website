@@ -28,7 +28,7 @@ fails.
 **Here's what you can prove today** — straight from public packets anyone can inspect:
 
 1. **12 sealed evidence packets** from a real Jetson Orin Nano Super. All 12 chain roots recompute and match. Bundle: `18c135af…` • Verifier: `103fb99c…`
-2. **8-hour endurance soak** — 2,000,000 inferences, YOLOv8x INT8/TensorRT, 25W pinned clocks, ~13.23 h wall, mean 23.81 ms, p99 39.24 ms, ~42 FPS. Sealed in one packet.
+2. **13.23-hour endurance soak** — 2,000,000 inferences, YOLOv8x INT8/TensorRT, 25W pinned clocks, mean 23.81 ms, p99 39.23 ms, ~42 FPS. Sealed in one packet.
 3. **Million-inference speed run** — 293 FPS (YOLOv8n INT8, mean 3.41 ms). Also sealed and reproducible.
 4. **Zero-dependency stdlib-only verifier** (read it before you run it). 8 pass-gates + an active banned-phrase scan that kills the bundle if it contains legal overclaims. The tool polices Hardseal's own language.
 5. **177 consecutive clean integrity checks** (~44 days). 214 total. 6 historical FAILs published, never hidden. Every 6 hours a robot re-downloads the bundle and re-runs the full verifier on a hash-chained log you cannot quietly edit.
@@ -38,7 +38,8 @@ The category nobody else occupies: everyone else posts cherry-picked model names
 and best-case FPS. We post dated, cryptographically verifiable evidence from real
 silicon — and re-verify + publish our own failures every six hours.
 
-[link to trophy case + verifier]
+Trophy case: https://hardseal.ai/trophy-case.html
+Verifier: https://hardseal.ai/verify.html
 
 ---
 
@@ -55,7 +56,7 @@ network) → run it → recompute every root yourself.
 If one byte was altered, the entire bundle fails.
 
 Don't trust me. Verify me.
-[link]
+https://hardseal.ai/trophy-case.html
 
 #EdgeAI #VerifiableAI #ReceiptsNotClaims
 
@@ -63,16 +64,16 @@ Don't trust me. Verify me.
 
 ## Post B — the endurance receipt
 
-8 hours. 2,000,000 inferences. One Jetson Orin Nano Super at 25W with clocks pinned.
+13.23 hours. 2,000,000 inferences. One Jetson Orin Nano Super at 25W with clocks pinned.
 
-YOLOv8x INT8 on TensorRT: mean 23.81 ms, p99 39.24 ms, ~42 FPS.
+YOLOv8x INT8 on TensorRT: mean 23.81 ms, p99 39.23 ms, ~42 FPS.
 
 All of it sealed into a single tamper-evident packet whose root is published.
 Honest scope is declared inside the packet itself: synthetic input, single
 device, bench conditions.
 
 Recompute it yourself.
-[link]
+https://hardseal.ai/trophy-case.html
 
 ---
 
@@ -85,7 +86,7 @@ We've also published 6 FAILs in the open. A verification company that hides its
 own failures is just another vendor.
 
 The log is hash-chained — you cannot edit the past without breaking the present.
-[link to heartbeat log]
+https://hardseal.ai/docs/integrity/INTEGRITY_LOG.md
 
 ---
 

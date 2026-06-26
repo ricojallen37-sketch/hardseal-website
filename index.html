@@ -63,15 +63,16 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--bg4:#111;
-  --border:#1A1A1A;--border2:#222;--border3:#2A2A2A;
-  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--gray4:#333;
-  --green:#00FF88;--green-dim:rgba(0,255,136,0.08);--green-med:rgba(0,255,136,0.18);--green-glow:rgba(0,255,136,0.35);
-  --blue:#2F80FF;--blue-dim:rgba(47,128,255,0.1);--blue-line:rgba(47,128,255,0.45);--blue-glow:rgba(47,128,255,0.34);
-  --red:#FF5577;--red-dim:rgba(255,85,119,0.08);--red-med:rgba(255,85,119,0.18);
-  --amber:#FFBD2E;--amber-dim:rgba(255,189,46,0.08);
-  --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
-  --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --bg:#000;--bg2:#050505;--bg3:#0a0a0a;--bg4:#111;
+  --border:rgba(255,255,255,0.14);--border2:rgba(255,255,255,0.2);--border3:rgba(255,255,255,0.28);
+  --white:#fff;--gray1:#d0d0d0;--gray2:#8a8a8a;--gray3:#5a5a5a;--gray4:#3a3a3a;
+  --accent:#fff;--accent-dim:rgba(255,255,255,0.06);--accent-line:rgba(255,255,255,0.24);--accent-glow:rgba(255,255,255,0.12);
+  --green:var(--accent);--green-dim:var(--accent-dim);--green-med:rgba(255,255,255,0.1);--green-glow:var(--accent-glow);
+  --blue:var(--accent);--blue-dim:var(--accent-dim);--blue-line:var(--accent-line);--blue-glow:var(--accent-glow);
+  --red:#9a9a9a;--red-dim:rgba(255,255,255,0.03);--red-med:rgba(255,255,255,0.07);
+  --amber:var(--gray2);--amber-dim:rgba(255,255,255,0.03);
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
 }
 html{scroll-behavior:smooth;background:var(--bg);overflow-x:hidden}
 body{
@@ -81,11 +82,11 @@ body{
   -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;overflow-wrap:break-word;
 }
-a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .15s ease}
-a:hover{border-bottom-color:var(--green)}
-a:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:2px}
+a{color:var(--gray1);text-decoration:none;border-bottom:1px solid transparent;transition:color .15s ease,border-color .15s ease}
+a:hover{color:var(--white);border-bottom-color:var(--white)}
+a:focus-visible{outline:2px solid var(--white);outline-offset:2px;border-radius:0}
 button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
-button:focus-visible{outline:2px solid var(--green);outline-offset:2px}
+button:focus-visible{outline:2px solid var(--white);outline-offset:2px}
 .mono{font-family:var(--mono)}
 
 /* Header */
@@ -104,9 +105,9 @@ header{
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 nav.toplinks{display:flex;gap:24px;font-family:var(--mono);font-size:12px;letter-spacing:0.04em;text-transform:uppercase}
 nav.toplinks a{color:var(--gray1);border:none}
-nav.toplinks a:hover{color:var(--green)}
-.nav-pill{padding:8px 12px;border:1px solid var(--blue-line)!important;color:var(--white)!important;background:var(--blue-dim)}
-.nav-pill:hover{color:var(--white)!important;border-color:var(--blue)!important;background:rgba(47,128,255,.18)}
+nav.toplinks a:hover{color:var(--white)}
+.nav-pill{padding:8px 12px;border:1px solid var(--white)!important;color:#000!important;background:var(--white)!important}
+.nav-pill:hover{color:#000!important;border-color:#e8e8e8!important;background:#e8e8e8!important}
 @media(max-width:980px){nav.toplinks{gap:14px;font-size:11px}.brand-status{display:none}}
 @media(max-width:760px){nav.toplinks{display:none}}
 
@@ -127,7 +128,7 @@ main{flex:1;width:100%}
   font-family:var(--mono);font-size:12px;letter-spacing:0.05em;
   padding:10px 24px;text-align:center;color:var(--gray1);
 }
-.try-now-band a{color:var(--green);border-bottom:1px solid var(--green);padding-bottom:1px}
+.try-now-band a{color:var(--gray1);border-bottom:1px solid var(--accent-line);padding-bottom:1px}
 .try-now-band a:hover{color:var(--white);border-bottom-color:var(--white)}
 .try-now-band .sep{color:var(--gray3);margin:0 10px}
 .try-now-band .label{color:var(--gray2);margin-right:8px}
@@ -145,8 +146,8 @@ main{flex:1;width:100%}
 /* Verifier widget */
 .verifier{
   width:100%;max-width:min(72vw,880px);
-  background:var(--bg3);border:1px solid var(--border2);border-radius:8px;
-  box-shadow:0 0 0 1px rgba(0,255,136,0.04),0 24px 48px -12px rgba(0,0,0,0.6);
+  background:var(--bg3);border:1px solid var(--border2);border-radius:0;
+  box-shadow:none;
   overflow:hidden;
 }
 @media(max-width:760px){.verifier{max-width:100%}}
@@ -179,12 +180,12 @@ main{flex:1;width:100%}
 .input-help{font-family:var(--mono);font-size:11px;color:var(--gray3);margin-top:10px;letter-spacing:0.02em}
 .cta{
   width:100%;margin-top:18px;padding:16px 20px;
-  background:var(--green);color:#000;
-  font-family:var(--mono);font-weight:600;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;
-  border-radius:4px;cursor:pointer;border:1px solid var(--green);
-  transition:background .15s ease,box-shadow .15s ease,transform .05s ease;
+  background:var(--white);color:#000;
+  font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;
+  border-radius:0;cursor:pointer;border:1px solid var(--white);
+  transition:background .15s ease,transform .05s ease;
 }
-.cta:hover{background:#3aff9d;box-shadow:0 0 24px var(--green-glow)}
+.cta:hover{background:#e8e8e8}
 .cta:active{transform:translateY(1px)}
 .cta:disabled{opacity:0.5;cursor:not-allowed;background:var(--gray4);border-color:var(--gray4);color:var(--gray2)}
 .cta.secondary{background:transparent;color:var(--green);border-color:var(--border3)}
@@ -275,26 +276,23 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 /* Premium buyer hero */
 .launch-hero{
   min-height:auto;display:block;text-align:left;border-top:0;
-  padding:72px 32px 54px;background:
-    linear-gradient(180deg,rgba(47,128,255,.08) 0%,transparent 28%),
-    radial-gradient(circle at 82% 18%,rgba(47,128,255,.12),transparent 34%),
-    var(--bg);
+  padding:72px 32px 54px;background:var(--bg);
 }
 .hero-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
 .hero-grid,.hero-copy,.chain-board,.path-strip,.path-step,.verification-lab,.offer-panel{min-width:0}
-.classification{display:inline-flex;border:1px solid var(--blue-line);color:var(--blue);font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:9px 12px;margin-bottom:24px;background:rgba(47,128,255,.05)}
+.classification{display:inline-flex;border:1px solid var(--accent-line);color:var(--gray2);font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:9px 12px;margin-bottom:24px;background:transparent}
 .launch-hero h1{font-size:clamp(38px,5.4vw,72px);line-height:1.02;letter-spacing:-.04em;max-width:780px;margin:0 0 24px;color:var(--white)}
 .launch-hero .hero-sub{font-family:var(--sans);font-size:clamp(18px,1.45vw,21px);line-height:1.6;color:var(--gray1);max-width:680px;margin:0 0 30px}
 .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px}
-.action-primary,.action-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:14px 20px;border-radius:2px;font-family:var(--mono);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--blue-line)}
-.action-primary{background:linear-gradient(180deg,#3b8cff,#1267d8);color:#fff;border-color:#3b8cff;box-shadow:0 0 26px rgba(47,128,255,.18)}
-.action-primary:hover{color:#fff;border-bottom-color:#3b8cff;box-shadow:0 0 34px var(--blue-glow)}
-.action-secondary{background:rgba(255,255,255,.02);color:var(--white);border-color:var(--border3)}
-.action-secondary:hover{color:var(--white);border-color:var(--blue-line);background:var(--blue-dim)}
+.action-primary,.action-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:14px 20px;border-radius:0;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--accent-line)}
+.action-primary{background:var(--white);color:#000;border-color:var(--white)}
+.action-primary:hover{background:#e8e8e8;color:#000;border-bottom-color:#e8e8e8}
+.action-secondary{background:transparent;color:var(--white);border-color:var(--accent-line)}
+.action-secondary:hover{color:var(--white);border-color:var(--white);background:var(--accent-dim)}
 .hero-proof{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:720px}
 .hero-proof span{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--gray1);display:flex;gap:8px;align-items:flex-start;min-width:0}
 .hero-proof span::before{content:"";width:8px;height:8px;margin-top:5px;border:1px solid var(--blue);background:var(--blue-dim);flex-shrink:0}
-.offer-panel{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(47,128,255,.08),rgba(255,255,255,.015));padding:28px 24px;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+.offer-panel{border:1px solid var(--accent-line);background:var(--bg3);padding:28px 24px}
 .offer-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:14px}
 .offer-title{font-size:26px;line-height:1.18;color:var(--white);font-weight:650;letter-spacing:-.02em;margin-bottom:14px;overflow-wrap:anywhere}
 .offer-price{font-family:var(--mono);font-size:38px;line-height:1;color:var(--green);font-weight:800;margin-bottom:8px}
@@ -304,7 +302,7 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .offer-list li::before{content:attr(data-label);font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin:0}
 .offer-panel .action-primary,.offer-panel .action-secondary{width:100%;margin-top:10px}
 .proof-caption{font-family:var(--mono);font-size:11px;color:var(--gray3);line-height:1.7;margin-top:14px}
-.chain-board{border:1px solid var(--blue-line);background:linear-gradient(180deg,rgba(47,128,255,.06),rgba(255,255,255,.015));padding:28px 24px;box-shadow:0 24px 80px rgba(0,0,0,.55)}
+.chain-board{border:1px solid var(--accent-line);background:var(--bg3);padding:28px 24px}
 .chain-title{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:28px}
 .chain-title::before,.chain-title::after{content:"";height:1px;background:var(--blue-line);flex:1}
 .chain-stages{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr;gap:10px;align-items:start}
@@ -331,6 +329,16 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .assessment-band strong{display:block;color:var(--white);font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
 .assessment-band p{color:var(--gray2);font-size:14px}
 .assessment-band .role{font-family:var(--mono);font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);white-space:nowrap}
+.proof-first{padding:56px 32px;border-top:1px solid var(--border);background:var(--bg2)}
+.proof-first-grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:.85fr 1.15fr;gap:28px;align-items:start}
+.proof-first h2{font-size:clamp(26px,3.4vw,44px);line-height:1.08;max-width:560px;margin-bottom:14px}
+.proof-first p{color:var(--gray1);font-size:16px;line-height:1.7;max-width:620px}
+.proof-first-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.proof-first-step{border:1px solid var(--accent-line);background:var(--bg3);padding:20px 18px;min-width:0}
+.proof-first-step .num{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray2);margin-bottom:16px}
+.proof-first-step h3{font-size:18px;line-height:1.25;margin-bottom:8px}
+.proof-first-step p{font-size:13px;line-height:1.6;color:var(--gray2)}
+.proof-first-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
 .verification-lab{padding-top:64px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
 .verification-lab .hero-eyebrow{margin-bottom:14px}
 .verification-lab h2{max-width:760px;margin:0 auto 14px}
@@ -366,6 +374,10 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
   .chain-stage h3,.chain-stage p{overflow-wrap:anywhere;word-break:break-word}
   .assessment-band{grid-template-columns:1fr}
   .assessment-band .role{white-space:normal}
+  .proof-first{padding:42px 20px}
+  .proof-first-grid,.proof-first-steps{grid-template-columns:1fr}
+  .proof-first h2,.proof-first p{max-width:320px}
+  .proof-first-actions{display:grid;grid-template-columns:1fr;width:100%;max-width:320px}
   .try-now-band{padding:10px 16px;line-height:1.65;overflow-wrap:anywhere}
   .try-now-band .label{display:block;margin:0 0 4px}
   .try-now-band a{display:block;width:100%;white-space:normal;overflow-wrap:anywhere}
@@ -390,7 +402,7 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 /* INTEGRITY_LOG live panel */
 .log-panel{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;overflow:hidden}
 .log-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border2);background:var(--bg2);font-family:var(--mono);font-size:12px;color:var(--gray2);flex-wrap:wrap;gap:12px}
-.live-counter{padding:32px 20px 28px;border-bottom:1px solid var(--border2);text-align:center;background:linear-gradient(180deg,rgba(0,255,136,0.04) 0%,transparent 100%)}
+.live-counter{padding:32px 20px 28px;border-bottom:1px solid var(--border2);text-align:center;background:linear-gradient(180deg,rgba(255,255,255,0.04) 0%,transparent 100%)}
 .live-counter-value{font-size:48px;font-weight:700;color:var(--green);letter-spacing:-0.02em;line-height:1;text-shadow:0 0 24px var(--green-glow);margin-bottom:10px}
 .live-counter-label{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gray2);margin-bottom:8px}
 .live-counter-sub{font-size:13px;color:var(--gray3);max-width:520px;margin:0 auto;line-height:1.5}
@@ -434,7 +446,7 @@ h3{font-size:18px;font-weight:600;color:var(--white);margin-bottom:8px}
 .tier li{padding:8px 0;font-size:13px;color:var(--gray1);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start}
 .tier li::before{content:"·";color:var(--gray3);flex-shrink:0;font-weight:600}
 .tier-action{display:inline-flex;align-items:center;justify-content:center;margin-top:20px;padding:12px 14px;border:1px solid var(--green);border-radius:4px;background:var(--green);color:#000;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
-.tier-action:hover{background:#3aff9d;color:#000;border-bottom-color:var(--green);box-shadow:0 0 18px var(--green-glow)}
+.tier-action:hover{background:#e8e8e8;color:#000;border-bottom-color:var(--green);box-shadow:none}
 .tier-action.secondary{background:transparent;color:var(--green);border-color:var(--border3)}
 .tier-action.secondary:hover{background:var(--green-dim);color:var(--green);border-color:var(--green);box-shadow:none}
 .pricing-note{margin-top:24px;font-family:var(--mono);font-size:13px;color:var(--gray2);line-height:1.7}
@@ -449,44 +461,44 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
 .footer-col a:hover{color:var(--green)}
 .copyright{margin-top:32px;padding-top:24px;border-top:1px solid var(--border);font-family:var(--mono);font-size:11px;color:var(--gray3);text-align:center;line-height:1.7}
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
 </head>
 <body>
-
-<header>
-  <a href="/" class="brand" aria-label="Hardseal home">
-    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <rect width="32" height="32" rx="6" fill="#000"/>
-      <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#00FF88" stroke-width="1.75" stroke-linejoin="round"/>
-      <path d="M12 16 L15 19 L20 13" stroke="#00FF88" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    <span class="brand-name">HARDSEAL</span>
-    <span class="brand-status mono"><span class="dot"></span>CHAIN INTACT</span>
-  </a>
-  <nav class="toplinks" aria-label="Primary">
-    <a href="#what-we-do">WHAT WE DO</a>
-    <a href="#how-it-works">HOW IT WORKS</a>
-    <a href="/trophy-case.html">SAMPLE PACKET</a>
-    <a href="#usecases">WHO IT'S FOR</a>
-    <a href="#docs">RESOURCES</a>
-    <a href="/start.html">START PATH</a>
-    <a href="/client-experience.html">EXPERIENCE</a>
-    <a class="nav-pill" href="/pilot.html">REQUEST REVIEW</a>
-  </nav>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/verify.html">Verifier</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
+    </nav>
+  </div>
 </header>
+
 
 <main>
 
 <!-- ============== TRY-NOW BAND ============== -->
 <div class="try-now-band" role="region" aria-label="Hardseal primary buyer path">
-  <span class="label">Design partner window:</span>
-  <a href="/pilot.html">First 5 reviews free</a>
-  <span class="sep">·</span>
-      <a href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application">Apply by email</a>
-  <span class="sep">·</span>
-  <a href="/client-experience.html">See client path</a>
-  <span class="sep">·</span>
-  <a href="/verify.html">Verify a sample packet</a>
-  <div class="try-now-note">First 5 qualified teams get the standard $5,500 Evidence Integrity Review at no cost. Hardseal does not certify compliance or replace a C3PAO.</div>
+  <span class="label">No-call buyer path:</span>
+  <a href="/pilot.html">Scope brief → pay or invoice → secure handoff</a>
+  <div class="try-now-note">$5,500 one-time Evidence Integrity Review. Start with scope first. Hardseal does not certify compliance or replace a C3PAO.</div>
 </div>
 
 <!-- ============== HERO ============== -->
@@ -495,11 +507,10 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="hero-copy">
       <div class="classification">CMMC Level 2 · NIST SP 800-171</div>
       <h1 id="hero-h1">Find weak evidence before formal review.</h1>
-      <p class="hero-sub">Hardseal combines a local proof primitive with a governed review path for SSPs, POA&amp;Ms, SPRS snapshots, policies, screenshots, tickets, exports, and control evidence.</p>
+      <p class="hero-sub">Hardseal reviews CMMC evidence packets for unsupported claims, contradiction risk, AI/boilerplate artifacts, and integrity breaks before teams rely on them.</p>
       <div class="hero-actions">
-        <a class="action-primary" href="/pilot.html">Apply for free review</a>
-      <a class="action-secondary" href="mailto:hello@hardseal.ai?subject=Hardseal%20Evidence%20Integrity%20Review">Ask about paid review</a>
-        <a class="action-secondary" href="/client-experience.html">See client path</a>
+        <a class="action-primary" href="/pilot.html#intake">Build scoping brief</a>
+        <a class="action-secondary" href="#sixty-second-proof">See proof first</a>
       </div>
       <div class="hero-proof" aria-label="Hardseal review capabilities">
         <span>SSP vs. evidence gaps</span>
@@ -510,18 +521,18 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     </div>
 
     <div class="offer-panel" aria-label="Hardseal Evidence Integrity Review offer">
-      <div class="offer-kicker">Design partner offer</div>
+      <div class="offer-kicker">No-call review path</div>
       <div class="offer-title">Evidence review for CMMC teams.</div>
-      <div class="offer-price">First 5 free</div>
-      <div class="offer-note">Standard value: $5,500. Free for the first 5 qualified teams while we tighten the packet, workflow, and findings format.</div>
+      <div class="offer-price">$5,500</div>
+      <div class="offer-note">One-time B2B review. Start with the scoping brief; payment or invoice happens after the packet boundary is clear.</div>
       <ul class="offer-list">
         <li data-label="Inputs">SSP, POA&amp;M, SPRS, policies, screenshots, tickets, exports, and control evidence.</li>
         <li data-label="Output">Findings packet showing supported, partial, contradicted, and missing evidence.</li>
         <li data-label="Boundary">Pre-assessment support only. Hardseal does not certify, assess, or guarantee compliance.</li>
       </ul>
-      <a class="action-primary" href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application&body=Company%20name%3A%0AWebsite%3A%0ARole%3A%0AAre%20you%20preparing%20for%20CMMC%20or%20NIST%20SP%20800-171%3F%0AWhat%20evidence%20packet%20do%20you%20want%20reviewed%3F%0ATimeline%3A%0A">Apply for free review</a>
-      <a class="action-secondary" href="/pilot.html">Read full scope</a>
-      <p class="proof-caption">Want proof first? Use the browser verifier below or inspect a sample packet before you apply.</p>
+      <a class="action-secondary" href="/pilot.html#intake">Build scoping brief</a>
+      <a class="action-secondary" href="/pilot.html#invoice">Need invoice first?</a>
+      <p class="proof-caption">Want proof first? Use the browser verifier below or inspect a sample packet before you start.</p>
     </div>
   </div>
 
@@ -529,9 +540,9 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="path-step">
       <div class="num">01</div>
       <h2>Scope</h2>
-      <p>We align on business context, environment boundary, target control set, and what review outcome matters.</p>
+      <p>Generate the scoping brief so the packet, owner, framework, and review boundary are clear before any evidence moves.</p>
       <ul>
-        <li>Scope confirmation</li>
+        <li>Scoping brief</li>
         <li>Inheritance and assumptions</li>
         <li>Assessment objective mapping</li>
       </ul>
@@ -539,23 +550,23 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     <div class="path-arrow">→</div>
     <div class="path-step">
       <div class="num">02</div>
-      <h2>Evidence handoff</h2>
-      <p>You provide artifacts through an agreed path. The first contact identifies the packet; sensitive evidence does not move through checkout.</p>
+      <h2>Pay or invoice</h2>
+      <p>Use card, invoice, PO, W-9, or vendor workflow after the review shape is clear. Stripe is a payment rail, not a file-transfer rail.</p>
       <ul>
-        <li>Secure handoff path</li>
-        <li>Packet completeness check</li>
-        <li>No blind email dump</li>
+        <li>Stripe or invoice</li>
+        <li>Procurement details</li>
+        <li>No blind checkout</li>
       </ul>
     </div>
     <div class="path-arrow">→</div>
     <div class="path-step">
       <div class="num">03</div>
-      <h2>Findings packet</h2>
-      <p>You receive clear findings that show contradiction risk, unsupported claims, and what to fix next.</p>
+      <h2>Secure handoff</h2>
+      <p>You provide artifacts through an agreed path. The first contact identifies the packet; sensitive evidence does not move through checkout.</p>
       <ul>
-        <li>Evidence integrity summary</li>
-        <li>Risk and contradiction notes</li>
-        <li>Prioritized actions</li>
+        <li>Evidence handoff path</li>
+        <li>Packet completeness check</li>
+        <li>No blind email dump</li>
       </ul>
     </div>
   </div>
@@ -567,6 +578,38 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
       <p>Hardseal identifies evidence risk, gaps, and contradictions so teams can prepare better before formal review.</p>
     </div>
     <div class="role">Prepare. Not attest.</div>
+  </div>
+</section>
+
+<!-- ============== 60-SECOND PROOF ============== -->
+<section class="proof-first" id="sixty-second-proof" aria-labelledby="proof-first-h2">
+  <div class="proof-first-grid">
+    <div>
+      <div class="eyebrow">60-second proof</div>
+      <h2 id="proof-first-h2">Verify the primitive before you buy the review.</h2>
+      <p>Hardseal does not ask you to trust a screenshot. Download a sample receipt, paste it into the verifier, and watch the packet prove whether it still matches its recorded chain.</p>
+      <div class="proof-first-actions">
+        <a class="action-primary" href="/sample-packet-receipt1.json" download>Download sample</a>
+        <a class="action-secondary" href="/verify.html">Open verifier</a>
+      </div>
+    </div>
+    <div class="proof-first-steps" aria-label="60-second proof steps">
+      <article class="proof-first-step">
+        <div class="num">01</div>
+        <h3>Download sample receipt</h3>
+        <p>Use the same public sample packet behind the live verifier and trust ledger.</p>
+      </article>
+      <article class="proof-first-step">
+        <div class="num">02</div>
+        <h3>Paste in verifier → PASS</h3>
+        <p>The browser recomputes the SHA-256 chain locally. No upload, no account, no sales call.</p>
+      </article>
+      <article class="proof-first-step">
+        <div class="num">03</div>
+        <h3>That is the packet test</h3>
+        <p>The paid review applies the same discipline to your CMMC evidence before formal review.</p>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -658,7 +701,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
       <article class="case-card">
         <div class="case-label">Review layer</div>
         <p>SSP, POA&amp;M, SPRS, and control evidence are compared for unsupported claims, partial support, contradiction risk, and the next proof needed.</p>
-        <a href="/pilot.html">Request review →</a>
+        <a href="/pilot.html">Start review →</a>
       </article>
     </div>
   </div>
@@ -782,8 +825,8 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
       </div>
       <div class="tier middle">
         <div class="tier-name">Evidence Integrity Review</div>
-        <div class="tier-price">First 5 free</div>
-        <div class="tier-subprice">$5,500 standard value · design partner window</div>
+        <div class="tier-price">$5,500</div>
+        <div class="tier-subprice">One-time B2B review · no sales call required</div>
         <ul>
           <li>SSP-to-evidence contradiction scan</li>
           <li>AI-generated artifact and boilerplate screen</li>
@@ -791,8 +834,8 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
           <li>Remediation path and re-seal guidance</li>
           <li>Pre-assessor readiness review</li>
         </ul>
-        <a class="tier-action" href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application">Apply free</a>
-        <a class="tier-action secondary" href="/pilot.html">See scope</a>
+        <a class="tier-action" href="/pilot.html#intake">Build scoping brief</a>
+        <a class="tier-action secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay with Stripe</a>
       </div>
       <div class="tier">
         <div class="tier-name">Next Step</div>
@@ -808,7 +851,7 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
         <a class="tier-action secondary" href="/start.html">Customer start path</a>
       </div>
     </div>
-    <p class="pricing-note">Evidence Integrity Review: first 5 qualified design partners free, then $5,500 one-time. Edge retainer: $495/mo. Custom integrations: scoped per engagement.</p>
+    <p class="pricing-note">Evidence Integrity Review: $5,500 one-time B2B review. Invoice, PO, W-9, and vendor-form workflows available. Edge retainer: $495/mo. Custom integrations: scoped per engagement.</p>
     <p class="pricing-disclaimer">Hardseal does not certify. Hardseal does not assess. Hardseal does not endorse. Hardseal generates verifiable evidence. Your assessor makes formal decisions.</p>
   </div>
 </section>
@@ -839,11 +882,11 @@ footer{padding:48px 24px 32px;border-top:1px solid var(--border);background:var(
     </div>
     <div class="footer-col">
       <span class="footer-head">Contact</span>
-      <a href="mailto:hello@hardseal.ai">hello@hardseal.ai</a>
-      <a href="/pilot.html">Request Evidence Integrity Review</a>
+      <a href="mailto:rico@hardseal.ai">rico@hardseal.ai</a>
+      <a href="/pilot.html">Start Evidence Integrity Review</a>
       <a href="/start.html">Customer start path</a>
       <a href="/client-experience.html">Client experience</a>
-      <a href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application">Apply for Free Review</a>
+      <a href="/pilot.html#invoice">Request invoice</a>
     </div>
   </div>
   <div class="copyright">
@@ -1156,7 +1199,7 @@ $('verifyShaBtn').addEventListener('click', () => {
       body: 'This SHA matches a Hardseal-published artifact. Anyone with the public Hardseal verifier can independently confirm this result, offline, in 30 seconds.',
       upsells: [
         { label: 'Continuous verification', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
-        { label: 'Evidence Integrity Review', title: 'Find weak evidence before review', desc: 'First 5 design partner reviews free. Scope, handoff, findings.', href: '/pilot.html' }
+        { label: 'Evidence Integrity Review', title: 'Find weak evidence before review', desc: '$5,500 one-time review. Scope, handoff, findings.', href: '/pilot.html' }
       ]
     });
   } else {
@@ -1171,7 +1214,7 @@ $('verifyShaBtn').addEventListener('click', () => {
       ],
       body: 'This SHA does not match any currently-published Hardseal trophy-case packet, bundle, or verifier hash. The math is deterministic — if it should match, the artifact in your hand differs from the published one. Drop the packet itself to see exactly which bytes diverge.',
       upsells: [
-        { label: 'Evidence review', title: 'Get the remediation path', desc: 'First 5 design partner reviews free. Field-level findings.', href: '/pilot.html' }
+        { label: 'Evidence review', title: 'Get the remediation path', desc: '$5,500 one-time review. Field-level findings.', href: '/pilot.html' }
       ]
     });
   }
@@ -1211,7 +1254,7 @@ verifyUploadBtn.addEventListener('click', async () => {
       body: 'This file was hashed locally in your browser via WebCrypto. The hash is the chain root of a one-shot Hardseal envelope. Publish this hash anywhere (Git, IPFS, on-paper) and anyone with the public Hardseal verifier can confirm the file matches, offline, in 30 seconds. Files never left your machine.',
       upsells: [
         { label: 'Continuous verification', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
-        { label: 'Evidence Integrity Review', title: 'Find weak evidence before review', desc: 'First 5 design partner reviews free. Scope, handoff, findings.', href: '/pilot.html' }
+        { label: 'Evidence Integrity Review', title: 'Find weak evidence before review', desc: '$5,500 one-time review. Scope, handoff, findings.', href: '/pilot.html' }
       ]
     });
   } catch (e) {
@@ -1252,7 +1295,7 @@ async function runVerify(text, ctx) {
       checks: { passes: result.passes, failures: result.failures },
       upsells: [
         { label: 'Continuous verification', title: 'Keep this proof live', desc: 'Re-verify on cron. Public receipt trail.', href: '/edge.html' },
-        { label: 'Evidence Integrity Review · first 5 free', title: 'Find weak evidence before review', desc: 'Scope, handoff, contradiction review, findings.', href: '/pilot.html' }
+        { label: 'Evidence Integrity Review · $5,500', title: 'Find weak evidence before review', desc: 'Scope, handoff, contradiction review, findings.', href: '/pilot.html' }
       ]
     });
   } else {
@@ -1304,9 +1347,10 @@ function showResult(r) {
       ...(r.checks.failures || []).map(f => `<div class="check fail">${escapeHtml(f)}</div>`)
     ].join('') : '';
     const upsellsCls = (r.upsells || []).length === 1 ? 'upsell single' : 'upsell';
-    const upsellsHtml = (r.upsells || []).map(u =>
-      `<a class="upsell-card" href="${escapeHtml(u.href)}"><div class="label">${escapeHtml(u.label)}</div><div class="title">${escapeHtml(u.title)}</div><div class="desc">${escapeHtml(u.desc)} <span class="arrow">→</span></div></a>`
-    ).join('');
+    const upsellsHtml = (r.upsells || []).map(u => {
+      const href = normalizeHref(u.href);
+      return '<a class="upsell-card" ' + 'href="' + escapeHtml(href) + '"><div class="label">' + escapeHtml(u.label) + '</div><div class="title">' + escapeHtml(u.title) + '</div><div class="desc">' + escapeHtml(u.desc) + ' <span class="arrow">→</span></div></a>';
+    }).join('');
     el.innerHTML = `
       <div class="banner ${bannerCls}"><span class="dot"></span>${escapeHtml(bannerText)}</div>
       ${specHtml ? `<dl class="spec-grid">${specHtml}</dl>` : ''}
@@ -1333,6 +1377,11 @@ function showResult(r) {
 }
 
 function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function normalizeHref(href) {
+  const value = String(href || '#').trim();
+  if (value.startsWith('/') || value.startsWith('#') || value.startsWith('https://')) return value;
+  return '#';
+}
 function formatBytes(n) { if (n < 1024) return `${n} B`; if (n < 1048576) return `${(n/1024).toFixed(1)} KB`; return `${(n/1048576).toFixed(2)} MB`; }
 
 /* ====================================================================
@@ -1507,5 +1556,7 @@ setInterval(updateLiveCounter, 60_000);
 fetchLog();
 setInterval(fetchLog, 60_000);
 </script>
+<script src="/assets/source-tag.js"></script>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

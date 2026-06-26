@@ -18,19 +18,19 @@
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
-            --navy: #0A1628;
-            --navy-light: #0E1B30;
-            --navy-mid: #132440;
-            --steel: #4A5568;
-            --steel-light: #718096;
-            --amber: #C8921E;
-            --amber-glow: rgba(200, 146, 30, 0.15);
-            --amber-dark: #A67816;
-            --white: #F7FAFC;
-            --gray-100: #EDF2F7;
-            --gray-200: #E2E8F0;
-            --gray-300: #CBD5E0;
-            --gray-800: #1A202C;
+            --navy: #000000;
+            --navy-light: #0a0a0a;
+            --navy-mid: #111111;
+            --steel: #5a5a5a;
+            --steel-light: #8a8a8a;
+            --amber: #d0d0d0;
+            --amber-glow: rgba(255, 255, 255, 0.06);
+            --amber-dark: #8a8a8a;
+            --white: #ffffff;
+            --gray-100: #d0d0d0;
+            --gray-200: #e8e8e8;
+            --gray-300: #d0d0d0;
+            --gray-800: #111111;
         }
         html { scroll-behavior: smooth; }
         body {
@@ -47,7 +47,7 @@
         code { background: var(--navy-mid); padding: 2px 6px; border-radius: 3px; font-size: 0.88em; }
         nav.topbar {
             position: sticky; top: 0; z-index: 10;
-            background: rgba(10, 22, 40, 0.92);
+            background: rgba(0, 0, 0, 0.92);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
@@ -69,7 +69,7 @@
             max-width: 1080px; margin: 32px auto 0;
             padding: 14px 28px;
             background: var(--amber-glow);
-            border: 1px solid rgba(200, 146, 30, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.24);
             border-radius: 6px;
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.82em; letter-spacing: 0.08em; color: var(--amber);
@@ -224,8 +224,36 @@
             .cta-btn { width: 100%; text-align: center; }
         }
     </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
 </head>
 <body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/verify.html">Verifier</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
+    </nav>
+  </div>
+</header>
+
 
 <nav class="topbar">
     <div class="topbar-inner">
@@ -352,5 +380,6 @@
     <div><a href="/">Home</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></div>
 </footer>
 
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>

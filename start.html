@@ -3,38 +3,48 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Start Your Hardseal Evidence Integrity Review</title>
-<meta name="description" content="Start the Hardseal Evidence Integrity Review after payment or invoice request. Confirm scope, prepare evidence, and coordinate a safe handoff path.">
+<title>Start Hardseal Evidence Integrity Review Without a Sales Call</title>
+<meta name="description" content="Start the Hardseal Evidence Integrity Review without a sales call. Pay by Stripe or request invoice, generate a scoping brief, prepare evidence, and coordinate a safe handoff path.">
 <link rel="canonical" href="https://hardseal.ai/start.html">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;min-width:0}
 :root{
-  --bg:#000;--bg2:#060606;--panel:#0c0c0c;--border:#1f1f1f;
-  --white:#fff;--gray:#c7c7c7;--muted:#858585;--dim:#555;
-  --green:#00ff88;--green-soft:rgba(0,255,136,.09);--green-line:rgba(0,255,136,.28);
-  --blue:#2f80ff;--blue-soft:rgba(47,128,255,.1);--blue-line:rgba(47,128,255,.45);
+  --bg:#000;--bg2:#050505;--panel:#0a0a0a;--border:rgba(255,255,255,0.14);
+  --white:#fff;--gray:#d0d0d0;--muted:#7a7a7a;--dim:#5a5a5a;
+  --accent:#fff;--accent-dim:rgba(255,255,255,0.06);--accent-line:rgba(255,255,255,0.24);
+  --green:var(--accent);--green-soft:var(--accent-dim);--green-line:var(--accent-line);
+  --blue:var(--accent);--blue-soft:var(--accent-dim);--blue-line:var(--accent-line);
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
 }
-body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
-a{color:var(--green);text-decoration:none;border-bottom:1px solid transparent}
-a:hover{border-bottom-color:var(--green)}
+html,body{overflow-x:hidden}
+body{background:var(--bg);color:var(--gray);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+a{color:var(--gray);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{color:var(--white);border-bottom-color:var(--white)}
 .wrap{width:min(1080px,calc(100% - 40px));margin:0 auto}
 header{border-bottom:1px solid var(--border);background:rgba(0,0,0,.9);position:sticky;top:0;z-index:2}
 .nav{height:62px;display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{font-family:var(--mono);font-weight:700;letter-spacing:.08em;color:var(--white);border:0}
 .nav-links{display:flex;gap:22px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
-.hero{padding:84px 0 56px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(47,128,255,.08),transparent 42%)}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-bottom:18px}
-h1{font-size:clamp(34px,6vw,72px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:980px;margin-bottom:20px}
-.sub{max-width:780px;color:var(--gray);font-size:19px;line-height:1.7;margin-bottom:34px}
+.hero{padding:84px 0 56px;border-bottom:1px solid var(--border);background:var(--bg)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+h1{font-size:clamp(34px,6vw,72px);line-height:1.02;letter-spacing:-.04em;color:var(--white);max-width:980px;margin-bottom:20px;text-wrap:balance;overflow-wrap:anywhere}
+.sub{max-width:780px;color:var(--gray);font-size:19px;line-height:1.7;margin-bottom:34px;overflow-wrap:anywhere}
 .actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-.button{display:inline-flex;align-items:center;justify-content:center;padding:14px 18px;border-radius:3px;background:linear-gradient(180deg,#3b8cff,#1267d8);color:#fff;border:1px solid #3b8cff;font-family:var(--mono);font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
-.button:hover{color:#fff;border-bottom-color:#3b8cff;filter:brightness(1.12)}
-.button.secondary{background:transparent;color:var(--white);border-color:var(--border)}
-.button.secondary:hover{background:var(--blue-soft);color:var(--white);border-color:var(--blue-line)}
+.button{display:inline-flex;align-items:center;justify-content:center;padding:14px 18px;border-radius:0;background:var(--white);color:#000;border:1px solid var(--white);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.button:hover{background:#e8e8e8;color:#000;border-bottom-color:#e8e8e8}
+.button.secondary{background:transparent;color:var(--white);border-color:var(--accent-line)}
+.button.secondary:hover{background:var(--accent-dim);color:var(--white);border-color:var(--white)}
 .notice{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--muted);max-width:800px}
+.paid-banner{display:none;margin-bottom:28px;border:1px solid var(--accent-line);background:linear-gradient(180deg,var(--accent-dim),transparent),var(--panel);padding:22px;border-radius:8px}
+.paid-banner.show{display:block}
+.paid-banner h2{font-size:22px;margin-bottom:10px}
+.paid-banner p{font-size:15px;color:var(--gray);margin-bottom:16px;max-width:760px}
+.paid-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.paid-step{border:1px solid var(--border);background:var(--bg);padding:16px;border-radius:6px}
+.paid-step strong{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.paid-step span{font-size:14px;color:var(--gray);line-height:1.6}
 section{padding:58px 0;border-bottom:1px solid var(--border);scroll-margin-top:74px}
 h2{font-size:clamp(24px,3vw,38px);line-height:1.2;color:var(--white);letter-spacing:-.02em;margin-bottom:18px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px}
@@ -64,19 +74,34 @@ li:before{content:"·";color:var(--blue);font-weight:800;margin-right:8px}
 .fine{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7;margin-top:14px}
 .disclaimer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:18px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.7}
 footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;text-align:center}
-@media(max-width:800px){.grid,.steps,.split,.navigator-grid{grid-template-columns:1fr}.nav{height:auto;padding:16px 0;align-items:flex-start;flex-direction:column}.nav-links{flex-wrap:wrap}.hero{padding-top:56px}.step{grid-template-columns:1fr}.step-num{margin-bottom:2px}.button{width:100%;text-align:center}.navigator{padding:20px}}
+@media(max-width:800px){.wrap{width:320px;max-width:calc(100% - 40px);margin:0 0 0 20px}.grid,.steps,.split,.navigator-grid,.paid-steps{grid-template-columns:1fr}.nav{height:auto;padding:16px 0;align-items:flex-start;flex-direction:column}.nav-links{width:100%;flex-wrap:wrap;gap:12px 18px}.nav-links a{font-size:11px;overflow-wrap:anywhere}.hero{padding-top:56px}h1{font-size:31px;line-height:1.08;letter-spacing:-.02em;max-width:100%}.sub{font-size:17px;line-height:1.7;max-width:100%}.step{grid-template-columns:1fr}.step-num{margin-bottom:2px}.button{width:100%;text-align:center}.navigator{padding:20px}.notice,.fine,.card p,.step p,.warning p{overflow-wrap:anywhere}}
 </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
 </head>
 <body>
-<header>
-  <div class="wrap nav">
-    <a class="brand" href="/">HARDSEAL</a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="/pilot.html">Review</a>
-      <a href="/client-experience.html">Experience</a>
-      <a href="/#pricing">Pricing</a>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
       <a href="/verify.html">Verifier</a>
-      <a href="mailto:hello@hardseal.ai">Contact</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
     </nav>
   </div>
 </header>
@@ -84,15 +109,35 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
 <main>
   <section class="hero">
     <div class="wrap">
-      <div class="eyebrow">Customer start path</div>
-      <h1>Start your Evidence Integrity Review cleanly.</h1>
-      <p class="sub">Use this page after Stripe payment, invoice request, or procurement approval. The goal is simple: confirm scope first, coordinate evidence handoff safely, then review claims against proof.</p>
+      <div id="paidBanner" class="paid-banner" role="status" aria-live="polite">
+        <div class="eyebrow">Payment received</div>
+        <h2>Next: confirm scope before any evidence moves.</h2>
+        <p>Stripe checkout only coordinates payment. Hardseal still needs a scoping brief, packet owner, and agreed handoff path before review work begins.</p>
+        <div class="paid-steps">
+          <div class="paid-step">
+            <strong>Step 1</strong>
+            <span><a href="/pilot.html#intake">Build or update your scoping brief</a> so the packet boundary is explicit.</span>
+          </div>
+          <div class="paid-step">
+            <strong>Step 2</strong>
+            <span>Reply with business name, owner, deadline, and procurement notes. Do not attach sensitive evidence yet.</span>
+          </div>
+          <div class="paid-step">
+            <strong>Step 3</strong>
+            <span>Wait for handoff instructions, then move artifacts through the agreed path only.</span>
+          </div>
+        </div>
+      </div>
+      <div class="eyebrow">No-call customer start path</div>
+      <h1>Start cleanly without booking a meeting.</h1>
+      <p class="sub">Use this page after Stripe payment, invoice request, or procurement approval. The goal is simple: confirm scope first, coordinate evidence handoff safely, then review claims against proof. Calls are optional; the default path is asynchronous.</p>
       <div class="actions">
-        <a class="button" href="mailto:hello@hardseal.ai?subject=Start%20Hardseal%20Evidence%20Integrity%20Review&body=Business%20name%3A%0APoint%20of%20contact%3A%0ARole%20(contractor%2FMSP%2FRPO%2Fconsultant)%3A%0ATarget%20review%20scope%3A%0APayment%20or%20invoice%20status%3A%0ARequested%20timeline%3A">Start by email</a>
-        <a class="button secondary" href="/pilot.html">Review scope</a>
+        <a class="button" href="/pilot.html#intake">Build scoping brief</a>
+        <a class="button secondary" href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Pay $5,500 with Stripe</a>
+        <a class="button secondary" href="/pilot.html#invoice">Request invoice</a>
         <a class="button secondary" href="/client-experience.html">See full experience</a>
       </div>
-      <p class="notice">Do not attach sensitive evidence to the first email unless a secure handoff path has already been agreed. Stripe checkout is for payment only, not evidence transfer.</p>
+      <p class="notice">Do not attach sensitive evidence to first contact unless a secure handoff path has already been agreed. Stripe checkout and invoice requests are for payment coordination only, not evidence transfer.</p>
     </div>
   </section>
 
@@ -260,6 +305,13 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
   Hardseal LLC · Florida, USA · Not a C3PAO · Assessment support software
 </footer>
 <script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  if (params.get("paid") === "1" || params.has("session_id")) {
+    var banner = document.getElementById("paidBanner");
+    if (banner) banner.classList.add("show");
+  }
+})();
 const roleCopy = {
   contractor: "You are preparing your own organization for review.",
   msp: "You are helping a customer organize technical evidence.",
@@ -306,5 +358,7 @@ document.getElementById("navigatorBtn").addEventListener("click", () => {
   });
 });
 </script>
+<script src="/assets/source-tag.js"></script>
+<script src="/assets/site-nav.js" defer></script>
 </body>
 </html>
