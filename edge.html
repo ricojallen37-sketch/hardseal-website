@@ -113,7 +113,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     <div class="card">
       <div class="num">01 · DEVICE</div>
       <h3>Hardware identity, frozen at run-time.</h3>
-      <p>Platform, model number, JetPack/L4T version, power mode, clock pinning state, thermal floor, MAC address fingerprint. Captures the silicon the AI ran on, not the silicon you wish it ran on.</p>
+      <p>Platform, hostname, JetPack/L4T version, kernel and OS build, power mode, clock-pinning state. Captures the silicon the AI ran on, not the silicon you wish it ran on.</p>
     </div>
     <div class="card">
       <div class="num">02 · MODEL</div>
@@ -127,8 +127,8 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
     </div>
     <div class="card">
       <div class="num">04 · SENSORS</div>
-      <h3>Power, thermal, governance state.</h3>
-      <p>Live power-rail samples, thermal zones, DVFS state, governor mode. Captures the conditions the AI was actually operating under. Hash-sealed alongside the inference into the same SHA-256 chain, not in a separate observability silo.</p>
+      <h3>Sensor pipeline state, sealed with the run.</h3>
+      <p>Connection state of the real-world input pipeline — camera, IMU, GPS, barometer — hash-sealed into the same SHA-256 chain, so a packet can't claim a sensor feed it never had. Live power-rail and DVFS telemetry is captured at run time, but it is not yet a sealed packet field — and we don't claim it is until it can be independently verified.</p>
     </div>
     <div class="card">
       <div class="num">05 · LIMITATIONS</div>
@@ -151,11 +151,11 @@ footer{border-top:1px solid var(--border);padding:32px 40px;color:var(--gray2);f
   </p>
 
   <div class="specs">
-    <div><span class="k">trophy_case_bundle:</span> 11 sealed packets · 269 KB</div>
-    <div><span class="k">bundle_sha256:</span> f6fdc719edc303eae774177f265fe86c6a55162c73d2540b5626ab58189ce7c9</div>
-    <div><span class="k">workloads:</span> yolov8n / yolov8m / yolov8L INT8 + FP16</div>
+    <div><span class="k">trophy_case_bundle:</span> 12 sealed packets · 295 KB</div>
+    <div><span class="k">bundle_sha256:</span> 18c135af155114cf7137105b49446937a6fd234d660372e1b8839e4cf339cbce</div>
+    <div><span class="k">workloads:</span> yolov8n / yolov8m / yolov8L / yolov8x · INT8 + FP16</div>
     <div><span class="k">power_modes:</span> 25W · MAXN_SUPER (pinned clocks, 3× replicate chain)</div>
-    <div><span class="k">soak_depth:</span> 1,000,000 inferences per packet (steady state)</div>
+    <div><span class="k">soak_depth:</span> 500K–2M inferences per packet (steady state · varies by run class)</div>
     <div><span class="k">verifier:</span> verify_standalone.py (Python stdlib only) · /verify.html (browser)</div>
     <div><span class="k">tamper_test:</span> cross-packet section-hashes swap caught by red-team suite</div>
   </div>
