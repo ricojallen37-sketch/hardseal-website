@@ -35,7 +35,9 @@ operator sees every issue in one run):
      hedge words (synthetic, demo, sample) do NOT act as an allower on
      their own; they must co-occur with one of the rules above in the
      same sentence.
-  5. Link / surface: key public links exist in the repo:
+  5. Buyer path: public HTML must not reference hello@hardseal.ai — that
+     mailbox is not provisioned and previously dead-ended buyers (Jay).
+  6. Link / surface: key public links exist in the repo:
      /verify.html#trust-ledger anchor, receipt JSONs, receipt sidecars,
      standalone-verifier links resolve to files. No outbound network.
 
@@ -900,7 +902,44 @@ def check_overclaim_firewall(root: Path, result: GateResult) -> None:
 
 
 # ----------------------------------------------------------------------
-# Check 5: link / surface
+# Check 5: buyer path — banned unprovisioned contact
+# ----------------------------------------------------------------------
+
+BANNED_PUBLIC_CONTACTS = (
+    "hello@hardseal.ai",
+)
+
+
+def check_buyer_path(root: Path, result: GateResult) -> None:
+    hits: list[str] = []
+    for html in _iter_public_html(root):
+        text = html.read_text(encoding="utf-8", errors="replace")
+        file_rel = html.relative_to(root).as_posix()
+        for banned in BANNED_PUBLIC_CONTACTS:
+            start = 0
+            while True:
+                idx = text.find(banned, start)
+                if idx < 0:
+                    break
+                line_no, line = _line_at(text, idx)
+                snippet = line.strip()
+                if len(snippet) > 160:
+                    snippet = snippet[:157] + "..."
+                hits.append(f"{file_rel}:{line_no}: banned contact {banned!r}: {snippet}")
+                start = idx + len(banned)
+
+    if hits:
+        for h in hits:
+            result.add_fail(f"[buyer] {h}")
+    else:
+        result.add_pass(
+            f"[buyer] no banned contact addresses across "
+            f"{len(BANNED_PUBLIC_CONTACTS)} rule(s)"
+        )
+
+
+# ----------------------------------------------------------------------
+# Check 6: link / surface
 # ----------------------------------------------------------------------
 
 def check_links(root: Path, result: GateResult) -> None:
@@ -995,6 +1034,7 @@ def run_all(root: Path) -> GateResult:
     check_trust_ledger(root, result)
     check_receipt2_mapping(root, result)
     check_overclaim_firewall(root, result)
+    check_buyer_path(root, result)
     check_links(root, result)
     return result
 

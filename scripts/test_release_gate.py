@@ -126,6 +126,7 @@ class TestBaselinePasses(GateTestBase):
         rg.check_trust_ledger(self.root, result)
         rg.check_receipt2_mapping(self.root, result)
         rg.check_overclaim_firewall(self.root, result)
+        rg.check_buyer_path(self.root, result)
         rg.check_links(self.root, result)
         self.assertEqual(
             result.failures, [],
@@ -514,6 +515,28 @@ class TestOverclaimFirewall(GateTestBase):
             result.failures, [],
             msg=f"HMAC-SHA256 signature should pass; got {result.failures}",
         )
+
+
+class TestBuyerPath(GateTestBase):
+    """Unprovisioned buyer contact routes must not return to public HTML."""
+
+    def test_hello_email_banned(self) -> None:
+        (self.root / "index.html").write_text(
+            '<a href="mailto:hello@hardseal.ai">Contact</a>',
+            encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_buyer_path(self.root, result)
+        self.assertFails(result, "hello@hardseal.ai")
+
+    def test_clean_public_html_passes(self) -> None:
+        (self.root / "index.html").write_text(
+            '<a href="mailto:rico@hardseal.ai">Contact</a>',
+            encoding="utf-8",
+        )
+        result = rg.GateResult()
+        rg.check_buyer_path(self.root, result)
+        self.assertEqual(result.failures, [])
 
 
 class TestLinks(GateTestBase):
