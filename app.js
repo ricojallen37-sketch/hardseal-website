@@ -53,6 +53,7 @@
       id: nextId(), name, buffer,
       gain, pan, source: null,
       volume: 0.85, panVal: 0, muted: false, solo: false, loop: false,
+      detectedBpm: null,
       el: null, canvas: null, playhead: null,
     };
     gain.gain.value = t.volume;
@@ -324,6 +325,7 @@
       <div class="track-ctrls">
         <div class="track-top">
           <input class="track-name" value="${escapeHtml(t.name)}" spellcheck="false">
+          <button class="bpm-badge" title="Detected tempo — click to lock the project tempo to this track" hidden></button>
         </div>
         <div class="track-buttons">
           <button class="mini m" title="Mute">M</button>
@@ -364,6 +366,7 @@
       t.panVal = parseFloat(e.target.value); t.pan.pan.setTargetAtTime(t.panVal, ctx.currentTime, 0.01);
     });
     el.querySelector('.wave-wrap').addEventListener('click', e => seekTrack(t, e));
+    el.querySelector('.bpm-badge').addEventListener('click', () => matchProjectTempo(t));
 
     $('#trackList').appendChild(el);
     toggleEmpty();
@@ -374,6 +377,74 @@
     const load = t.el.querySelector('.wave-loading');
     if (load) load.remove();
     drawWaveform(t.canvas, t.buffer);
+  }
+
+  // ---- tempo detection -------------------------------------------------
+  // Energy-flux onset envelope + autocorrelation. Pure JS, no deps.
+  // Returns { bpm, confidence } so AI tracks & samples can be matched.
+  function detectBPM(buffer) {
+    const sr = buffer.sampleRate;
+    const data = buffer.getChannelData(0);
+    const maxSamples = Math.min(data.length, Math.floor(sr * 30)); // analyse up to 30s
+    const hop = 512;
+    const frames = Math.floor(maxSamples / hop);
+    if (frames < 32) return { bpm: null, confidence: 0 };
+
+    // spectral-free onset strength: positive change in short-time energy
+    const flux = new Float32Array(frames);
+    let prev = 0;
+    for (let i = 0; i < frames; i++) {
+      let sum = 0; const base = i * hop;
+      for (let j = 0; j < hop; j++) { const v = data[base + j] || 0; sum += v * v; }
+      const e = Math.sqrt(sum / hop);
+      const d = e - prev; flux[i] = d > 0 ? d : 0; prev = e;
+    }
+    let mean = 0; for (let i = 0; i < frames; i++) mean += flux[i]; mean /= frames;
+    for (let i = 0; i < frames; i++) flux[i] -= mean; // centre for autocorrelation
+
+    const envRate = sr / hop;                 // envelope samples per second
+    const minBpm = 70, maxBpm = 180;          // fold octaves into a musical range
+    const minLag = Math.max(1, Math.floor(envRate * 60 / maxBpm));
+    const maxLag = Math.floor(envRate * 60 / minBpm);
+    const acf = new Float32Array(maxLag + 2);
+    let bestLag = minLag, bestVal = -Infinity, sumVal = 0, n = 0;
+    for (let lag = minLag; lag <= maxLag; lag++) {
+      let s = 0;
+      for (let i = lag; i < frames; i++) s += flux[i] * flux[i - lag];
+      acf[lag] = s; sumVal += s; n++;
+      if (s > bestVal) { bestVal = s; bestLag = lag; }
+    }
+    // parabolic interpolation around the peak for sub-frame (sub-BPM) precision
+    let refinedLag = bestLag;
+    if (bestLag > minLag && bestLag < maxLag) {
+      const y0 = acf[bestLag - 1], y1 = acf[bestLag], y2 = acf[bestLag + 1];
+      const denom = y0 - 2 * y1 + y2;
+      if (denom !== 0) refinedLag = bestLag + 0.5 * (y0 - y2) / denom;
+    }
+    let bpm = 60 * envRate / refinedLag;
+    while (bpm < minBpm) bpm *= 2;
+    while (bpm > maxBpm) bpm /= 2;
+    const avg = n ? sumVal / n : 0;
+    const confidence = avg > 0 ? Math.max(0, Math.min(1, (bestVal / avg - 1) / 4)) : 0;
+    return { bpm: Math.round(bpm), confidence };
+  }
+
+  function showTrackBpm(t) {
+    const det = detectBPM(t.buffer);
+    t.detectedBpm = det.bpm;
+    const badge = t.el && t.el.querySelector('.bpm-badge');
+    if (!badge || !det.bpm) return;
+    const unsure = det.confidence < 0.28;
+    badge.textContent = `♩ ${det.bpm}${unsure ? '?' : ''}`;
+    badge.classList.toggle('low', unsure);
+    badge.hidden = false;
+  }
+
+  function matchProjectTempo(t) {
+    if (!t.detectedBpm) return;
+    bpm = clamp(t.detectedBpm, 40, 240);
+    $('#bpm').value = bpm;
+    setStatus(`Project tempo locked to ${bpm} BPM from “${t.name}” — your sampler beats now groove with it.`);
   }
 
   function seekTrack(t, e) {
@@ -458,7 +529,7 @@
     for (const f of files) {
       if (!f.type.startsWith('audio') && !/\.(wav|mp3|ogg|flac|m4a|aac|opus|aif|aiff)$/i.test(f.name)) continue;
       const t = createTrack(stripExt(f.name), null);
-      try { t.buffer = await decodeFile(f); finishTrackWave(t); if (isPlaying) startTrackSource(t); }
+      try { t.buffer = await decodeFile(f); finishTrackWave(t); showTrackBpm(t); if (isPlaying) startTrackSource(t); }
       catch (err) { setStatus(`Couldn't decode “${f.name}”.`); removeTrack(t); }
     }
   }

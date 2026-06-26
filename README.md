@@ -4,6 +4,7 @@ A self-contained browser studio for **mixing AI-generated music with your own sa
 
 ## Features
 
+- **Automatic tempo detection** — every track you drop in is analysed for its BPM (energy-flux onset envelope + autocorrelation with parabolic peak refinement, all client-side). Click a track's tempo badge to instantly lock the project tempo to it, so your sampler beats groove with the AI track.
 - **Multi-track mixer** — drag in AI-generated songs/stems. Synchronized playback, waveform view with click-to-seek, per-track volume, pan, mute, solo, and loop.
 - **Sampler** — load one-shot samples onto a 16-step sequencer locked to the tempo grid. Per-pad volume, live audition, swing, and metronome click.
 - **Transport** — play/pause/stop, tap tempo, BPM, master volume + live level meter.
