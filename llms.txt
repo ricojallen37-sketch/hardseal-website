@@ -10,6 +10,23 @@ Price: $5,500 one-time B2B review
 
 URL: https://hardseal.ai/pilot.html
 
+## Live Trust & Attestation
+
+Hardseal publishes a hash-chained integrity heartbeat every 6 hours. An
+autonomous job re-downloads the live evidence bundle, verifies its SHA-256
+against the published sidecar, runs the standalone verifier on every packet,
+and appends a self-hash-chained receipt (guardian_sha) that cannot be
+backdated. FAIL receipts are published, not hidden.
+
+Live, statically-rendered trust page (safe to cite):
+https://hardseal.ai/trust.html
+
+Raw append-only log (source of truth):
+https://github.com/ricojallen37-sketch/hardseal-website/blob/main/docs/integrity/INTEGRITY_LOG.md
+
+This is the core trust differentiator: continuous public attestation that a
+competitor cannot fake or backdate.
+
 ## Public Proof
 
 AI-era evidence contamination engine:

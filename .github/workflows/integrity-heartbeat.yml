@@ -274,6 +274,20 @@ jobs:
           echo "Heartbeat line:"
           echo "${FULL_LINE}"
 
+      - name: Regenerate public trust page (non-fatal)
+        # Re-render trust.html from the freshly-appended INTEGRITY_LOG.md so the
+        # public, statically-legible attestation page stays current every beat.
+        # This step is deliberately NON-FATAL: a render hiccup must never cost a
+        # heartbeat receipt. If it fails, trust.html simply isn't updated this run
+        # and the heartbeat line still commits below. (FAIL is publishable; a
+        # lost receipt is not.)
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          python3 "${GITHUB_WORKSPACE}/scripts/render_trust_page.py" \
+            || echo "::warning title=Trust page render skipped::render_trust_page.py exited non-zero; trust.html left unchanged this beat."
+
       - name: Commit heartbeat line
         shell: bash
         run: |
@@ -281,6 +295,10 @@ jobs:
           git config user.name "hardseal-integrity-bot"
           git config user.email "hardseal-integrity-bot@users.noreply.github.com"
           git add "${{ env.LOG_PATH }}"
+          # Opportunistically stage the regenerated trust page. It may be absent
+          # or unchanged (e.g. render skipped) — tolerate that; the heartbeat
+          # line in LOG_PATH is what gates the commit guard below.
+          git add trust.html 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No log changes to commit (unexpected — heartbeat line should have been appended)."
             exit 1
