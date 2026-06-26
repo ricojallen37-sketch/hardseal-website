@@ -147,6 +147,7 @@ footer a{color:var(--gray2)}
     <div class="stat"><span class="num">97.1%</span><span class="lbl">Integrity uptime</span></div>
   </div>
   <div class="asof">As of the last heartbeat: 2026-06-13T19:44:41Z · 5 FAIL receipt(s) published, not hidden · first PASS 2026-05-02T20:29:13Z</div>
+  <div class="asof" style="color:var(--gray1);margin-top:6px"><span style="color:var(--green)">✓ CHAIN VERIFIED</span> · all 173 guardian_sha links independently re-derived at build time</div>
 
   <div class="section-label">// WHAT YOU ARE LOOKING AT</div>
   <div class="section-title">Trust you can verify, not trust you have to grant.</div>
@@ -204,7 +205,11 @@ footer a{color:var(--gray2)}
     <p>Every number here is reproducible from primary sources. Three ways in, from fastest to most paranoid:</p>
     <p><strong>1. Read the raw log.</strong> Open <a href="https://github.com/ricojallen37-sketch/hardseal-website/blob/main/docs/integrity/INTEGRITY_LOG.md">INTEGRITY_LOG.md</a> and count the lines yourself. Each one is a receipt.</p>
     <p><strong>2. Re-run a packet.</strong> Download <a href="/downloads/verify_standalone.py">verify_standalone.py</a> (Python standard library only, no phone-home) and run it against a <a href="/verify.html">sample packet</a> in your own terminal.</p>
-    <p><strong>3. Re-derive the chain.</strong> For any line, compute <code>sha256(previous_full_line || this_line_without_guardian_sha)</code> and confirm it equals the published <code>guardian_sha</code>. If one entry was altered, the break propagates forward — and you will find it.</p>
+    <p><strong>3. Re-derive the entire chain with one command.</strong> Download <a href="https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/scripts/verify_chain.py">verify_chain.py</a> (Python standard library only — no network, no Hardseal service) and run it against the log:</p>
+    <p><code>curl -sO https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/scripts/verify_chain.py</code><br>
+    <code>curl -sO https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/docs/integrity/INTEGRITY_LOG.md</code><br>
+    <code>python3 verify_chain.py INTEGRITY_LOG.md</code></p>
+    <p>It re-derives <code>sha256(previous_full_line || this_line_without_guardian_sha)</code> for every entry, confirms each equals the published <code>guardian_sha</code>, and exits non-zero if any link is broken. Alter one past entry and the break propagates forward — the tool names the exact line. This page ran that same check at build time before it claimed anything above. In 30 years, with Hardseal gone or not, the command still answers the same question.</p>
   </div>
 
   <div class="cta">

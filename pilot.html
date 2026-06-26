@@ -140,6 +140,7 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
     <nav class="nav-links" aria-label="Primary">
       <a href="/">Verifier</a>
       <a href="/#pricing">Pricing</a>
+      <a href="/trust.html">Trust</a>
       <a href="/client-experience.html">Experience</a>
       <a href="/trophy-case.html">Trophy Case</a>
       <a href="mailto:hello@hardseal.ai">Contact</a>
@@ -307,6 +308,10 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
       <aside class="price-box">
         <div class="price">First 5 free</div>
         <div class="price-note">$5,500 standard value · design partner window</div>
+        <a class="trust-strip" href="/trust.html" id="pilotTrust" style="display:flex;align-items:center;gap:10px;text-decoration:none;border:1px solid var(--blue-line);border-radius:6px;padding:11px 13px;margin-bottom:16px;font-family:var(--mono);font-size:12px;color:var(--muted)">
+          <span style="width:8px;height:8px;border-radius:50%;background:#00FF88;box-shadow:0 0 8px rgba(0,255,136,.5);flex-shrink:0"></span>
+          <span><strong id="pilotTrustNum" style="color:#fff">137 consecutive clean</strong> integrity heartbeats — verify us before you buy →</span>
+        </a>
         <a class="button" href="mailto:hello@hardseal.ai?subject=Hardseal%20Free%20Evidence%20Integrity%20Review%20Application&body=Company%20name%3A%0AWebsite%3A%0ARole%3A%0AAre%20you%20preparing%20for%20CMMC%20or%20NIST%20SP%20800-171%3F%0AWhat%20evidence%20packet%20do%20you%20want%20reviewed%3F%0ATimeline%3A%0A">Apply for free review</a>
         <p class="fine">If the free slots are gone, the standard Evidence Integrity Review is $5,500 one-time. <a href="https://buy.stripe.com/7sY00kd9fbpR4S6dxlbjW00">Use Stripe</a> or email <a href="mailto:hello@hardseal.ai">hello@hardseal.ai</a> for invoice workflow.</p>
         <p class="fine">After fit and scope are confirmed, use the <a href="/start.html">customer start path</a> to begin scope confirmation. For the full flow, see the <a href="/client-experience.html">client experience</a>.</p>
@@ -348,5 +353,19 @@ footer{padding:40px 0;color:var(--dim);font-family:var(--mono);font-size:12px;te
 <footer>
   Hardseal LLC · Florida, USA · Not a C3PAO · Assessment support software
 </footer>
+<script>
+/* Keep the trust strip's streak honest and current: count consecutive PASS
+   from the end of the live integrity log. Progressive enhancement only — the
+   static number renders fine without JS, and /trust.html is the full record. */
+(function(){
+  var RAW='https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/docs/integrity/INTEGRITY_LOG.md';
+  fetch(RAW,{cache:'no-store'}).then(function(r){return r.ok?r.text():Promise.reject();}).then(function(t){
+    var lines=t.split('\n').filter(function(l){return /^\d{4}-\d{2}-\d{2}T/.test(l);});
+    var streak=0;
+    for(var i=lines.length-1;i>=0;i--){ if(lines[i].indexOf('result=PASS')>-1) streak++; else break; }
+    if(streak>0){ var el=document.getElementById('pilotTrustNum'); if(el) el.textContent=streak+' consecutive clean'; }
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

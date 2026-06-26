@@ -40,7 +40,11 @@ from __future__ import annotations
 import html
 import os
 import re
+import sys
 from datetime import datetime, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from verify_chain import check_chain  # noqa: E402  (local sibling module)
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LOG_PATH = os.path.join(REPO_ROOT, "docs", "integrity", "INTEGRITY_LOG.md")
@@ -157,6 +161,19 @@ def build_html(s: dict) -> str:
     uptime_str = f"{s['uptime']:.1f}"
     last_dot = "var(--green)" if s["last_result"] == "PASS" else "var(--red)"
     guardian_full = esc(s["last_guardian"]) or "—"
+
+    chain_intact = s.get("chain_intact", False)
+    chain_checked = s.get("chain_checked", 0)
+    if chain_intact:
+        chain_badge = (
+            f'<span style="color:var(--green)">✓ CHAIN VERIFIED</span> · all '
+            f'{chain_checked} guardian_sha links independently re-derived at build time'
+        )
+    else:
+        chain_badge = (
+            '<span style="color:var(--red)">⚠ CHAIN VERIFICATION FAILED</span> · '
+            'this render could not re-derive the chain — investigate before trusting'
+        )
 
     # JSON-LD: present the attestation as a structured, machine-readable claim.
     json_ld = f"""{{
@@ -310,6 +327,7 @@ footer a{{color:var(--gray2)}}
     <div class="stat"><span class="num">{uptime_str}%</span><span class="lbl">Integrity uptime</span></div>
   </div>
   <div class="asof">As of the last heartbeat: {esc(s['last_ts'])} · {s['fails']} FAIL receipt(s) published, not hidden · first PASS {esc(s['first_pass'])}</div>
+  <div class="asof" style="color:var(--gray1);margin-top:6px">{chain_badge}</div>
 
   <div class="section-label">// WHAT YOU ARE LOOKING AT</div>
   <div class="section-title">Trust you can verify, not trust you have to grant.</div>
@@ -358,7 +376,11 @@ footer a{{color:var(--gray2)}}
     <p>Every number here is reproducible from primary sources. Three ways in, from fastest to most paranoid:</p>
     <p><strong>1. Read the raw log.</strong> Open <a href="https://github.com/ricojallen37-sketch/hardseal-website/blob/main/docs/integrity/INTEGRITY_LOG.md">INTEGRITY_LOG.md</a> and count the lines yourself. Each one is a receipt.</p>
     <p><strong>2. Re-run a packet.</strong> Download <a href="/downloads/verify_standalone.py">verify_standalone.py</a> (Python standard library only, no phone-home) and run it against a <a href="/verify.html">sample packet</a> in your own terminal.</p>
-    <p><strong>3. Re-derive the chain.</strong> For any line, compute <code>sha256(previous_full_line || this_line_without_guardian_sha)</code> and confirm it equals the published <code>guardian_sha</code>. If one entry was altered, the break propagates forward — and you will find it.</p>
+    <p><strong>3. Re-derive the entire chain with one command.</strong> Download <a href="https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/scripts/verify_chain.py">verify_chain.py</a> (Python standard library only — no network, no Hardseal service) and run it against the log:</p>
+    <p><code>curl -sO https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/scripts/verify_chain.py</code><br>
+    <code>curl -sO https://raw.githubusercontent.com/ricojallen37-sketch/hardseal-website/main/docs/integrity/INTEGRITY_LOG.md</code><br>
+    <code>python3 verify_chain.py INTEGRITY_LOG.md</code></p>
+    <p>It re-derives <code>sha256(previous_full_line || this_line_without_guardian_sha)</code> for every entry, confirms each equals the published <code>guardian_sha</code>, and exits non-zero if any link is broken. Alter one past entry and the break propagates forward — the tool names the exact line. This page ran that same check at build time before it claimed anything above. In 30 years, with Hardseal gone or not, the command still answers the same question.</p>
   </div>
 
   <div class="cta">
@@ -423,6 +445,14 @@ def main() -> int:
         print("render_trust_page: no heartbeat lines found; leaving trust.html unchanged.")
         return 0
     stats = compute(rows)
+
+    # Test what we fly: independently re-derive the entire guardian_sha chain
+    # before the page is allowed to claim it is verified. If the chain does not
+    # re-derive clean, the page says so honestly rather than asserting trust.
+    chain = check_chain(LOG_PATH)
+    stats["chain_intact"] = bool(chain.get("intact"))
+    stats["chain_checked"] = chain.get("checked", 0)
+
     page = build_html(stats)
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         fh.write(page)
