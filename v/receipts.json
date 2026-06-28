@@ -1,0 +1,47 @@
+{
+  "_comment": "Registry of public Hardseal receipts servable by /v/?id=<id>. Add one entry per sealed deliverable. Aliases point at a canonical id. The verify page derives all display data from the receipt JSON itself.",
+  "default": "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample",
+  "receipts": {
+    "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample": {
+      "file": "/cmmc-packet-qa-receipt5.json",
+      "sha256": "/cmmc-packet-qa-receipt5.json.sha256",
+      "verifier": "/downloads/verify_cmmc_packet_qa.py",
+      "kind": "cmmc"
+    },
+    "receipt5": { "alias": "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample" },
+    "cmmc-packet-qa": { "alias": "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample" },
+    "demo": { "alias": "receipt-001-cmmc-packet-qa-ia-l2-3-5-3-sample" },
+
+    "edge-session-demo-receipt1": {
+      "file": "/sample-packet-receipt1.json",
+      "sha256": "/sample-packet-receipt1.json.sha256",
+      "verifier": "/downloads/verify_standalone.py",
+      "kind": "edge"
+    },
+    "receipt1": { "alias": "edge-session-demo-receipt1" },
+
+    "cmmc-audit-log-receipt2": {
+      "file": "/cmmc-audit-log-receipt2.json",
+      "sha256": "/cmmc-audit-log-receipt2.json.sha256",
+      "verifier": "/downloads/verify_standalone.py",
+      "kind": "edge"
+    },
+    "receipt2": { "alias": "cmmc-audit-log-receipt2" },
+
+    "poam-evidence-receipt3": {
+      "file": "/poam-evidence-receipt3.json",
+      "sha256": "/poam-evidence-receipt3.json.sha256",
+      "verifier": "/downloads/verify_standalone.py",
+      "kind": "edge"
+    },
+    "receipt3": { "alias": "poam-evidence-receipt3" },
+
+    "ssp-change-history-receipt4": {
+      "file": "/ssp-change-history-receipt4.json",
+      "sha256": "/ssp-change-history-receipt4.json.sha256",
+      "verifier": "/downloads/verify_standalone.py",
+      "kind": "edge"
+    },
+    "receipt4": { "alias": "ssp-change-history-receipt4" }
+  }
+}
