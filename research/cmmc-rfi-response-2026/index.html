@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMMC Reform Task Force RFI Response — Hardseal</title>
+    <meta name="description" content="Hardseal LLC response to the DoW CMMC Reform Task Force RFI, submitted July 27, 2026. Reproducible AI-contamination feasibility test, thirteen-pattern taxonomy, automation-first reform path.">
+    <meta property="og:title" content="CMMC Reform Task Force RFI Response — Hardseal">
+    <meta property="og:description" content="Submitted July 27, 2026: reproducible AI-contamination feasibility test, thirteen-pattern taxonomy, automation-first reform path for CMMC self-assessment.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://hardseal.ai/research/cmmc-rfi-response-2026">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CMMC Reform RFI Response — Hardseal">
+    <meta name="twitter:description" content="Hardseal response to the CMMC Reform Task Force RFI: verify evidence, not prose.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --navy: #000000;
+            --navy-light: #0a0a0a;
+            --navy-mid: #111111;
+            --steel: #5a5a5a;
+            --steel-light: #8a8a8a;
+            --amber: #d0d0d0;
+            --amber-glow: rgba(255, 255, 255, 0.06);
+            --amber-dark: #8a8a8a;
+            --white: #ffffff;
+            --gray-100: #d0d0d0;
+            --gray-200: #e8e8e8;
+            --gray-300: #d0d0d0;
+            --gray-800: #111111;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--navy);
+            color: var(--gray-100);
+            line-height: 1.7;
+            font-size: 17px;
+            min-height: 100vh;
+        }
+        a { color: var(--amber); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.15s; }
+        a:hover { border-bottom-color: var(--amber); }
+        code, pre { font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace; }
+        code { background: var(--navy-mid); padding: 2px 6px; border-radius: 3px; font-size: 0.88em; }
+        nav.topbar {
+            position: sticky; top: 0; z-index: 10;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        nav .topbar-inner {
+            max-width: 1080px; margin: 0 auto;
+            padding: 18px 32px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        nav .brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600; font-size: 0.92em; letter-spacing: 0.24em;
+            color: var(--white); border-bottom: none;
+        }
+        nav .brand:hover { border-bottom: none; }
+        nav .nav-links { display: flex; gap: 28px; font-size: 0.88em; }
+        nav .nav-links a { color: var(--gray-300); border-bottom: none; }
+        nav .nav-links a:hover { color: var(--amber); border-bottom: none; }
+        .banner {
+            max-width: 1080px; margin: 32px auto 0;
+            padding: 14px 28px;
+            background: var(--amber-glow);
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em; letter-spacing: 0.08em; color: var(--amber);
+            text-transform: uppercase;
+        }
+        .banner strong { color: var(--white); font-weight: 600; letter-spacing: 0.04em; }
+        main {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 64px 32px 120px;
+        }
+        .doc-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78em;
+            color: var(--steel-light);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        h1 {
+            font-size: 2.7em;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            color: var(--white);
+            margin-bottom: 14px;
+            font-weight: 700;
+        }
+        .subtitle {
+            font-size: 1.22em;
+            color: var(--gray-300);
+            margin-bottom: 40px;
+            font-weight: 400;
+        }
+        .authors-block {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em;
+            color: var(--steel-light);
+            margin-bottom: 56px;
+            padding: 20px 24px;
+            background: var(--navy-light);
+            border-left: 3px solid var(--amber);
+            border-radius: 0 4px 4px 0;
+        }
+        .authors-block strong { color: var(--gray-100); font-weight: 600; }
+        .authors-block div + div { margin-top: 6px; }
+        h2 {
+            font-size: 1.55em;
+            margin-top: 56px;
+            margin-bottom: 18px;
+            color: var(--white);
+            letter-spacing: -0.01em;
+            font-weight: 700;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            padding-top: 40px;
+        }
+        h2:first-of-type { border-top: none; padding-top: 0; margin-top: 40px; }
+        h3 {
+            font-size: 1.15em;
+            margin-top: 32px;
+            margin-bottom: 10px;
+            color: var(--gray-100);
+            font-weight: 600;
+        }
+        p { margin-bottom: 1.3em; }
+        blockquote {
+            margin: 28px 0;
+            padding: 18px 28px;
+            background: var(--navy-light);
+            border-left: 3px solid var(--amber);
+            font-style: italic;
+            color: var(--gray-100);
+            font-size: 1.05em;
+        }
+        ol, ul { padding-left: 1.6em; margin-bottom: 1.3em; }
+        li { margin-bottom: 0.6em; }
+        .pattern-list li { padding: 8px 0; }
+        .pattern-list li strong { color: var(--white); }
+        .pattern-list li em { color: var(--amber); font-style: normal; font-family: 'JetBrains Mono', monospace; font-size: 0.86em; background: var(--amber-glow); padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+        .commit-hash {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82em;
+            background: var(--navy-light);
+            padding: 12px 16px;
+            border-radius: 4px;
+            word-break: break-all;
+            color: var(--amber);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .cta-row {
+            margin-top: 56px;
+            display: flex; gap: 16px; flex-wrap: wrap;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+        }
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 26px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.92em;
+            letter-spacing: 0.02em;
+            border-bottom: none;
+            transition: all 0.15s ease;
+        }
+        .cta-btn:hover { border-bottom: none; }
+        .cta-primary {
+            background: var(--white);
+            color: var(--navy);
+        }
+        .cta-primary:hover {
+            background: var(--gray-200);
+            transform: translateY(-1px);
+        }
+        .cta-secondary {
+            background: transparent;
+            color: var(--gray-100);
+            border: 1px solid rgba(255,255,255,0.24);
+        }
+        .cta-secondary:hover {
+            border-color: var(--amber);
+            color: var(--amber);
+        }
+        .closing-quote {
+            margin-top: 72px;
+            padding: 24px 0;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-style: italic;
+            color: var(--steel-light);
+            font-size: 1em;
+            text-align: center;
+        }
+        .closing-quote strong { display: block; margin-top: 10px; font-style: normal; color: var(--gray-200); font-size: 0.9em; }
+        footer {
+            max-width: 1080px; margin: 0 auto;
+            padding: 48px 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.76em;
+            color: var(--steel-light);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+        }
+        footer a { color: var(--steel-light); border-bottom: none; }
+        footer a:hover { color: var(--amber); }
+        @media (max-width: 640px) {
+            h1 { font-size: 2em; }
+            main { padding: 40px 20px 80px; }
+            nav .topbar-inner { padding: 14px 20px; }
+            nav .nav-links { gap: 14px; font-size: 0.8em; }
+            .cta-row { flex-direction: column; }
+            .cta-btn { width: 100%; text-align: center; }
+        }
+    </style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/verify.html">Verifier</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
+    </nav>
+  </div>
+</header>
+
+
+<nav class="topbar">
+    <div class="topbar-inner">
+        <a href="/" class="brand">HARDSEAL</a>
+        <div class="nav-links">
+            <a href="/#process">Process</a>
+            <a href="/#proof">Proof</a>
+            <a href="/#resources">Resources</a>
+            <a href="/#contact">Contact</a>
+        </div>
+    </div>
+</nav>
+
+<div class="banner">
+    <strong>Pre-release executive summary.</strong> &nbsp;Full ~40-page field report drops Sunday, April 27, 2026 at this URL.
+</div>
+
+<main>
+<h1>Hardseal's Response to the CMMC Reform Task Force RFI</h1>
+<p><em>On July 27, 2026, Hardseal LLC submitted the response below to the Department of War's Request for Information "Reforming CMMC and Reducing Compliance Burden for the Defense Industrial Base" (Notice ID DoDCIOReformingCMMCforDIB001), supporting the CMMC Reform Task Force chartered after the July 13, 2026 suspension of CMMC Phase 2. It is published here verbatim, minus the cover letter. The response contains no proprietary data and may be distributed without limitation. The detection engine, fixtures, scores, and SHA-256 commitment hashes referenced in Appendix A are available for independent rerun.</em></p>
+<hr>
+<h1>Response to Request for Information: Reforming CMMC and Reducing Compliance Burden for the Defense Industrial Base (DIB)</h1>
+<p><strong>Notice ID DoDCIOReformingCMMCforDIB001. Submitted by Hardseal LLC. Distribution unlimited; contains no proprietary data.</strong></p>
+<h2>Executive Summary</h2>
+<p>Hardseal LLC is a small United States software company building compliance evidence tooling for the CMMC ecosystem. In building an engine that models every control and assessment objective in NIST SP 800-171 Rev 2, we identified a problem the Task Force should address: consumer large language models (LLMs) can generate fluent compliance narratives without proving that the described controls operate. A contractor under deadline pressure can paste bullet points into a chatbot and receive a lengthy System Security Plan (SSP) narrative even when the supporting operational evidence is incomplete. Reform will rely substantially on self-assessment, which makes the integrity of evidence behind an attestation a material program risk.</p>
+<p>This response contributes three things. First, a bounded feasibility test: we ran our open-source detection engine against three labeled SSP test fixtures. A grounded human-style fixture scored 0.00 (clean); an unedited LLM fixture scored 0.45 to 0.55 (contaminated); and a vendor-template fixture scored 0.64 to 1.00 (contaminated to likely synthetic). The engine, fixtures, scores, and SHA-256 commitment hashes are available for independent rerun (Appendix A). These three fixtures demonstrate separability in a controlled test, not field prevalence or benchmark performance. Second, a research taxonomy of thirteen candidate patterns of AI-contaminated evidence, each mapped to the NIST SP 800-171A objectives it could undermine (Appendix B). Eight patterns have open reference implementations; five remain proposed signatures. Third, a reform path built on one principle: <strong>evidence should be a machine-verifiable byproduct of operating securely, not a narrative writing exercise.</strong> The federal precedent exists (FedRAMP 20x Key Security Indicators; NIST OSCAL).</p>
+<p>Reform that reduces burden without addressing evidence integrity will scale costs down and false-attestation rates up, leaving the False Claims Act as the program's de facto enforcement mechanism: the worst outcome for exactly the small businesses the Task Force is chartered to protect. Reform that does both is achievable within the 60-day window using standards and open tooling that exist today.</p>
+<h2>Question 1. Top five most prohibitive cost drivers, administrative burdens, or operational challenges in complying with the CMMC framework and NIST SP 800-171 Rev 2</h2>
+<p>Our vantage point: we built software modeling every control and assessment objective in the framework and a deterministic engine for testing evidence-integrity hypotheses against labeled fixtures.</p>
+<p><strong>1. The narrative documentation burden is the largest cost, and it is security-irrelevant at the margin.</strong> NIST SP 800-171A decomposes 110 controls into 284 assessment objectives, and current practice expects prose narratives, policies, and procedures addressing substantially all of them. For a 50-person machine shop this is hundreds of pages of writing about security rather than implementation of security. This is precisely the work now being silently outsourced to consumer LLMs, with the integrity consequences documented under Question 5.</p>
+<p><strong>2. Assessment scarcity pricing.</strong> Industry-reported C3PAO assessment costs of $35,000 to $75,000, with waitlists measured in months to over a year before the suspension, are the direct consequence of a fixed assessor supply meeting a mandated demand of one hundred thousand-plus organizations. No small business can treat that as a rational security investment; it is a market-access toll.</p>
+<p><strong>3. Compliance tooling priced and architected for enterprises.</strong> Mainstream GRC platforms cost tens of thousands of dollars per year and typically operate by installing agents or forwarding data to vendor clouds. For a CUI enclave, every agent and outbound integration is new attack surface and a new assessor question. Small contractors face a false choice between unaffordable platforms and manual spreadsheets.</p>
+<p><strong>4. Evidence duplication across artifacts.</strong> The same operational fact (for example, tenant-wide multifactor authentication) must be restated in the SSP, an access control policy, procedures, POA&amp;M context, and assessment preparation materials. Each restatement is maintained by hand and drifts independently from the actual configuration. The fact itself is queryable from the identity provider's API in one call.</p>
+<p><strong>5. Regulatory churn as a recurring consulting tax.</strong> Rev 2 to Rev 3 ambiguity, phased enforcement timelines, and now the suspension itself each convert into billable interpretation hours. Small contractors pay repeatedly to relearn what the requirement is before spending anything on meeting it.</p>
+<p>The common root: the program measures the production of documents that describe security, and document production neither scales down for small business nor correlates with actual posture. Reforms that only discount the current model (fewer controls, cheaper assessments) leave the root intact.</p>
+<h2>Question 2. Security controls that deliver the most tangible uplift of cybersecurity and actual risk reduction</h2>
+<p>Controls that mechanically interrupt an attack stage deliver measurable uplift:</p>
+<table><thead><tr><th>Control(s)</th><th>Requirement</th><th>Attack stage interrupted</th></tr></thead><tbody>
+<tr><td>3.5.3</td><td>Multifactor authentication</td><td>Credential theft and reuse, the dominant initial access vector</td></tr>
+<tr><td>3.13.11, 3.13.8, 3.8.6</td><td>FIPS-validated cryptography for CUI at rest and in transit</td><td>Data theft after perimeter compromise</td></tr>
+<tr><td>3.14.1 to 3.14.3</td><td>Flaw remediation and malicious code protection</td><td>Exploitation of known CVEs, the second dominant initial access vector</td></tr>
+<tr><td>3.1.1, 3.1.2, 3.1.5</td><td>Account management and least privilege</td><td>Lateral movement and privilege escalation</td></tr>
+<tr><td>3.3.1, 3.3.2, 3.3.5</td><td>Audit logging tied to individual users, with review</td><td>Detection and attribution of intrusions</td></tr>
+<tr><td>3.8.9</td><td>Protected backups of CUI</td><td>Ransomware recovery without payment</td></tr>
+</tbody></table>
+<p>Two observations. First, all six clusters share a property: <strong>their operation generates machine evidence as a byproduct</strong> (a tenant configuration flag, a queryable patch inventory, logs, a cryptographic module attestation). A reformed framework can verify all six without any narrative documents, the basis of our answers to Questions 5 and 6. Second, the controls with the most uplift are the least burdensome to verify, and the controls with the least uplift are the most burdensome to verify. That inverse relationship is the reform opportunity.</p>
+<h2>Question 3. Requirements that create the highest administrative overhead and financial burden with the least measurable improvement to cybersecurity posture</h2>
+<p><strong>The narrative System Security Plan, as currently practiced, is the program's highest-cost, lowest-yield artifact.</strong> The SSP requirement (3.12.4) is sound in principle. In practice it has inflated into a 50-to-150-page prose product whose length is treated as a proxy for maturity: consultants price it as the flagship deliverable, assessors must read it, and nobody can verify it against reality at scale. The surrounding prose-heavy artifact family shares the profile: per-family policies and procedures assembled from templates that restate the framework's own language back to it; POA&amp;M narrative formatting that consumes effort better spent closing gaps; and evidence packaging for human readers that ages from the moment of capture.</p>
+<p>The measurable-uplift test fails in both directions. Producing these artifacts changes no system configuration, and they are among the artifacts an LLM can produce most fluently. Our controlled fixtures and published detector cases include chatbot preambles such as "Certainly! Here is a draft policy," unreplaced placeholders such as "[Your organization]," mechanically regular log-like timestamps, and SSP claims that lack named implementing mechanisms. These examples are synthetic or open-source test material, not customer field observations. The policy question remains practical: which product, configuration, record, or operating process in the environment supports the claim today?</p>
+<p>A document that can be generated in fifteen minutes by someone with no knowledge of the environment provides no assurance about the environment. Retiring narrative-first evidence is therefore not a security concession. It removes cost that no longer purchases anything.</p>
+<h2>Question 4. How the DoW might better recognize commercial cybersecurity capabilities within a compliance or risk framework</h2>
+<p>Small DIB contractors already run on commercial platforms whose security posture is machine-queryable: Microsoft 365 and Entra ID (including GCC High), Google Workspace, mainstream EDR, cloud infrastructure with native logging. The Department under-recognizes these capabilities in a specific, fixable way: <strong>it accepts descriptions of them but not exports from them.</strong></p>
+<p><strong>1. Accept signed platform configuration exports as first-class evidence.</strong> An API export of an Entra ID conditional access policy, hashed and timestamped at capture, is stronger evidence of MFA enforcement (3.5.3) than any narrative: it comes from the enforcing system itself and cannot be fabricated by a text generator. Publish, per control, the commercial platform artifacts accepted as dispositive, plus a simple signing-and-hashing convention. Hardseal has built collectors of this kind for Microsoft 365, Entra ID, and Google Workspace; the engineering is modest and well within a 60-day pilot.</p>
+<p><strong>2. Extend inheritance and reciprocity formally.</strong> Where a FedRAMP-authorized cloud service implements a control on the contractor's behalf, the inheritance should be claimable by reference to the authorization, not re-documented by thousands of downstream contractors.</p>
+<p><strong>3. Recognize verification tooling through published, reproducible criteria rather than a vendor gate.</strong> The Department should not anoint products. Publish what verification evidence must demonstrate (schema, signatures, reproducibility) and let any tool, commercial or open source, meet the bar. Hardseal's engine is published under MIT license with SHA-256 commitment hashes over its scoring logic precisely so findings are reproducible by the Government without reliance on the vendor. That property is what a recognition framework should require.</p>
+<p>One caution: tools operating inside CUI environments should meet a minimal-footprint standard. Agent-based tools that open outbound channels from a CUI enclave to a vendor cloud create exactly the attack surface the framework exists to reduce. Recognition criteria should reward tooling that runs locally, discloses its logic, and exfiltrates nothing.</p>
+<h2>Question 5. Phase 1 self-assessments: challenges in maintaining, verifying, and reporting compliance; how to fundamentally streamline; and whether self-assessments produce a dynamic cyber posture or are performed only for compliance</h2>
+<p>This is the question our data speaks to most directly. The reformed program will stand or fall on self-assessment integrity.</p>
+<p><strong>The unguarded gate.</strong> A self-assessment regime has three parts: the implementation, the evidence, and the attested score in SPRS. The score is self-reported, and supporting evidence is not routinely examined unless the contractor is selected for review. Free, fluent text generation increases the risk that plausible narratives will be mistaken for proof. In Hardseal's synthetic and open-source test corpus, seeded defects include unedited chatbot preambles, unreplaced template placeholders, mechanically regular log excerpts, and SSP claims referencing nonexistent or misattributed controls. These are test cases, not evidence of prevalence or intent in the DIB. They show why a scalable self-assessment model should verify whether submitted evidence supports the attested claim.</p>
+<p><strong>Measured feasibility result.</strong> We ran our open-source engine against three labeled SSP fixtures covering controls 3.1.1, 3.1.2, 3.1.3, and 3.1.20, in whole-file and per-control modes: one unedited LLM output; one grounded human-style fixture with named owners, tool versions, dates, and acknowledged gaps; and one vendor-template fixture. The human-style fixture scored CLEAN (0.000) in both modes; the LLM fixture scored CONTAMINATED (0.451, 0.548); the template fixture scored CONTAMINATED (0.643) and LIKELY_SYNTHETIC (1.000). Methodology, provenance, limitations, and hashes are in Appendix A. This is a three-fixture feasibility demonstration, not an estimate of accuracy, false-positive rate, prevalence, or operational performance. It supports piloting open, auditable, deterministic screening before considering broader use.</p>
+<p><strong>How to fundamentally streamline, in five moves.</strong></p>
+<ol>
+<li><strong>Replace narrative submission with structured, machine-readable submission.</strong> Adopt NIST OSCAL as the native format for SSP and POA&amp;M data referenced by SPRS. A structured claim ("3.5.3 implemented via named platform, evidence hash H, captured date D") is smaller, cheaper, diffable, verifiable, and offers far less surface for LLM-generated fiction.</li>
+<li><strong>Bind every attested score to an evidence commitment.</strong> Require each SPRS submission to include cryptographic hashes of the supporting artifacts, captured at attestation time. A later reviewer can compare the submitted artifact set with the committed hash values and identify changes or substitutions. Hashes do not prove that an artifact was authentic when committed, do not prevent adversarial repackaging, and should not replace content review.</li>
+<li><strong>Screen narrative evidence for contamination at intake.</strong> Wherever prose remains, run open, published integrity signatures of the kind cataloged in Appendix B. Flags are prioritization signals, not accusations: they tell the contractor "fix this before attesting" and DIBCAC "sample here first." Hardseal offers its engine, signatures, and test corpus at no cost, and would equally support the Department adopting the signatures without our code.</li>
+<li><strong>Target DIBCAC sampling with integrity signals instead of random selection.</strong> DIBCAC capacity is the scarcest resource in the enforcement chain. Sampling driven by anomaly signals (contamination flags, score-versus-evidence mismatches, improbable SPRS jumps) multiplies effective coverage without adding an assessor.</li>
+<li><strong>Publish the rules.</strong> Integrity checks must be public, deterministic, and reproducible, for the same reason 800-171A is public. A black-box AI-detection gate would be unauditable and rightly resisted. Openness also raises evasion cost honestly: an adversary who grounds their evidence in real systems to beat published checks has, in the process, done the actual compliance work.</li>
+</ol>
+<p><strong>Dynamic posture or compliance theater?</strong> Today, candidly, self-assessments are performed almost entirely for compliance. A narrative SSP is written once, submitted, and left to age; nothing about the exercise touches live systems, so nothing about it detects drift or decay. That is a property of narrative evidence, not a failure of contractors. The reforms above change the answer structurally: when evidence is a signed configuration export or hash-committed artifact, re-running the self-assessment is an API call and a comparison, an operational security act rather than a writing assignment. Quarterly automated re-validation then catches drift in weeks instead of at a triennial event. Machine-verifiable evidence is what converts self-assessment from paperwork into posture.</p>
+<h2>Question 6. Actionable policy changes to drastically reduce costs and barriers for small, medium, and non-traditional businesses without degrading protection of federal data</h2>
+<p>Six recommendations, each actionable within the 60-day window, ordered by leverage:</p>
+<p><strong>1. Adopt an automation-first validation model for CMMC, patterned on FedRAMP 20x.</strong> GSA's FedRAMP 20x is already replacing narrative-package review with machine-readable Key Security Indicators and continuously validated evidence, explicitly to break an assessment bottleneck structurally identical to the one that suspended Phase 2. The Task Force does not need to invent this model, only adapt it: define machine-verifiable indicators for the highest-value control clusters (Question 2) and accept automated validation as the primary assurance mechanism for Level 1 and Level 2 self-assessment.</p>
+<p><strong>2. Publish free, official OSCAL templates and reference tooling.</strong> A Department-published OSCAL SSP and POA&amp;M template set, plus reference validation tooling (built or adopted from the open-source ecosystem; Hardseal's is MIT-licensed and may be forked without asking), sets the compliance tooling cost floor at zero. Precedent: NIST publishes 800-171A itself, and CISA publishes free assessment tools, without displacing the commercial market above the floor.</p>
+<p><strong>3. Accept signed commercial platform exports as dispositive evidence</strong> (Question 4). For the majority of small contractors running on Microsoft 365 or Google Workspace, this single change eliminates most SSP narrative and most evidence-assembly labor.</p>
+<p><strong>4. Formalize enclave scoping for small business.</strong> Publish an official, short, plain-language scoping pattern for the sub-100-employee contractor (CUI enclave boundaries, reference architectures, explicit out-of-scope rules), ending the situation in which scoping is a five-figure consulting engagement before any security work begins.</p>
+<p><strong>5. Replace universal third-party assessment with verified self-attestation plus targeted review.</strong> Structured submission, evidence commitment hashes, published integrity screening, and signal-targeted DIBCAC sampling (Question 5) inspect the whole population continuously and cheaply, instead of inspecting a thin annual slice expensively. This sharpens protection relative to the pre-suspension model.</p>
+<p><strong>6. Commit to requirement stability.</strong> Specify the Rev 2 to Rev 3 transition and enforcement phasing once, with dated milestones, and hold them. Churn is a cost driver the Department controls unilaterally.</p>
+<p>None of these degrades protection. Items 1, 3, and 5 strengthen it: they replace assurance by prose, which generative AI has already broken, with assurance by verifiable artifact, which it cannot break.</p>
+<h2>Question 7. Actionable policy changes to drastically improve operational resilience against cyber attacks</h2>
+<p><strong>1. Redirect the burden savings into implementation.</strong> The objective is not for contractors to spend less on cybersecurity but for the same dollars to move from describing controls to operating them. A contractor who stops paying for a 100-page SSP can fund a year of MFA licensing and endpoint detection for a 50-person shop.</p>
+<p><strong>2. Prioritize by attack stage, publicly.</strong> Publish the Department's mapping from each requirement to the attack stages it interrupts, and weight scoring and DIBCAC attention accordingly. Resilience improves fastest when scarce small-business effort lands on credential protection, patching, logging, and recovery first, rather than being spread evenly across 110 controls by a scheme that treats documentation gaps and MFA gaps alike.</p>
+<p><strong>3. Require evidence that is a byproduct of operations.</strong> A control whose evidence is generated by the operating system, identity provider, or EDR platform (a real log, a real configuration export, a real backup-restore record) is a control that is actually running; a control whose evidence is a narrative may exist only in the narrative. Preferring operational-byproduct evidence improves resilience and is inherently resistant to AI fabrication.</p>
+<p><strong>4. Make continuous, lightweight verification the norm.</strong> Quarterly automated re-validation of machine-verifiable indicators (an API call and a hash, not an assessment event) catches posture drift in weeks rather than at a triennial assessment. Drift is where compromises incubate; today the framework looks for it only on assessment day.</p>
+<p><strong>5. Address the CUI exposure inside the AI shortcut itself.</strong> When a contractor pastes system details into a consumer LLM to generate an SSP narrative, environment information (and potentially CUI) has left the security boundary, implicating flow-control requirement 3.1.3. The reformed framework should say this plainly and pair it with a safe-harbor path of disclosure and remediation guidance, so the behavior surfaces and gets fixed instead of hiding.</p>
+<p><strong>6. Exercise incident response, and accept the messy artifacts as the evidence.</strong> Real tabletop exercises produce disagreement, revised assumptions, and follow-up tickets; fabricated ones are suspiciously clean. Accepting the raw artifacts of a real exercise in place of polished after-action prose rewards contractors who actually rehearse and removes another narrative-writing tax.</p>
+<h2>Feedback on Feasibility</h2>
+<table><thead><tr><th>#</th><th>Recommendation</th><th>Cost to DoW</th><th>Precedent</th><th>Feasible in 60 days</th></tr></thead><tbody>
+<tr><td>1</td><td>Automation-first validation (FedRAMP 20x pattern)</td><td>Policy direction only</td><td>FedRAMP 20x KSIs</td><td>Yes, as Task Force recommendation</td></tr>
+<tr><td>2</td><td>OSCAL-native SSP and POA&amp;M submission; free templates</td><td>Low; templates exist in ecosystem</td><td>NIST OSCAL program</td><td>Yes</td></tr>
+<tr><td>3</td><td>Evidence commitment hashes bound to SPRS attestations</td><td>Near zero</td><td>Standard cryptographic practice</td><td>Yes</td></tr>
+<tr><td>4</td><td>Signed commercial platform exports as dispositive evidence</td><td>Low; publish accepted-artifact list</td><td>FedRAMP inheritance</td><td>Yes</td></tr>
+<tr><td>5</td><td>Open, published AI-contamination screening of narrative evidence</td><td>Zero; open-source engines exist (MIT)</td><td>Public 800-171A methodology</td><td>Yes; pilot immediately</td></tr>
+<tr><td>6</td><td>DIBCAC sampling targeted by integrity signals</td><td>Zero incremental</td><td>Government-wide risk-based audit practice</td><td>Yes</td></tr>
+<tr><td>7</td><td>Official small-business enclave scoping pattern</td><td>Low</td><td>Existing CIO scoping guidance</td><td>Yes</td></tr>
+<tr><td>8</td><td>Dated, stable Rev 2/Rev 3 and phasing commitments</td><td>Zero</td><td>Not applicable</td><td>Yes</td></tr>
+</tbody></table>
+<p>Every recommendation is a policy or format decision, not a procurement. Items 2, 3, and 5 could be piloted during the review itself: a volunteer cohort of small contractors submits one control family as structured claims with evidence hashes, narrative evidence is screened with published open signatures, and the Task Force measures burden and signal quality directly. Hardseal will support such a pilot at no cost.</p>
+<h2>Potential Risks, Challenges, and Innovations</h2>
+<p><strong>Risk: false positives harming honest contractors.</strong> No single detection signature is a verdict. Our engine aggregates signatures into tiered verdicts, publishes its weights, and pairs every flag with the follow-up question a reviewer should ask. The grounded human-style fixture in Appendix A passed at 0.000, but one fixture cannot establish a false-positive rate. Any Department pilot should measure performance across a substantially larger, independently labeled corpus and treat flags as prioritization signals, never automatic disqualification.</p>
+<p><strong>Risk: published detection rules can be evaded.</strong> True, and acceptable. An actor who grounds LLM-assisted text in real system identifiers, configurations, and logs will pass published checks, and in doing so has performed most of the verification work the checks exist to encourage. Detection is a floor, not a ceiling; its purpose is raising the cost of fabrication from trivial to deliberate. The deeper fix is structural: shrink the narrative surface itself (Questions 5 and 6) so there is less prose to fabricate.</p>
+<p><strong>Risk: verification tooling becoming its own attack surface.</strong> Any mandated or incentivized tooling should be offline-capable, source-auditable, and dependency-minimal. Resilience is not improved by requiring every CUI enclave to grant a cloud platform an agent footprint in order to prove the enclave is secure.</p>
+<p><strong>Challenge: honest limits of our data.</strong> Three labeled fixtures demonstrate separability in a controlled test, not benchmark performance; a 15-to-20-sample benchmark corpus across clean, consultant-template, and LLM-contaminated classes is in progress. We state this plainly because the Task Force will receive many confident claims; ours are scoped to what the published artifacts support, and everything we assert is independently rerunnable.</p>
+<h2>Appendix A. Wild-Sample Detection Run (Reproducible)</h2>
+<p><strong>Engine:</strong> Hardseal AI evidence integrity engine v0.3.1, deterministic Python standard library only (no ML model, no external API, no network egress), MIT license. Run date April 22, 2026. Three SSP excerpts not authored by Hardseal, each covering NIST SP 800-171 Rev 2 controls 3.1.1, 3.1.2, 3.1.3, and 3.1.20, analyzed whole-file (sentence-structure anomaly, mapping density, prompt leakage, artifact specificity, factual plausibility) and per-control (adding cross-narrative boilerplate clustering).</p>
+<table><thead><tr><th>Sample</th><th>Provenance</th><th>Whole-file</th><th>Per-control</th><th>Dominant signal</th></tr></thead><tbody>
+<tr><td>A</td><td>Generic LLM output from a one-sentence prompt; no company context; no instruction to hide AI tells</td><td>CONTAMINATED (0.451)</td><td>CONTAMINATED (0.548)</td><td>Sentence-structure anomaly plus boilerplate cluster</td></tr>
+<tr><td>B</td><td>Grounded human-style test fixture: named owners, tool versions, dates, acknowledged gaps with POA&amp;M IDs</td><td>CLEAN (0.000)</td><td>CLEAN (0.000)</td><td>No findings</td></tr>
+<tr><td>C</td><td>Vendor/MSP template: identical paragraph skeleton across four controls, headings changed</td><td>CONTAMINATED (0.643)</td><td>LIKELY_SYNTHETIC (1.000)</td><td>Boilerplate cluster at Jaccard 1.000 on every pair</td></tr>
+</tbody></table>
+<p><strong>Interpretation and limits.</strong> The three labeled fixtures separated in this controlled run: the grounded human-style fixture scored 0.00 and the two contamination fixtures scored 0.45 to 1.00. One fixture per class cannot establish accuracy, a false-positive rate, a false-negative rate, or field prevalence. Detection flags patterns, not intent, and requires human review.</p>
+<p><strong>Reproducibility.</strong> Labeled-fixture run hash (SHA-256, binding the engine modules and fixture files used for the run): 7ef67e69700f0c02086633814b231b3094938b2433855c4d2057ba9977d66b9a. Scoring-bundle commitment hash (weights, patterns, mechanism tokens, published since v0.2.0): 32f1e682b0544b1af20077cc33f0604ec76238489182190c8d77a1cb01f42bbf. Engine source, fixtures, prompts, run script, and raw JSON output are available to the Task Force on request; public repository publication is planned. Rerunning the same engine version against the same fixture files produces the same numeric scores.</p>
+<h2>Appendix B. Thirteen Patterns of AI-Contaminated Compliance Evidence</h2>
+<p>From Hardseal's research draft "State of AI-Era Defense Compliance Evidence" (2026). Each pattern is mapped to NIST SP 800-171A objectives it could undermine. Eight have open reference implementations; five are proposed signatures with implementations in progress.</p>
+<table><thead><tr><th>#</th><th>Pattern</th><th>One-line signature</th><th>Example objectives</th><th>Open code</th></tr></thead><tbody>
+<tr><td>1</td><td>Rhythmic prose uniformity</td><td>Sentence-length coefficient of variation below 0.35 with high entropy</td><td>3.12.1[a], 3.12.3[a]</td><td>Yes</td></tr>
+<tr><td>2</td><td>Boilerplate reuse across controls</td><td>Cross-narrative k-shingle Jaccard above 0.55 after template subtraction</td><td>3.12.4[a]</td><td>Yes</td></tr>
+<tr><td>3</td><td>Machine-cadence audit logs</td><td>Inter-arrival variance-to-mean below 0.5 with round-second rate above 0.85</td><td>3.3.1[a][b], 3.3.8[a]</td><td>Yes</td></tr>
+<tr><td>4</td><td>Mapping without mechanism</td><td>Three-plus control ID mentions, at most one named implementing mechanism</td><td>3.12.4[b][c]</td><td>Yes</td></tr>
+<tr><td>5</td><td>Orphaned citation graphs</td><td>No multi-hop lineage across evidence artifacts, or flat star topology</td><td>3.12.4[a][d]</td><td>Yes</td></tr>
+<tr><td>6</td><td>Prompt residue leakage</td><td>Regex hits on LLM artifacts ("Certainly! Here is", unreplaced placeholders)</td><td>3.12.4[a]</td><td>Yes</td></tr>
+<tr><td>7</td><td>Grounding token starvation</td><td>Four-plus named mechanisms, grounding-token ratio below 0.25</td><td>3.12.4[b][c], 3.3.1[a]</td><td>Yes</td></tr>
+<tr><td>8</td><td>Cross-control assertion contradictions</td><td>Mutually exclusive claims across control narratives in one packet</td><td>3.12.4[a][b]</td><td>Yes</td></tr>
+<tr><td>9</td><td>Terminology drift across artifacts</td><td>Same entity, non-overlapping vocabulary across SSP, policy, procedure</td><td>3.12.4[a][b]</td><td>Proposed</td></tr>
+<tr><td>10</td><td>Cross-artifact entity incoherence</td><td>Named people or systems central in one artifact, absent where required</td><td>3.12.4[c], 3.9.2[a]</td><td>Proposed</td></tr>
+<tr><td>11</td><td>Edit-lineage implausibility</td><td>One-shot creation metadata on documents claiming months of revisions</td><td>3.12.4[a], 3.11.1[b]</td><td>Proposed</td></tr>
+<tr><td>12</td><td>Hallucinated compliance citations</td><td>Cited control identifiers that do not exist or are misattributed</td><td>3.12.4[b][c]</td><td>Proposed</td></tr>
+<tr><td>13</td><td>Synthetic scenario artifacts</td><td>Risk registers and tabletop records too symmetric and frictionless to be real</td><td>3.2.1[b], 3.6.3[a], 3.11.1[a]</td><td>Proposed</td></tr>
+</tbody></table>
+<p>Worked examples, known limitations, and diagnostic reviewer questions are available in the research draft. Implemented signatures and test fixtures are available to the Task Force on request.</p>
+<p><strong>About the respondent.</strong> Hardseal LLC's Python assessment engine models all 110 NIST SP 800-171 Rev 2 controls and 284 assessment objectives without external runtime dependencies. Hardseal is not a C3PAO and holds no assessment authority. Its interest is a reformed program that verifies operational evidence rather than fluent documentation.</p>
+</main>
+
+<footer>
+    <div>Hardseal LLC &middot; Florida &middot; MIT-licensed detector &middot; Proprietary readiness services</div>
+    <div><a href="/">Home</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></div>
+</footer>
+
+<script src="/assets/site-nav.js" defer></script>
+</body>
+</html>
