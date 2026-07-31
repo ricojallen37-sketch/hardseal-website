@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hardseal — Edge-AI Event Reconstruction and Verification Diagnostic</title>
+  <meta name="description" content="A bounded, offline-verifiable diagnostic package for completed edge-AI and autonomous-system events. TRL 4 laboratory prototype using synthetic evidence.">
+  <link rel="canonical" href="https://hardseal.ai/devx.html">
+  <style>
+    :root{--bg:#05070a;--panel:#0d1219;--ink:#f4f6f8;--muted:#aab4c0;--line:#293444;--accent:#6ee7cf}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.55}
+    header,main,footer{max-width:1120px;margin:auto;padding:28px 32px}.brand{font-weight:800;letter-spacing:.1em}.tag{color:var(--accent);font:700 13px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase}
+    .hero{padding:90px 0 72px;border-bottom:1px solid var(--line)}h1{font-size:clamp(44px,7vw,82px);line-height:1.02;letter-spacing:-.04em;margin:18px 0 24px;max-width:1000px}
+    .lead{font-size:clamp(20px,2.3vw,28px);color:var(--muted);max-width:850px}.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}.badge{border:1px solid var(--line);padding:9px 13px;border-radius:999px;color:var(--muted);font:600 13px ui-monospace,monospace}
+    section{padding:68px 0;border-bottom:1px solid var(--line)}h2{font-size:38px;margin:8px 0 26px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:25px}
+    .card h3{margin:0 0 10px;font-size:20px}.card p,section>p{color:var(--muted)}.state{font:800 15px ui-monospace,monospace;color:var(--accent)}ol{padding-left:22px}li{margin:12px 0;color:var(--muted)}
+    .boundary{border-left:5px solid var(--accent);background:var(--panel);padding:24px 28px;color:var(--muted)}.proof{font:15px ui-monospace,monospace;color:var(--accent)}
+    a{color:var(--accent)}footer{color:var(--muted);font-size:14px;padding-top:44px;padding-bottom:44px}@media(max-width:650px){header,main,footer{padding-left:20px;padding-right:20px}.hero{padding-top:60px}}
+  </style>
+</head>
+<body>
+  <header><div class="brand">HARDSEAL</div></header>
+  <main>
+    <section class="hero">
+      <div class="tag">DevX Autonomy · Sustainment Solutions · TRL 4</div>
+      <h1>What can the surviving evidence of one completed autonomy event support?</h1>
+      <p class="lead">Hardseal converts authorized, sanitized, unclassified
+        historical event artifacts into a deterministic diagnostic package
+        that an authorized recipient can verify offline.</p>
+      <div class="badges">
+        <span class="badge">ONE EVENT</span>
+        <span class="badge">ONE FROZEN QUESTION</span>
+        <span class="badge">SHA-256 MANIFEST</span>
+        <span class="badge">STDLIB-ONLY VERIFIER</span>
+      </div>
+    </section>
+
+    <section>
+      <div class="tag">The diagnostic</div>
+      <h2>Four dispositions. Every conclusion stays inside the evidence boundary.</h2>
+      <div class="grid">
+        <article class="card"><div class="state">SUPPORTED</div><p>The supplied
+          evidence supports the bounded statement, with an exact source locator.</p></article>
+        <article class="card"><div class="state">CONTRADICTED</div><p>The
+          supplied evidence conflicts with the bounded statement, with an exact locator.</p></article>
+        <article class="card"><div class="state">UNAVAILABLE</div><p>The
+          required fact is not established by the supplied evidence.</p></article>
+        <article class="card"><div class="state">OUT OF SCOPE</div><p>The
+          statement exceeds the approved diagnostic question or authority.</p></article>
+      </div>
+    </section>
+
+    <section>
+      <div class="tag">Workflow</div>
+      <h2>A bounded post-event review.</h2>
+      <ol>
+        <li>Freeze one factual question and the authorized artifact inventory.</li>
+        <li>Record SHA-256 identities and evaluate only reviewed evidence formats.</li>
+        <li>Assign bounded dispositions with source-file and field or line locators.</li>
+        <li>Build a deterministic package containing the record, report, manifest,
+          claim boundary, and recipient-run verifier.</li>
+        <li>Refuse modified, missing, extra, or structurally invalid package contents.</li>
+      </ol>
+    </section>
+
+    <section>
+      <div class="tag">Laboratory evidence</div>
+      <h2>TRL 4, demonstrated on synthetic evidence.</h2>
+      <div class="grid">
+        <article class="card"><h3>Offline verification</h3><p>The packaged
+          verifier runs with Python site imports disabled and requires no network
+          or third-party package.</p></article>
+        <article class="card"><h3>Deterministic rebuild</h3><p>Two clean
+          laboratory rebuilds were byte-identical to one another and to the frozen package.</p></article>
+        <article class="card"><h3>Tamper refusal</h3><p>A one-byte mutation of a
+          temporary package copy is refused and the changed file is identified.</p></article>
+      </div>
+      <p class="proof">Current evidence boundary: synthetic · unclassified · laboratory validation</p>
+    </section>
+
+    <section>
+      <div class="tag">Maturation</div>
+      <h2>The next evidence gates are explicit.</h2>
+      <p>Hardseal is seeking customer-shaped format review followed by
+        relevant-environment validation with a Government or commercial
+        partner. Campaign-level use, customer acceptance, and operational
+        impact remain to be validated.</p>
+    </section>
+
+    <section>
+      <div class="tag">Claim boundary</div>
+      <div class="boundary">Package integrity does not establish physical
+        truth. Hardseal does not provide independent IV&amp;V, safety,
+        mission-readiness, certification, compliance, root-cause, or
+        operational-suitability determinations. Current scope excludes live
+        system access and CUI, classified, export-controlled, credential,
+        personal, model-weight, customer-source-code, and operational mission data.</div>
+    </section>
+
+    <section>
+      <div class="tag">Company</div>
+      <h2>Hardseal LLC</h2>
+      <p>Founder-led, self-funded small business and nontraditional defense
+        contractor. No federal past performance. Fixed-scope diagnostic
+        engagements are estimated from the completed event, frozen question,
+        artifact volume, and format review.</p>
+      <p><a href="mailto:ricardojallen37@gmail.com">ricardojallen37@gmail.com</a></p>
+    </section>
+  </main>
+  <footer>© 2026 Hardseal LLC · This page describes a developing TRL 4 capability.</footer>
+</body>
+</html>
