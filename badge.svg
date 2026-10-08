@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="172" height="34" viewBox="0 0 172 34" role="img" aria-label="HardSeal Verified">
+  <rect x="0.5" y="0.5" width="171" height="33" rx="6" fill="#0c0c0c" stroke="#2a2a2a"/>
+  <circle cx="21" cy="17" r="9" fill="#22c55e"/>
+  <path d="M16.6 17.4l3 3 5.6-6.2" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="38" y="21.5" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12.5" font-weight="700" fill="#f4f4f4">HardSeal Verified</text>
+</svg>
