@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>You received a Hardseal-sealed evidence packet</title>
+<meta name="description" content="A supplier sent you a Hardseal-sealed evidence packet. Here is exactly what it asserts, what it does not assert, and how to verify it yourself in 10 seconds — no account, no upload, no trust in Hardseal required.">
+<link rel="canonical" href="https://hardseal.ai/received.html">
+<link rel="icon" href="/favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Hardseal">
+<meta property="og:title" content="You received a Hardseal-sealed evidence packet">
+<meta property="og:description" content="What it asserts, what it does not, and how to verify it yourself in 10 seconds — no account, no trust in Hardseal required.">
+<meta property="og:url" content="https://hardseal.ai/received.html">
+<meta property="og:image" content="https://hardseal.ai/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="You received a Hardseal-sealed evidence packet">
+<meta name="twitter:description" content="What it asserts, what it does not, and how to verify it yourself in 10 seconds.">
+<meta name="twitter:image" content="https://hardseal.ai/og-card.png">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#000;--bg2:#060606;--bg3:#0C0C0C;--border:#1A1A1A;--border2:#222;
+  --white:#FFF;--gray1:#CCC;--gray2:#888;--gray3:#555;--gray4:#333;
+  --green:var(--accent);--mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --ok:#22c55e;--ok-dim:rgba(34,197,94,0.10);--warn:#eab308;--warn-dim:rgba(234,179,8,0.10);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--white);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.55}
+a{color:var(--white)}
+main{max-width:880px;margin:0 auto;padding:44px 24px 96px}
+.eyebrow{font-family:var(--mono);font-size:11px;color:var(--gray2);letter-spacing:.16em;text-transform:uppercase;margin-bottom:18px}
+h1{font-size:40px;line-height:1.08;letter-spacing:-.02em;margin-bottom:18px;font-weight:700}
+.lead{font-size:18px;color:var(--gray1);max-width:720px;margin-bottom:28px}
+.lead strong{color:var(--white)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;background:var(--white);color:#000;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;border:none;cursor:pointer;text-transform:uppercase}
+.btn:hover{background:var(--gray1);text-decoration:none}
+.btn.ghost{background:transparent;color:var(--white);border:1px solid var(--border2)}
+.btn.ghost:hover{background:var(--bg3)}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+
+/* timeline */
+.flow{display:flex;align-items:stretch;gap:0;margin:40px 0 8px;border:1px solid var(--border);background:var(--bg2)}
+.flow .step{flex:1;padding:22px 20px;position:relative;text-align:center}
+.flow .step + .step{border-left:1px solid var(--border)}
+.flow .step .n{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--gray2);text-transform:uppercase;margin-bottom:8px}
+.flow .step .t{font-weight:700;font-size:15px;margin-bottom:4px}
+.flow .step.you .t{color:var(--ok)}
+.flow .step .d{font-size:12.5px;color:var(--gray2);line-height:1.5}
+@media(max-width:680px){.flow{flex-direction:column}.flow .step + .step{border-left:none;border-top:1px solid var(--border)}}
+
+/* tabs */
+.tabwrap{margin-top:40px;border:1px solid var(--border);background:var(--bg2)}
+.tabbar{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--border)}
+.tab{flex:1 1 auto;padding:15px 16px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray2);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer}
+.tab.active{color:#fff;border-bottom-color:#fff}
+.tab .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:middle}
+.tab[data-tab='assert'] .dot{background:var(--ok)}
+.tab[data-tab='limits'] .dot{background:var(--warn)}
+.tab[data-tab='how'] .dot{background:#fff}
+.panel{display:none;padding:28px 26px}
+.panel.active{display:block}
+.panel h3{font-size:18px;margin-bottom:14px;font-weight:700}
+.panel ul{list-style:none;margin:0}
+.panel li{position:relative;padding:10px 0 10px 28px;border-bottom:1px solid var(--border);color:var(--gray1);font-size:15px;line-height:1.55}
+.panel li:last-child{border-bottom:none}
+.panel li:before{position:absolute;left:0;top:10px;font-family:var(--mono);font-size:13px}
+.panel.assert li:before{content:"✓";color:var(--ok)}
+.panel.limits li:before{content:"—";color:var(--warn)}
+ol.steps{counter-reset:s;list-style:none;margin:0}
+ol.steps li{counter-increment:s;position:relative;padding:14px 0 14px 44px;border-bottom:1px solid var(--border);font-size:15px;color:var(--gray1)}
+ol.steps li:last-child{border-bottom:none}
+ol.steps li:before{content:counter(s);position:absolute;left:0;top:12px;width:26px;height:26px;border:1px solid var(--gray4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:#fff}
+ol.steps b{color:#fff}
+.code{font-family:var(--mono);background:var(--bg);padding:2px 7px;font-size:12.5px;color:#fff;border:1px solid var(--border2);word-break:break-all}
+
+.note{font-size:13px;color:var(--gray2);background:var(--bg3);border-left:2px solid var(--gray4);padding:16px 20px;margin-top:34px;line-height:1.65}
+.note strong{color:var(--white)}
+footer{border-top:1px solid var(--border);padding:32px 24px;color:var(--gray2);font-size:12px;text-align:center;margin-top:48px}
+footer a{color:var(--gray1)}
+</style>
+<link rel="stylesheet" href="/assets/site-nav.css">
+<link rel="stylesheet" href="/assets/theme-spacex.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="site-header-inner">
+    <a href="/" class="site-brand" aria-label="Hardseal home">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="#000"/>
+        <path d="M8 10 L16 6 L24 10 L24 18 C24 22 20 25 16 26 C12 25 8 22 8 18 Z" stroke="#ffffff" stroke-width="1.75" stroke-linejoin="round"/>
+        <path d="M12 16 L15 19 L20 13" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      HARDSEAL
+    </a>
+    <button class="site-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/verify.html">Verifier</a>
+      <a href="/trophy-case.html">Proof</a>
+      <a href="/client-experience.html">Experience</a>
+      <a href="/pilot.html">Review</a>
+      <a href="/resources.html">Resources</a>
+      <a href="/pilot.html" class="site-nav-cta">Start</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="eyebrow">For assessors, primes, and reviewers</div>
+  <h1 id="headline">You received a Hardseal-sealed evidence packet.</h1>
+  <p class="lead">
+    A supplier sent you a packet carrying a <strong>HardSeal Verified</strong> mark. That mark is not a logo — it is a claim you can <strong>independently check yourself in about ten seconds</strong>, with no account, no upload, and no trust in Hardseal required. This page explains exactly what the packet asserts, what it deliberately does not, and how to verify it.
+  </p>
+  <div class="row">
+    <a class="btn" id="verifyBtn" href="/v/">Verify the packet now →</a>
+    <a class="btn ghost" href="/verify.html">Upload a packet file instead</a>
+  </div>
+
+  <!-- timeline -->
+  <div class="flow" aria-label="How the packet reached you">
+    <div class="step">
+      <div class="n">Step 1</div>
+      <div class="t">Supplier</div>
+      <div class="d">Assembles the evidence packet for a control or objective.</div>
+    </div>
+    <div class="step">
+      <div class="n">Step 2</div>
+      <div class="t">Hardseal</div>
+      <div class="d">Reviews it, records a finding, and seals every section into a SHA-256 chain.</div>
+    </div>
+    <div class="step you">
+      <div class="n">Step 3</div>
+      <div class="t">You</div>
+      <div class="d">Recompute the chain root yourself and read the scoped finding.</div>
+    </div>
+  </div>
+
+  <!-- tabs -->
+  <div class="tabwrap">
+    <div class="tabbar" role="tablist">
+      <button class="tab active" data-tab="assert" role="tab"><span class="dot"></span>Assertions</button>
+      <button class="tab" data-tab="limits" role="tab"><span class="dot"></span>Limitations</button>
+      <button class="tab" data-tab="how" role="tab"><span class="dot"></span>Verify in 10 seconds</button>
+    </div>
+
+    <div class="panel assert active" data-panel="assert" role="tabpanel">
+      <h3>What a PASS asserts</h3>
+      <ul>
+        <li>The packet's sections are <b style="color:#fff">byte-for-byte unchanged</b> since Hardseal sealed it — the recomputed SHA-256 chain root matches the stored root.</li>
+        <li>The recorded <b style="color:#fff">finding, objective mapping, reviewer question, and limitations</b> were not edited after sealing.</li>
+        <li>The same result is reproducible <b style="color:#fff">offline</b> by anyone — in this browser, in the stdlib-only Python verifier, or in any independent reimplementation of the documented algorithm.</li>
+        <li>No <b style="color:#fff">overclaiming language</b> is present: the sealed text is scanned for banned phrases (e.g. “we certify”, “assessor-ready”) and a PASS means none were found.</li>
+      </ul>
+    </div>
+
+    <div class="panel limits" data-panel="limits" role="tabpanel">
+      <h3>What a PASS does <em>not</em> assert</h3>
+      <ul>
+        <li>It is <b style="color:#fff">not</b> a certification of CMMC or NIST SP 800-171 compliance.</li>
+        <li>It is <b style="color:#fff">not</b> a C3PAO assessment result or a substitute for one.</li>
+        <li>It does <b style="color:#fff">not</b> prove customer facts, complete evidence coverage, or physical truth about the supplier's environment.</li>
+        <li>It does <b style="color:#fff">not</b> make a final assessment determination. Hardseal records whether the packet matches the anchored finding under explicit, stated assumptions.</li>
+      </ul>
+    </div>
+
+    <div class="panel how" data-panel="how" role="tabpanel">
+      <h3>Verify it yourself</h3>
+      <ol class="steps">
+        <li>Open the verification link the supplier gave you, or click <b>“Verify the packet now”</b> above. It loads at <span class="code">hardseal.ai/v/?id=&lt;receipt-id&gt;</span>.</li>
+        <li>The page <b>recomputes the SHA-256 chain root in your own browser</b> from the raw packet JSON. Nothing is sent to Hardseal.</li>
+        <li>A green <b>“Seal verified”</b> state means the recomputed root matched the stored root. Click <b>“Run full verification yourself”</b> to watch every check execute.</li>
+        <li>Want an air-gapped check? Download the packet JSON and the <b>stdlib-only Python verifier</b> from the same page and run <span class="code">python3 verify_cmmc_packet_qa.py verify &lt;receipt.json&gt;</span>. Same answer, no network.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="note">
+    <strong>Why this matters to you.</strong> A binder or PDF asks you to trust the firm that produced it. A Hardseal packet asks you to trust <em>math you can run yourself</em>. If a single character of the sealed finding changes, the chain root no longer matches and verification fails — and the verifier names the first section that was altered. That is the difference between an attestation and a primitive.
+  </div>
+</main>
+
+<footer>
+  Hardseal LLC · verifier-first evidence integrity · pre-review support only · <a href="/">hardseal.ai</a>
+</footer>
+
+<script>
+(function () {
+  // carry through ?id= so "Verify now" opens the exact packet referenced
+  try {
+    var id = new URLSearchParams(location.search).get("id");
+    if (id) {
+      document.getElementById("verifyBtn").setAttribute("href", "/v/?id=" + encodeURIComponent(id));
+      document.getElementById("headline").textContent = "You received a Hardseal-sealed evidence packet.";
+    }
+  } catch (e) {}
+  // tabs
+  function activate(name) {
+    document.querySelectorAll(".tab").forEach(function (t) { t.classList.toggle("active", t.getAttribute("data-tab") === name); });
+    document.querySelectorAll(".panel").forEach(function (p) { p.classList.toggle("active", p.getAttribute("data-panel") === name); });
+  }
+  document.querySelectorAll(".tab").forEach(function (t) {
+    t.addEventListener("click", function () { activate(t.getAttribute("data-tab")); });
+  });
+  // analytics
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "received_view", id: (new URLSearchParams(location.search).get("id") || null) });
+  } catch (e) {}
+})();
+</script>
+<script src="/assets/source-tag.js"></script>
+<script src="/assets/site-nav.js" defer></script>
+</body>
+</html>

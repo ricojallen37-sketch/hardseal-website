@@ -3,6 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+// Pretty-URL fallback: GitHub Pages has no real file at /v/<id>, so it serves
+// this 404. Rewrite /v/<id> (and /verify/<id>) to the canonical verify page
+// before anything renders.
+(function () {
+  var m = location.pathname.match(/^\/v(?:erify)?\/([^/?#]+)\/?$/);
+  if (m && m[1] !== "index.html" && m[1] !== "receipts.json") {
+    location.replace("/v/?id=" + encodeURIComponent(decodeURIComponent(m[1])) + location.hash);
+  }
+})();
+</script>
 <title>404 — Hardseal</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
