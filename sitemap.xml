@@ -37,6 +37,18 @@
     <priority>0.95</priority>
   </url>
   <url>
+    <loc>https://hardseal.ai/v/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://hardseal.ai/received.html</loc>
+    <lastmod>2026-06-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
     <loc>https://hardseal.ai/llms.txt</loc>
     <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
