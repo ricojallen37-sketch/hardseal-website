@@ -1,0 +1,61 @@
+# Verifier parity — required check for cross-implementation determinism.
+#
+# Doctrine: "independently verifiable" is the moat. The browser verifier
+# (assets/hardseal-verifier.js) and the canonical Python verifiers
+# (downloads/verify_cmmc_packet_qa.py, downloads/verify_standalone.py) MUST
+# produce the same verdict and the same recomputed SHA-256 chain root on every
+# public receipt. If they ever drift, the /v/ page could say PASS while the
+# air-gapped Python verifier says FAIL -- silently breaking the core claim.
+#
+# This gate recomputes both, on clean and tampered packets, and fails the
+# build the moment they disagree. Same "test what we fly" discipline as the
+# release gate, applied to the two implementations of the primitive.
+#
+# Standard library only on the Python side; Node with no dependencies on the
+# JS side. No outbound network access required.
+
+name: verifier-parity
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verifier-parity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run JS <-> Python verifier parity
+        run: python3 scripts/verifier_parity.py
+
+      - name: Annotate on failure
+        if: failure()
+        run: |
+          echo "::error title=Verifier Parity FAIL::The browser verifier and the \
+          canonical Python verifier disagree on a public receipt's verdict or \
+          recomputed chain root. 'Independently verifiable' is broken until they \
+          match. Do not deploy. See the parity step for the diverging receipt."
